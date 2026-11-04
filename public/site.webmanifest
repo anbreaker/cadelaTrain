@@ -1,0 +1,21 @@
+{
+  "background_color": "#faf7f2",
+  "display": "standalone",
+  "icons": [
+    { "sizes": "192x192", "src": "/icons/icon-192.png", "type": "image/png" },
+    { "sizes": "512x512", "src": "/icons/icon-512.png", "type": "image/png" },
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "/icons/icon-maskable-512.png",
+      "type": "image/png"
+    }
+  ],
+  "id": "/",
+  "lang": "es",
+  "name": "Dela",
+  "scope": "/",
+  "short_name": "Dela",
+  "start_url": "/",
+  "theme_color": "#faf7f2"
+}

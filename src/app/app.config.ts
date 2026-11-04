@@ -9,6 +9,7 @@ import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from 
 import { provideTransloco } from '@jsverse/transloco';
 
 import { DEFAULT_LANG, SUPPORTED_LANGS } from '@core/const/lang.const';
+import { provideAppServiceWorker } from '@core/pwa/service-worker';
 import { withChunkLoadRecovery } from '@core/router/chunk-load-recovery';
 import { I18nLoaderService } from '@core/services/i18n-loader.service';
 import { prefetchTranslations } from '@core/utils/prefetch-translations';
@@ -38,5 +39,6 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withChunkLoadRecovery()
     ),
+    provideAppServiceWorker(),
   ],
 };
