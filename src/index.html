@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dela</title>
+    <base href="/" />
+    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport" />
+    <meta content="#faf7f2" name="theme-color" />
+    <!-- Before any stylesheet: a script that follows a pending stylesheet waits for it to load. -->
+    <script>
+      (function () {
+        var langs = ['es', 'pt'];
+        var stored = null;
+        try {
+          stored = localStorage.getItem('dela-lang');
+        } catch (error) {
+          stored = null;
+        }
+        var lang = stored || navigator.language.slice(0, 2);
+        var link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'fetch';
+        link.crossOrigin = 'anonymous';
+        link.href = '/assets/i18n/' + (langs.indexOf(lang) > -1 ? lang : 'es') + '.json';
+        document.head.appendChild(link);
+      })();
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+    <script src="./main.ts" type="module"></script>
+  </body>
+</html>
