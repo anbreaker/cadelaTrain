@@ -6,4 +6,6 @@ interface ImportMetaEnv {
   readonly NG_APP_FIREBASE_MESSAGING_SENDER_ID?: string;
   readonly NG_APP_FIREBASE_PROJECT_ID?: string;
   readonly NG_APP_FIREBASE_STORAGE_BUCKET?: string;
+  /** `'true'` connects Auth and Firestore to the local emulators (`firebase.json`). */
+  readonly NG_APP_USE_EMULATORS?: string;
 }
