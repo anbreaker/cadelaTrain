@@ -1,8 +1,8 @@
 {
-  "i18nPrefix": "catalog.socialization.items",
-  "i18nFields": ["label", "howTo"],
-  "deadlineAgeWeeks": 16,
   "categories": ["people", "noises", "animals", "places", "handling"],
+  "deadlineAgeWeeks": 16,
+  "i18nFields": ["label", "howTo"],
+  "i18nPrefix": "catalog.socialization.items",
   "items": [
     { "key": "peopleMen", "category": "people", "order": 1, "label": "Men" },
     { "key": "peopleWomen", "category": "people", "order": 2, "label": "Women" },
@@ -19,10 +19,25 @@
     { "key": "noiseHammer", "category": "noises", "order": 5, "label": "Hammer" },
     { "key": "noiseBrushcutter", "category": "noises", "order": 6, "label": "Brush cutter" },
     { "key": "noiseChainsaw", "category": "noises", "order": 7, "label": "Chainsaw" },
-    { "key": "noiseThunderFireworks", "category": "noises", "order": 8, "label": "Thunder or fireworks (recording, low volume)" },
-    { "key": "animalPoultryLivestock", "category": "animals", "order": 1, "label": "Hens or livestock (on leash)" },
+    {
+      "key": "noiseThunderFireworks",
+      "category": "noises",
+      "order": 8,
+      "label": "Thunder or fireworks (recording, low volume)"
+    },
+    {
+      "key": "animalPoultryLivestock",
+      "category": "animals",
+      "order": 1,
+      "label": "Hens or livestock (on leash)"
+    },
     { "key": "animalCats", "category": "animals", "order": 2, "label": "Cats" },
-    { "key": "animalAdultDogs", "category": "animals", "order": 3, "label": "Vaccinated, balanced adult dogs" },
+    {
+      "key": "animalAdultDogs",
+      "category": "animals",
+      "order": 3,
+      "label": "Vaccinated, balanced adult dogs"
+    },
     { "key": "placeGravel", "category": "places", "order": 1, "label": "Gravel" },
     { "key": "placeMud", "category": "places", "order": 2, "label": "Mud" },
     { "key": "placeGrass", "category": "places", "order": 3, "label": "Grass" },
@@ -30,7 +45,12 @@
     { "key": "placeStairs", "category": "places", "order": 5, "label": "Stairs" },
     { "key": "placeCar", "category": "places", "order": 6, "label": "Inside the car" },
     { "key": "placeShallowWater", "category": "places", "order": 7, "label": "Shallow water" },
-    { "key": "placeVetSocialVisit", "category": "places", "order": 8, "label": "Social visit to the vet" },
+    {
+      "key": "placeVetSocialVisit",
+      "category": "places",
+      "order": 8,
+      "label": "Social visit to the vet"
+    },
     { "key": "handlingPaws", "category": "handling", "order": 1, "label": "Paws" },
     { "key": "handlingNails", "category": "handling", "order": 2, "label": "Nails" },
     { "key": "handlingEars", "category": "handling", "order": 3, "label": "Ears" },
