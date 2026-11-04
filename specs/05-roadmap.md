@@ -11,6 +11,7 @@ Today is 2026-11-04 and Dela arrives in December 2026: about four weeks for phas
 | 2 | Bundled catalogs typed in `domain/catalog.ts` + i18n completeness test | Every catalog key has `es` and `pt` text |
 | 3 | H6 template path + on-demand endpoint | Every day has guidance without AI |
 | 4 | H2 Today + H3 Log | Daily use from arrival day |
+| 4b | H7 Photos (Cloudinary) and YouTube videos | Optional media per day, shown in progress and weekly review |
 | 5 | H6 AI path + cron | Guidance at 06:00 Madrid with fallback |
 | 6 | H4 Progress, H5 Weekly | During weeks 1–3 after arrival |
 
@@ -26,7 +27,7 @@ Today is 2026-11-04 and Dela arrives in December 2026: about four weeks for phas
 ## Phase 3 — More features
 
 - Push notifications (web push) for session reminders and the daily guidance.
-- Photos and video in logs (storage with per-household rules, size limits).
+- Authenticated (signed) photo delivery; video upload without YouTube.
 - Offline mode: Firestore persistent cache + queued writes; service worker strategy reviewed.
 
 ## Phase 4 — Languages

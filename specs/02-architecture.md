@@ -29,6 +29,8 @@ flowchart LR
 | Schedule | Vercel Cron, two daily entries | Works on Hobby (once per day per job, ±59 min precision) |
 | Types | Hand-written domain types + converters that validate | No codegen for Firestore; rules enforce shapes |
 | i18n | Transloco with `es` (Castilian Spanish, default) and `pt` (European Portuguese); `Intl` locales `es-ES` and `pt-PT` for dates and numbers | Spain and Portugal from day one; English later without schema changes |
+| Photos | Cloudinary: signed direct upload (`api/sign-upload`, same pattern as framedBySanti), per-household folder, delivery with `f_auto,q_auto` and srcset | Free tier, optimized delivery, no Firebase Storage plan needed |
+| Videos | YouTube **unlisted** links; only the 11-char video id is stored; facade (thumbnail, then `youtube-nocookie.com` player on tap) | No video hosting cost; private YouTube videos cannot be embedded |
 | Catalogs | Bundled JSON (`seed/`) imported by the app and by `api/`; text via Transloco keys | Static, global, versioned in git: no Firestore reads, rules or seed script |
 | PWA | `@angular/service-worker` (`ngsw-config.json`) + `public/site.webmanifest`; registered only in production builds (`core/pwa/service-worker.ts`); `core/pwa/app-update.store.ts` reloads on an unrecoverable worker and shows an update banner on `VERSION_READY`; `scripts/check-ngsw.mjs` checks the worker output after every build | Installable; app shell and translations cached for offline use; `/api/*` never cached; returning users get new deploys without losing an unsaved log |
 
@@ -84,6 +86,8 @@ Phase 2 (Portugal, `Europe/Lisbon`, one hour behind): store `timezone` per house
 | Path | Auth | Purpose |
 |------|------|---------|
 | `GET /api/cron-daily-guidance` | `CRON_SECRET` | Batch generation for all eligible dogs |
+| `POST /api/sign-upload` `{ householdId }` | Firebase ID token + membership check | Short-lived Cloudinary signature for one photo upload into `dela/<householdId>/`, images only, ≤ 10 MB |
+| `POST /api/delete-media` `{ householdId, dogId, mediaId }` | Firebase ID token + author check | Deletes the media document and its Cloudinary asset |
 | `POST /api/daily-guidance` `{ dogId }` | Firebase ID token (`verifyIdToken`) + membership check | On-demand generation for today (idempotent) |
 
 Both return `Cache-Control: no-store` and never return the AI raw output.
@@ -97,6 +101,8 @@ Both return `Cache-Control: no-store` and never return the AI raw output.
 | `ANTHROPIC_API_KEY` | Server only | Never prefixed with `NG_APP_` |
 | `CLAUDE_MODEL` | Server only | Default `claude-opus-5-5` |
 | `CRON_SECRET` | Server only | Vercel sends it as Bearer on cron calls |
+| `NG_APP_CLOUDINARY_CLOUD_NAME` | Client (public) | Builds delivery URLs |
+| `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Server only | Sign uploads, delete assets |
 
 ## Testing strategy
 

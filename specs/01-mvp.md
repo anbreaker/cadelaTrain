@@ -8,6 +8,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 | H2 | Today's guidance | H1, H6 (template path) | Yes |
 | H3 | Log a task | H2 | Yes |
 | H6 | Automatic guidance | H1 | Yes (template); AI can follow |
+| H7 | Photos and videos | H1 | Yes |
 | H4 | Progress | H3 | First weeks |
 | H5 | Weekly review | H3 | First weeks |
 
@@ -79,3 +80,16 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC6.5** The cron endpoint rejects requests without `Authorization: Bearer ${CRON_SECRET}`.
 - **AC6.6** An authenticated on-demand endpoint (`POST /api/daily-guidance`) generates today's guidance for one dog of the caller's household, with the same idempotency (used by AC2.4).
 - **AC6.7** Each guidance stores `locale`, `model`, `source` (`ai` | `template`), `status` and `planWeek` for traceability.
+
+## H7. Photos and videos
+
+> As a household member, I can optionally add photos and YouTube videos to a day, to see progress over time.
+
+
+- **AC7.1 Optional.** A day has zero or more media items; nothing else (logging, guidance) requires them.
+- **AC7.2 Photo.** A member picks a photo from the camera or gallery (images only, ≤ 10 MB). It is uploaded straight to Cloudinary with a signature from `POST /api/sign-upload`, which only members of the household get; the app stores the Cloudinary public id, width and height.
+- **AC7.3 Video.** A member pastes a YouTube link (`youtube.com/watch?v=`, `youtu.be/`, `youtube.com/shorts/`); the app extracts and stores only the 11-character video id. Any other text shows a validation error and nothing is stored. The form explains (Transloco key) that the video must be **unlisted**: YouTube does not play private videos embedded in other sites.
+- **AC7.4 Fields.** Each item has a Madrid date (default today), an optional caption (≤ 280 chars), an optional skill (`SkillKey`), `addedBy` (uid) and `addedAt` (server time).
+- **AC7.5 Viewing.** Media appear per day in the weekly review (H5) and as a timeline in progress (H4). Photos are delivered by Cloudinary in responsive sizes (`f_auto,q_auto`, srcset). Videos load as a facade: the thumbnail first, and the `youtube-nocookie.com` player only after a tap.
+- **AC7.6 Delete.** The author deletes their own item; for a photo, `POST /api/delete-media` also removes the Cloudinary asset.
+- **AC7.7 Privacy.** Only household members read media documents (rules). Photos live in a per-household Cloudinary folder with random public ids; delivery URLs are unguessable but public if shared (authenticated delivery is a roadmap item).

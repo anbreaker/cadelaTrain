@@ -39,5 +39,5 @@ Labrador, arrives December 2026 at 8 weeks, rural Extremadura near the Alentejo 
 
 - Veterinary advice, dosing, diagnosis.
 - Social features, public profiles, marketplace.
-- Native apps (PWA only), push notifications, photos and video, offline-first sync (see roadmap).
+- Native apps (PWA only), push notifications, offline-first sync (see roadmap).
 - Plans beyond 16 weeks.
