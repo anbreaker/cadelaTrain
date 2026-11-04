@@ -1,0 +1,103 @@
+# CLAUDE.md — dela (cadelaTrain)
+
+Mobile-first installable PWA that helps a family raise and train a puppy with AI-generated daily guidance and a shared training log. It starts as a personal tool for **Dela** (Labrador, arrives December 2026 at 8 weeks) and is meant to become a public app for Spain and Portugal.
+
+## Workflow: Organic-Driven Development (ODD)
+
+Built with AI coding agents using ODD ([gentle-ai](https://github.com/Gentleman-Programming/gentle-ai)) and Engram as persistent memory, as in framedBySanti. Not Spec-Driven Development.
+
+1. Small changes stay light: explore, failing test, fix, suite. No task file.
+2. Substantial work (a story such as H1) gets a feature document `odd/tasks/<feature>.md` (not versioned) mirrored in Engram under `odd/<feature>/tasks`: header, `## Specs` (S1..Sn quoting the request), `## Tasks`, `## Log`.
+3. Test first (Vitest): observe RED, implement GREEN, refactor. Update i18n keys and docs with the behavior.
+4. Work-unit commits (~400 changed lines) on a feature branch; a human reviews and merges every pull request.
+
+`specs/` is the **product reference** (vision, stories, architecture, data model, engine, roadmap). Feature documents quote from it; when a decision changes the product, update the reference doc in the same work unit.
+
+## Context (first real case)
+
+| Fact | Consequence for the product |
+|------|-----------------------------|
+| Rural home in Extremadura, near the Alentejo border: farm, barn, workshop (angle grinder, welder), maybe hens or livestock | `environment: rural`; noise and livestock socialization; seasonal field risks |
+| Dela sleeps outdoors in a kennel or shelter | `sleepsOutdoors: true`; cold-season alerts (December–February) |
+| Two trainers (Jéssica and the owner) | Every log stores **who** did it (`doneBy`) and **when** (`doneAt`) |
+| Timezone `Europe/Madrid` | Daily guidance is generated at 06:00 Madrid time; DST handled in code |
+
+## Stack (mirrors framedBySanti)
+
+| Layer | Choice |
+|-------|--------|
+| Frontend | Angular 22 (standalone, `OnPush`, signals, zoneless, native control flow), installable PWA |
+| Language | TypeScript 6, strict |
+| Build | Vite 8 + `@analogjs/vite-plugin-angular` (root `src`, env prefix `NG_APP_`) |
+| Styles | Native CSS (nesting, BEM, mobile-first), no preprocessor |
+| i18n | Transloco 8, files in `public/assets/i18n/`: `es.json` (Castilian Spanish, default, `es-ES`) and `pt.json` (European Portuguese, `pt-PT`) |
+| Tests | Vitest 4 + JSDOM |
+| Quality | ESLint 10 + `angular-eslint` + perfectionist/simple-import-sort; Prettier 3 with CSS order, attribute order and JSON key plugins |
+| Backend | Firebase: Auth (email link + Google), Firestore (region `europe-southwest1`), security rules |
+| Server code | Vercel Functions in `api/` |
+| Scheduling | Vercel Cron (UTC) → `api/cron-daily-guidance.ts` |
+| AI | Claude API via `@anthropic-ai/sdk`, **only** from `api/`. Model read from `CLAUDE_MODEL` (default `claude-opus-5-5`). The key (`ANTHROPIC_API_KEY`) never reaches the client |
+| Hosting | Vercel (`vercel.json` SPA rewrite excluding `api/` and `assets/`) |
+
+## Architecture
+
+```
+src/app/
+├── core/       # app-wide singletons: config, i18n loader, auth session, error handling
+├── domain/     # pure types and rules; no Angular, no Firebase; 100% unit tested
+├── data/       # Firestore repositories and converters (the only place that imports firebase/*)
+├── features/   # screens per story: household, today, log, progress, weekly
+└── shared/     # presentational UI components, directives, pipes
+api/
+├── _<name>.ts       # pure handler with injected dependencies + _<name>.spec.ts
+└── <name>.ts        # thin Vercel wrapper (reads env, wires real deps)
+```
+
+- Dependency direction: `features → data → domain`, `features → shared`. `domain` imports nothing from the app.
+- `api/` may import from `src/app/domain/` (shared pure rules: plan week, guidance validation, health flags). Never the opposite.
+- Container–presentational: feature containers own state; `shared/` components only get `input()` and emit `output()`.
+- Path aliases: `@core`, `@domain`, `@data`, `@features`, `@shared`, `@environments`, `@assets`, `@styles`.
+
+## Code conventions
+
+- **English everywhere**: code, comments, commits, docs, specs, seed, prompts, tests. The only non-English text is UI copy in the Transloco files (`es.json`, `pt.json`). Never mix languages in one text.
+- State in signals and `computed()`. **No business logic in templates**: templates read signals and call intent methods.
+- Prefer ternaries over simple if/else, early returns over nested conditionals, and lookup maps/objects over `switch` or `if` chains.
+- `inject()` over constructor injection; `input()`/`output()`; `@if`/`@for`; no barrels; no `any` outside tests.
+- Firestore data is typed by hand-written domain types in `domain/` plus `FirestoreDataConverter`s in `data/` that validate on read. No generated types: the schema is owned by `specs/03-data-model.md` and enforced by `firestore.rules`.
+- Translation keys: camelCase, namespaced per feature; `es.json` and `pt.json` always keep the same keys.
+- Catalogs (plan, schedule, socialization, skills, care alerts) are bundled, not stored in Firestore: structure and canonical English text in `seed/*.json`, UI text in Transloco under `catalog.<collection>.<key>.<field>` (each seed file names its `i18nPrefix` and `i18nFields`). Item keys are camelCase.
+- Conventional Commits, description ≤ 50 chars, imperative, no AI attribution.
+
+## Domain rules (non-negotiable)
+
+1. **Positive reinforcement only.** Rewards and lowering difficulty. Never physical punishment, prong, choke or shock collars, or any aversive tool. The engine prompt and validator reject them.
+2. **No veterinary dosing or treatment.** Anything health-related (vomiting, diarrhoea, limping, wounds, pine processionary caterpillar contact, poisoning…) shows only the fixed phrases `health.consultVet` or `health.vetEmergency`. No doses, drugs or home remedies anywhere: UI, seed, AI output.
+3. **Session limits for 2–4 month puppies:** each training session ≤ 5 minutes, 4–5 sessions per day.
+4. **Household isolation.** Every piece of user data belongs to a `household`; Firestore rules guarantee nobody reads or writes another household's data.
+5. **Every log records `doneBy` (uid) and `doneAt` (server time).**
+
+## Commands (once the app is scaffolded)
+
+```bash
+npm start          # http://localhost:4200
+npm test           # vitest run
+npm run lint
+npm run build
+vercel dev         # app + api/ functions locally
+```
+
+## Reference index
+
+| File | Content |
+|------|---------|
+| `specs/00-vision.md` | Problem, users, principles, non-goals |
+| `specs/01-mvp.md` | Stories H1–H6 with acceptance criteria |
+| `specs/02-architecture.md` | Architecture, auth, cron and timezone, deployment |
+| `specs/03-data-model.md` | Firestore collections, fields, rules, indexes, bundled catalogs |
+| `specs/04-guidance-engine.md` | Daily guidance engine: inputs, rules, output schema, fallback, safety |
+| `specs/05-roadmap.md` | Phases after the MVP |
+| `firestore.rules` | Security rules (household isolation, shape validation) |
+| `seed/` | Bundled catalogs: 8-week plan, daily schedule, socialization checklist, skills, care alerts, principles |
+| `public/assets/i18n/` | UI and catalog text: `es.json`, `pt.json` |
+| `prompts/daily-guidance.md` | Prompt of the AI engine |

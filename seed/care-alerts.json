@@ -1,0 +1,64 @@
+{
+  "i18nPrefix": "catalog.careAlerts",
+  "i18nFields": ["title", "message"],
+  "note": "Warnings only. No doses, products or treatments: health always ends in the fixed phrases health.consultVet or health.vetEmergency.",
+  "items": [
+    {
+      "key": "firstWeekVet",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "arrivalWeek": 1,
+      "appliesTo": {},
+      "severity": "vet",
+      "message": "First week: check-up, health booklet and microchip. Ask about the vaccination schedule, year-round deworming and leishmaniasis prevention (common in the area)."
+    },
+    {
+      "key": "unknownDogsUntilVaccinated",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "appliesTo": {},
+      "severity": "info",
+      "message": "No contact with unknown dogs until the vaccination schedule set by the vet is complete."
+    },
+    {
+      "key": "cold",
+      "months": [12, 1, 2],
+      "appliesTo": { "sleepsOutdoors": true },
+      "severity": "info",
+      "message": "Raised kennel, dry straw, sheltered from the wind."
+    },
+    {
+      "key": "pineProcessionary",
+      "months": [1, 2, 3, 4, 5],
+      "appliesTo": { "environment": "rural" },
+      "severity": "urgent",
+      "message": "Keep her away from pine trees and caterpillar lines. Contact means a veterinary emergency."
+    },
+    {
+      "key": "grassAwns",
+      "months": [5, 6, 7, 8],
+      "appliesTo": { "environment": "rural" },
+      "severity": "info",
+      "message": "Check ears, paws and nose after every walk."
+    },
+    {
+      "key": "ticksAndHeat",
+      "months": [4, 5, 6, 7, 8, 9],
+      "appliesTo": {},
+      "severity": "info",
+      "message": "Shade and fresh water at all times. Parasite protection: ask the vet."
+    },
+    {
+      "key": "poisonsAndChemicals",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "appliesTo": {},
+      "severity": "info",
+      "message": "Poisons, fertilisers, diesel and workshop products out of reach."
+    },
+    {
+      "key": "livestockAndHens",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "appliesTo": { "environment": "rural" },
+      "severity": "info",
+      "message": "Do not let her off the leash near them until she masters come and leave it."
+    }
+  ]
+}

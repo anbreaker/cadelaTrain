@@ -1,0 +1,38 @@
+{
+  "fieldOverrides": [
+    {
+      "collectionGroup": "invitations",
+      "fieldPath": "email",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" },
+        { "order": "ASCENDING", "queryScope": "COLLECTION_GROUP" }
+      ]
+    }
+  ],
+  "indexes": [
+    {
+      "collectionGroup": "taskLogs",
+      "fields": [
+        { "fieldPath": "skillKey", "order": "ASCENDING" },
+        { "fieldPath": "doneAt", "order": "DESCENDING" }
+      ],
+      "queryScope": "COLLECTION"
+    },
+    {
+      "collectionGroup": "taskLogs",
+      "fields": [
+        { "fieldPath": "guidanceDate", "order": "ASCENDING" },
+        { "fieldPath": "doneAt", "order": "ASCENDING" }
+      ],
+      "queryScope": "COLLECTION"
+    },
+    {
+      "collectionGroup": "socializationLogs",
+      "fields": [
+        { "fieldPath": "itemKey", "order": "ASCENDING" },
+        { "fieldPath": "doneAt", "order": "DESCENDING" }
+      ],
+      "queryScope": "COLLECTION"
+    }
+  ]
+}

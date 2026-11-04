@@ -1,0 +1,347 @@
+rules_version = '2';
+
+// Household isolation: every user document lives under households/{hid} and is readable
+// and writable only by its members. Guidance is server-written. Catalogs are bundled, not stored.
+// Spec: specs/03-data-model.md. Tested with @firebase/rules-unit-testing.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- helpers ----------
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function authEmail() {
+      return request.auth.token.email.lower();
+    }
+
+    function emailVerified() {
+      return request.auth.token.email_verified == true;
+    }
+
+    function householdData(hid) {
+      return get(/databases/$(database)/documents/households/$(hid)).data;
+    }
+
+    function isMember(hid) {
+      return signedIn() && uid() in householdData(hid).memberIds;
+    }
+
+    function isOwner(hid) {
+      return signedIn() && householdData(hid).ownerId == uid();
+    }
+
+    function isString(value, min, max) {
+      return value is string && value.size() >= min && value.size() <= max;
+    }
+
+    function isDate(value) {
+      return value is string && value.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+
+    function isIntBetween(value, min, max) {
+      return value is int && value >= min && value <= max;
+    }
+
+    function isNumberBetween(value, min, max) {
+      return value is number && value >= min && value <= max;
+    }
+
+    function hasExactly(data, required, optional) {
+      return data.keys().hasAll(required) && data.keys().hasOnly(required.concat(optional));
+    }
+
+    // ---------- enums ----------
+
+    function skillKeys() {
+      return ['name', 'sit', 'come', 'leash', 'softBite', 'down', 'leaveIt', 'stay', 'potty'];
+    }
+
+    function locales() {
+      return ['es', 'pt'];
+    }
+
+    function taskKinds() {
+      return ['training', 'socialization', 'care', 'feeding', 'potty'];
+    }
+
+    function reactions() {
+      return ['calm', 'curious', 'fear'];
+    }
+
+    // ---------- authorship ----------
+
+    function isNewAuthored(data) {
+      return data.doneBy == uid() && data.doneAt == request.time;
+    }
+
+    function isAuthorWithin24h() {
+      return resource.data.doneBy == uid()
+        && request.time < resource.data.doneAt + duration.value(24, 'h');
+    }
+
+    function keepsAuthorship() {
+      return request.resource.data.doneBy == resource.data.doneBy
+        && request.resource.data.doneAt == resource.data.doneAt;
+    }
+
+    // ---------- users ----------
+
+    function isUser(data) {
+      return hasExactly(data, ['displayName', 'email', 'locale', 'createdAt'], [])
+        && isString(data.displayName, 1, 60)
+        && data.email == authEmail()
+        && data.locale in locales()
+        && data.createdAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && uid() == userId;
+      allow create, update: if signedIn() && uid() == userId && isUser(request.resource.data);
+      allow delete: if false;
+    }
+
+    // ---------- households ----------
+
+    function isHousehold(data) {
+      return hasExactly(data, ['name', 'locale', 'ownerId', 'memberIds', 'members', 'timezone', 'createdAt'], [])
+        && isString(data.name, 1, 60)
+        && data.locale in locales()
+        && data.memberIds is list
+        && data.memberIds.size() >= 1
+        && data.memberIds.size() <= 10
+        && data.members is map
+        && data.members.keys().toSet() == data.memberIds.toSet()
+        && data.timezone == 'Europe/Madrid'
+        && data.createdAt is timestamp;
+    }
+
+    function isMemberEntry(entry, role) {
+      return entry is map
+        && hasExactly(entry, ['role', 'displayName'], [])
+        && entry.role == role
+        && isString(entry.displayName, 1, 60);
+    }
+
+    // Invited user adds exactly themself as member, nothing else changes.
+    function isJoining(hid) {
+      let next = request.resource.data;
+      return signedIn()
+        && emailVerified()
+        && exists(/databases/$(database)/documents/households/$(hid)/invitations/$(authEmail()))
+        && !(uid() in resource.data.memberIds)
+        && next.diff(resource.data).affectedKeys().hasOnly(['memberIds', 'members'])
+        && next.memberIds == resource.data.memberIds.concat([uid()])
+        && next.members.diff(resource.data.members).affectedKeys().hasOnly([uid()])
+        && isMemberEntry(next.members[uid()], 'member');
+    }
+
+    // Owner renames or removes members; ownership never changes and the owner stays.
+    function isOwnerEdit() {
+      let next = request.resource.data;
+      return resource.data.ownerId == uid()
+        && next.ownerId == resource.data.ownerId
+        && uid() in next.memberIds
+        && next.createdAt == resource.data.createdAt;
+    }
+
+    match /households/{hid} {
+      allow read: if signedIn() && uid() in resource.data.memberIds;
+
+      allow create: if signedIn()
+        && isHousehold(request.resource.data)
+        && request.resource.data.ownerId == uid()
+        && request.resource.data.memberIds == [uid()]
+        && isMemberEntry(request.resource.data.members[uid()], 'owner')
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if isHousehold(request.resource.data) && (isOwnerEdit() || isJoining(hid));
+      allow delete: if false;
+
+      // ---------- invitations ----------
+
+      match /invitations/{email} {
+        allow read: if isOwner(hid);
+
+        allow create: if isOwner(hid)
+          && email == email.lower()
+          && email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+          && hasExactly(request.resource.data, ['email', 'householdName', 'invitedBy', 'createdAt'], [])
+          && request.resource.data.email == email
+          && isString(request.resource.data.householdName, 1, 60)
+          && request.resource.data.invitedBy == uid()
+          && request.resource.data.createdAt == request.time;
+
+        allow update: if false;
+        allow delete: if isOwner(hid) || (signedIn() && emailVerified() && authEmail() == email);
+      }
+
+      // ---------- dogs ----------
+
+      function isDog(data) {
+        return hasExactly(data,
+            ['name', 'birthDate', 'arrivalDate', 'sleepsOutdoors', 'environment', 'planWeek', 'createdAt', 'updatedAt'],
+            ['breed', 'notes'])
+          && isString(data.name, 1, 40)
+          && isDate(data.birthDate)
+          && isDate(data.arrivalDate)
+          && data.arrivalDate >= data.birthDate
+          && data.sleepsOutdoors is bool
+          && data.environment in ['rural', 'urban']
+          && isIntBetween(data.planWeek, 1, 8)
+          && (!('breed' in data) || isString(data.breed, 0, 60))
+          && (!('notes' in data) || isString(data.notes, 0, 1000));
+      }
+
+      match /dogs/{dogId} {
+        allow read: if isMember(hid);
+
+        allow create: if isOwner(hid)
+          && isDog(request.resource.data)
+          && request.resource.data.planWeek == 1
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.updatedAt == request.time;
+
+        // planWeek is advanced only by the server engine.
+        allow update: if isMember(hid)
+          && isDog(request.resource.data)
+          && request.resource.data.planWeek == resource.data.planWeek
+          && request.resource.data.createdAt == resource.data.createdAt
+          && request.resource.data.updatedAt == request.time;
+
+        allow delete: if isOwner(hid);
+
+        // ---------- guidance (server only) ----------
+
+        match /dailyGuidance/{date} {
+          allow read: if isMember(hid);
+          allow write: if false;
+        }
+
+        // ---------- task logs ----------
+
+        function isTaskLog(data) {
+          return hasExactly(data,
+              ['guidanceDate', 'taskId', 'kind', 'notes', 'doneBy', 'doneAt'],
+              ['skillKey', 'successCount', 'attempts', 'reaction'])
+            && isDate(data.guidanceDate)
+            && isString(data.taskId, 1, 20)
+            && data.kind in taskKinds()
+            && isString(data.notes, 0, 1000)
+            && (!('skillKey' in data) || data.skillKey in skillKeys())
+            && (data.kind != 'training' || (
+                'skillKey' in data
+                && isIntBetween(data.attempts, 1, 20)
+                && isIntBetween(data.successCount, 0, 20)
+                && data.successCount <= data.attempts))
+            && (data.kind == 'training' || (!('attempts' in data) && !('successCount' in data)))
+            && (data.kind != 'socialization' || data.reaction in reactions())
+            && (data.kind == 'socialization' || !('reaction' in data));
+        }
+
+        match /taskLogs/{logId} {
+          allow read: if isMember(hid);
+          allow create: if isMember(hid)
+            && isTaskLog(request.resource.data)
+            && isNewAuthored(request.resource.data);
+          allow update: if isMember(hid)
+            && isAuthorWithin24h()
+            && isTaskLog(request.resource.data)
+            && keepsAuthorship();
+          allow delete: if isMember(hid) && isAuthorWithin24h();
+        }
+
+        // ---------- socialization logs ----------
+
+        function isSocializationLog(data) {
+          return hasExactly(data, ['itemKey', 'reaction', 'notes', 'doneBy', 'doneAt'], ['taskLogId'])
+            && isString(data.itemKey, 1, 40)
+            && data.reaction in reactions()
+            && isString(data.notes, 0, 1000)
+            && (!('taskLogId' in data) || isString(data.taskLogId, 1, 40));
+        }
+
+        match /socializationLogs/{logId} {
+          allow read: if isMember(hid);
+          allow create: if isMember(hid)
+            && isSocializationLog(request.resource.data)
+            && isNewAuthored(request.resource.data);
+          allow update: if isMember(hid)
+            && isAuthorWithin24h()
+            && isSocializationLog(request.resource.data)
+            && keepsAuthorship();
+          allow delete: if isMember(hid) && isAuthorWithin24h();
+        }
+
+        // ---------- weight ----------
+
+        function isWeightLog(data) {
+          return hasExactly(data, ['kg', 'measuredOn', 'doneBy', 'doneAt'], [])
+            && isNumberBetween(data.kg, 0.5, 100)
+            && isDate(data.measuredOn);
+        }
+
+        match /weightLogs/{logId} {
+          allow read: if isMember(hid);
+          allow create: if isMember(hid)
+            && isWeightLog(request.resource.data)
+            && isNewAuthored(request.resource.data);
+          allow update: if isMember(hid)
+            && isAuthorWithin24h()
+            && isWeightLog(request.resource.data)
+            && keepsAuthorship();
+          allow delete: if isMember(hid) && isAuthorWithin24h();
+        }
+
+        // ---------- vet events (free notes only, no dosing) ----------
+
+        function isVetEvent(data) {
+          return hasExactly(data, ['kind', 'date', 'notes', 'doneBy', 'doneAt'], [])
+            && data.kind in ['checkup', 'vaccine', 'deworming', 'microchip', 'other']
+            && isDate(data.date)
+            && isString(data.notes, 0, 1000);
+        }
+
+        match /vetEvents/{eventId} {
+          allow read: if isMember(hid);
+          allow create: if isMember(hid)
+            && isVetEvent(request.resource.data)
+            && isNewAuthored(request.resource.data);
+          allow update: if isMember(hid)
+            && isAuthorWithin24h()
+            && isVetEvent(request.resource.data)
+            && keepsAuthorship();
+          allow delete: if isMember(hid) && isAuthorWithin24h();
+        }
+
+        // ---------- weekly reviews ----------
+
+        function isWeeklyReview(data, weekNumber) {
+          return hasExactly(data, ['weekNumber', 'notes', 'updatedBy', 'updatedAt'], ['weightKg'])
+            && isIntBetween(data.weekNumber, 1, 52)
+            && string(data.weekNumber) == weekNumber
+            && isString(data.notes, 0, 2000)
+            && (!('weightKg' in data) || isNumberBetween(data.weightKg, 0.5, 100))
+            && data.updatedBy == uid()
+            && data.updatedAt == request.time;
+        }
+
+        match /weeklyReviews/{weekNumber} {
+          allow read: if isMember(hid);
+          allow create, update: if isMember(hid) && isWeeklyReview(request.resource.data, weekNumber);
+          allow delete: if false;
+        }
+      }
+    }
+
+    // Pending invitations of the signed-in user, across households (collection group query).
+    match /{path=**}/invitations/{email} {
+      allow read: if signedIn() && emailVerified() && resource.data.email == authEmail();
+    }
+  }
+}

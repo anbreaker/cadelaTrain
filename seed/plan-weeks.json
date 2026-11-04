@@ -1,0 +1,78 @@
+{
+  "i18nPrefix": "catalog.planWeeks",
+  "i18nFields": ["objective", "how", "readyWhen"],
+  "items": [
+    {
+      "week": 1,
+      "ageWeeks": { "from": 8, "to": 9 },
+      "objective": "Settling in and name",
+      "how": "Calm; name and reward; vet visit",
+      "readyWhen": "Turns her head on hearing her name",
+      "keySkills": ["name"],
+      "focusSkills": ["name", "potty"]
+    },
+    {
+      "week": 2,
+      "ageWeeks": { "from": 9, "to": 10 },
+      "objective": "Sit and potty",
+      "how": "Reward above the head; same spot for potty",
+      "readyWhen": "Sits on the hand signal with no reward in the hand",
+      "keySkills": ["sit"],
+      "focusSkills": ["sit", "potty", "name"]
+    },
+    {
+      "week": 3,
+      "ageWeeks": { "from": 10, "to": 11 },
+      "objective": "Come from 1-3 m",
+      "how": "Crouch, happy voice, recall game between two people",
+      "readyWhen": "Runs to you from 3 m",
+      "keySkills": ["come"],
+      "focusSkills": ["come", "sit", "potty"]
+    },
+    {
+      "week": 4,
+      "ageWeeks": { "from": 11, "to": 12 },
+      "objective": "Leash and soft bite",
+      "how": "Leash indoors; say 'ouch' and stop the game",
+      "readyWhen": "Walks a few metres on the leash",
+      "keySkills": ["leash"],
+      "focusSkills": ["leash", "softBite", "come", "sit"]
+    },
+    {
+      "week": 5,
+      "ageWeeks": { "from": 12, "to": 13 },
+      "objective": "Down and leave it",
+      "how": "Reward from nose to floor; closed fist",
+      "readyWhen": "Moves away from the closed hand",
+      "keySkills": ["leaveIt"],
+      "focusSkills": ["down", "leaveIt", "leash", "come"]
+    },
+    {
+      "week": 6,
+      "ageWeeks": { "from": 13, "to": 14 },
+      "objective": "Come with distractions",
+      "how": "5-10 m on a long line",
+      "readyWhen": "Comes in most attempts",
+      "keySkills": ["come"],
+      "focusSkills": ["come", "leaveIt", "down", "leash"]
+    },
+    {
+      "week": 7,
+      "ageWeeks": { "from": 14, "to": 15 },
+      "objective": "Stay and calm",
+      "how": "2-3 s then reward; ignore jumping",
+      "readyWhen": "Holds a sit for 5 s",
+      "keySkills": ["stay"],
+      "focusSkills": ["stay", "come", "down", "sit"]
+    },
+    {
+      "week": 8,
+      "ageWeeks": { "from": 15, "to": 16 },
+      "objective": "Review away from the farm",
+      "how": "Village, car, vaccinated dogs",
+      "readyWhen": "Responds away from home",
+      "keySkills": ["come", "sit", "stay"],
+      "focusSkills": ["come", "sit", "stay", "leash", "leaveIt"]
+    }
+  ]
+}

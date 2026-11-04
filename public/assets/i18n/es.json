@@ -1,0 +1,118 @@
+{
+  "catalog": {
+    "careAlerts": {
+      "cold": { "message": "Caseta elevada, paja seca y protegida del viento.", "title": "Frío" },
+      "firstWeekVet": {
+        "message": "Revisión, cartilla y microchip. Pregunta por la pauta de vacunas, la desparasitación durante todo el año y la prevención de la leishmaniasis, habitual en la zona. Consulta a tu veterinario.",
+        "title": "Primera semana: veterinario"
+      },
+      "grassAwns": { "message": "Revisa orejas, patas y nariz después de cada paseo.", "title": "Espigas" },
+      "livestockAndHens": { "message": "No la sueltes cerca hasta que domine «ven» y «deja».", "title": "Ganado y gallinas" },
+      "pineProcessionary": {
+        "message": "Mantenla lejos de los pinos y de las filas de orugas. Si las toca o las muerde: urgencia veterinaria.",
+        "title": "Procesionaria del pino"
+      },
+      "poisonsAndChemicals": { "message": "Venenos, abonos, gasóleo y productos del taller fuera de su alcance.", "title": "Venenos y químicos" },
+      "ticksAndHeat": { "message": "Sombra y agua fresca siempre. Protección antiparasitaria: consulta a tu veterinario.", "title": "Garrapatas y calor" },
+      "unknownDogsUntilVaccinated": {
+        "message": "Nada de contacto con perros desconocidos hasta completar la pauta de vacunas que indique tu veterinario.",
+        "title": "Perros desconocidos"
+      }
+    },
+    "cues": { "no": "fuera", "praise": "muy bien" },
+    "planWeeks": {
+      "week1": { "how": "Calma; nombre y premio; veterinario", "objective": "Adaptación y nombre", "readyWhen": "Gira la cabeza al oír su nombre" },
+      "week2": { "how": "Premio sobre la cabeza; mismo sitio para las necesidades", "objective": "«Sienta» y necesidades", "readyWhen": "Se sienta con el gesto, sin premio en la mano" },
+      "week3": { "how": "Agacharse, voz alegre, juego entre dos personas", "objective": "«Ven» a 1-3 m", "readyWhen": "Viene corriendo a 3 m" },
+      "week4": { "how": "Correa en casa; «ay» y parar el juego", "objective": "Correa y mordida suave", "readyWhen": "Camina unos metros con correa" },
+      "week5": { "how": "Premio de la nariz al suelo; puño cerrado", "objective": "«Tumba» y «deja»", "readyWhen": "Se aparta de la mano cerrada" },
+      "week6": { "how": "5-10 m con correa larga", "objective": "«Ven» con distracciones", "readyWhen": "Viene en la mayoría de intentos" },
+      "week7": { "how": "2-3 s y premio; ignorar los saltos", "objective": "«Quieto» y calma", "readyWhen": "Aguanta 5 s sentada" },
+      "week8": { "how": "Pueblo, coche, perros vacunados", "objective": "Repaso fuera de la finca", "readyWhen": "Responde fuera de casa" }
+    },
+    "principles": {
+      "endWell": "Terminar siempre bien.",
+      "foodAndSleep": "Come 3 veces al día hasta los 4-6 meses y duerme 16-18 horas.",
+      "lowerDifficulty": "Si algo no sale, bajar la dificultad.",
+      "sameWords": "Las mismas palabras para todos: {{name}}, ven, sienta, tumba, quieto, deja, fuera, muy bien.",
+      "shortSessions": "Sesiones de 3 a 5 minutos, varias al día.",
+      "smallRewards": "Premios del tamaño de un garbanzo, sacados de su ración. Un premio especial (pollo cocido) solo para «ven»."
+    },
+    "schedule": {
+      "afternoonRest": { "instructions": "Siesta larga. Necesidades al despertar.", "title": "Descanso" },
+      "bedtime": { "instructions": "A la caseta con su manta y un mordedor. Rutina siempre igual y despedida tranquila.", "title": "A dormir en la caseta" },
+      "breakfast": { "instructions": "«Sienta» antes de bajar el comedero. Si no se sienta, esperad sin repetir la orden.", "title": "Desayuno" },
+      "calmTime": { "instructions": "Juego suave, cepillado corto y necesidades antes de dormir.", "title": "Juego tranquilo, cepillado y necesidades" },
+      "dinner": { "instructions": "Última comida del día.", "title": "Cena" },
+      "farmWalk": { "instructions": "Necesidades y paseo tranquilo por una zona segura de la finca, lejos del taller y de los animales.", "title": "Necesidades y exploración de la finca" },
+      "greeting": { "instructions": "Saludo tranquilo y directa al sitio de las necesidades. «Muy bien» y premio al terminar.", "title": "Saludo y necesidades" },
+      "leashWalk": { "instructions": "Paseo corto con la correa floja. Premia cuando camine a tu lado. Si tira, te paras.", "title": "Paseo con correa" },
+      "lunch": { "instructions": "Ración de mediodía. Apartad unos granos de pienso para los premios de la sesión.", "title": "Comida" },
+      "morningRest": { "instructions": "Sitio tranquilo con su mordedor. Dejadla dormir.", "title": "Descanso con mordedor" },
+      "session1": { "instructions": "Di su nombre y premia cuando te mire. Luego «sienta» con el premio sobre la cabeza. Termina con algo que ya sabe.", "title": "Sesión 1: nombre y «sienta»" },
+      "session2": { "instructions": "Agáchate a 1-2 m, voz alegre, «ven» y premio especial al llegar. Termina con algo que ya sabe.", "title": "Sesión 2: «ven» a poca distancia" },
+      "session3": { "instructions": "Repasa lo que ya sabe y prueba la orden nueva de la semana. Termina con algo que ya sabe.", "title": "Sesión 3: repaso y orden nueva" },
+      "socialization": { "instructions": "Una experiencia nueva, a la distancia a la que esté tranquila. Premia la calma y la curiosidad.", "title": "Socialización del día" },
+      "tugPlay": { "instructions": "Juego con la cuerda. Si los dientes tocan la piel: «ay», paras el juego unos segundos y vuelves a empezar.", "title": "Juego con cuerda (mordida suave)" },
+      "visit": { "instructions": "Necesidades y manipulación suave de patas y orejas, con premio en cada contacto.", "title": "Visita: necesidades y manipulación" }
+    },
+    "skills": {
+      "come": { "cue": "ven", "description": "Viene hasta ti al llamarla. Premio especial: pollo cocido.", "name": "Ven" },
+      "down": { "cue": "tumba", "description": "Se tumba siguiendo el premio de la nariz al suelo.", "name": "Tumba" },
+      "leash": { "cue": "muy bien", "description": "Camina a tu lado con la correa floja.", "name": "Correa" },
+      "leaveIt": { "cue": "deja", "description": "Se aparta de la mano cerrada o de algo del suelo.", "name": "Deja" },
+      "name": { "cue": "{{name}}", "description": "Gira la cabeza y te mira al oír su nombre.", "name": "Nombre" },
+      "potty": { "cue": "muy bien", "description": "Hace sus necesidades en el sitio de siempre.", "name": "Necesidades" },
+      "sit": { "cue": "sienta", "description": "Se sienta con la orden o el gesto.", "name": "Sienta" },
+      "softBite": { "cue": "ay", "description": "Controla la fuerza de la mordida durante el juego.", "name": "Mordida suave" },
+      "stay": { "cue": "quieto", "description": "Aguanta sentada unos segundos hasta que la liberas.", "name": "Quieto" }
+    },
+    "socialization": {
+      "categories": { "animals": "Animales", "handling": "Manipulación", "noises": "Ruidos", "people": "Personas", "places": "Lugares" },
+      "items": {
+        "animalAdultDogs": { "howTo": "Solo perros conocidos, vacunados y tranquilos, cuando el veterinario lo permita.", "label": "Perros adultos vacunados y equilibrados" },
+        "animalCats": { "howTo": "Con correa; el gato debe poder irse. Premia la calma.", "label": "Gatos" },
+        "animalPoultryLivestock": { "howTo": "Siempre con correa y a distancia; premia que mire y vuelva a mirarte.", "label": "Gallinas o ganado (con correa)" },
+        "handlingBrushing": { "howTo": "Dos o tres pasadas y premio.", "label": "Cepillado" },
+        "handlingCollar": { "howTo": "Pónselo durante la comida o el juego; quítaselo cuando esté tranquila.", "label": "Collar" },
+        "handlingEars": { "howTo": "Levanta la oreja un segundo y premia.", "label": "Orejas" },
+        "handlingHarness": { "howTo": "Que meta ella la cabeza para coger un premio; abrocha y premia.", "label": "Arnés" },
+        "handlingMouth": { "howTo": "Levanta el labio un segundo y premia.", "label": "Boca" },
+        "handlingNails": { "howTo": "Enséñale el cortaúñas y tócale las uñas con él, sin cortar; premio.", "label": "Uñas" },
+        "handlingPaws": { "howTo": "Toca una pata un segundo y premia; alarga poco a poco.", "label": "Patas" },
+        "handlingTail": { "howTo": "Tócale la cola con suavidad y premia.", "label": "Cola" },
+        "noiseAngleGrinder": { "howTo": "Desde fuera del taller y lejos; ráfagas cortas con premio.", "label": "Radial" },
+        "noiseBrushcutter": { "howTo": "Lejos y poco tiempo; premia la calma.", "label": "Desbrozadora" },
+        "noiseCar": { "howTo": "Motor en marcha a distancia; acercaos poco a poco si está tranquila.", "label": "Coche" },
+        "noiseChainsaw": { "howTo": "Lejos y poco tiempo; premia la calma.", "label": "Motosierra" },
+        "noiseHammer": { "howTo": "Golpes sueltos a distancia; premio tras cada golpe.", "label": "Martillo" },
+        "noiseThunderFireworks": { "howTo": "Grabación a volumen muy bajo durante la comida; súbelo poco a poco en días distintos.", "label": "Truenos o petardos (grabación)" },
+        "noiseTractor": { "howTo": "Empieza lejos, con premios mientras suena. Nunca la acerques si se asusta.", "label": "Tractor" },
+        "noiseWelder": { "howTo": "Ruido a distancia, sin mirar el arco; ráfagas cortas con premio.", "label": "Soldador" },
+        "peopleCap": { "howTo": "Ponte la gorra delante de ella y premia mientras la mira.", "label": "Gente con gorra" },
+        "peopleChildren": { "howTo": "Niños sentados y tranquilos, con un adulto al lado; un premio cada uno.", "label": "Niños" },
+        "peopleGlasses": { "howTo": "Gafas de sol y de protección; premia la calma.", "label": "Gente con gafas" },
+        "peopleHelmet": { "howTo": "Deja primero el casco en el suelo para que lo huela; después póntelo.", "label": "Gente con casco" },
+        "peopleMen": { "howTo": "Que se agache y le ofrezca un premio con la mano abierta.", "label": "Hombres" },
+        "peopleVisitors": { "howTo": "Que la visita la ignore al entrar y la premie cuando se acerque sola.", "label": "Visitas" },
+        "peopleWomen": { "howTo": "Que se agache y le ofrezca un premio con la mano abierta.", "label": "Mujeres" },
+        "peopleWorkwear": { "howTo": "Mono, botas y guantes; deja que lo huela antes.", "label": "Ropa de trabajo" },
+        "placeCar": { "howTo": "Primero dentro del coche parado, con premios; luego trayectos muy cortos.", "label": "Coche" },
+        "placeGrass": { "howTo": "Hierba corta; juego y premio.", "label": "Hierba" },
+        "placeGravel": { "howTo": "Deja que explore a su ritmo y premia cada paso.", "label": "Grava" },
+        "placeMetal": { "howTo": "Chapa en el suelo, bien firme para que no suene; premia cada paso.", "label": "Metal" },
+        "placeMud": { "howTo": "Charco pequeño de barro; premia cuando lo pise.", "label": "Barro" },
+        "placeShallowWater": { "howTo": "Agua que no le cubra las patas, en un día templado; nunca la fuerces.", "label": "Agua poco profunda" },
+        "placeStairs": { "howTo": "Solo uno o dos escalones, subiendo; ayúdala a bajar.", "label": "Escaleras" },
+        "placeVetSocialVisit": { "howTo": "Entrar, recibir premios y salir, sin consulta.", "label": "Visita social al veterinario" }
+      }
+    }
+  },
+  "health": {
+    "consultVet": "Consulta a tu veterinario",
+    "vetEmergency": "Urgencia veterinaria"
+  },
+  "reactions": { "calm": "Calma", "curious": "Curiosidad", "fear": "Miedo" },
+  "slots": { "afternoon": "Tarde", "midday": "Mediodía", "morning": "Mañana", "night": "Noche" },
+  "taskKinds": { "care": "Cuidado", "feeding": "Comida", "potty": "Necesidades", "socialization": "Socialización", "training": "Entreno" }
+}
