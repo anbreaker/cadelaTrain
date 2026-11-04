@@ -360,6 +360,10 @@
     "consultVet": "Consulta a tu veterinario",
     "vetEmergency": "Urgencia veterinaria"
   },
+  "pwa": {
+    "reload": "Recargar",
+    "updateReady": "Hay una versión nueva de Dela."
+  },
   "reactions": {
     "calm": "Calma",
     "curious": "Curiosidad",

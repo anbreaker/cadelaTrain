@@ -30,9 +30,13 @@ flowchart LR
 | Types | Hand-written domain types + converters that validate | No codegen for Firestore; rules enforce shapes |
 | i18n | Transloco with `es` (Castilian Spanish, default) and `pt` (European Portuguese); `Intl` locales `es-ES` and `pt-PT` for dates and numbers | Spain and Portugal from day one; English later without schema changes |
 | Catalogs | Bundled JSON (`seed/`) imported by the app and by `api/`; text via Transloco keys | Static, global, versioned in git: no Firestore reads, rules or seed script |
-| PWA | `@angular/service-worker` (`ngsw-config.json`) + `public/site.webmanifest`; registered only in production builds (`core/pwa/service-worker.ts`) | Installable; app shell and translations cached for offline use; `/api/*` never cached |
+| PWA | `@angular/service-worker` (`ngsw-config.json`) + `public/site.webmanifest`; registered only in production builds (`core/pwa/service-worker.ts`); `core/pwa/app-update.store.ts` reloads on an unrecoverable worker and shows an update banner on `VERSION_READY`; `scripts/check-ngsw.mjs` checks the worker output after every build | Installable; app shell and translations cached for offline use; `/api/*` never cached; returning users get new deploys without losing an unsaved log |
 
 > Verified during H1 setup: `@angular/service-worker` works with the Analog Vite plugin without the Angular CLI builder. The `angular-service-worker` plugin in `vite.config.ts` runs after `vite build` (`closeBundle`): it copies `ngsw-worker.js` and `safety-worker.js` into `dist/` and runs the package's `ngsw-config` CLI, which hashes the built files into `dist/ngsw.json`. `ngsw-config.json` prefetches the app shell (`index.html`, `/assets/*.js|css`, `/assets/i18n/*.json`, manifest, favicons), loads icons lazily, keeps the navigation fallback to `/index.html` and excludes `/api/**` from it; there are no `dataGroups`, so API responses always go to the network. `vite-plugin-pwa` was not needed.
+>
+> Updates: `AppUpdateStore` starts at bootstrap (`provideAppInitializer` in `provideAppServiceWorker`) and only subscribes when `SwUpdate.isEnabled`. An `unrecoverable` event (the cached version references files the browser evicted) reloads the page. A `VERSION_READY` event never reloads on its own, because a trainer may be mid-log: it sets `updateReady`, the shell shows a banner (`pwa.updateReady`, `pwa.reload`) and the button activates the new version and then reloads.
+>
+> `npm run build` runs `vite build && node scripts/check-ngsw.mjs`. The check fails the build unless `dist/ngsw.json`, `dist/ngsw-worker.js` and `dist/safety-worker.js` exist, `index` is `/index.html`, `navigationUrls` has a negative rule excluding `/api/`, no asset or data group matches `/api`, and both translation files are in a prefetch asset group.
 >
 > The install prompt and offline behaviour can only be checked on a deployed build (Vercel preview): the worker never registers under `vite` dev or Vitest.
 
@@ -105,7 +109,7 @@ Both return `Cache-Control: no-store` and never return the AI raw output.
 
 ## Deployment
 
-- Vercel project: `buildCommand: vite build`, `outputDirectory: dist`, SPA rewrite `/((?!api/|assets/).*) → /index.html` (as framedBySanti), crons above.
+- Vercel project: `buildCommand: npm run build` (so Vercel also runs the service worker smoke check), `outputDirectory: dist`, SPA rewrite `/((?!api/|assets/).*) → /index.html` (as framedBySanti), crons above.
 - Firestore rules and indexes deployed with `firebase deploy --only firestore` from `firestore.rules` and `firestore.indexes.json`.
 - Catalogs ship inside the bundles (app and functions); a unit test checks that every catalog key has its `es` and `pt` Transloco entries.
 - The engine resolves catalog and health texts for the household locale by importing `public/assets/i18n/{es,pt}.json` in `api/`.

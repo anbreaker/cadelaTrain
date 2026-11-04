@@ -1,0 +1,6 @@
+<div class="update-banner" role="status" *transloco="let t">
+  <span class="update-banner__text">{{ t('pwa.updateReady') }}</span>
+  <button class="update-banner__button" type="button" (click)="reload.emit()">
+    {{ t('pwa.reload') }}
+  </button>
+</div>
