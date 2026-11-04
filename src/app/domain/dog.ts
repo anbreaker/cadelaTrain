@@ -54,7 +54,7 @@ const DOG_RULES: readonly ValidationRule<DogCheck, DogError>[] = [
     fails: (check) => bothDatesValid(check) && check.draft.arrivalDate < check.draft.birthDate,
   },
   { code: 'breedTooLong', fails: ({ draft }) => draft.breed.trim().length > DOG_LIMITS.breed },
-  { code: 'notesTooLong', fails: ({ draft }) => draft.notes.length > DOG_LIMITS.notes },
+  { code: 'notesTooLong', fails: ({ draft }) => draft.notes.trim().length > DOG_LIMITS.notes },
 ];
 
 export const validateDogDraft = (draft: DogDraft, today: IsoDate): DogError[] =>

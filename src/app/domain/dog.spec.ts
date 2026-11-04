@@ -48,6 +48,18 @@ describe('validateDogDraft', () => {
     ]);
   });
 
+  it('should accept every inclusive boundary', () => {
+    const draft = validDraft({
+      arrivalDate: TODAY,
+      birthDate: TODAY,
+      breed: 'x'.repeat(60),
+      name: 'x'.repeat(40),
+      notes: ` ${'x'.repeat(1000)} `,
+    });
+
+    expect(validateDogDraft(draft, TODAY)).toEqual([]);
+  });
+
   it('should reject a breed longer than 60 characters and notes longer than 1000', () => {
     expect(
       validateDogDraft(validDraft({ breed: 'x'.repeat(61), notes: 'x'.repeat(1001) }), TODAY)
