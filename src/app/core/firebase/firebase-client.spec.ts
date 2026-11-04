@@ -107,6 +107,31 @@ describe('createFirebaseClient', () => {
     );
   });
 
+  it('should always use the demo project when emulators are on, even with a real config', () => {
+    const { sdk } = fakeSdk();
+    const client = createFirebaseClient({ config: CONFIG, useEmulators: true }, sdk);
+
+    client.firestore();
+
+    expect(sdk.initializeApp).toHaveBeenCalledWith({
+      apiKey: 'demo-api-key',
+      projectId: EMULATOR_PROJECT_ID,
+    });
+  });
+
+  it('should retry the emulator connection instead of caching a service that failed to connect', () => {
+    const { sdk } = fakeSdk();
+    sdk.connectFirestoreEmulator.mockImplementationOnce(() => {
+      throw new Error('Firestore has already been started');
+    });
+    const client = createFirebaseClient({ config: CONFIG, useEmulators: true }, sdk);
+
+    expect(() => client.firestore()).toThrow('already been started');
+    client.firestore();
+
+    expect(sdk.connectFirestoreEmulator).toHaveBeenCalledTimes(2);
+  });
+
   it('should keep an empty config when emulators are off', () => {
     const { sdk } = fakeSdk();
     const client = createFirebaseClient({ config: EMPTY_CONFIG, useEmulators: false }, sdk);
