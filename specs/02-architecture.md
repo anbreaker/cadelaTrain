@@ -100,7 +100,7 @@ Both return `Cache-Control: no-store` and never return the AI raw output.
 |-------|------|------|
 | Domain | Vitest | All pure rules, table-driven; DST cases; validator rejects unsafe output |
 | API handlers | Vitest with injected fakes (clock, Firestore port, Claude port) | Idempotency, fallback, auth rejection |
-| Security rules | `@firebase/rules-unit-testing` + Firestore emulator | Household isolation, invitation join, author-only edits |
+| Security rules | `@firebase/rules-unit-testing` + Firestore emulator (`npm run test:rules`, `test/rules/`, project `demo-dela`) | Household isolation, invitation join, author-only edits |
 | Components | Vitest + JSDOM | Presentational components, stores |
 
 ## Deployment
