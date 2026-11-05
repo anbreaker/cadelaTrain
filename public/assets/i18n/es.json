@@ -451,6 +451,13 @@
     "urban": "Urbano",
     "waitingForOwner": "Quien creó el hogar dará de alta al cachorro. En cuanto lo haga, lo verás aquí."
   },
+  "guidance": {
+    "template": {
+      "socializationTitle": "Socialización: {{item}}",
+      "trainingInstructions": "{{description}} Premia cada acierto y termina con algo que ya sabe: {{closing}}.",
+      "trainingTitle": "Entreno: {{skill}}"
+    }
+  },
   "health": {
     "consultVet": "Consulta a tu veterinario",
     "vetEmergency": "Urgencia veterinaria"

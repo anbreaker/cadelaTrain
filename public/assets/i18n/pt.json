@@ -451,6 +451,13 @@
     "urban": "Urbano",
     "waitingForOwner": "Quem criou a casa vai registar o cachorro. Assim que o fizer, vais vê-lo aqui."
   },
+  "guidance": {
+    "template": {
+      "socializationTitle": "Socialização: {{item}}",
+      "trainingInstructions": "{{description}} Premeia cada acerto e termina com algo que ela já sabe: {{closing}}.",
+      "trainingTitle": "Treino: {{skill}}"
+    }
+  },
   "health": {
     "consultVet": "Consulta o teu veterinário",
     "vetEmergency": "Urgência veterinária"
