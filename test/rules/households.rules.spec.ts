@@ -190,6 +190,28 @@ describe('households rules', () => {
       );
     });
 
+    it('should deny the owner removing a member entry but keeping the uid', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          [`members.${MEMBER.uid}`]: deleteField(),
+        })
+      );
+    });
+
+    it('should deny the owner removing a uid but keeping its member entry', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), { memberIds: arrayRemove(MEMBER.uid) })
+      );
+    });
+
+    it('should deny the owner removing their own member entry', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          [`members.${OWNER.uid}`]: deleteField(),
+        })
+      );
+    });
+
     it('should deny the owner removing themself', async () => {
       await assertFails(
         updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
