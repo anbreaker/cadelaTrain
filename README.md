@@ -68,6 +68,8 @@ npm run build        # production build + service worker check
 
 `npm run dev` needs no configuration: without Firebase config the development build uses the local emulators. Requirements: Node.js `>= 22.19.0`, npm `>= 10.9.3`, Java for the emulators.
 
+The emulator sends no email: after asking for a sign-in link, use the "Open the emulator link" button on the "check your email" screen (development only).
+
 ### 🌿 Branching and commits
 
 Gitflow: `main` (production), `develop` (integration), `feature/*`, `fix/*`, `chore/*`. Conventional Commits, description up to 50 characters, imperative mood.
@@ -116,6 +118,8 @@ npm run build        # build de producción + comprobación del service worker
 
 `npm run dev` no necesita configuración: sin configuración de Firebase, la versión de desarrollo usa los emuladores locales. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` y Java para los emuladores.
 
+El emulador no envía correos: después de pedir el enlace, usa el botón "Abrir el enlace del emulador" de la pantalla "Revisa tu correo" (solo en desarrollo).
+
 ### 🌿 Ramas y commits
 
 Gitflow: `main` (producción), `develop` (integración), `feature/*`, `fix/*`, `chore/*`. Conventional Commits, descripción de 50 caracteres como máximo, en imperativo.
@@ -163,6 +167,8 @@ npm run build        # build de produção + verificação do service worker
 ```
 
 `npm run dev` não precisa de configuração: sem configuração do Firebase, a versão de desenvolvimento usa os emuladores locais. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` e Java para os emuladores.
+
+O emulador não envia emails: depois de pedir a ligação, usa o botão "Abrir a ligação do emulador" do ecrã "Verifica o teu email" (só em desenvolvimento).
 
 ### 🌿 Ramos e _commits_
 

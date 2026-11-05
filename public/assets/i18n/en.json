@@ -12,6 +12,7 @@
     "emailPlaceholder": "name@example.com",
     "errors": {
       "emailInvalid": "Enter a valid email.",
+      "emulatorLinkMissing": "The emulator has no link for this email. Request a new one.",
       "googleFailed": "We couldn't sign you in with Google. Please try again.",
       "linkInvalid": "This link has expired or was already used. Request a new one.",
       "sendFailed": "We couldn't send the link. Please try again.",
@@ -20,6 +21,7 @@
     "google": "Continue with Google",
     "lead": "Short, positive daily guidance and a shared log for the whole family.",
     "noPassword": "No passwords: we email you a sign-in link.",
+    "openEmulatorLink": "Open the emulator link",
     "or": "or",
     "sendLink": "Email me a sign-in link",
     "signingIn": "Signing in…",
