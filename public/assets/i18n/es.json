@@ -493,7 +493,10 @@
   },
   "shell": {
     "householdName": "Hogar: {{name}}",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "retry": "Reintentar",
+    "unavailableText": "Ahora mismo no podemos cargar tus datos. Tu sesión sigue abierta: vuelve a intentarlo cuando tengas cobertura.",
+    "unavailableTitle": "Sin conexión con Dela"
   },
   "slots": {
     "afternoon": "Tarde",

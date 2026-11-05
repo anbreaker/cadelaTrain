@@ -26,7 +26,8 @@ import { Dog } from '@domain/dog';
 import { normalizeEmail } from '@domain/email';
 import { Household, Locale } from '@domain/household';
 
-export type SessionStatus = 'loading' | 'needsDog' | 'needsHousehold' | 'ready' | 'signedOut';
+export type SessionStatus =
+  'loading' | 'needsDog' | 'needsHousehold' | 'ready' | 'signedOut' | 'unavailable';
 
 export type SessionError = 'sessionFailed';
 
@@ -50,10 +51,32 @@ export const DOGS_RETRY_DELAY_MS = 500;
 const DOGS_RETRY_COUNT = 3;
 
 /**
- * A stale or revoked session (deleted user, wiped emulator) can leave the profile transaction
- * pending forever; past this limit the session fails and signs out instead of loading forever.
+ * Without a connection the profile transaction can stay pending; past this limit the session is
+ * reported unavailable (still signed in) instead of loading forever.
  */
 export const PROFILE_TIMEOUT_MS = 10_000;
+
+/** What a failed session load means: the session is invalid, or the backend is out of reach. */
+type FailureKind = 'invalidSession' | 'unreachable';
+
+/**
+ * Only errors that prove the session itself is no longer valid sign the user out. Anything else
+ * (no coverage on the farm, a timeout, an unknown error) keeps the Firebase user and offers a retry,
+ * so a bad connection never costs a new sign-in link.
+ */
+const FAILURE_BY_CODE: Record<string, FailureKind> = {
+  'auth/invalid-user-token': 'invalidSession',
+  'auth/user-disabled': 'invalidSession',
+  'auth/user-token-expired': 'invalidSession',
+  'permission-denied': 'invalidSession',
+  unauthenticated: 'invalidSession',
+};
+
+const errorCode = (error: unknown): string =>
+  typeof error === 'object' && error !== null && 'code' in error ? String(error.code) : '';
+
+const failureKind = (error: unknown): FailureKind =>
+  FAILURE_BY_CODE[errorCode(error)] ?? 'unreachable';
 
 const sameHousehold = (previous: Household | null, next: Household | null): boolean =>
   previous?.id === next?.id;
@@ -72,10 +95,16 @@ export class AuthSessionStore {
   /** `undefined` while the membership query has not answered. */
   private readonly _household = signal<Household | null | undefined>(undefined);
   private readonly _profile = signal<null | UserProfile>(null);
+  private readonly _unavailable = signal(false);
   /** `undefined` while Firebase has not reported the first auth state. */
   private readonly _user = signal<AuthUser | null | undefined>(undefined);
 
   private session?: Subscription;
+
+  private readonly failureHandlers: Record<FailureKind, () => void> = {
+    invalidSession: () => this.endInvalidSession(),
+    unreachable: () => this._unavailable.set(true),
+  };
 
   readonly user = computed(() => this._user() ?? null);
   readonly profile = this._profile.asReadonly();
@@ -92,6 +121,7 @@ export class AuthSessionStore {
     const user = this._user();
     if (user === undefined) return 'loading';
     if (user === null) return 'signedOut';
+    if (this._unavailable()) return 'unavailable';
 
     const household = this._household();
     // A detail of another household is stale: never report "needs a dog" before the dogs load.
@@ -110,6 +140,16 @@ export class AuthSessionStore {
 
   constructor() {
     this.gateway.onUserChanged((user) => this.applyUser(user));
+    // Coverage comes and goes on the farm: retry as soon as the browser is back online.
+    this.document.defaultView?.addEventListener('online', () => {
+      if (this._unavailable()) this.retry();
+    });
+  }
+
+  /** Loads the session again for the same signed-in user (the "Retry" button, or back online). */
+  retry(): void {
+    const user = this._user();
+    if (user) this.applyUser(user);
   }
 
   async sendSignInLink(email: string): Promise<void> {
@@ -159,6 +199,7 @@ export class AuthSessionStore {
 
   private applyUser(user: AuthUser | null): void {
     this.session?.unsubscribe();
+    this._unavailable.set(false);
     this._profile.set(null);
     this._household.set(undefined);
     this._detail.set(undefined);
@@ -207,9 +248,13 @@ export class AuthSessionStore {
     );
   }
 
-  /** A session that cannot load is signed out, so the user can retry from the sign-in screen. */
   private fail(error: unknown): void {
     console.error(error);
+    this.failureHandlers[failureKind(error)]();
+  }
+
+  /** An invalid session is signed out, so the user can sign in again from the sign-in screen. */
+  private endInvalidSession(): void {
     this._error.set('sessionFailed');
     this._user.set(null);
     void this.gateway.signOut();

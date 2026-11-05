@@ -11,7 +11,11 @@ import { ActivatedRouteSnapshot, CanActivateFn, Data, Route, Router } from '@ang
 
 import { AuthSessionStore, SessionStatus } from './auth-session.store';
 
-export type ResolvedStatus = Exclude<SessionStatus, 'loading'>;
+export type ResolvedStatus = Exclude<SessionStatus, 'loading' | 'unavailable'>;
+
+/** The session is not decided yet, or cannot be loaded right now: nobody is redirected meanwhile. */
+const isPending = (status: SessionStatus): status is 'loading' | 'unavailable' =>
+  status === 'loading' || status === 'unavailable';
 
 const LANDING: Record<ResolvedStatus, string> = {
   needsDog: '/dog/new',
@@ -26,13 +30,16 @@ const SESSION_STATUSES = 'sessionStatuses';
 export const landingFor = (status: ResolvedStatus, invitationCount: number): string =>
   status === 'needsHousehold' && invitationCount > 0 ? INVITATIONS_PATH : LANDING[status];
 
-/** `null` means stay: still loading, a route without session rules, or a status the route allows. */
+/**
+ * `null` means stay: still loading, unavailable (offline: never bounce a signed-in user to sign-in),
+ * a route without session rules, or a status the route allows.
+ */
 export function redirectTarget(
   status: SessionStatus,
   invitationCount: number,
   allowed: readonly ResolvedStatus[] | undefined
 ): null | string {
-  if (status === 'loading' || !allowed) return null;
+  if (isPending(status) || !allowed) return null;
 
   return allowed.includes(status) ? null : landingFor(status, invitationCount);
 }
@@ -48,7 +55,7 @@ function guardWith(
     const router = inject(Router);
 
     return toObservable(session.status).pipe(
-      filter((status) => status !== 'loading'),
+      filter((status): status is ResolvedStatus => !isPending(status)),
       take(1),
       map((status) => {
         const target = redirectTarget(status, session.invitations().length, allowedFor(route));
