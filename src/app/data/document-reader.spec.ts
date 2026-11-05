@@ -1,6 +1,8 @@
 import { InvalidDocumentError } from './data-errors';
 import { DocumentReader } from './document-reader';
 
+import { Timestamp } from 'firebase/firestore';
+
 const PATH = 'households/h1';
 
 const readerOf = (data: Record<string, unknown>): DocumentReader => new DocumentReader(PATH, data);
@@ -71,6 +73,48 @@ describe('DocumentReader', () => {
     expect(readerOf({ value: 'ab' }).stringWhere('value', isShort)).toBe('ab');
     expect(failingField(() => readerOf({ value: 'abc' }).stringWhere('value', isShort))).toBe(
       `${PATH}:value`
+    );
+  });
+
+  it('should read an array of maps, reporting the indexed field on failure', () => {
+    const tasks = readerOf({ tasks: [{ id: 't1' }, { id: 2 }] }).children('tasks');
+
+    expect(tasks[0].string('id')).toBe('t1');
+    expect(failingField(() => tasks[1].string('id'))).toBe(`${PATH}:tasks.1.id`);
+    expect(failingField(() => readerOf({ tasks: [1] }).children('tasks'))).toBe(`${PATH}:tasks`);
+    expect(failingField(() => readerOf({ tasks: {} }).children('tasks'))).toBe(`${PATH}:tasks`);
+  });
+
+  it('should read null or a missing field as null in nullable readers', () => {
+    const reader = readerOf({ flag: null, minutes: 5 });
+
+    expect(reader.nullableOneOf('flag', ['vet'])).toBeNull();
+    expect(reader.nullableOneOf('missing', ['vet'])).toBeNull();
+    expect(readerOf({ flag: 'vet' }).nullableOneOf('flag', ['vet'])).toBe('vet');
+    expect(failingField(() => readerOf({ flag: 'x' }).nullableOneOf('flag', ['vet']))).toBe(
+      `${PATH}:flag`
+    );
+    expect(reader.nullableInteger('minutes', 0, 30)).toBe(5);
+    expect(reader.nullableInteger('missing', 0, 30)).toBeNull();
+    expect(failingField(() => readerOf({ value: 31 }).nullableInteger('value', 0, 30))).toBe(
+      `${PATH}:value`
+    );
+  });
+
+  it('should leave a missing optional key undefined and type-check a present one', () => {
+    expect(readerOf({}).optionalKey('skillKey')).toBeUndefined();
+    expect(readerOf({ skillKey: 'sit' }).optionalKey('skillKey')).toBe('sit');
+    expect(failingField(() => readerOf({ skillKey: '' }).optionalKey('skillKey'))).toBe(
+      `${PATH}:skillKey`
+    );
+  });
+
+  it('should read a timestamp as a date', () => {
+    const at = new Date('2026-12-12T08:30:00Z');
+
+    expect(readerOf({ doneAt: Timestamp.fromDate(at) }).timestamp('doneAt')).toEqual(at);
+    expect(failingField(() => readerOf({ doneAt: '2026-12-12' }).timestamp('doneAt'))).toBe(
+      `${PATH}:doneAt`
     );
   });
 });
