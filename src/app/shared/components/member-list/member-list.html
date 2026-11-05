@@ -1,0 +1,17 @@
+<ul class="member-list" *transloco="let t">
+  @for (row of rows(); track row.id) {
+  <li class="member-list__row">
+    <span class="member-list__name">
+      {{ row.label }} @if (row.isYou) {
+      <span class="member-list__you">{{ t('household.you') }}</span>
+      }
+    </span>
+    <span
+      class="member-list__status"
+      [class.member-list__status--pending]="row.status === 'pending'"
+    >
+      {{ t('household.status.' + row.status) }}
+    </span>
+  </li>
+  }
+</ul>

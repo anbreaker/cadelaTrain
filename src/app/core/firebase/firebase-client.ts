@@ -38,8 +38,18 @@ const firebaseSdk: FirebaseSdk = {
   initializeApp,
 };
 
-export function shouldUseEmulators(flag: string | undefined): boolean {
-  return flag === 'true';
+export interface EmulatorDecision {
+  apiKey: string;
+  flag: string | undefined;
+  production: boolean;
+}
+
+/**
+ * A development run without Firebase config uses the emulators instead of crashing on an empty
+ * API key; a production build only ever follows the explicit flag.
+ */
+export function shouldUseEmulators({ apiKey, flag, production }: EmulatorDecision): boolean {
+  return flag === 'true' || (!production && apiKey.length === 0);
 }
 
 /**
@@ -93,6 +103,10 @@ let appClient: FirebaseClient | undefined;
 export function firebaseClient(): FirebaseClient {
   return (appClient ??= createFirebaseClient({
     config: environment.firebase,
-    useEmulators: shouldUseEmulators(import.meta.env.NG_APP_USE_EMULATORS),
+    useEmulators: shouldUseEmulators({
+      apiKey: environment.firebase.apiKey,
+      flag: import.meta.env.NG_APP_USE_EMULATORS,
+      production: environment.production,
+    }),
   }));
 }

@@ -26,6 +26,7 @@ import {
   DocumentReference,
   FieldPath,
   getDocs,
+  orderBy,
   query,
   runTransaction,
   where,
@@ -70,6 +71,14 @@ export class HouseholdRepository {
       transaction.set(ref, invitation.data);
       return 'invited';
     });
+  }
+
+  /** Invitations still pending in a household; the rules allow it only for the owner. */
+  watchInvitations(householdId: string): Observable<Invitation[]> {
+    const invitations = collection(this.db, HOUSEHOLDS, householdId, INVITATIONS).withConverter(
+      invitationConverter
+    );
+    return watchQuery(query(invitations, orderBy('createdAt')));
   }
 
   async pendingInvitationsFor(email: string): Promise<Invitation[]> {

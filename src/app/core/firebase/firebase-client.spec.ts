@@ -48,11 +48,19 @@ function fakeSdk() {
 }
 
 describe('shouldUseEmulators', () => {
-  it('should use the emulators only when the flag is exactly "true"', () => {
-    expect(shouldUseEmulators('true')).toBe(true);
-    expect(shouldUseEmulators('false')).toBe(false);
-    expect(shouldUseEmulators('TRUE')).toBe(false);
-    expect(shouldUseEmulators(undefined)).toBe(false);
+  it('should use the emulators when the flag is exactly "true"', () => {
+    expect(shouldUseEmulators({ apiKey: 'key', flag: 'true', production: false })).toBe(true);
+    expect(shouldUseEmulators({ apiKey: 'key', flag: 'false', production: false })).toBe(false);
+    expect(shouldUseEmulators({ apiKey: 'key', flag: 'TRUE', production: false })).toBe(false);
+    expect(shouldUseEmulators({ apiKey: 'key', flag: undefined, production: false })).toBe(false);
+  });
+
+  it('should fall back to the emulators in development when Firebase is not configured', () => {
+    expect(shouldUseEmulators({ apiKey: '', flag: undefined, production: false })).toBe(true);
+  });
+
+  it('should never switch a production build to the emulators on its own', () => {
+    expect(shouldUseEmulators({ apiKey: '', flag: undefined, production: true })).toBe(false);
   });
 });
 
