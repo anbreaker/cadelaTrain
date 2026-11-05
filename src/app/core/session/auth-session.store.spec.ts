@@ -101,6 +101,7 @@ describe('AuthSessionStore', () => {
       signInWithGoogle: vi.fn(async () => undefined),
       signInWithLink: vi.fn(async () => undefined),
       signOut: vi.fn(async () => undefined),
+      verifyUser: vi.fn(async () => undefined),
     };
     profiles = {
       ensureProfile: vi.fn(async (user: AuthUser, locale: Locale): Promise<UserProfile> => ({
@@ -288,6 +289,64 @@ describe('AuthSessionStore', () => {
 
     expect(store.status()).toBe('unavailable');
     expect(gateway.signOut).not.toHaveBeenCalled();
+  });
+
+  it('should sign out when the profile does not load and the auth server no longer knows the user', async () => {
+    vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockReturnValueOnce(new Promise<UserProfile>(() => undefined));
+    gateway.verifyUser.mockRejectedValueOnce(firebaseError('auth/user-not-found'));
+    const store = createStore();
+    emitUser(ana);
+
+    await vi.advanceTimersByTimeAsync(PROFILE_TIMEOUT_MS);
+
+    expect(gateway.verifyUser).toHaveBeenCalledTimes(1);
+    expect(gateway.signOut).toHaveBeenCalledTimes(1);
+    expect(store.error()).toBe('sessionFailed');
+    expect(store.status()).toBe('signedOut');
+  });
+
+  it('should report sessionFailed when the auth check signs the user out before rejecting', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    // Firebase `reload` signs an invalidated user out first, then rethrows.
+    gateway.verifyUser.mockImplementationOnce(async () => {
+      emitUser(null);
+      throw firebaseError('auth/user-token-expired');
+    });
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    expect(store.error()).toBe('sessionFailed');
+    expect(store.status()).toBe('signedOut');
+  });
+
+  it('should stay unavailable when the auth server cannot be reached either', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    gateway.verifyUser.mockRejectedValueOnce(firebaseError('auth/network-request-failed'));
+    const store = await signIn(createStore());
+
+    expect(gateway.verifyUser).toHaveBeenCalledTimes(1);
+    expect(store.status()).toBe('unavailable');
+    expect(gateway.signOut).not.toHaveBeenCalled();
+  });
+
+  it('should ignore a late invalid check once the session was retried', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    let rejectCheck: (error: unknown) => void = () => undefined;
+    gateway.verifyUser.mockReturnValueOnce(
+      new Promise<void>((_resolve, reject) => (rejectCheck = reject))
+    );
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    store.retry();
+    rejectCheck(firebaseError('auth/user-not-found'));
+    await flush();
+
+    expect(gateway.signOut).not.toHaveBeenCalled();
+    expect(store.status()).toBe('loading');
   });
 
   it('should sign out when the dogs stay denied after the bounded retry', async () => {

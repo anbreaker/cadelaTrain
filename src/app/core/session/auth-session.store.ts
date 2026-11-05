@@ -67,6 +67,7 @@ type FailureKind = 'invalidSession' | 'unreachable';
 const FAILURE_BY_CODE: Record<string, FailureKind> = {
   'auth/invalid-user-token': 'invalidSession',
   'auth/user-disabled': 'invalidSession',
+  'auth/user-not-found': 'invalidSession',
   'auth/user-token-expired': 'invalidSession',
   'permission-denied': 'invalidSession',
   unauthenticated: 'invalidSession',
@@ -103,7 +104,7 @@ export class AuthSessionStore {
 
   private readonly failureHandlers: Record<FailureKind, () => void> = {
     invalidSession: () => this.endInvalidSession(),
-    unreachable: () => this._unavailable.set(true),
+    unreachable: () => this.reportUnavailable(),
   };
 
   readonly user = computed(() => this._user() ?? null);
@@ -251,6 +252,21 @@ export class AuthSessionStore {
   private fail(error: unknown): void {
     console.error(error);
     this.failureHandlers[failureKind(error)]();
+  }
+
+  /**
+   * Shows the "can't reach" notice, then asks the auth server whether the account still exists:
+   * a deleted or revoked user (whose profile never loads) is signed out instead of staying stuck.
+   * The answer is ignored if the session was reloaded or ended meanwhile.
+   */
+  private reportUnavailable(): void {
+    this._unavailable.set(true);
+    const session = this.session;
+    this.gateway.verifyUser().catch((error: unknown) => {
+      // No `unavailable` check: Firebase `reload` may already have signed the user out.
+      if (this.session === session && failureKind(error) === 'invalidSession')
+        this.endInvalidSession();
+    });
   }
 
   /** An invalid session is signed out, so the user can sign in again from the sign-in screen. */
