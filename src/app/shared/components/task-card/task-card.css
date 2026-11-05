@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.task-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0.875rem 1rem;
+}
+
+.task-card--done {
+  border-color: var(--color-accent);
+}
+
+.task-card__meta {
+  align-items: center;
+  color: var(--color-text-muted);
+  display: flex;
+  font-size: 0.875rem;
+  gap: var(--space-2);
+  justify-content: space-between;
+}
+
+.task-card__kind {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.task-card__duration {
+  font-variant-numeric: tabular-nums;
+}
+
+.task-card__title {
+  font-size: 1.0625rem;
+}
+
+.task-card__instructions {
+  color: var(--color-text-secondary);
+}
+
+.task-card__done {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+}

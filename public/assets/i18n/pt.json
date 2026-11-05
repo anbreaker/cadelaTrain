@@ -565,8 +565,12 @@
       "one": "Falta 1 dia para a chegada de {{name}}.",
       "other": "Faltam {{days}} dias para a chegada de {{name}}."
     },
+    "doneAt": "Feito às {{time}}",
+    "doneBy": "Feito por {{name}} às {{time}}",
     "emptyText": "Todas as manhãs, às 06:00, vais ter aqui as orientações do dia. Esta parte da app ainda está em construção.",
     "emptyTitle": "As orientações diárias chegam em breve",
+    "minutes": "{{minutes}} min",
+    "noDuration": "Sem duração fixa",
     "title": "Hoje com {{name}}"
   }
 }
