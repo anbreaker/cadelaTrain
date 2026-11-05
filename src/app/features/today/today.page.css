@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.today {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.today__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.today__date::first-letter {
+  text-transform: uppercase;
+}
+
+.today__title {
+  font-size: 1.625rem;
+}
+
+.today__countdown {
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  gap: var(--space-3);
+  max-width: 45rem;
+  padding: 1.25rem;
+}
+
+.today__countdown-number {
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.today__countdown-text {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+}
+
+.today__arrival {
+  background: var(--color-surface-selected);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  max-width: 45rem;
+  padding: 0.875rem 1rem;
+}
+
+.today__empty {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 45rem;
+  padding: 1.25rem;
+}
+
+.today__empty-title {
+  font-size: 1.25rem;
+}
+
+.today__empty-text {
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 1024px) {
+  .today__title {
+    font-size: 2.125rem;
+  }
+}

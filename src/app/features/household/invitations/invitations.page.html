@@ -1,0 +1,26 @@
+<main class="onboarding" id="main-content" tabindex="-1" *transloco="let t">
+  <h1 class="page-title">{{ t('invitations.title') }}</h1>
+
+  @for (invitation of invitations(); track invitation.householdId) {
+  <section class="invitation" [attr.aria-labelledby]="'invitation-' + invitation.householdId">
+    <h2 class="invitation__title" [id]="'invitation-' + invitation.householdId">
+      {{ t('invitations.invitedTo', { name: invitation.householdName }) }}
+    </h2>
+    <p class="invitation__text">{{ t('invitations.text') }}</p>
+    <button
+      class="button button--primary"
+      type="button"
+      [disabled]="joining() !== null"
+      (click)="join(invitation)"
+    >
+      {{ joining() === invitation.householdId ? t('invitations.joining') : t('invitations.join') }}
+    </button>
+  </section>
+  } @if (failed()) {
+  <p class="form-error" role="alert">{{ t('invitations.errors.joinFailed') }}</p>
+  }
+
+  <a class="button button--link invitations__own" routerLink="/household/new">
+    {{ t('invitations.createOwn') }}
+  </a>
+</main>

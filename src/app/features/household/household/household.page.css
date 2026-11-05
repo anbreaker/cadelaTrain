@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.household {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 40rem;
+}
+
+.household__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.household__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.household__heading {
+  font-size: 1.25rem;
+}
+
+.household__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.household__feedback {
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  min-height: 1.40625rem;
+}

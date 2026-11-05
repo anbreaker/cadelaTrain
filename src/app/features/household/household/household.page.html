@@ -1,0 +1,46 @@
+<div class="household" *transloco="let t">
+  <header class="household__header">
+    <span class="meta">{{ t('household.title') }}</span>
+    <h1 class="page-title">{{ household()?.name }}</h1>
+  </header>
+
+  @if (isOwner()) {
+  <section class="household__section" aria-labelledby="invite-title">
+    <h2 class="household__heading" id="invite-title">{{ t('household.inviteTitle') }}</h2>
+    <form class="household__form" novalidate (submit)="invite($event)">
+      <label class="field">
+        {{ t('household.inviteEmail') }}
+        <input
+          class="field__input"
+          autocomplete="off"
+          inputmode="email"
+          type="email"
+          [attr.aria-describedby]="emailInvalid() ? 'invite-email-error' : null"
+          [attr.aria-invalid]="emailInvalid()"
+          [placeholder]="t('auth.emailPlaceholder')"
+          [value]="email()"
+          (input)="setEmail($event)"
+        />
+      </label>
+      @if (emailInvalid()) {
+      <p class="field__error" id="invite-email-error">{{ t('household.errors.emailInvalid') }}</p>
+      }
+      <button class="button button--primary" type="submit" [disabled]="pending()">
+        {{ pending() ? t('household.inviting') : t('household.invite') }}
+      </button>
+    </form>
+    <!-- Always present so screen readers announce the result; reserved height avoids a jump. -->
+    <p class="household__feedback" role="status">
+      @if (feedback(); as feedback) { {{ t(feedback.key, { email: feedback.email }) }} }
+    </p>
+    @if (failed()) {
+    <p class="form-error" role="alert">{{ t('household.errors.inviteFailed') }}</p>
+    }
+  </section>
+  }
+
+  <section class="household__section" aria-labelledby="members-title">
+    <h2 class="household__heading" id="members-title">{{ t('household.members') }}</h2>
+    <app-member-list [rows]="rows()" />
+  </section>
+</div>

@@ -3,20 +3,24 @@
   min-height: 100dvh;
 }
 
-.app-header {
+.app-loading {
   align-items: center;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-hairline);
+  animation: loading-in var(--duration-base) var(--ease-out) 400ms both;
+  background: var(--color-bg);
   display: flex;
-  min-height: var(--header-height);
-  padding: 0 var(--gutter);
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  /* Above the sticky header, so nothing of the previous screen shows while loading. */
+  z-index: 30;
 }
 
-.app-header__title {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
+@keyframes loading-in {
+  from {
+    opacity: 0;
+  }
 
-.app-main {
-  padding: var(--space-3) var(--gutter);
+  to {
+    opacity: 1;
+  }
 }

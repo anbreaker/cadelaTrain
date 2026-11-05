@@ -55,7 +55,8 @@
   "scripts": {
     "build": "vite build && node scripts/check-ngsw.mjs",
     "commit:validate": "node -e \"const msg = process.argv[1]; const ok = /^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\\(.+\\))?: .{1,50}$/.test(msg); process.exit(ok ? 0 : 1);\" --",
-    "dev": "vite --mode dev --open",
+    "dev": "firebase emulators:exec --only auth,firestore --project demo-dela \"vite --mode dev --open\"",
+    "emulators": "firebase emulators:start --only auth,firestore --project demo-dela",
     "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.json\"",
     "lint": "eslint \"src/**/*.{ts,html}\" \"test/**/*.ts\" && eslint \"*.json\" \"public/assets/i18n/*.json\"",
     "lint:fix": "eslint \"src/**/*.{ts,html}\" \"test/**/*.ts\" --fix && eslint \"*.json\" \"public/assets/i18n/*.json\" --fix",
