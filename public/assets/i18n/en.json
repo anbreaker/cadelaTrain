@@ -451,6 +451,13 @@
     "urban": "Urban",
     "waitingForOwner": "The person who created the household will add the puppy. As soon as they do, you'll see it here."
   },
+  "guidance": {
+    "template": {
+      "socializationTitle": "Socialization: {{item}}",
+      "trainingInstructions": "{{description}} Reward every success and finish with something she already knows: {{closing}}.",
+      "trainingTitle": "Training: {{skill}}"
+    }
+  },
   "health": {
     "consultVet": "Talk to your vet",
     "vetEmergency": "Veterinary emergency"
