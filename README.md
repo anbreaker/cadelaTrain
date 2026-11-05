@@ -58,7 +58,7 @@ Developed with AI coding agents using Organic-Driven Development with [gentle-ai
 
 ```bash
 npm install
-npm start            # http://localhost:4200
+npm run dev          # emulators + app, http://localhost:4200
 npm run emulators    # Firebase Auth + Firestore emulators (demo project)
 npm test             # unit tests
 npm run test:rules   # security rules + data layer against the emulator (needs Java)
@@ -66,7 +66,7 @@ npm run lint
 npm run build        # production build + service worker check
 ```
 
-To run against the emulators, create `.env.local` (git-ignored) from `.env.example` and set `NG_APP_USE_EMULATORS=true`. Requirements: Node.js `>= 22.19.0`, npm `>= 10.9.3`, Java for the emulators.
+`npm run dev` needs no configuration: without Firebase config the development build uses the local emulators. Requirements: Node.js `>= 22.19.0`, npm `>= 10.9.3`, Java for the emulators.
 
 ### 🌿 Branching and commits
 
@@ -106,7 +106,7 @@ Se desarrolla con agentes de IA siguiendo Organic-Driven Development con [gentle
 
 ```bash
 npm install
-npm start            # http://localhost:4200
+npm run dev          # emulators + app, http://localhost:4200
 npm run emulators    # emuladores de Firebase Auth + Firestore (proyecto demo)
 npm test             # tests unitarios
 npm run test:rules   # reglas de seguridad y capa de datos contra el emulador (necesita Java)
@@ -114,7 +114,7 @@ npm run lint
 npm run build        # build de producción + comprobación del service worker
 ```
 
-Para usar los emuladores, crea `.env.local` (ignorado por git) a partir de `.env.example` con `NG_APP_USE_EMULATORS=true`. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` y Java para los emuladores.
+`npm run dev` no necesita configuración: sin configuración de Firebase, la versión de desarrollo usa los emuladores locales. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` y Java para los emuladores.
 
 ### 🌿 Ramas y commits
 
@@ -154,7 +154,7 @@ Desenvolvido com agentes de IA segundo Organic-Driven Development com [gentle-ai
 
 ```bash
 npm install
-npm start            # http://localhost:4200
+npm run dev          # emulators + app, http://localhost:4200
 npm run emulators    # emuladores do Firebase Auth + Firestore (projeto demo)
 npm test             # testes unitários
 npm run test:rules   # regras de segurança e camada de dados contra o emulador (precisa de Java)
@@ -162,7 +162,7 @@ npm run lint
 npm run build        # build de produção + verificação do service worker
 ```
 
-Para usar os emuladores, cria `.env.local` (ignorado pelo git) a partir de `.env.example` com `NG_APP_USE_EMULATORS=true`. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` e Java para os emuladores.
+`npm run dev` não precisa de configuração: sem configuração do Firebase, a versão de desenvolvimento usa os emuladores locais. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` e Java para os emuladores.
 
 ### 🌿 Ramos e _commits_
 
