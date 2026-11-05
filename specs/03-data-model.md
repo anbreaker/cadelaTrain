@@ -15,6 +15,7 @@ households/{hid}                              name, locale, ownerId, memberIds[]
     weightLogs/{logId}
     vetEvents/{eventId}                       appointments and notes, no dosing
     weeklyReviews/{weekNumber}                week since arrival (1, 2, …)
+    media/{mediaId}                           optional photos (Cloudinary) and videos (YouTube) per day
 ```
 
 Mapping from the original proposal: `household_members` → `households.memberIds` + `members` map; `guidance_tasks` → array `tasks` inside `dailyGuidance` (≤ 15 per day, always read together); `profiles` → `users`; `skills`, `plan_weeks`, `socialization_items` → bundled catalogs.
@@ -23,7 +24,7 @@ Mapping from the original proposal: `household_members` → `households.memberId
 
 | Name | Values |
 |------|--------|
-| `Locale` | `es` (Castilian Spanish, `es-ES`), `pt` (European Portuguese, `pt-PT`) |
+| `Locale` | `es` (Castilian Spanish, `es-ES`), `pt` (European Portuguese, `pt-PT`), `en` (US English, `en-US`) |
 | `Role` | `owner`, `member` |
 | `Environment` | `rural`, `urban` |
 | `Slot` | `morning`, `midday`, `afternoon`, `night` |
@@ -125,6 +126,19 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 ### `weeklyReviews/{weekNumber}`
 `weekNumber`, `notes` ≤ 2000, `weightKg?`, `updatedBy`, `updatedAt`. "Does well", "struggles" and "new socialization" are computed from logs, not stored.
 
+### `media/{mediaId}`
+| Field | Type | Notes |
+|-------|------|-------|
+| kind | `photo` \| `video` | |
+| date | `YYYY-MM-DD` | Madrid date the item belongs to |
+| caption | string ≤ 280 | optional |
+| skillKey | `SkillKey`? | optional |
+| publicId | string? | `photo` only: Cloudinary public id under `dela/<householdId>/` |
+| width, height | int? | `photo` only, for layout without shift |
+| youtubeId | string? | `video` only, `^[A-Za-z0-9_-]{11}$` |
+| addedBy | uid | `== request.auth.uid` |
+| addedAt | timestamp | `== request.time` |
+
 ## Indexes
 
 | Collection (group) | Fields | Used by |
@@ -133,6 +147,7 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 | `taskLogs` | `guidanceDate` asc, `doneAt` asc | today's done marks |
 | `socializationLogs` | `itemKey` asc, `doneAt` desc | checklist last reaction |
 | `invitations` (collection group) | `email` asc | pending invitations of the signed-in user |
+| `media` | `date` desc, `addedAt` desc | timeline and weekly review |
 
 ## Security rules summary
 
@@ -141,12 +156,13 @@ Full rules in `firestore.rules`; tested with the emulator.
 | Path | Read | Write |
 |------|------|-------|
 | `users/{uid}` | self | self, shape-validated |
-| `households/{hid}` | members | create: creator is sole owner/member; update: owner (name, locale, members) or invited user adding exactly themself |
+| `households/{hid}` | members | create: creator is sole owner/member; update: owner renames, changes the locale or removes members (never the owner; cannot add uids or add, relabel or rewrite member entries) or invited user adding exactly themself |
 | `invitations/{email}` | owner; invitee (collection group by email) | create/delete: owner; delete: invitee |
 | `dogs/**` | members | create/delete: owner; update: members, shape-validated; `planWeek` server-only |
 | `dailyGuidance` | members | none (server only) |
 | `*Logs`, `vetEvents` | members | create: members with `doneBy == uid`, `doneAt == request.time`; update/delete: author, within 24 h of `doneAt` |
 | `weeklyReviews` | members | members, `updatedBy == uid` |
+| `media` | members | create: members, `addedBy == uid`, `addedAt == request.time`, exactly the fields of its `kind`; update: author, caption only; delete: author |
 | anything else | denied | denied |
 
 ## Bundled catalogs (`seed/`)
@@ -162,4 +178,4 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 | `care-alerts.json` | Seasonal and field risks | `key`, `months`, `arrivalWeek?`, `appliesTo { sleepsOutdoors?, environment? }`, `severity` (`info` \| `vet` \| `urgent`), `message` |
 | `principles.json` | Training principles | `key`, `text` |
 
-A unit test asserts that every catalog key exists in both `es.json` and `pt.json`, and that both files have the same key set.
+A unit test asserts that every catalog key exists in `en.json`, `es.json` and `pt.json`, and that the three files have the same key set.

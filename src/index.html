@@ -1,15 +1,50 @@
 <!doctype html>
-<html lang="es">
+<html data-theme="dark" lang="es">
   <head>
     <meta charset="utf-8" />
     <title>Dela</title>
     <base href="/" />
     <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport" />
-    <meta content="#faf7f2" name="theme-color" />
+    <meta content="#121613" name="theme-color" />
+    <!-- Critical paint colours (must match tokens.css): no white flash before the stylesheet arrives. -->
+    <style>
+      html {
+        background: #121613;
+        color-scheme: dark;
+      }
+      html[data-theme='light'] {
+        background: #f3f5f0;
+        color-scheme: light;
+      }
+    </style>
+    <link
+      as="font"
+      crossorigin
+      href="/assets/fonts/figtree/figtree-latin.woff2"
+      rel="preload"
+      type="font/woff2"
+    />
+    <link href="/site.webmanifest" rel="manifest" />
+    <link href="/favicon.ico" rel="icon" sizes="48x48" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
     <!-- Before any stylesheet: a script that follows a pending stylesheet waits for it to load. -->
     <script>
       (function () {
-        var langs = ['es', 'pt'];
+        // Dark is the default; only an explicit per-device choice of light changes it (ThemeStore).
+        var stored = null;
+        try {
+          stored = localStorage.getItem('dela-theme');
+        } catch (error) {
+          stored = null;
+        }
+        if (stored === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f3f5f0');
+        }
+      })();
+      (function () {
+        var langs = ['en', 'es', 'pt'];
         var stored = null;
         try {
           stored = localStorage.getItem('dela-lang');

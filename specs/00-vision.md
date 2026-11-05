@@ -14,7 +14,7 @@ A family opens the app in the morning and knows exactly what to do with their pu
 |------|------|
 | Household member (trainer) | Today's tasks by time slot; log in one tap with who and when |
 | Household owner | Create the household, invite people, register the puppy |
-| Later: public users (Spain, Portugal; UI in Castilian Spanish and European Portuguese) | Same flow for any breed, size, urban or rural, indoor or outdoor sleeping |
+| Later: public users (Spain, Portugal; UI in Castilian Spanish, European Portuguese and US English) | Same flow for any breed, size, urban or rural, indoor or outdoor sleeping |
 
 ## First case: Dela
 
@@ -39,5 +39,5 @@ Labrador, arrives December 2026 at 8 weeks, rural Extremadura near the Alentejo 
 
 - Veterinary advice, dosing, diagnosis.
 - Social features, public profiles, marketplace.
-- Native apps (PWA only), push notifications, photos and video, offline-first sync (see roadmap).
+- Native apps (PWA only), push notifications, offline-first sync (see roadmap).
 - Plans beyond 16 weeks.

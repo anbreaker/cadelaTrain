@@ -1,0 +1,52 @@
+.theme-toggle {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  flex: none;
+  height: var(--touch-target);
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+  width: var(--touch-target);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  &:hover .theme-toggle__icon--current,
+  &:focus-visible .theme-toggle__icon--current {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  &:hover .theme-toggle__icon--target,
+  &:focus-visible .theme-toggle__icon--target {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.theme-toggle__icon {
+  align-items: center;
+  display: flex;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.theme-toggle__icon--target {
+  left: 50%;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, calc(-50% - 0.5rem));
+}

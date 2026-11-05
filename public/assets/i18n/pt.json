@@ -2,6 +2,30 @@
   "app": {
     "name": "Dela"
   },
+  "auth": {
+    "checkEmailText": "Enviámos uma ligação para {{email}}. Abre-a neste dispositivo para entrar.",
+    "checkEmailTitle": "Verifica o teu email",
+    "confirmEmail": "Entrar",
+    "confirmEmailText": "Abriste a ligação noutro dispositivo. Escreve o email para onde a enviámos.",
+    "confirmEmailTitle": "Confirma o teu email",
+    "emailLabel": "O teu email",
+    "emailPlaceholder": "nome@exemplo.com",
+    "errors": {
+      "emailInvalid": "Escreve um email válido.",
+      "googleFailed": "Não foi possível entrar com o Google. Tenta novamente.",
+      "linkInvalid": "A ligação expirou ou já foi usada. Pede uma nova.",
+      "sendFailed": "Não foi possível enviar a ligação. Tenta novamente.",
+      "sessionFailed": "Não foi possível carregar a tua conta. Volta a entrar."
+    },
+    "google": "Continuar com o Google",
+    "lead": "Orientações curtas pela positiva e um registo partilhado por toda a família.",
+    "noPassword": "Sem palavras-passe: recebes uma ligação no email.",
+    "or": "ou",
+    "sendLink": "Enviar-me uma ligação para entrar",
+    "signingIn": "A entrar…",
+    "tagline": "Eduquem o vosso cachorro, um pouco cada dia",
+    "useAnotherEmail": "Usar outro email"
+  },
   "catalog": {
     "careAlerts": {
       "cold": {
@@ -356,14 +380,123 @@
       }
     }
   },
+  "common": {
+    "errors": {
+      "saveFailed": "Não foi possível guardar. Tenta novamente."
+    }
+  },
+  "dog": {
+    "arrivalDate": "Chegada",
+    "arrivesIn": {
+      "one": "Chega daqui a 1 dia.",
+      "other": "Chega daqui a {{days}} dias."
+    },
+    "birthDate": "Nascimento",
+    "breed": "Raça (opcional)",
+    "environmentLegend": "Ambiente",
+    "errors": {
+      "arrivalBeforeBirth": "A chegada não pode ser anterior ao nascimento.",
+      "birthDateInFuture": "A data de nascimento não pode ser futura.",
+      "breedTooLong": "Máximo de 60 caracteres.",
+      "dateInvalid": "Indica uma data válida.",
+      "nameRequired": "Escreve o nome.",
+      "nameTooLong": "Máximo de 40 caracteres.",
+      "notesTooLong": "Máximo de 1000 caracteres."
+    },
+    "indoors": "Dentro",
+    "name": "Nome",
+    "outdoors": "Fora",
+    "rural": "Rural",
+    "save": "Guardar cachorro",
+    "saving": "A guardar…",
+    "sleepsLegend": "Onde dorme?",
+    "title": "O vosso cachorro",
+    "urban": "Urbano",
+    "waitingForOwner": "Quem criou a casa vai registar o cachorro. Assim que o fizer, vais vê-lo aqui."
+  },
   "health": {
     "consultVet": "Consulta o teu veterinário",
     "vetEmergency": "Urgência veterinária"
+  },
+  "household": {
+    "alreadyInvited": "Já tinhas convidado {{email}}.",
+    "create": "Criar casa",
+    "createLead": "Tudo o que registarem é só da vossa casa. Depois podem convidar quem treina convosco.",
+    "createTitle": "Criem a vossa casa",
+    "creating": "A criar…",
+    "errors": {
+      "emailInvalid": "Escreve um email válido.",
+      "inviteFailed": "Não foi possível enviar o convite. Tenta novamente.",
+      "localeUnsupported": "Escolhe um idioma.",
+      "nameRequired": "Dá um nome à casa.",
+      "nameTooLong": "Máximo de 60 caracteres."
+    },
+    "invite": "Enviar convite",
+    "inviteEmail": "Email",
+    "inviteTitle": "Convidar quem treina",
+    "invited": "Convite enviado para {{email}}.",
+    "inviting": "A enviar…",
+    "localeLegend": "Idioma das orientações",
+    "members": "Membros",
+    "nameLabel": "Nome da casa",
+    "status": {
+      "member": "Membro",
+      "owner": "Proprietário",
+      "pending": "Convite enviado"
+    },
+    "title": "Casa",
+    "you": "(tu)"
+  },
+  "invitations": {
+    "createOwn": "Prefiro criar a minha própria casa",
+    "errors": {
+      "joinFailed": "Não foi possível juntar-te à casa. Tenta novamente."
+    },
+    "invitedTo": "Convidaram-te para «{{name}}»",
+    "join": "Juntar-me à casa",
+    "joining": "A juntar…",
+    "text": "Vais poder ver as orientações do cachorro e registar os treinos.",
+    "title": "Tens um convite"
+  },
+  "lang": {
+    "en": "English",
+    "enVariant": "Estados Unidos",
+    "es": "Español",
+    "esVariant": "Castelhano",
+    "pt": "Português",
+    "ptVariant": "Portugal"
+  },
+  "nav": {
+    "closeMenu": "Fechar menu",
+    "household": "Casa",
+    "label": "Principal",
+    "openMenu": "Abrir menu",
+    "today": "Hoje"
+  },
+  "onboarding": {
+    "step": "Passo {{current}} de {{total}}"
+  },
+  "pwa": {
+    "reload": "Recarregar",
+    "updateReady": "Há uma nova versão da Dela."
   },
   "reactions": {
     "calm": "Calma",
     "curious": "Curiosidade",
     "fear": "Medo"
+  },
+  "settings": {
+    "language": "Idioma",
+    "signOut": "Terminar sessão",
+    "switchToDark": "Mudar para o modo escuro",
+    "switchToLight": "Mudar para o modo claro"
+  },
+  "shell": {
+    "householdName": "Casa: {{name}}",
+    "loading": "A carregar…",
+    "retry": "Tentar novamente",
+    "unavailableText": "Neste momento não conseguimos carregar os teus dados. A tua sessão continua aberta: tenta novamente quando tiveres rede.",
+    "unavailableTitle": "Sem ligação ao Dela"
   },
   "slots": {
     "afternoon": "Tarde",
@@ -377,5 +510,19 @@
     "potty": "Necessidades",
     "socialization": "Socialização",
     "training": "Treino"
+  },
+  "today": {
+    "ageWeeks": {
+      "one": "1 semana de idade",
+      "other": "{{weeks}} semanas de idade"
+    },
+    "arrivesToday": "{{name}} chega hoje!",
+    "countdown": {
+      "one": "Falta 1 dia para a chegada de {{name}}.",
+      "other": "Faltam {{days}} dias para a chegada de {{name}}."
+    },
+    "emptyText": "Todas as manhãs, às 06:00, vais ter aqui as orientações do dia. Esta parte da app ainda está em construção.",
+    "emptyTitle": "As orientações diárias chegam em breve",
+    "title": "Hoje com {{name}}"
   }
 }

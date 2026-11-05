@@ -1,19 +1,39 @@
-/* Calm, high-contrast palette for outdoor use on a phone; system fonts so nothing blocks the first paint. */
+/*
+ * Palette from the Design canvas. Dark is the default on purpose (product decision): it is never
+ * derived from `prefers-color-scheme`; light applies only when the user picks it (`data-theme`).
+ * Every text/background pair keeps at least 4.5:1 contrast in both themes.
+ */
 :root {
-  --color-bg: #faf7f2;
-  --color-surface: #ffffff;
-  --color-surface-raised: #f1ece4;
-  --color-hairline: #e4ddd2;
-  --color-border: #8a8073;
-  --color-text: #1f1b16;
-  --color-text-muted: #5f574d;
-  --color-accent: #b5651d;
-  --color-on-accent: #ffffff;
-  --color-error: #b3261e;
-  --color-success: #2e7d32;
+  --color-bg: #121613;
+  --color-surface: #1b211d;
+  --color-surface-selected: #243328;
+  --color-text: #e8ede6;
+  --color-text-secondary: #c4cdc6;
+  --color-text-muted: #a7b1aa;
+  --color-hairline: #2c352f;
+  --color-border: #4a564e;
+  --color-accent: #5fb878;
+  --color-accent-hover: #9fd8ae;
+  --color-on-accent: #0d1a11;
 
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: var(--font-body);
+  --color-kind-training: #5fb878;
+  --color-kind-socialization: #e0954a;
+  --color-kind-care: #7fa3cc;
+  --color-kind-feeding: #c9bb6a;
+  --color-kind-potty: #b394c9;
+
+  --color-warning-bg: #2e2410;
+  --color-warning-border: #6b5426;
+  --color-warning-text: #f2d59a;
+  --color-danger: #f08a6c;
+  --color-pending: #e8b25c;
+
+  /* Aliases kept for components written before the design tokens. */
+  --color-surface-raised: var(--color-surface-selected);
+  --color-error: var(--color-danger);
+
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -25,13 +45,60 @@
   --gutter: 1rem;
   --header-height: 3.5rem;
   --touch-target: 2.75rem;
+  --control-height: 3rem;
+  --bottom-nav-height: 3.5rem;
+  --sidebar-width: 16rem;
+  --content-max: 68.75rem;
+  --form-max: 30rem;
 
-  --radius-sm: 0.25rem;
+  --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
 
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   --duration-fast: 180ms;
   --duration-base: 300ms;
 
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --color-bg: #f3f5f0;
+  --color-surface: #ffffff;
+  --color-surface-selected: #e6efe3;
+  --color-text: #1c2420;
+  --color-text-secondary: #3f4a44;
+  --color-text-muted: #55605a;
+  --color-hairline: #dfe5da;
+  --color-border: #b9c4b4;
+  --color-accent: #2f6b3f;
+  --color-accent-hover: #234f2f;
+  --color-on-accent: #ffffff;
+
+  --color-kind-training: #2f6b3f;
+  --color-kind-socialization: #b8660f;
+  --color-kind-care: #4f6d8f;
+  --color-kind-feeding: #8a7f3a;
+  --color-kind-potty: #7a5c8e;
+
+  --color-warning-bg: #fff4e0;
+  --color-warning-border: #f0d29b;
+  --color-warning-text: #5a3d07;
+  --color-danger: #a33a1c;
+  --color-pending: #8a5207;
+
   color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 3rem;
+  }
 }

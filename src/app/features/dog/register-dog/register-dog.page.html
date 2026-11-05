@@ -1,0 +1,123 @@
+<main class="onboarding" id="main-content" tabindex="-1" *transloco="let t">
+  <span class="meta">{{ t('onboarding.step', { current: 2, total: 2 }) }}</span>
+  <h1 class="page-title">{{ t('dog.title') }}</h1>
+
+  @if (isOwner()) {
+  <form
+    class="onboarding__form register-dog__form"
+    id="register-dog"
+    novalidate
+    (submit)="submit($event)"
+  >
+    <div class="register-dog__field">
+      <label class="field">
+        {{ t('dog.name') }}
+        <input
+          class="field__input"
+          autocomplete="off"
+          name="name"
+          type="text"
+          [attr.aria-describedby]="fieldErrors().name ? 'dog-name-error' : null"
+          [attr.aria-invalid]="!!fieldErrors().name"
+          [maxLength]="limits.name"
+          [value]="name()"
+          (input)="setName($event)"
+        />
+      </label>
+      @if (fieldErrors().name; as key) {
+      <p class="field__error" id="dog-name-error">{{ t(key) }}</p>
+      }
+    </div>
+
+    <div class="register-dog__field">
+      <label class="field">
+        {{ t('dog.breed') }}
+        <input
+          class="field__input"
+          autocomplete="off"
+          name="breed"
+          type="text"
+          [attr.aria-describedby]="fieldErrors().breed ? 'dog-breed-error' : null"
+          [attr.aria-invalid]="!!fieldErrors().breed"
+          [maxLength]="limits.breed"
+          [value]="breed()"
+          (input)="setBreed($event)"
+        />
+      </label>
+      @if (fieldErrors().breed; as key) {
+      <p class="field__error" id="dog-breed-error">{{ t(key) }}</p>
+      }
+    </div>
+
+    <div class="register-dog__dates">
+      <div class="register-dog__field">
+        <label class="field">
+          {{ t('dog.birthDate') }}
+          <input
+            class="field__input register-dog__date"
+            name="birthDate"
+            type="date"
+            [attr.aria-describedby]="fieldErrors().birthDate ? 'dog-birth-error' : null"
+            [attr.aria-invalid]="!!fieldErrors().birthDate"
+            [value]="birthDate()"
+            (input)="setBirthDate($event)"
+          />
+        </label>
+        @if (fieldErrors().birthDate; as key) {
+        <p class="field__error" id="dog-birth-error">{{ t(key) }}</p>
+        }
+      </div>
+      <div class="register-dog__field">
+        <label class="field">
+          {{ t('dog.arrivalDate') }}
+          <input
+            class="field__input register-dog__date"
+            name="arrivalDate"
+            type="date"
+            [attr.aria-describedby]="fieldErrors().arrivalDate ? 'dog-arrival-error' : null"
+            [attr.aria-invalid]="!!fieldErrors().arrivalDate"
+            [value]="arrivalDate()"
+            (input)="setArrivalDate($event)"
+          />
+        </label>
+        @if (fieldErrors().arrivalDate; as key) {
+        <p class="field__error" id="dog-arrival-error">{{ t(key) }}</p>
+        }
+      </div>
+    </div>
+
+    <app-segmented-control
+      [legend]="t('dog.sleepsLegend')"
+      [options]="sleepOptions"
+      [value]="sleepPlace()"
+      (valueChange)="setSleepPlace($event)"
+    />
+    <app-segmented-control
+      [legend]="t('dog.environmentLegend')"
+      [options]="environmentOptions"
+      [value]="environment()"
+      (valueChange)="setEnvironment($event)"
+    />
+  </form>
+
+  <!-- Reserved line: the countdown appears without pushing the button. -->
+  <p class="meta register-dog__countdown" aria-live="polite">
+    @if (countdown(); as countdown) { {{ t(countdown.key, { days: countdown.days }) }} }
+  </p>
+
+  @if (alertKey(); as key) {
+  <p class="form-error" role="alert">{{ t(key) }}</p>
+  }
+
+  <button
+    class="button button--primary button--large onboarding__submit"
+    form="register-dog"
+    type="submit"
+    [disabled]="pending()"
+  >
+    {{ pending() ? t('dog.saving') : t('dog.save') }}
+  </button>
+  } @else {
+  <p class="page-lead">{{ t('dog.waitingForOwner') }}</p>
+  }
+</main>

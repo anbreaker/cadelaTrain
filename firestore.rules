@@ -63,7 +63,7 @@ service cloud.firestore {
     }
 
     function locales() {
-      return ['es', 'pt'];
+      return ['en', 'es', 'pt'];
     }
 
     function taskKinds() {
@@ -141,13 +141,19 @@ service cloud.firestore {
         && isMemberEntry(next.members[uid()], 'member');
     }
 
-    // Owner renames or removes members; ownership never changes and the owner stays.
+    // Owner renames the household, changes its locale or removes members; ownership never changes
+    // and the owner stays. New members only arrive through isJoining (an invitation), and an
+    // existing member entry (name, role) is never rewritten by the owner.
     function isOwnerEdit() {
       let next = request.resource.data;
+      let memberChanges = next.members.diff(resource.data.members);
       return resource.data.ownerId == uid()
-        && next.ownerId == resource.data.ownerId
+        && next.diff(resource.data).affectedKeys().hasOnly(['name', 'locale', 'memberIds', 'members'])
         && uid() in next.memberIds
-        && next.createdAt == resource.data.createdAt;
+        && next.memberIds.toSet().hasOnly(resource.data.memberIds)
+        && next.memberIds.size() == next.memberIds.toSet().size()
+        && memberChanges.addedKeys().size() == 0
+        && memberChanges.changedKeys().size() == 0;
     }
 
     match /households/{hid} {

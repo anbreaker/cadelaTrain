@@ -1,8 +1,23 @@
-<ng-container *transloco="let t">
-  <header class="app-header">
-    <span class="app-header__title">{{ t('app.name') }}</span>
-  </header>
-</ng-container>
-<main class="app-main" id="main-content" tabindex="-1">
-  <router-outlet />
-</main>
+@if (updateReady()) {
+<app-update-banner (reload)="applyUpdate()" />
+}
+<app-site-header
+  [isDark]="isDark()"
+  [lang]="lang()"
+  [navItems]="navItems()"
+  [signedIn]="signedIn()"
+  (langChange)="setLang($event)"
+  (signOut)="signOut()"
+  (themeToggle)="toggleTheme($event)"
+/>
+<router-outlet />
+@if (unavailable()) {
+<div class="app-unavailable">
+  <app-unavailable-state (retry)="retrySession()" />
+</div>
+} @if (busy()) {
+<div class="app-loading" role="status" *transloco="let t">
+  <app-brand size="large" />
+  <span class="visually-hidden">{{ t('shell.loading') }}</span>
+</div>
+}
