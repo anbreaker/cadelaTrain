@@ -3,8 +3,8 @@
 {
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": ["vitest/globals"]
+    "types": ["vite/client", "vitest/globals"]
   },
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.d.ts", "src/**/*.spec.ts"]
+  "include": ["src/**/*.d.ts", "src/**/*.spec.ts", "test/**/*.ts", "vitest.rules.config.ts"]
 }

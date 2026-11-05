@@ -30,9 +30,11 @@ flowchart LR
 | Types | Hand-written domain types + converters that validate | No codegen for Firestore; rules enforce shapes |
 | i18n | Transloco with `es` (Castilian Spanish, default) and `pt` (European Portuguese); `Intl` locales `es-ES` and `pt-PT` for dates and numbers | Spain and Portugal from day one; English later without schema changes |
 | Catalogs | Bundled JSON (`seed/`) imported by the app and by `api/`; text via Transloco keys | Static, global, versioned in git: no Firestore reads, rules or seed script |
-| PWA | `@angular/service-worker` (`ngsw-config.json`) + `site.webmanifest` | Installable; app shell cached |
+| PWA | `@angular/service-worker` (`ngsw-config.json`) + `public/site.webmanifest`; registered only in production builds (`core/pwa/service-worker.ts`) | Installable; app shell and translations cached for offline use; `/api/*` never cached |
 
-> Verify during H1 setup: `@angular/service-worker` integration with the Analog Vite plugin (framedBySanti has no service worker). If it does not fit, fall back to `vite-plugin-pwa` with Workbox. This is the main technical unknown of the stack.
+> Verified during H1 setup: `@angular/service-worker` works with the Analog Vite plugin without the Angular CLI builder. The `angular-service-worker` plugin in `vite.config.ts` runs after `vite build` (`closeBundle`): it copies `ngsw-worker.js` and `safety-worker.js` into `dist/` and runs the package's `ngsw-config` CLI, which hashes the built files into `dist/ngsw.json`. `ngsw-config.json` prefetches the app shell (`index.html`, `/assets/*.js|css`, `/assets/i18n/*.json`, manifest, favicons), loads icons lazily, keeps the navigation fallback to `/index.html` and excludes `/api/**` from it; there are no `dataGroups`, so API responses always go to the network. `vite-plugin-pwa` was not needed.
+>
+> The install prompt and offline behaviour can only be checked on a deployed build (Vercel preview): the worker never registers under `vite` dev or Vitest.
 
 ## Layers
 
@@ -98,7 +100,7 @@ Both return `Cache-Control: no-store` and never return the AI raw output.
 |-------|------|------|
 | Domain | Vitest | All pure rules, table-driven; DST cases; validator rejects unsafe output |
 | API handlers | Vitest with injected fakes (clock, Firestore port, Claude port) | Idempotency, fallback, auth rejection |
-| Security rules | `@firebase/rules-unit-testing` + Firestore emulator | Household isolation, invitation join, author-only edits |
+| Security rules | `@firebase/rules-unit-testing` + Firestore emulator (`npm run test:rules`, `test/rules/`, project `demo-dela`) | Household isolation, invitation join, author-only edits |
 | Components | Vitest + JSDOM | Presentational components, stores |
 
 ## Deployment
