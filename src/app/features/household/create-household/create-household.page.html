@@ -1,0 +1,59 @@
+<main class="onboarding" id="main-content" tabindex="-1" *transloco="let t">
+  <span class="meta">{{ t('onboarding.step', { current: 1, total: 2 }) }}</span>
+  <header class="onboarding__intro">
+    <h1 class="page-title">{{ t('household.createTitle') }}</h1>
+    <p class="page-lead">{{ t('household.createLead') }}</p>
+  </header>
+
+  <form class="onboarding__form" id="create-household" novalidate (submit)="submit($event)">
+    <label class="field">
+      {{ t('household.nameLabel') }}
+      <input
+        class="field__input"
+        autocomplete="off"
+        type="text"
+        [attr.aria-describedby]="errorKeys().length > 0 ? 'household-name-error' : null"
+        [attr.aria-invalid]="errorKeys().length > 0"
+        [maxLength]="nameMax"
+        [value]="name()"
+        (input)="setName($event)"
+      />
+    </label>
+    @for (key of errorKeys(); track key) {
+    <p class="field__error" id="household-name-error">{{ t(key) }}</p>
+    }
+
+    <fieldset class="fieldset">
+      <legend class="fieldset__legend">{{ t('household.localeLegend') }}</legend>
+      @for (option of locales; track option) {
+      <label class="choice" [class.choice--selected]="option === locale()">
+        <input
+          class="choice__radio"
+          name="locale"
+          type="radio"
+          [checked]="option === locale()"
+          [value]="option"
+          (change)="setLocale(option)"
+        />
+        <span class="choice__text">
+          <span class="choice__title">{{ t('lang.' + option) }}</span>
+          <span class="choice__detail">{{ t('lang.' + option + 'Variant') }}</span>
+        </span>
+      </label>
+      }
+    </fieldset>
+  </form>
+
+  @if (alertKey(); as key) {
+  <p class="form-error" role="alert">{{ t(key) }}</p>
+  }
+
+  <button
+    class="button button--primary button--large onboarding__submit"
+    form="create-household"
+    type="submit"
+    [disabled]="pending()"
+  >
+    {{ pending() ? t('household.creating') : t('household.create') }}
+  </button>
+</main>

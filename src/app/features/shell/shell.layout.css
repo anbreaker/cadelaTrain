@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.shell {
+  outline: none;
+  padding: var(--space-4) var(--gutter) var(--space-6);
+}
+
+.shell__content {
+  margin: 0 auto;
+  max-width: var(--content-max);
+}
+
+@media (min-width: 1024px) {
+  .shell {
+    padding-top: var(--space-5);
+  }
+}

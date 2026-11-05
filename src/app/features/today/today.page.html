@@ -1,0 +1,26 @@
+<div class="today" *transloco="let t">
+  @if (dog(); as dog) {
+  <header class="today__header">
+    <span class="meta today__date">
+      {{ dateLabel() }} · {{ t(age().key, { weeks: age().weeks }) }}
+    </span>
+    <h1 class="today__title">{{ t('today.title', { name: dog.name }) }}</h1>
+  </header>
+
+  @if (daysLeft(); as days) {
+  <section class="today__countdown" aria-labelledby="countdown-text">
+    <span class="today__countdown-number" aria-hidden="true">{{ days }}</span>
+    <p class="today__countdown-text" id="countdown-text">
+      {{ t(countdownKey(), { days: days, name: dog.name }) }}
+    </p>
+  </section>
+  } @else if (daysLeft() === 0) {
+  <p class="today__arrival" role="note">{{ t('today.arrivesToday', { name: dog.name }) }}</p>
+  }
+
+  <section class="today__empty" aria-labelledby="empty-title">
+    <h2 class="today__empty-title" id="empty-title">{{ t('today.emptyTitle') }}</h2>
+    <p class="today__empty-text">{{ t('today.emptyText') }}</p>
+  </section>
+  }
+</div>
