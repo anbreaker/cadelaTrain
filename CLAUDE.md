@@ -37,6 +37,7 @@ Built with AI coding agents using ODD ([gentle-ai](https://github.com/Gentleman-
 | Backend | Firebase: Auth (email link + Google), Firestore (region `europe-southwest1`), security rules |
 | Server code | Vercel Functions in `api/` |
 | Scheduling | Vercel Cron (UTC) → `api/cron-daily-guidance.ts` |
+| Media | Photos on Cloudinary (signed upload from `api/`); videos as unlisted YouTube links (only the id is stored) |
 | AI | Claude API via `@anthropic-ai/sdk`, **only** from `api/`. Model read from `CLAUDE_MODEL` (default `claude-opus-5-5`). The key (`ANTHROPIC_API_KEY`) never reaches the client |
 | Hosting | Vercel (`vercel.json` SPA rewrite excluding `api/` and `assets/`) |
 
