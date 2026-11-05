@@ -1,6 +1,6 @@
 # 01 — MVP stories
 
-Each story lists acceptance criteria (AC). UI copy is never written here: it is referenced by Transloco key (`slots.morning`, `health.consultVet`…) and lives in `public/assets/i18n/{es,pt}.json`. Supported locales: `es` (Castilian Spanish, default) and `pt` (European Portuguese).
+Each story lists acceptance criteria (AC). UI copy is never written here: it is referenced by Transloco key (`slots.morning`, `health.consultVet`…) and lives in `public/assets/i18n/{en,es,pt}.json`. Supported locales: `es` (Castilian Spanish, default), `pt` (European Portuguese) and `en` (US English).
 
 | ID | Story | Depends on | Needed before arrival |
 |----|-------|------------|-----------------------|
@@ -18,13 +18,13 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 
 > As a family member, I sign up, create a household, invite another person by email and register the puppy.
 
-- **AC1.1 Sign-up.** Given a visitor, when they enter their email, they receive a sign-in link (Firebase email link); Google sign-in is also offered. On first sign-in a `users/{uid}` profile is created with display name and the browser locale if supported (`es` or `pt`), else `es`.
-- **AC1.2 Create household.** Given a signed-in user without a household, when they enter a household name and pick the household locale (`es` or `pt`), a household is created with them as `owner` and they are sent to the puppy registration screen.
+- **AC1.1 Sign-up.** Given a visitor, when they enter their email, they receive a sign-in link (Firebase email link); Google sign-in is also offered. On first sign-in a `users/{uid}` profile is created with display name and the browser locale if supported (`en`, `es` or `pt`), else `es`.
+- **AC1.2 Create household.** Given a signed-in user without a household, when they enter a household name and pick the household locale (`en`, `es` or `pt`), a household is created with them as `owner` and they are sent to the puppy registration screen.
 - **AC1.3 Invite.** Given an owner, when they enter an email, an invitation is stored for that email and a sign-in link is sent to it. Inviting the same email twice does not duplicate it. Invalid emails show a validation error and nothing is stored.
 - **AC1.4 Accept.** Given a person signed in with the invited (verified) email, when they open the app, they see the pending invitation with the household name and can join; after joining they are a `member` and see the household's puppy. A user with a different email cannot join (enforced by rules).
 - **AC1.5 Register puppy.** Given a household, when the owner saves name, breed, birth date, arrival date, sleeps outdoors (yes/no) and environment (rural/urban), the dog is stored. Required: name, birth date, arrival date. Arrival date cannot be earlier than birth date; birth date cannot be in the future.
 - **AC1.6 Isolation.** A user who is not a member gets permission denied reading or writing any document of that household (rules test).
-- **AC1.7 Language.** Each user can switch the UI language between `es` and `pt`; the choice is stored in `users/{uid}.locale`. Generated guidance uses the household locale.
+- **AC1.7 Language.** Each user can switch the UI language between `en`, `es` and `pt`; the choice is stored in `users/{uid}.locale`. Generated guidance uses the household locale.
 
 ## H2. Today's guidance
 

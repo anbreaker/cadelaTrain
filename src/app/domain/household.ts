@@ -1,8 +1,8 @@
 import { collectErrors, ValidationRule } from './validation';
 
-export const LOCALES = ['es', 'pt'] as const;
+export const LOCALES = ['en', 'es', 'pt'] as const;
 
-/** `es`: Castilian Spanish (es-ES); `pt`: European Portuguese (pt-PT). */
+/** `en`: US English (en-US); `es`: Castilian Spanish (es-ES); `pt`: European Portuguese (pt-PT). */
 export type Locale = (typeof LOCALES)[number];
 
 export type MemberRole = 'member' | 'owner';

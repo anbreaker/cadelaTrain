@@ -6,7 +6,11 @@ import { resolve } from 'node:path';
 
 const distDir = resolve(process.argv[2] ?? 'dist');
 const REQUIRED_FILES = ['ngsw.json', 'ngsw-worker.js', 'safety-worker.js'];
-const PREFETCHED_TRANSLATIONS = ['/assets/i18n/es.json', '/assets/i18n/pt.json'];
+const PREFETCHED_TRANSLATIONS = [
+  '/assets/i18n/en.json',
+  '/assets/i18n/es.json',
+  '/assets/i18n/pt.json',
+];
 const API_PROBE = '/api/daily-guidance';
 
 /** @param {{ regex: string }} rule */

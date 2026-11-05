@@ -46,8 +46,12 @@ describe('parseUserProfile', () => {
     });
   });
 
+  it('should read a US English locale', () => {
+    expect(parseUserProfile('u', 'users/u', { ...stored, locale: 'en' }).locale).toBe('en');
+  });
+
   it('should reject an unsupported locale', () => {
-    expect(() => parseUserProfile('u', 'users/u', { ...stored, locale: 'en' })).toThrow(
+    expect(() => parseUserProfile('u', 'users/u', { ...stored, locale: 'fr' })).toThrow(
       InvalidDocumentError
     );
   });

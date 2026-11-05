@@ -63,7 +63,7 @@ service cloud.firestore {
     }
 
     function locales() {
-      return ['es', 'pt'];
+      return ['en', 'es', 'pt'];
     }
 
     function taskKinds() {

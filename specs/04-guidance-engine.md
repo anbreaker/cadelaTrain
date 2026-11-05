@@ -21,7 +21,7 @@ flowchart TD
 
 | Input | Rule |
 |-------|------|
-| `locale` | Household locale (`es` → Castilian Spanish, `pt` → European Portuguese) |
+| `locale` | Household locale (`es` → Castilian Spanish, `pt` → European Portuguese, `en` → US English) |
 | `ageWeeks` | `floor((madridDate − birthDate) / 7 days)` |
 | `planWeek` | Current `dog.planWeek`, possibly advanced (see below); never more than `ageWeeks − 7` (week 1 at 8 weeks) and never > 8 |
 | `weekPlan` | `seed/plan-weeks.json` entry: objective, how, readyWhen (canonical English), `keySkills`, `focusSkills` |
@@ -54,7 +54,7 @@ Advance from `planWeek` to `planWeek + 1` only when **all** `keySkills` of the c
 | Known keys | `skillKey`, `closingSkillKey` ∈ `SkillKey`; `socializationItemKey` in the catalog |
 | Size | 8–15 tasks; title ≤ 80, instructions ≤ 400, summary ≤ 600 |
 
-The term lists live in `domain/guidance-safety.ts`, one list per locale (`es`, `pt`), written as **phrases, not bare nouns** so that legitimate content passes (for example, hammer blows are a valid socialization noise; hitting the dog is not). They are unit tested in both locales and shared by the validator and the template builder.
+The term lists live in `domain/guidance-safety.ts`, one list per locale (`en`, `es`, `pt`), written as **phrases, not bare nouns** so that legitimate content passes (for example, hammer blows are a valid socialization noise; hitting the dog is not). They are unit tested in both locales and shared by the validator and the template builder.
 
 ## Output schema
 
@@ -119,7 +119,7 @@ Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing 
 5. Add active care alerts as `care` tasks (message only, no dosing).
 6. Summary: the week objective, plus the fixed health phrase if `healthFlag` is set.
 
-The template output passes the same validator (test asserts it for every plan week 1–8, both locales and both seasons).
+The template output passes the same validator (test asserts it for every plan week 1–8, the three locales and both seasons).
 
 ## Safety
 
@@ -135,6 +135,6 @@ The template output passes the same validator (test asserts it for every plan we
 | `planWeekFor` | stays below 0.8; advances at exactly 0.8 with ≥ 10 attempts; age cap; never > 8 |
 | `skillRates` | window of last 10 attempts in 7 days; `null` under 10 |
 | `madridClock` | 2026-10-25 and 2027-03-28 at 04:00 and 05:00 UTC |
-| Safety lists | aversive and medical phrases rejected in `es` and `pt`; hammer-noise socialization accepted |
+| Safety lists | aversive and medical phrases rejected in `en`, `es` and `pt`; hammer-noise socialization accepted |
 | Validator | each rule rejects a crafted bad output; template output passes |
 | Handler | idempotent second run; API error → template; refusal → template; invalid output → template; missing `CRON_SECRET` → 401 |

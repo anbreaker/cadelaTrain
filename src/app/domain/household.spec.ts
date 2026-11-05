@@ -5,6 +5,12 @@ describe('validateHouseholdDraft', () => {
     expect(validateHouseholdDraft({ locale: 'pt', name: ' Finca ' })).toEqual([]);
   });
 
+  it('should accept US English, Castilian Spanish and European Portuguese', () => {
+    expect(validateHouseholdDraft({ locale: 'en', name: 'Finca' })).toEqual([]);
+    expect(validateHouseholdDraft({ locale: 'es', name: 'Finca' })).toEqual([]);
+    expect(validateHouseholdDraft({ locale: 'pt', name: 'Finca' })).toEqual([]);
+  });
+
   it('should require a name', () => {
     expect(validateHouseholdDraft({ locale: 'es', name: '   ' })).toEqual(['nameRequired']);
   });
@@ -14,6 +20,6 @@ describe('validateHouseholdDraft', () => {
   });
 
   it('should reject an unsupported locale', () => {
-    expect(validateHouseholdDraft({ locale: 'en', name: 'Finca' })).toEqual(['localeUnsupported']);
+    expect(validateHouseholdDraft({ locale: 'fr', name: 'Finca' })).toEqual(['localeUnsupported']);
   });
 });

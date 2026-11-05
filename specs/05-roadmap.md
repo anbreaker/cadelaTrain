@@ -8,7 +8,7 @@ Today is 2026-11-04 and Dela arrives in December 2026: about four weeks for phas
 |-------|------|-----------|
 | 0 | Scaffold: Angular 22 + Vite + Transloco + Vitest + ESLint/Prettier copied from framedBySanti; Firebase project (`europe-southwest1`); Vercel project; PWA installable | `npm test`, `npm run build` pass; app installs on Android/iOS; deployed preview |
 | 1 | H1 Household and puppy + rules tests | Both trainers in one household; Dela registered |
-| 2 | Bundled catalogs typed in `domain/catalog.ts` + i18n completeness test | Every catalog key has `es` and `pt` text |
+| 2 | Bundled catalogs typed in `domain/catalog.ts` + i18n completeness test | Every catalog key has `en`, `es` and `pt` text |
 | 3 | H6 template path + on-demand endpoint | Every day has guidance without AI |
 | 4 | H2 Today + H3 Log | Daily use from arrival day |
 | 4b | H7 Photos (Cloudinary) and YouTube videos | Optional media per day, shown in progress and weekly review |
@@ -30,12 +30,9 @@ Today is 2026-11-04 and Dela arrives in December 2026: about four weeks for phas
 - Authenticated (signed) photo delivery; video upload without YouTube.
 - Offline mode: Firestore persistent cache + queued writes; service worker strategy reviewed.
 
-## Phase 4 — Languages
+## Phase 4 — More languages
 
-- English: `en.json` with every key; engine output in English for households with locale `en`.
-- Banned-term and health-term lists for English.
-
-Castilian Spanish (`es`) and European Portuguese (`pt`) ship in the MVP.
+- Castilian Spanish (`es`), European Portuguese (`pt`) and US English (`en`) ship in the MVP; other languages only on demand.
 
 ## Phase 5 — Beyond 4 months
 

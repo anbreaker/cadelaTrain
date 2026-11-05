@@ -1,5 +1,5 @@
 {
-  "background_color": "#faf7f2",
+  "background_color": "#121613",
   "display": "standalone",
   "icons": [
     { "sizes": "192x192", "src": "/icons/icon-192.png", "type": "image/png" },
@@ -17,5 +17,5 @@
   "scope": "/",
   "short_name": "Dela",
   "start_url": "/",
-  "theme_color": "#faf7f2"
+  "theme_color": "#121613"
 }

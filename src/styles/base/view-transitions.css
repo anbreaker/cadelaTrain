@@ -1,0 +1,89 @@
+/* Between pages: a short cross-fade with a slight rise. Same-page changes and reduced motion skip it in code. */
+::view-transition-group(root) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(root) {
+  animation: page-out var(--duration-fast) var(--ease-out) both;
+}
+
+::view-transition-new(root) {
+  animation: page-in var(--duration-base) var(--ease-out) both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+/*
+ * Theme change (`core/utils/theme-transition.ts`): the new theme grows in a circle from the click
+ * point; going to light, the dark page shrinks into it instead. `.theme-transition` is on <html>
+ * only during that change, so page transitions above keep their cross-fade.
+ */
+html.theme-transition::view-transition-old(root),
+html.theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-transition::view-transition-old(root) {
+  z-index: 1;
+}
+
+html.theme-transition::view-transition-new(root) {
+  animation: theme-clip-in 700ms cubic-bezier(0.7, 0, 0.3, 1);
+  z-index: 2;
+}
+
+html.theme-transition[data-theme='light']::view-transition-old(root) {
+  animation: theme-clip-out 700ms cubic-bezier(0.7, 0, 0.3, 1);
+  z-index: 2;
+}
+
+html.theme-transition[data-theme='light']::view-transition-new(root) {
+  animation: none;
+  z-index: 1;
+}
+
+/* The header is a named region that would fade on its own; during a theme change it joins the reveal. */
+html.theme-transition app-site-header {
+  view-transition-name: none;
+}
+
+@keyframes theme-clip-in {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+
+  to {
+    clip-path: circle(150% at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+}
+
+@keyframes theme-clip-out {
+  from {
+    clip-path: circle(150% at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+
+  to {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
