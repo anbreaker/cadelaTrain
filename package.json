@@ -53,7 +53,7 @@
   "name": "dela",
   "private": true,
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && node scripts/check-ngsw.mjs",
     "commit:validate": "node -e \"const msg = process.argv[1]; const ok = /^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\\(.+\\))?: .{1,50}$/.test(msg); process.exit(ok ? 0 : 1);\" --",
     "dev": "vite --mode dev --open",
     "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.json\"",

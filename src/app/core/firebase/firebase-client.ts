@@ -42,15 +42,12 @@ export function shouldUseEmulators(flag: string | undefined): boolean {
   return flag === 'true';
 }
 
-/** A `demo-` project id keeps an unconfigured local run from ever reaching a real project. */
+/**
+ * With emulators on, the real config is ignored on purpose: a `demo-` project id guarantees that a
+ * local run never reaches a real project, even when `.env.local` holds production values.
+ */
 function resolveOptions({ config, useEmulators }: FirebaseClientOptions): FirebaseOptions {
-  return useEmulators
-    ? {
-        ...config,
-        apiKey: config.apiKey || 'demo-api-key',
-        projectId: config.projectId || EMULATOR_PROJECT_ID,
-      }
-    : config;
+  return useEmulators ? { apiKey: 'demo-api-key', projectId: EMULATOR_PROJECT_ID } : config;
 }
 
 /** Initializes Firebase on the first service request and connects each service once. */
@@ -64,23 +61,27 @@ export function createFirebaseClient(
 
   const getApp = (): FirebaseApp => (app ??= sdk.initializeApp(resolveOptions(options)));
 
+  // Each service is cached only after its emulator connection succeeds, so a failed connect is
+  // retried instead of leaving a cached instance that silently talks to the wrong backend.
   return {
     auth(): Auth {
       if (auth) return auth;
-      auth = sdk.getAuth(getApp());
+      const instance = sdk.getAuth(getApp());
       if (options.useEmulators) {
-        sdk.connectAuthEmulator(auth, `http://${EMULATOR_HOST}:${AUTH_EMULATOR_PORT}`, {
+        sdk.connectAuthEmulator(instance, `http://${EMULATOR_HOST}:${AUTH_EMULATOR_PORT}`, {
           disableWarnings: true,
         });
       }
+      auth = instance;
       return auth;
     },
     firestore(): Firestore {
       if (firestore) return firestore;
-      firestore = sdk.getFirestore(getApp());
+      const instance = sdk.getFirestore(getApp());
       if (options.useEmulators) {
-        sdk.connectFirestoreEmulator(firestore, EMULATOR_HOST, FIRESTORE_EMULATOR_PORT);
+        sdk.connectFirestoreEmulator(instance, EMULATOR_HOST, FIRESTORE_EMULATOR_PORT);
       }
+      firestore = instance;
       return firestore;
     },
   };
