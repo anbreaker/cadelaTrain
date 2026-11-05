@@ -561,14 +561,13 @@
       "other": "{{weeks}} semanas de edad"
     },
     "arrivesToday": "¡{{name}} llega hoy!",
+    "checklistTitle": "Antes de que llegue",
     "countdown": {
       "one": "Falta 1 día para la llegada de {{name}}.",
       "other": "Faltan {{days}} días para la llegada de {{name}}."
     },
     "doneAt": "Hecho a las {{time}}",
     "doneBy": "Hecho por {{name}} a las {{time}}",
-    "emptyText": "Cada mañana a las 06:00 tendrás aquí las pautas del día. Esta parte de la app aún se está construyendo.",
-    "emptyTitle": "Las pautas diarias llegarán pronto",
     "minutes": "{{minutes}} min",
     "noDuration": "Sin duración fija",
     "title": "Hoy con {{name}}"
