@@ -1,4 +1,4 @@
-import { ageInWeeks, isIsoDate, madridToday } from './dates';
+import { ageInWeeks, daysUntil, isIsoDate, madridToday } from './dates';
 
 describe('isIsoDate', () => {
   it.each(['2026-10-01', '2028-02-29'])('should accept the real calendar date %s', (value) => {
@@ -38,5 +38,20 @@ describe('ageInWeeks', () => {
 
   it('should be zero on the birth date', () => {
     expect(ageInWeeks('2026-10-01', '2026-10-01')).toBe(0);
+  });
+});
+
+describe('daysUntil', () => {
+  it('should count calendar days to a future date', () => {
+    expect(daysUntil('2026-12-10', '2026-11-04')).toBe(36);
+  });
+
+  it('should count across the October DST change without losing a day', () => {
+    expect(daysUntil('2026-10-26', '2026-10-24')).toBe(2);
+  });
+
+  it('should be zero on the date itself and negative once it has passed', () => {
+    expect(daysUntil('2026-12-10', '2026-12-10')).toBe(0);
+    expect(daysUntil('2026-12-10', '2026-12-12')).toBe(-2);
   });
 });

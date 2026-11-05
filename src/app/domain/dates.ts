@@ -29,3 +29,7 @@ export const madridToday = (now: Date): IsoDate => MADRID_DATE.format(now);
 
 export const ageInWeeks = (birthDate: IsoDate, onDate: IsoDate): number =>
   Math.floor((toUtcMs(onDate) - toUtcMs(birthDate)) / (7 * DAY_MS));
+
+/** Calendar days from `onDate` to `date`; negative once `date` has passed. */
+export const daysUntil = (date: IsoDate, onDate: IsoDate): number =>
+  Math.round((toUtcMs(date) - toUtcMs(onDate)) / DAY_MS);

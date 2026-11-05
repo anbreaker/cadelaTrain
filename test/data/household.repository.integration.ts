@@ -1,3 +1,4 @@
+import { firstValueFrom } from 'rxjs';
 import { assertFails, RulesTestEnvironment } from '@firebase/rules-unit-testing';
 
 import { ValidationFailedError } from '@data/data-errors';
@@ -89,6 +90,26 @@ describe('HouseholdRepository on the emulator', () => {
       await assertFails(
         repositoryAs(MEMBER).invite(HOUSEHOLD_ID, 'Home', 'dave@example.com', MEMBER.uid)
       );
+    });
+
+    it('should let the owner watch the pending invitations of the household (AC1.3)', async () => {
+      const repository = repositoryAs();
+      await repository.invite(HOUSEHOLD_ID, 'Home', 'dave@example.com', OWNER.uid);
+
+      const invitations = await firstMatching(
+        repository.watchInvitations(HOUSEHOLD_ID),
+        (pending) => pending.length === 2
+      );
+
+      expect(invitations.map((invitation) => invitation.email).sort()).toEqual(
+        [INVITEE.email, 'dave@example.com'].sort()
+      );
+    });
+
+    it('should deny a member who is not the owner from watching the invitations (AC1.3)', async () => {
+      await expect(
+        firstValueFrom(repositoryAs(MEMBER).watchInvitations(HOUSEHOLD_ID))
+      ).rejects.toThrow();
     });
 
     it('should list the pending invitations of the signed-in email (AC1.4)', async () => {
