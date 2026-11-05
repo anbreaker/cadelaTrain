@@ -8,11 +8,56 @@
   animation: loading-in var(--duration-base) var(--ease-out) 400ms both;
   background: var(--color-bg);
   display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
   inset: 0;
   justify-content: center;
   position: fixed;
   /* Above the sticky header, so nothing of the previous screen shows while loading. */
   z-index: 30;
+}
+
+/* A short bar sweeping a track: shows that something is happening without a spinner's urgency. */
+.app-loading__indicator {
+  background: var(--color-border);
+  block-size: 3px;
+  border-radius: 999px;
+  inline-size: 7rem;
+  overflow: hidden;
+  position: relative;
+
+  &::after {
+    animation: loading-sweep 1.2s var(--ease-out) infinite;
+    background: var(--color-accent);
+    border-radius: inherit;
+    content: '';
+    inline-size: 40%;
+    inset-block: 0;
+    position: absolute;
+  }
+}
+
+.app-loading__text {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+@keyframes loading-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loading__indicator::after {
+    animation: none !important;
+    inset-inline-start: 30%;
+  }
 }
 
 @keyframes loading-in {
