@@ -12,7 +12,8 @@
           "/favicon.ico",
           "/assets/*.css",
           "/assets/*.js",
-          "/assets/i18n/*.json"
+          "/assets/i18n/*.json",
+          "/assets/fonts/**/*.woff2"
         ]
       }
     },

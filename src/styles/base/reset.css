@@ -5,6 +5,8 @@
 }
 
 html {
+  /* Painted before the app boots, so a dark page never flashes white. */
+  background: var(--color-bg);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -24,9 +26,20 @@ video {
   max-width: 100%;
 }
 
-button {
+button,
+input,
+select,
+textarea {
   color: inherit;
   font: inherit;
+}
+
+a {
+  color: var(--color-accent);
+
+  &:hover {
+    color: var(--color-accent-hover);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -41,4 +54,23 @@ button {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+/* Set by the site header while its phone menu is open: the page behind must not scroll. */
+@media (max-width: 767px) {
+  body.menu-open {
+    overflow: hidden;
+  }
+}
+
+.visually-hidden {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  border: 0;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+  width: 1px;
 }
