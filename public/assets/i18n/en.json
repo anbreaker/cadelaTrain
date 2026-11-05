@@ -109,6 +109,41 @@
         "readyWhen": "Responds away from home"
       }
     },
+    "preparation": {
+      "bowls": {
+        "label": "Heavy food and water bowls that do not tip over"
+      },
+      "breederFood": {
+        "label": "The same puppy food the breeder uses, for the first days"
+      },
+      "cleaning": {
+        "label": "Enzymatic cleaner and bags for accidents"
+      },
+      "collarAndLeash": {
+        "label": "A soft collar with an ID tag and a light leash"
+      },
+      "familyRules": {
+        "label": "Family rules: the same word for each cue, who feeds her and where she sleeps"
+      },
+      "kennel": {
+        "label": "A kennel raised off the ground, sheltered from wind and rain, with dry bedding"
+      },
+      "litterBlanket": {
+        "label": "A blanket with the smell of her litter (ask the breeder)"
+      },
+      "safeArea": {
+        "label": "A safe area: close off the workshop, tools, chemicals and cables"
+      },
+      "toys": {
+        "label": "Chew toys and a tug toy, as an alternative to biting"
+      },
+      "treats": {
+        "label": "Small, soft treats for training"
+      },
+      "vetVisit": {
+        "label": "A vet appointment for the first week"
+      }
+    },
     "principles": {
       "endWell": "Always end on a good note.",
       "foodAndSleep": "She eats 3 times a day until 4–6 months and sleeps 16–18 hours.",

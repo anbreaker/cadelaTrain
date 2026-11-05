@@ -1,6 +1,7 @@
 import careAlertsSeed from '../../../seed/care-alerts.json';
 import scheduleSeed from '../../../seed/daily-schedule.json';
 import planWeeksSeed from '../../../seed/plan-weeks.json';
+import preparationSeed from '../../../seed/preparation-checklist.json';
 import skillsSeed from '../../../seed/skills.json';
 import socializationSeed from '../../../seed/socialization-checklist.json';
 import { Environment } from './dog';
@@ -36,6 +37,12 @@ export interface SocializationItem {
   order: number;
 }
 
+/** Things to have ready before the dog arrives. */
+export interface PreparationItem {
+  key: string;
+  order: number;
+}
+
 export type AlertSeverity = 'info' | 'urgent' | 'vet';
 
 export interface CareAlert {
@@ -53,6 +60,10 @@ export const PLAN_WEEKS = planWeeksSeed.items as PlanWeek[];
 export const SKILLS = skillsSeed.items as Skill[];
 export const SOCIALIZATION_ITEMS = socializationSeed.items as SocializationItem[];
 export const CARE_ALERTS = careAlertsSeed.items as CareAlert[];
+/** In checklist order. */
+export const PREPARATION_ITEMS = [...(preparationSeed.items as PreparationItem[])].sort(
+  (a, b) => a.order - b.order
+);
 
 /** The plan week, clamped to the 8-week plan. */
 export function planWeek(week: number): PlanWeek {

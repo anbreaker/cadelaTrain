@@ -109,6 +109,41 @@
         "readyWhen": "Responde fora de casa"
       }
     },
+    "preparation": {
+      "bowls": {
+        "label": "Comedouro e bebedouro pesados, que não se virem"
+      },
+      "breederFood": {
+        "label": "A mesma ração de cachorro que o criador usa, para os primeiros dias"
+      },
+      "cleaning": {
+        "label": "Limpador enzimático e sacos para os acidentes"
+      },
+      "collarAndLeash": {
+        "label": "Coleira macia com chapa identificativa e uma trela leve"
+      },
+      "familyRules": {
+        "label": "Regras da família: a mesma palavra para cada ordem, quem lhe dá de comer e onde dorme"
+      },
+      "kennel": {
+        "label": "Casota elevada do chão, protegida do vento e da chuva, com cama seca"
+      },
+      "litterBlanket": {
+        "label": "Uma manta com o cheiro da ninhada (pede-a ao criador)"
+      },
+      "safeArea": {
+        "label": "Zona segura: isolar a oficina, as ferramentas, os produtos químicos e os cabos"
+      },
+      "toys": {
+        "label": "Mordedores e um brinquedo de puxar, como alternativa a morder"
+      },
+      "treats": {
+        "label": "Petiscos pequenos e moles para treinar"
+      },
+      "vetVisit": {
+        "label": "Consulta no veterinário para a primeira semana"
+      }
+    },
     "principles": {
       "endWell": "Terminar sempre bem.",
       "foodAndSleep": "Come 3 vezes por dia até aos 4-6 meses e dorme 16-18 horas.",
