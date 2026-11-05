@@ -177,5 +177,6 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 | `socialization-checklist.json` | 35 items in 5 categories | `key`, `category`, `order`, `label`; i18n `label`, `howTo` |
 | `care-alerts.json` | Seasonal and field risks | `key`, `months`, `arrivalWeek?`, `appliesTo { sleepsOutdoors?, environment? }`, `severity` (`info` \| `vet` \| `urgent`), `message` |
 | `principles.json` | Training principles | `key`, `text` |
+| `preparation-checklist.json` | 11 things to have ready before the arrival (AC2.5) | `key`, `order`, `label`; i18n `label` |
 
 A unit test asserts that every catalog key exists in `en.json`, `es.json` and `pt.json`, and that the three files have the same key set.

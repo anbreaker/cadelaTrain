@@ -110,7 +110,7 @@ Verify exact SDK method names against the `claude-api` skill / SDK docs when imp
 
 ## Template fallback (`domain/template-guidance.ts`)
 
-Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing (`fallbackReason: noApiKey`, local development). Texts are resolved from the Transloco file of the household locale.
+Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing (`fallbackReason: noApiKey`, local development). Texts are resolved from the Transloco file of the household locale through an injected `translate(key, params)`. The today screen also builds it on the client, in the active language, while no guidance is stored for the day (AC2.4); it is never written to Firestore from the client.
 
 1. Start from the `isTask: true` rows of `seed/daily-schedule.json`.
 2. Fill training slots with the week's `focusSkills`, easiest first; for `strugglingSkills` use 3 min.
