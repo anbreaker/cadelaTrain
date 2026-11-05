@@ -1,21 +1,40 @@
+import { catchError, Observable, of, switchMap } from 'rxjs';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { LOCALE_BY_LANG } from '@core/const/lang.const';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { GuidanceRepository } from '@data/guidance.repository';
+import { TaskLogRepository } from '@data/task-log.repository';
+import { PREPARATION_ITEMS } from '@domain/catalog';
 import { ageInWeeks, daysUntil, madridToday } from '@domain/dates';
+import { DailyGuidance, healthMessageKey } from '@domain/guidance';
+import { templateGuidance } from '@domain/template-guidance';
+import { TaskCardComponent } from '@shared/components/task-card/task-card';
 import { pluralKey } from '@shared/utils/plural-key';
 
+import { slotViews } from './today-view';
+
+interface DayKey {
+  dogId: string;
+  householdId: string;
+}
+
+const sameDay = (a: DayKey | null, b: DayKey | null): boolean =>
+  a?.dogId === b?.dogId && a?.householdId === b?.householdId;
+
 /**
- * H1 placeholder: the puppy, its arrival countdown (AC2.5 text) and an honest empty state.
- * Daily guidance replaces the empty state with H6; no tasks are invented here.
+ * Today's guide for the puppy (H2): the stored guidance of the Madrid date, or the template built
+ * from the bundled catalogs while none exists, so the day is never empty. Before the arrival it
+ * shows the countdown and the preparation checklist instead.
  */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective],
+  imports: [TaskCardComponent, TranslocoDirective],
   selector: 'app-today-page',
   styleUrl: './today.page.css',
   templateUrl: './today.page.html',
@@ -23,9 +42,31 @@ import { pluralKey } from '@shared/utils/plural-key';
 export class TodayPageComponent {
   private readonly session = inject(AuthSessionStore);
   private readonly language = inject(LanguageStore);
+  private readonly transloco = inject(TranslocoService);
+  private readonly guidanceRepository = inject(GuidanceRepository);
+  private readonly taskLogRepository = inject(TaskLogRepository);
   private readonly now = inject(NOW)();
 
   private readonly today = madridToday(this.now);
+  private readonly dayKey = computed(
+    (): DayKey | null => {
+      const household = this.session.household();
+      const dog = this.session.dog();
+      return household && dog ? { dogId: dog.id, householdId: household.id } : null;
+    },
+    { equal: sameDay }
+  );
+  /** `undefined` while loading; `null` when no guidance is stored (or it cannot be read). */
+  private readonly stored = toSignal(
+    this.watch((key) => this.guidanceRepository.watchDay(key.householdId, key.dogId, this.today)),
+    { initialValue: undefined }
+  );
+  private readonly logs = toSignal(
+    this.watch((key) => this.taskLogRepository.watchDay(key.householdId, key.dogId, this.today)),
+    { initialValue: null }
+  );
+  /** Re-renders the template guidance once the active language's translations are loaded. */
+  private readonly translation = toSignal(this.transloco.selectTranslation());
 
   protected readonly dog = this.session.dog;
   protected readonly dateLabel = computed(() =>
@@ -50,4 +91,53 @@ export class TodayPageComponent {
   protected readonly countdownKey = computed(() =>
     pluralKey('today.countdown', this.daysLeft() ?? 0, this.language.currentLang())
   );
+  protected readonly preparationKeys = PREPARATION_ITEMS.map(
+    (item) => `catalog.preparation.${item.key}.label`
+  );
+
+  protected readonly guidance = computed((): DailyGuidance | null => {
+    const stored = this.stored();
+    const dog = this.dog();
+    if (stored) return stored;
+    if (stored === undefined || !dog) return null;
+    this.translation();
+    return templateGuidance({
+      date: this.today,
+      dog,
+      locale: this.language.currentLang(),
+      translate: (key, params) => this.transloco.translate(key, params),
+    });
+  });
+  protected readonly healthKey = computed(() =>
+    healthMessageKey(this.guidance()?.healthFlag ?? null)
+  );
+  protected readonly slots = computed(() => {
+    const guidance = this.guidance();
+    const time = new Intl.DateTimeFormat(LOCALE_BY_LANG[this.language.currentLang()], {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Europe/Madrid',
+    });
+    return guidance
+      ? slotViews(guidance, this.logs() ?? [], this.session.household()?.members ?? {}, (date) =>
+          time.format(date)
+        )
+      : [];
+  });
+
+  /** Follows the household dog; a read failure falls back to the template or no done marks. */
+  private watch<T>(read: (key: DayKey) => Observable<T>): Observable<null | T> {
+    return toObservable(this.dayKey).pipe(
+      switchMap((key) =>
+        key
+          ? read(key).pipe(
+              catchError((error: unknown) => {
+                console.warn('Today: could not read the day', error);
+                return of(null);
+              })
+            )
+          : of(null)
+      )
+    );
+  }
 }

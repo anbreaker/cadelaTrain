@@ -1,14 +1,23 @@
+import { Observable, of, throwError } from 'rxjs';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { GuidanceRepository } from '@data/guidance.repository';
+import { TaskLogRepository } from '@data/task-log.repository';
+import { PREPARATION_ITEMS } from '@domain/catalog';
 import { Dog } from '@domain/dog';
+import { DailyGuidance } from '@domain/guidance';
+import { Household } from '@domain/household';
+import { TaskLog } from '@domain/task-log';
 import { createFakeSession, FakeSession } from '@shared/testing/fake-session';
 import { translocoTesting } from '@shared/testing/transloco-testing';
 
 import { TodayPageComponent } from './today.page';
+
+import { vi } from 'vitest';
 
 const dela: Dog = {
   arrivalDate: '2026-12-10',
@@ -22,63 +31,148 @@ const dela: Dog = {
   sleepsOutdoors: true,
 };
 
+const home: Household = {
+  id: 'h1',
+  locale: 'es',
+  memberIds: ['alice'],
+  members: { alice: { displayName: 'Jéssica', role: 'owner' } },
+  name: 'Casa',
+  ownerId: 'alice',
+  timezone: 'Europe/Madrid',
+};
+
+const stored: DailyGuidance = {
+  ageWeeks: 9,
+  date: '2026-12-20',
+  healthFlag: null,
+  locale: 'es',
+  planWeek: 1,
+  source: 'ai',
+  summary: 'Stored summary',
+  tasks: [
+    {
+      durationMin: 5,
+      id: 't1',
+      instructions: 'Stored instructions',
+      kind: 'training',
+      order: 1,
+      skillKey: 'name',
+      slot: 'morning',
+      title: 'Stored task',
+    },
+  ],
+};
+
+const doneLog: TaskLog = {
+  doneAt: new Date('2026-12-20T08:15:00Z'),
+  doneBy: 'alice',
+  guidanceDate: '2026-12-20',
+  id: 'l1',
+  kind: 'training',
+  notes: '',
+  taskId: 't1',
+};
+
 describe('TodayPageComponent', () => {
   let session: FakeSession;
+  let guidance$: Observable<DailyGuidance | null>;
+  let logs$: Observable<TaskLog[]>;
+  let watchGuidance: ReturnType<typeof vi.fn>;
 
-  const render = async (now: string): Promise<ComponentFixture<TodayPageComponent>> => {
+  const render = async (now: string): Promise<HTMLElement> => {
+    watchGuidance = vi.fn(() => guidance$);
     TestBed.configureTestingModule({
       imports: [TodayPageComponent, translocoTesting()],
       providers: [
         { provide: AuthSessionStore, useValue: session },
         { provide: LanguageStore, useValue: { currentLang: signal('es') } },
         { provide: NOW, useValue: () => new Date(now) },
+        { provide: GuidanceRepository, useValue: { watchDay: watchGuidance } },
+        { provide: TaskLogRepository, useValue: { watchDay: () => logs$ } },
       ],
     });
-    const fixture = TestBed.createComponent(TodayPageComponent);
+    const fixture: ComponentFixture<TodayPageComponent> =
+      TestBed.createComponent(TodayPageComponent);
     await fixture.whenStable();
-    return fixture;
+    return fixture.nativeElement as HTMLElement;
   };
 
-  const element = (fixture: ComponentFixture<TodayPageComponent>): HTMLElement =>
-    fixture.nativeElement as HTMLElement;
+  const text = (element: HTMLElement, selector: string): string =>
+    element.querySelector(selector)?.textContent ?? '';
 
   beforeEach(() => {
     TestBed.resetTestingModule();
     session = createFakeSession();
     session.set.dog.set(dela);
+    session.set.household.set(home);
+    guidance$ = of(null);
+    logs$ = of([]);
   });
 
-  it('should count down the days until the puppy arrives (AC2.5)', async () => {
-    const fixture = await render('2026-11-04T10:00:00Z');
+  it('should count down and show the preparation checklist instead of tasks (AC2.5)', async () => {
+    const element = await render('2026-11-04T10:00:00Z');
 
-    expect(element(fixture).querySelector('.today__countdown-number')?.textContent?.trim()).toBe(
-      '36'
+    expect(text(element, '.today__countdown-number').trim()).toBe('36');
+    expect(text(element, '.today__countdown-text')).toContain('today.countdown.other');
+    expect(element.querySelectorAll('.today__checklist li')).toHaveLength(PREPARATION_ITEMS.length);
+    expect(text(element, '.today__checklist')).toContain('catalog.preparation.kennel.label');
+    expect(element.querySelector('app-task-card')).toBeNull();
+  });
+
+  it('should show the day on the arrival date, with the arrival note', async () => {
+    const element = await render('2026-12-10T10:00:00Z');
+
+    expect(element.querySelector('.today__countdown')).toBeNull();
+    expect(element.textContent).toContain('today.arrivesToday');
+    expect(element.querySelector('.today__checklist')).toBeNull();
+    expect(element.querySelector('app-task-card')).not.toBeNull();
+  });
+
+  it("should read the stored guidance of today's Madrid date for the household dog", async () => {
+    await render('2026-12-20T10:00:00Z');
+
+    expect(watchGuidance).toHaveBeenCalledWith('h1', 'd1', '2026-12-20');
+  });
+
+  it('should show the template guidance when none is stored, never an empty day (AC2.4)', async () => {
+    const element = await render('2026-12-20T10:00:00Z');
+
+    expect(text(element, '.today__summary')).toContain('catalog.planWeeks.week1.objective');
+    expect(element.querySelectorAll('.today__slot-title')[0]?.textContent).toContain(
+      'slots.morning'
     );
-    expect(element(fixture).querySelector('.today__countdown-text')?.textContent).toContain(
-      'today.countdown.other'
-    );
+    expect(element.querySelectorAll('app-task-card').length).toBeGreaterThan(0);
+    expect(element.textContent).not.toContain('today.arrivesToday');
   });
 
-  it('should say the puppy arrives today on the arrival date', async () => {
-    const fixture = await render('2026-12-10T10:00:00Z');
+  it('should fall back to the template when the stored guidance cannot be read', async () => {
+    guidance$ = throwError(() => new Error('permission-denied'));
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-    expect(element(fixture).querySelector('.today__countdown')).toBeNull();
-    expect(element(fixture).textContent).toContain('today.arrivesToday');
+    const element = await render('2026-12-20T10:00:00Z');
+
+    expect(text(element, '.today__summary')).toContain('catalog.planWeeks.week1.objective');
   });
 
-  it('should drop the countdown once the puppy has arrived', async () => {
-    const fixture = await render('2026-12-20T10:00:00Z');
+  it('should show the stored summary and tasks by slot, with who did them (AC2.1–AC2.3)', async () => {
+    guidance$ = of(stored);
+    logs$ = of([doneLog]);
 
-    expect(element(fixture).querySelector('.today__countdown')).toBeNull();
-    expect(element(fixture).textContent).not.toContain('today.arrivesToday');
+    const element = await render('2026-12-20T10:00:00Z');
+
+    expect(text(element, '.today__summary')).toContain('Stored summary');
+    expect(element.querySelectorAll('app-task-card')).toHaveLength(1);
+    expect(text(element, '.task-card__done')).toContain('today.doneBy');
+    expect(element.querySelector('.today__health')).toBeNull();
   });
 
-  it('should say daily guidance comes later instead of showing tasks', async () => {
-    const fixture = await render('2026-12-20T10:00:00Z');
+  it('should show only the fixed health phrase when a flag is active (AC2.6)', async () => {
+    guidance$ = of({ ...stored, healthFlag: 'urgent' });
 
-    expect(element(fixture).querySelector('.today__empty')?.textContent).toContain(
-      'today.emptyTitle'
-    );
-    expect(element(fixture).querySelector('article')).toBeNull();
+    const element = await render('2026-12-20T10:00:00Z');
+    const banner = element.querySelector('.today__health');
+
+    expect(banner?.textContent?.trim()).toBe('health.vetEmergency');
+    expect(banner?.getAttribute('role')).toBe('alert');
   });
 });

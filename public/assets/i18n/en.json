@@ -561,14 +561,13 @@
       "other": "{{weeks}} weeks old"
     },
     "arrivesToday": "{{name}} arrives today!",
+    "checklistTitle": "Before she arrives",
     "countdown": {
       "one": "1 day until {{name}} arrives.",
       "other": "{{days}} days until {{name}} arrives."
     },
     "doneAt": "Done at {{time}}",
     "doneBy": "Done by {{name}} at {{time}}",
-    "emptyText": "Every morning at 6:00 a.m. you'll find the day's guidance here. This part of the app is still being built.",
-    "emptyTitle": "Daily guidance is coming soon",
     "minutes": "{{minutes}} min",
     "noDuration": "No set duration",
     "title": "Today with {{name}}"
