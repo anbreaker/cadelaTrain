@@ -5,6 +5,7 @@ import {
   CARE_ALERTS,
   PLAN_WEEKS,
   planWeek,
+  PREPARATION_ITEMS,
   SCHEDULE,
   SKILLS,
   SOCIALIZATION_ITEMS,
@@ -51,6 +52,15 @@ describe('bundled catalogs', () => {
       expect(has(`catalog.socialization.items.${item.key}.howTo`)).toBe(true);
     for (const alert of CARE_ALERTS)
       expect(has(`catalog.careAlerts.${alert.key}.message`)).toBe(true);
+  });
+
+  it('should list the preparation checklist in order, every item translated (AC2.5)', () => {
+    expect(PREPARATION_ITEMS.length).toBeGreaterThan(0);
+    expect(PREPARATION_ITEMS.map((item) => item.order)).toEqual(
+      PREPARATION_ITEMS.map((_, index) => index + 1)
+    );
+    for (const item of PREPARATION_ITEMS)
+      expect(has(`catalog.preparation.${item.key}.label`)).toBe(true);
   });
 
   it('should clamp the plan week to 1–8', () => {

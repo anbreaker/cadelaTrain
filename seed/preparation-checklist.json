@@ -1,0 +1,41 @@
+{
+  "i18nFields": ["label"],
+  "i18nPrefix": "catalog.preparation",
+  "items": [
+    {
+      "key": "kennel",
+      "label": "A kennel raised off the ground, sheltered from wind and rain, with dry bedding",
+      "order": 1
+    },
+    {
+      "key": "litterBlanket",
+      "label": "A blanket with the smell of her litter (ask the breeder)",
+      "order": 2
+    },
+    { "key": "bowls", "label": "Heavy food and water bowls that do not tip over", "order": 3 },
+    {
+      "key": "breederFood",
+      "label": "The same puppy food the breeder uses, for the first days",
+      "order": 4
+    },
+    {
+      "key": "collarAndLeash",
+      "label": "A soft collar with an ID tag and a light leash",
+      "order": 5
+    },
+    { "key": "treats", "label": "Small, soft treats for training", "order": 6 },
+    { "key": "toys", "label": "Chew toys and a tug toy, as an alternative to biting", "order": 7 },
+    {
+      "key": "safeArea",
+      "label": "A safe area: close off the workshop, tools, chemicals and cables",
+      "order": 8
+    },
+    { "key": "vetVisit", "label": "A vet appointment for the first week", "order": 9 },
+    {
+      "key": "familyRules",
+      "label": "Family rules: the same word for each cue, who feeds her and where she sleeps",
+      "order": 10
+    },
+    { "key": "cleaning", "label": "Enzymatic cleaner and bags for accidents", "order": 11 }
+  ]
+}
