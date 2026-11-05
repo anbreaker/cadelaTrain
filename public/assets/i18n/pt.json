@@ -493,7 +493,10 @@
   },
   "shell": {
     "householdName": "Casa: {{name}}",
-    "loading": "A carregar…"
+    "loading": "A carregar…",
+    "retry": "Tentar novamente",
+    "unavailableText": "Neste momento não conseguimos carregar os teus dados. A tua sessão continua aberta: tenta novamente quando tiveres rede.",
+    "unavailableTitle": "Sem ligação ao Dela"
   },
   "slots": {
     "afternoon": "Tarde",
@@ -518,7 +521,7 @@
       "one": "Falta 1 dia para a chegada de {{name}}.",
       "other": "Faltam {{days}} dias para a chegada de {{name}}."
     },
-    "emptyText": "Todas as manhãs, às 06:00, vão ter aqui as orientações do dia. Esta parte da app ainda está em construção.",
+    "emptyText": "Todas as manhãs, às 06:00, vais ter aqui as orientações do dia. Esta parte da app ainda está em construção.",
     "emptyTitle": "As orientações diárias chegam em breve",
     "title": "Hoje com {{name}}"
   }

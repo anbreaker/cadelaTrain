@@ -156,7 +156,7 @@ Full rules in `firestore.rules`; tested with the emulator.
 | Path | Read | Write |
 |------|------|-------|
 | `users/{uid}` | self | self, shape-validated |
-| `households/{hid}` | members | create: creator is sole owner/member; update: owner (name, locale, members) or invited user adding exactly themself |
+| `households/{hid}` | members | create: creator is sole owner/member; update: owner renames, changes the locale or removes members (never the owner; cannot add uids or add, relabel or rewrite member entries) or invited user adding exactly themself |
 | `invitations/{email}` | owner; invitee (collection group by email) | create/delete: owner; delete: invitee |
 | `dogs/**` | members | create/delete: owner; update: members, shape-validated; `planWeek` server-only |
 | `dailyGuidance` | members | none (server only) |

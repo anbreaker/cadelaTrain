@@ -118,6 +118,27 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.app-loading')?.getAttribute('role')).toBe('status');
   });
 
+  it('should keep a signed-in user in place with a calm retry screen when the data is unreachable', async () => {
+    session.set.status.set('unavailable');
+    session.set.profile.set({
+      displayName: 'Ana',
+      email: 'ana@example.com',
+      locale: 'es',
+      uid: 'ana',
+    });
+    const compiled = await render();
+    const state = compiled.querySelector('.unavailable-state');
+
+    expect(state?.getAttribute('role')).toBe('status');
+    expect(state?.querySelector('h1')?.textContent).toContain('shell.unavailableTitle');
+    expect(compiled.querySelector('.app-loading')).toBeNull();
+
+    state?.querySelector<HTMLButtonElement>('button')?.click();
+
+    expect(session.retry).toHaveBeenCalledTimes(1);
+    expect(session.signOut).not.toHaveBeenCalled();
+  });
+
   it('should not cover the screen once the session is known and navigation settled', async () => {
     session.set.status.set('signedOut');
     const compiled = await render();

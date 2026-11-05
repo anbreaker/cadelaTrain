@@ -20,6 +20,7 @@ import { ThemeStore } from '@core/store/theme.store';
 import { ScreenPoint } from '@core/utils/theme-transition';
 import { BrandComponent } from '@shared/components/brand/brand';
 import { NavItem, SiteHeaderComponent } from '@shared/components/site-header/site-header';
+import { UnavailableStateComponent } from '@shared/components/unavailable-state/unavailable-state';
 import { UpdateBannerComponent } from '@shared/components/update-banner/update-banner';
 
 /** Only screens that exist are listed; later stories add progress and the weekly review. */
@@ -43,6 +44,7 @@ const isNavigationBoundary = (event: unknown): boolean =>
     RouterOutlet,
     SiteHeaderComponent,
     TranslocoDirective,
+    UnavailableStateComponent,
     UpdateBannerComponent,
   ],
   selector: 'app-root',
@@ -76,8 +78,9 @@ export class AppComponent {
    * A calm surface covers the screen while the session loads or a redirect is on its way, so the
    * sign-in screen never flashes before the user's real screen. It fades in only after a delay (CSS).
    */
+  protected readonly unavailable = computed(() => this.session.status() === 'unavailable');
   protected readonly busy = computed(
-    () => this.session.status() === 'loading' || this.navigating()
+    () => !this.unavailable() && (this.session.status() === 'loading' || this.navigating())
   );
 
   protected applyUpdate(): void {
@@ -90,6 +93,10 @@ export class AppComponent {
 
   protected toggleTheme(origin: ScreenPoint): void {
     this.theme.toggle(origin);
+  }
+
+  protected retrySession(): void {
+    this.session.retry();
   }
 
   protected signOut(): void {

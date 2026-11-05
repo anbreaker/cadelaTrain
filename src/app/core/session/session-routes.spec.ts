@@ -41,6 +41,11 @@ describe('redirectTarget', () => {
     expect(redirectTarget('loading', 0, ['ready'])).toBeNull();
   });
 
+  it('should never send an unavailable session to sign-in', () => {
+    expect(redirectTarget('unavailable', 0, ['ready'])).toBeNull();
+    expect(redirectTarget('unavailable', 0, ['signedOut'])).toBeNull();
+  });
+
   it('should ignore routes that declare no session statuses', () => {
     expect(redirectTarget('signedOut', 0, undefined)).toBeNull();
   });
@@ -109,6 +114,17 @@ describe('sessionGuard', () => {
     TestBed.tick();
 
     expect(urlOf(await pending)).toBe('/invitations');
+  });
+
+  it('should hold the navigation while the session is unavailable, then decide', async () => {
+    status.set('unavailable');
+    const pending = resolve(run(sessionGuard, sessionRoute(['ready']).data ?? {}));
+    TestBed.tick();
+
+    status.set('ready');
+    TestBed.tick();
+
+    expect(await pending).toBe(true);
   });
 
   it('should always redirect from the landing route', async () => {

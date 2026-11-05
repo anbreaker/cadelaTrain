@@ -20,6 +20,7 @@ export interface FakeSession {
   isOwner: Signal<boolean>;
   isSignInLink: Spy;
   profile: Signal<null | UserProfile>;
+  retry: Spy;
   sendInvitationLink: Spy;
   sendSignInLink: Spy;
   set: {
@@ -56,6 +57,7 @@ export function createFakeSession(): FakeSession {
     isOwner: isOwner.asReadonly(),
     isSignInLink: vi.fn(() => false),
     profile: profile.asReadonly(),
+    retry: vi.fn(),
     sendInvitationLink: vi.fn(async () => undefined),
     sendSignInLink: vi.fn(async () => undefined),
     set: { dog, error, household, invitations, isOwner, profile, status },

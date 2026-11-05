@@ -11,7 +11,11 @@
   (themeToggle)="toggleTheme($event)"
 />
 <router-outlet />
-@if (busy()) {
+@if (unavailable()) {
+<div class="app-unavailable">
+  <app-unavailable-state (retry)="retrySession()" />
+</div>
+} @if (busy()) {
 <div class="app-loading" role="status" *transloco="let t">
   <app-brand size="large" />
   <span class="visually-hidden">{{ t('shell.loading') }}</span>

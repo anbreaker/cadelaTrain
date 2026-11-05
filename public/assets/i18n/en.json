@@ -493,7 +493,10 @@
   },
   "shell": {
     "householdName": "Household: {{name}}",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "retry": "Try again",
+    "unavailableText": "We can't load your data right now. You're still signed in: try again when you have a connection.",
+    "unavailableTitle": "Can't reach Dela"
   },
   "slots": {
     "afternoon": "Afternoon",

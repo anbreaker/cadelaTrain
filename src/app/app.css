@@ -24,3 +24,15 @@
     opacity: 1;
   }
 }
+
+/* Covers whatever screen was showing; the header stays usable (language, theme, sign out). */
+.app-unavailable {
+  align-items: center;
+  background: var(--color-bg);
+  display: flex;
+  inset: var(--header-height) 0 0;
+  justify-content: center;
+  padding: var(--space-4) var(--gutter);
+  position: fixed;
+  z-index: 15;
+}

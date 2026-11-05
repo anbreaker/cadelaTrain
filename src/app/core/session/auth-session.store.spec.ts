@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
@@ -101,6 +101,7 @@ describe('AuthSessionStore', () => {
       signInWithGoogle: vi.fn(async () => undefined),
       signInWithLink: vi.fn(async () => undefined),
       signOut: vi.fn(async () => undefined),
+      verifyUser: vi.fn(async () => undefined),
     };
     profiles = {
       ensureProfile: vi.fn(async (user: AuthUser, locale: Locale): Promise<UserProfile> => ({
@@ -250,9 +251,12 @@ describe('AuthSessionStore', () => {
     expect(households$.observed).toBe(false);
   });
 
-  it('should report a failure and sign out when the session cannot load', async () => {
+  const firebaseError = (code: string): Error & { code: string } =>
+    Object.assign(new Error(code), { code });
+
+  it('should sign out when the session itself is no longer valid', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    profiles.ensureProfile.mockRejectedValueOnce(new Error('offline'));
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('auth/user-token-expired'));
     const store = await signIn(createStore());
 
     expect(store.error()).toBe('sessionFailed');
@@ -260,7 +264,18 @@ describe('AuthSessionStore', () => {
     expect(store.status()).toBe('signedOut');
   });
 
-  it('should give up and sign out when the profile never loads (stale or revoked session)', async () => {
+  it('should keep the user signed in and report unavailable when Firestore cannot be reached', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    expect(store.status()).toBe('unavailable');
+    expect(store.user()).toEqual(ana);
+    expect(store.error()).toBeNull();
+    expect(gateway.signOut).not.toHaveBeenCalled();
+  });
+
+  it('should report unavailable, not sign out, when the profile does not load in time', async () => {
     vi.useFakeTimers();
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     profiles.ensureProfile.mockReturnValueOnce(new Promise<UserProfile>(() => undefined));
@@ -272,9 +287,120 @@ describe('AuthSessionStore', () => {
 
     await vi.advanceTimersByTimeAsync(1);
 
-    expect(store.error()).toBe('sessionFailed');
+    expect(store.status()).toBe('unavailable');
+    expect(gateway.signOut).not.toHaveBeenCalled();
+  });
+
+  it('should sign out when the profile does not load and the auth server no longer knows the user', async () => {
+    vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockReturnValueOnce(new Promise<UserProfile>(() => undefined));
+    gateway.verifyUser.mockRejectedValueOnce(firebaseError('auth/user-not-found'));
+    const store = createStore();
+    emitUser(ana);
+
+    await vi.advanceTimersByTimeAsync(PROFILE_TIMEOUT_MS);
+
+    expect(gateway.verifyUser).toHaveBeenCalledTimes(1);
     expect(gateway.signOut).toHaveBeenCalledTimes(1);
+    expect(store.error()).toBe('sessionFailed');
     expect(store.status()).toBe('signedOut');
+  });
+
+  it('should report sessionFailed when the auth check signs the user out before rejecting', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    // Firebase `reload` signs an invalidated user out first, then rethrows.
+    gateway.verifyUser.mockImplementationOnce(async () => {
+      emitUser(null);
+      throw firebaseError('auth/user-token-expired');
+    });
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    expect(store.error()).toBe('sessionFailed');
+    expect(store.status()).toBe('signedOut');
+  });
+
+  it('should stay unavailable when the auth server cannot be reached either', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    gateway.verifyUser.mockRejectedValueOnce(firebaseError('auth/network-request-failed'));
+    const store = await signIn(createStore());
+
+    expect(gateway.verifyUser).toHaveBeenCalledTimes(1);
+    expect(store.status()).toBe('unavailable');
+    expect(gateway.signOut).not.toHaveBeenCalled();
+  });
+
+  it('should ignore a late invalid check once the session was retried', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    let rejectCheck: (error: unknown) => void = () => undefined;
+    gateway.verifyUser.mockReturnValueOnce(
+      new Promise<void>((_resolve, reject) => (rejectCheck = reject))
+    );
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    store.retry();
+    rejectCheck(firebaseError('auth/user-not-found'));
+    await flush();
+
+    expect(gateway.signOut).not.toHaveBeenCalled();
+    expect(store.status()).toBe('loading');
+  });
+
+  it('should sign out when the dogs stay denied after the bounded retry', async () => {
+    vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    dogRepo.watchAll.mockImplementation(() => throwError(() => firebaseError('permission-denied')));
+    const store = createStore();
+    emitUser(ana);
+    await vi.advanceTimersByTimeAsync(0);
+
+    households$.next([household]);
+    await vi.advanceTimersByTimeAsync(DOGS_RETRY_DELAY_MS * 4);
+
+    expect(gateway.signOut).toHaveBeenCalledTimes(1);
+    expect(store.error()).toBe('sessionFailed');
+    expect(store.status()).toBe('signedOut');
+  });
+
+  it('should reload the session on retry and reach ready', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+    expect(store.status()).toBe('unavailable');
+
+    store.retry();
+    await flush();
+    households$.next([household]);
+    dogs$.next([dela]);
+    await flush();
+
+    expect(profiles.ensureProfile).toHaveBeenCalledTimes(2);
+    expect(store.status()).toBe('ready');
+  });
+
+  it('should retry on its own when the browser comes back online', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    window.dispatchEvent(new Event('online'));
+    await flush();
+
+    expect(profiles.ensureProfile).toHaveBeenCalledTimes(2);
+    expect(store.status()).toBe('loading');
+  });
+
+  it('should ignore going online while the session is healthy', async () => {
+    const store = await signIn(createStore());
+
+    window.dispatchEvent(new Event('online'));
+    await flush();
+
+    expect(profiles.ensureProfile).toHaveBeenCalledTimes(1);
+    expect(store.status()).toBe('loading');
   });
 
   it('should send a sign-in link to the normalized email and remember it on this device', async () => {

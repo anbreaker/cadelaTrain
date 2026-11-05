@@ -14,6 +14,8 @@ export interface AuthGateway {
   signInWithGoogle(): Promise<void>;
   signInWithLink(email: string, url: string): Promise<void>;
   signOut(): Promise<void>;
+  /** Asks the auth server whether the signed-in account still exists; rejects with its error code. */
+  verifyUser(): Promise<void>;
 }
 
 export const AUTH_GATEWAY = new InjectionToken<AuthGateway>('AUTH_GATEWAY', {

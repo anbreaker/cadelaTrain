@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   isSignInWithEmailLink,
   onAuthStateChanged,
+  reload,
   sendSignInLinkToEmail,
   signInWithEmailLink,
   signInWithPopup,
@@ -31,5 +32,8 @@ export function createFirebaseAuthGateway(auth: Auth): AuthGateway {
       await signInWithEmailLink(auth, email, url);
     },
     signOut: () => signOut(auth),
+    verifyUser: async (): Promise<void> => {
+      if (auth.currentUser) await reload(auth.currentUser);
+    },
   };
 }

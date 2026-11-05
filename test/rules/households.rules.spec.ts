@@ -13,7 +13,9 @@ import {
 } from './support';
 
 import {
+  arrayRemove,
   arrayUnion,
+  deleteField,
   doc,
   DocumentData,
   Firestore,
@@ -148,6 +150,75 @@ describe('households rules', () => {
 
     it('should deny a member renaming the household', async () => {
       await assertFails(updateDoc(doc(dbAs(env, MEMBER), HOUSEHOLD_PATH), { name: 'Farm' }));
+    });
+
+    it('should let the owner change the guidance language', async () => {
+      await assertSucceeds(updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), { locale: 'en' }));
+    });
+
+    it('should deny the owner adding a member without an invitation', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          memberIds: arrayUnion(OUTSIDER.uid),
+          [`members.${OUTSIDER.uid}`]: { displayName: OUTSIDER.displayName, role: 'member' },
+        })
+      );
+    });
+
+    it('should deny the owner relabelling a member as owner', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          [`members.${MEMBER.uid}.role`]: 'owner',
+        })
+      );
+    });
+
+    it('should deny the owner rewriting an existing member entry', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          [`members.${MEMBER.uid}.displayName`]: 'Renamed',
+        })
+      );
+    });
+
+    it('should let the owner remove a member', async () => {
+      await assertSucceeds(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          memberIds: arrayRemove(MEMBER.uid),
+          [`members.${MEMBER.uid}`]: deleteField(),
+        })
+      );
+    });
+
+    it('should deny the owner removing a member entry but keeping the uid', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          [`members.${MEMBER.uid}`]: deleteField(),
+        })
+      );
+    });
+
+    it('should deny the owner removing a uid but keeping its member entry', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), { memberIds: arrayRemove(MEMBER.uid) })
+      );
+    });
+
+    it('should deny the owner removing their own member entry', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          [`members.${OWNER.uid}`]: deleteField(),
+        })
+      );
+    });
+
+    it('should deny the owner removing themself', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, OWNER), HOUSEHOLD_PATH), {
+          memberIds: arrayRemove(OWNER.uid),
+          [`members.${OWNER.uid}`]: deleteField(),
+        })
+      );
     });
   });
 

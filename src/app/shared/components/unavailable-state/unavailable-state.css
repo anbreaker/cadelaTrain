@@ -1,0 +1,23 @@
+.unavailable-state {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0 auto;
+  max-width: var(--form-max);
+  text-align: center;
+}
+
+.unavailable-state__icon {
+  color: var(--color-pending);
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.unavailable-state__title {
+  font-size: 1.5rem;
+}
+
+.unavailable-state__text {
+  color: var(--color-text-secondary);
+}
