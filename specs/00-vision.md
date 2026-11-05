@@ -14,7 +14,7 @@ A family opens the app in the morning and knows exactly what to do with their pu
 |------|------|
 | Household member (trainer) | Today's tasks by time slot; log in one tap with who and when |
 | Household owner | Create the household, invite people, register the puppy |
-| Later: public users (Spain, Portugal; UI in Castilian Spanish and European Portuguese) | Same flow for any breed, size, urban or rural, indoor or outdoor sleeping |
+| Later: public users (Spain, Portugal; UI in Castilian Spanish, European Portuguese and US English) | Same flow for any breed, size, urban or rural, indoor or outdoor sleeping |
 
 ## First case: Dela
 

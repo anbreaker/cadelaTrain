@@ -24,7 +24,7 @@ Mapping from the original proposal: `household_members` → `households.memberId
 
 | Name | Values |
 |------|--------|
-| `Locale` | `es` (Castilian Spanish, `es-ES`), `pt` (European Portuguese, `pt-PT`) |
+| `Locale` | `es` (Castilian Spanish, `es-ES`), `pt` (European Portuguese, `pt-PT`), `en` (US English, `en-US`) |
 | `Role` | `owner`, `member` |
 | `Environment` | `rural`, `urban` |
 | `Slot` | `morning`, `midday`, `afternoon`, `night` |
@@ -178,4 +178,4 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 | `care-alerts.json` | Seasonal and field risks | `key`, `months`, `arrivalWeek?`, `appliesTo { sleepsOutdoors?, environment? }`, `severity` (`info` \| `vet` \| `urgent`), `message` |
 | `principles.json` | Training principles | `key`, `text` |
 
-A unit test asserts that every catalog key exists in both `es.json` and `pt.json`, and that both files have the same key set.
+A unit test asserts that every catalog key exists in `en.json`, `es.json` and `pt.json`, and that the three files have the same key set.

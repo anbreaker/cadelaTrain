@@ -46,7 +46,7 @@ describe('newHouseholdData (AC1.2)', () => {
   });
 
   it('should reject an invalid draft with the domain error codes', () => {
-    expect(codesOf(() => newHouseholdData({ locale: 'en', name: ' ' }, OWNER))).toEqual([
+    expect(codesOf(() => newHouseholdData({ locale: 'fr', name: ' ' }, OWNER))).toEqual([
       'nameRequired',
       'localeUnsupported',
     ]);

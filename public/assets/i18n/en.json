@@ -1,0 +1,525 @@
+{
+  "app": {
+    "name": "Dela"
+  },
+  "auth": {
+    "checkEmailText": "We sent a link to {{email}}. Open it on this device to sign in.",
+    "checkEmailTitle": "Check your email",
+    "confirmEmail": "Sign in",
+    "confirmEmailText": "You opened the link on another device. Enter the email we sent it to.",
+    "confirmEmailTitle": "Confirm your email",
+    "emailLabel": "Your email",
+    "emailPlaceholder": "name@example.com",
+    "errors": {
+      "emailInvalid": "Enter a valid email.",
+      "googleFailed": "We couldn't sign you in with Google. Please try again.",
+      "linkInvalid": "This link has expired or was already used. Request a new one.",
+      "sendFailed": "We couldn't send the link. Please try again.",
+      "sessionFailed": "We couldn't load your account. Please sign in again."
+    },
+    "google": "Continue with Google",
+    "lead": "Short, positive daily guidance and a shared log for the whole family.",
+    "noPassword": "No passwords: we email you a sign-in link.",
+    "or": "or",
+    "sendLink": "Email me a sign-in link",
+    "signingIn": "Signing in…",
+    "tagline": "Train your puppy, a little every day",
+    "useAnotherEmail": "Use a different email"
+  },
+  "catalog": {
+    "careAlerts": {
+      "cold": {
+        "message": "Raised kennel, dry straw and shelter from the wind.",
+        "title": "Cold"
+      },
+      "firstWeekVet": {
+        "message": "Checkup, health record and microchip. Ask about the vaccination schedule, year-round deworming and leishmaniasis prevention, which is common in the area. Talk to your vet.",
+        "title": "First week: vet"
+      },
+      "grassAwns": {
+        "message": "Check ears, paws and nose after every walk.",
+        "title": "Grass awns"
+      },
+      "livestockAndHens": {
+        "message": "Don't let her off leash nearby until she has mastered \"come\" and \"leave it\".",
+        "title": "Livestock and hens"
+      },
+      "pineProcessionary": {
+        "message": "Keep her away from pine trees and lines of caterpillars. If she touches or bites them: veterinary emergency.",
+        "title": "Pine processionary caterpillars"
+      },
+      "poisonsAndChemicals": {
+        "message": "Keep poisons, fertilizers, diesel and workshop products out of reach.",
+        "title": "Poisons and chemicals"
+      },
+      "ticksAndHeat": {
+        "message": "Always shade and fresh water. Parasite protection: talk to your vet.",
+        "title": "Ticks and heat"
+      },
+      "unknownDogsUntilVaccinated": {
+        "message": "No contact with unknown dogs until she has completed the vaccination schedule your vet recommends.",
+        "title": "Unknown dogs"
+      }
+    },
+    "cues": {
+      "no": "off",
+      "praise": "good"
+    },
+    "planWeeks": {
+      "week1": {
+        "how": "Calm; name and reward; vet",
+        "objective": "Settling in and name",
+        "readyWhen": "Turns her head when she hears her name"
+      },
+      "week2": {
+        "how": "Reward over the head; same potty spot every time",
+        "objective": "\"Sit\" and potty",
+        "readyWhen": "Sits for the hand signal, with no treat in the hand"
+      },
+      "week3": {
+        "how": "Crouch down, happy voice, play between two people",
+        "objective": "\"Come\" from 3–10 ft",
+        "readyWhen": "Runs to you from 10 ft"
+      },
+      "week4": {
+        "how": "Leash indoors; \"ouch\" and stop the game",
+        "objective": "Leash and soft bite",
+        "readyWhen": "Walks a few yards on leash"
+      },
+      "week5": {
+        "how": "Treat from nose to floor; closed fist",
+        "objective": "\"Down\" and \"leave it\"",
+        "readyWhen": "Moves away from a closed hand"
+      },
+      "week6": {
+        "how": "15–30 ft on a long line",
+        "objective": "\"Come\" with distractions",
+        "readyWhen": "Comes on most tries"
+      },
+      "week7": {
+        "how": "2–3 s and reward; ignore jumping",
+        "objective": "\"Stay\" and calm",
+        "readyWhen": "Holds a sit for 5 s"
+      },
+      "week8": {
+        "how": "Town, car, vaccinated dogs",
+        "objective": "Review away from the farm",
+        "readyWhen": "Responds away from home"
+      }
+    },
+    "principles": {
+      "endWell": "Always end on a good note.",
+      "foodAndSleep": "She eats 3 times a day until 4–6 months and sleeps 16–18 hours.",
+      "lowerDifficulty": "If something isn't working, make it easier.",
+      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, leave it, off, good.",
+      "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
+      "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\"."
+    },
+    "schedule": {
+      "afternoonRest": {
+        "instructions": "Long nap. Potty break when she wakes up.",
+        "title": "Rest"
+      },
+      "bedtime": {
+        "instructions": "Into the kennel with her blanket and a chew toy. Same routine every night and a calm goodbye.",
+        "title": "Bedtime in the kennel"
+      },
+      "breakfast": {
+        "instructions": "\"Sit\" before the bowl goes down. If she doesn't sit, wait without repeating the cue.",
+        "title": "Breakfast"
+      },
+      "calmTime": {
+        "instructions": "Gentle play, a short brushing and a potty break before sleep.",
+        "title": "Quiet play, brushing and potty"
+      },
+      "dinner": {
+        "instructions": "Last meal of the day.",
+        "title": "Dinner"
+      },
+      "farmWalk": {
+        "instructions": "Potty break and a calm walk in a safe part of the farm, away from the workshop and the animals.",
+        "title": "Potty and farm exploring"
+      },
+      "greeting": {
+        "instructions": "Calm greeting and straight to the potty spot. \"Good\" and a treat when she's done.",
+        "title": "Greeting and potty"
+      },
+      "leashWalk": {
+        "instructions": "Short walk on a loose leash. Reward her when she walks by your side. If she pulls, stop.",
+        "title": "Leash walk"
+      },
+      "lunch": {
+        "instructions": "Midday meal. Set aside some kibble for the session treats.",
+        "title": "Lunch"
+      },
+      "morningRest": {
+        "instructions": "A quiet spot with her chew toy. Let her sleep.",
+        "title": "Rest with a chew toy"
+      },
+      "session1": {
+        "instructions": "Say her name and reward her when she looks at you. Then \"sit\" with the treat over her head. End with something she already knows.",
+        "title": "Session 1: name and \"sit\""
+      },
+      "session2": {
+        "instructions": "Crouch down 3–6 ft away, happy voice, \"come\" and a special treat when she arrives. End with something she already knows.",
+        "title": "Session 2: \"come\" from a short distance"
+      },
+      "session3": {
+        "instructions": "Review what she knows and try this week's new cue. End with something she already knows.",
+        "title": "Session 3: review and new cue"
+      },
+      "socialization": {
+        "instructions": "One new experience, at a distance where she stays calm. Reward calm and curiosity.",
+        "title": "Today's socialization"
+      },
+      "tugPlay": {
+        "instructions": "Tug play. If her teeth touch skin: \"ouch\", pause the game for a few seconds, then start again.",
+        "title": "Tug play (soft bite)"
+      },
+      "visit": {
+        "instructions": "Potty break and gentle handling of paws and ears, with a treat for each touch.",
+        "title": "Check-in: potty and handling"
+      }
+    },
+    "skills": {
+      "come": {
+        "cue": "come",
+        "description": "Comes to you when called. Special treat: boiled chicken.",
+        "name": "Come"
+      },
+      "down": {
+        "cue": "down",
+        "description": "Lies down following the treat from nose to floor.",
+        "name": "Down"
+      },
+      "leash": {
+        "cue": "good",
+        "description": "Walks next to you on a loose leash.",
+        "name": "Leash"
+      },
+      "leaveIt": {
+        "cue": "leave it",
+        "description": "Moves away from a closed hand or something on the ground.",
+        "name": "Leave it"
+      },
+      "name": {
+        "cue": "{{name}}",
+        "description": "Turns her head and looks at you when she hears her name.",
+        "name": "Name"
+      },
+      "potty": {
+        "cue": "good",
+        "description": "Goes potty in the usual spot.",
+        "name": "Potty"
+      },
+      "sit": {
+        "cue": "sit",
+        "description": "Sits on the verbal cue or the hand signal.",
+        "name": "Sit"
+      },
+      "softBite": {
+        "cue": "ouch",
+        "description": "Controls the strength of her bite during play.",
+        "name": "Soft bite"
+      },
+      "stay": {
+        "cue": "stay",
+        "description": "Holds a sit for a few seconds until released.",
+        "name": "Stay"
+      }
+    },
+    "socialization": {
+      "categories": {
+        "animals": "Animals",
+        "handling": "Handling",
+        "noises": "Noises",
+        "people": "People",
+        "places": "Places"
+      },
+      "items": {
+        "animalAdultDogs": {
+          "howTo": "Only known, vaccinated, calm dogs, once your vet says it's OK.",
+          "label": "Vaccinated, well-balanced adult dogs"
+        },
+        "animalCats": {
+          "howTo": "On leash; the cat must be free to leave. Reward calm.",
+          "label": "Cats"
+        },
+        "animalPoultryLivestock": {
+          "howTo": "Always on leash and at a distance; reward her for looking and then looking back at you.",
+          "label": "Hens or livestock (on leash)"
+        },
+        "handlingBrushing": {
+          "howTo": "Two or three strokes and a treat.",
+          "label": "Brushing"
+        },
+        "handlingCollar": {
+          "howTo": "Put it on during meals or play; take it off when she's calm.",
+          "label": "Collar"
+        },
+        "handlingEars": {
+          "howTo": "Lift an ear for a second and reward.",
+          "label": "Ears"
+        },
+        "handlingHarness": {
+          "howTo": "Let her put her own head through to get a treat; buckle it and reward.",
+          "label": "Harness"
+        },
+        "handlingMouth": {
+          "howTo": "Lift her lip for a second and reward.",
+          "label": "Mouth"
+        },
+        "handlingNails": {
+          "howTo": "Show her the nail clipper and touch her nails with it, without cutting; treat.",
+          "label": "Nails"
+        },
+        "handlingPaws": {
+          "howTo": "Touch a paw for a second and reward; build up slowly.",
+          "label": "Paws"
+        },
+        "handlingTail": {
+          "howTo": "Touch her tail gently and reward.",
+          "label": "Tail"
+        },
+        "noiseAngleGrinder": {
+          "howTo": "From outside the workshop and far away; short bursts with treats.",
+          "label": "Angle grinder"
+        },
+        "noiseBrushcutter": {
+          "howTo": "Far away and briefly; reward calm.",
+          "label": "Brush cutter"
+        },
+        "noiseCar": {
+          "howTo": "Engine running at a distance; move closer bit by bit if she stays calm.",
+          "label": "Car"
+        },
+        "noiseChainsaw": {
+          "howTo": "Far away and briefly; reward calm.",
+          "label": "Chainsaw"
+        },
+        "noiseHammer": {
+          "howTo": "Single blows at a distance; a treat after each one.",
+          "label": "Hammer"
+        },
+        "noiseThunderFireworks": {
+          "howTo": "A recording at very low volume during meals; turn it up a little on different days.",
+          "label": "Thunder or fireworks (recording)"
+        },
+        "noiseTractor": {
+          "howTo": "Start far away, with treats while it runs. Never bring her closer if she gets scared.",
+          "label": "Tractor"
+        },
+        "noiseWelder": {
+          "howTo": "Noise at a distance, without looking at the arc; short bursts with treats.",
+          "label": "Welder"
+        },
+        "peopleCap": {
+          "howTo": "Put the cap on in front of her and reward while she watches.",
+          "label": "People wearing caps"
+        },
+        "peopleChildren": {
+          "howTo": "Children sitting calmly, with an adult nearby; one treat each.",
+          "label": "Children"
+        },
+        "peopleGlasses": {
+          "howTo": "Sunglasses and safety glasses; reward calm.",
+          "label": "People wearing glasses"
+        },
+        "peopleHelmet": {
+          "howTo": "First leave the helmet on the ground so she can sniff it; then put it on.",
+          "label": "People wearing helmets"
+        },
+        "peopleMen": {
+          "howTo": "Have him crouch down and offer a treat with an open hand.",
+          "label": "Men"
+        },
+        "peopleVisitors": {
+          "howTo": "Have the visitor ignore her on arrival and reward her when she comes over on her own.",
+          "label": "Visitors"
+        },
+        "peopleWomen": {
+          "howTo": "Have her crouch down and offer a treat with an open hand.",
+          "label": "Women"
+        },
+        "peopleWorkwear": {
+          "howTo": "Coveralls, boots and gloves; let her sniff them first.",
+          "label": "Work clothes"
+        },
+        "placeCar": {
+          "howTo": "First inside the parked car, with treats; then very short rides.",
+          "label": "Car"
+        },
+        "placeGrass": {
+          "howTo": "Short grass; play and a treat.",
+          "label": "Grass"
+        },
+        "placeGravel": {
+          "howTo": "Let her explore at her own pace and reward every step.",
+          "label": "Gravel"
+        },
+        "placeMetal": {
+          "howTo": "A metal sheet on the ground, held firmly so it doesn't rattle; reward every step.",
+          "label": "Metal"
+        },
+        "placeMud": {
+          "howTo": "A small mud puddle; reward her when she steps in it.",
+          "label": "Mud"
+        },
+        "placeShallowWater": {
+          "howTo": "Water below her paws, on a mild day; never force her.",
+          "label": "Shallow water"
+        },
+        "placeStairs": {
+          "howTo": "Just one or two steps, going up; help her down.",
+          "label": "Stairs"
+        },
+        "placeVetSocialVisit": {
+          "howTo": "Go in, get treats and leave, with no exam.",
+          "label": "Social visit to the vet"
+        }
+      }
+    }
+  },
+  "common": {
+    "errors": {
+      "saveFailed": "We couldn't save. Please try again."
+    }
+  },
+  "dog": {
+    "arrivalDate": "Arrival",
+    "arrivesIn": {
+      "one": "Arrives in 1 day.",
+      "other": "Arrives in {{days}} days."
+    },
+    "birthDate": "Birth date",
+    "breed": "Breed (optional)",
+    "environmentLegend": "Surroundings",
+    "errors": {
+      "arrivalBeforeBirth": "Arrival can't be before the birth date.",
+      "birthDateInFuture": "Birth date can't be in the future.",
+      "breedTooLong": "60 characters max.",
+      "dateInvalid": "Enter a valid date.",
+      "nameRequired": "Enter the puppy's name.",
+      "nameTooLong": "40 characters max.",
+      "notesTooLong": "1000 characters max."
+    },
+    "indoors": "Indoors",
+    "name": "Name",
+    "outdoors": "Outdoors",
+    "rural": "Rural",
+    "save": "Save puppy",
+    "saving": "Saving…",
+    "sleepsLegend": "Where does the puppy sleep?",
+    "title": "Your puppy",
+    "urban": "Urban",
+    "waitingForOwner": "The person who created the household will add the puppy. As soon as they do, you'll see it here."
+  },
+  "health": {
+    "consultVet": "Talk to your vet",
+    "vetEmergency": "Veterinary emergency"
+  },
+  "household": {
+    "alreadyInvited": "You already invited {{email}}.",
+    "create": "Create household",
+    "createLead": "Everything you log belongs only to your household. Later you can invite whoever trains with you.",
+    "createTitle": "Create your household",
+    "creating": "Creating…",
+    "errors": {
+      "emailInvalid": "Enter a valid email.",
+      "inviteFailed": "We couldn't send the invitation. Please try again.",
+      "localeUnsupported": "Choose a language.",
+      "nameRequired": "Give your household a name.",
+      "nameTooLong": "60 characters max."
+    },
+    "invite": "Send invitation",
+    "inviteEmail": "Email",
+    "inviteTitle": "Invite someone who trains",
+    "invited": "Invitation sent to {{email}}.",
+    "inviting": "Sending…",
+    "localeLegend": "Guidance language",
+    "members": "Members",
+    "nameLabel": "Household name",
+    "status": {
+      "member": "Member",
+      "owner": "Owner",
+      "pending": "Invitation sent"
+    },
+    "title": "Household",
+    "you": "(you)"
+  },
+  "invitations": {
+    "createOwn": "I'd rather create my own household",
+    "errors": {
+      "joinFailed": "We couldn't add you to the household. Please try again."
+    },
+    "invitedTo": "You've been invited to \"{{name}}\"",
+    "join": "Join household",
+    "joining": "Joining…",
+    "text": "You'll see the puppy's daily guidance and log its training.",
+    "title": "You have an invitation"
+  },
+  "lang": {
+    "en": "English",
+    "enVariant": "United States",
+    "es": "Español",
+    "esVariant": "Castilian",
+    "pt": "Português",
+    "ptVariant": "Portugal"
+  },
+  "nav": {
+    "closeMenu": "Close menu",
+    "household": "Household",
+    "label": "Main",
+    "openMenu": "Open menu",
+    "today": "Today"
+  },
+  "onboarding": {
+    "step": "Step {{current}} of {{total}}"
+  },
+  "pwa": {
+    "reload": "Reload",
+    "updateReady": "A new version of Dela is available."
+  },
+  "reactions": {
+    "calm": "Calm",
+    "curious": "Curious",
+    "fear": "Fear"
+  },
+  "settings": {
+    "language": "Language",
+    "signOut": "Sign out",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
+  },
+  "shell": {
+    "householdName": "Household: {{name}}",
+    "loading": "Loading…"
+  },
+  "slots": {
+    "afternoon": "Afternoon",
+    "midday": "Midday",
+    "morning": "Morning",
+    "night": "Night"
+  },
+  "taskKinds": {
+    "care": "Care",
+    "feeding": "Feeding",
+    "potty": "Potty",
+    "socialization": "Socialization",
+    "training": "Training"
+  },
+  "today": {
+    "ageWeeks": {
+      "one": "1 week old",
+      "other": "{{weeks}} weeks old"
+    },
+    "arrivesToday": "{{name}} arrives today!",
+    "countdown": {
+      "one": "1 day until {{name}} arrives.",
+      "other": "{{days}} days until {{name}} arrives."
+    },
+    "emptyText": "Every morning at 6:00 a.m. you'll find the day's guidance here. This part of the app is still being built.",
+    "emptyTitle": "Daily guidance is coming soon",
+    "title": "Today with {{name}}"
+  }
+}

@@ -45,6 +45,15 @@ describe('LanguageStore', () => {
     expect(createStore().currentLang()).toBe('pt');
   });
 
+  it('should use US English for a browser in English', () => {
+    mockBrowserLang('en-US');
+
+    const store = createStore();
+
+    expect(store.currentLang()).toBe('en');
+    expect(setActiveLang).toHaveBeenCalledWith('en');
+  });
+
   it('should prefer the stored language over the browser language', () => {
     mockBrowserLang('pt-PT');
     localStorage.setItem(LANG_STORAGE_KEY, 'es');

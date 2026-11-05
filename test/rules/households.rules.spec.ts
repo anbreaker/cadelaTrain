@@ -90,13 +90,24 @@ describe('households rules', () => {
       );
     });
 
-    it('should deny a household locale other than es or pt', async () => {
+    it('should allow a household in US English', async () => {
+      const db = dbAs(env, OUTSIDER);
+
+      await assertSucceeds(
+        setDoc(doc(db, 'households/h2'), {
+          ...newHousehold(OUTSIDER, [OUTSIDER.uid]),
+          locale: 'en',
+        })
+      );
+    });
+
+    it('should deny a household locale other than en, es or pt', async () => {
       const db = dbAs(env, OUTSIDER);
 
       await assertFails(
         setDoc(doc(db, 'households/h2'), {
           ...newHousehold(OUTSIDER, [OUTSIDER.uid]),
-          locale: 'en',
+          locale: 'fr',
         })
       );
     });

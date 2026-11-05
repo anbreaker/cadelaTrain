@@ -41,9 +41,15 @@ describe('users rules', () => {
     await assertFails(setDoc(doc(db, `users/${MEMBER.uid}`), profile(OWNER, 'es')));
   });
 
-  it('should deny a locale other than es or pt', async () => {
+  it('should allow a profile in US English', async () => {
     const db = dbAs(env, OWNER);
 
-    await assertFails(setDoc(doc(db, `users/${OWNER.uid}`), profile(OWNER, 'en')));
+    await assertSucceeds(setDoc(doc(db, `users/${OWNER.uid}`), profile(OWNER, 'en')));
+  });
+
+  it('should deny a locale other than en, es or pt', async () => {
+    const db = dbAs(env, OWNER);
+
+    await assertFails(setDoc(doc(db, `users/${OWNER.uid}`), profile(OWNER, 'fr')));
   });
 });
