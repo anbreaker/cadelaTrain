@@ -98,7 +98,7 @@ There is no real Firebase project yet; everything runs on the emulators.
 
 1. `npm run dev`: starts the Auth and Firestore emulators and the app in one command. A development run without `NG_APP_FIREBASE_*` config uses the emulators automatically; `NG_APP_USE_EMULATORS=true` forces them even with config. With emulators the client always uses project `demo-dela`, so a local run never reaches a real project.
 2. Alternatively, `npm run emulators` in one terminal and `npm start` in another.
-3. Sign in with an email link: the Auth emulator sends no email; it prints the sign-in link in the emulators terminal. Open that link in the same browser to finish signing in (another browser asks for the email again). Google sign-in shows the emulator's fake account picker.
+3. Sign in with an email link: the Auth emulator sends no email. On the "check your email" screen, the button "Open the emulator link" (only with emulators) opens the newest link the emulator holds for that email. The link is also printed in the emulators terminal and listed at `http://127.0.0.1:9099/emulator/v1/projects/demo-dela/oobCodes`; open it in the same browser (another browser asks for the email again). Google sign-in shows the emulator's fake account picker.
 
 ## Reference index
 

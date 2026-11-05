@@ -99,14 +99,19 @@ export function createFirebaseClient(
 
 let appClient: FirebaseClient | undefined;
 
+/** Whether this build talks to the local emulators (`environment` and `NG_APP_USE_EMULATORS`). */
+export function appUsesEmulators(): boolean {
+  return shouldUseEmulators({
+    apiKey: environment.firebase.apiKey,
+    flag: import.meta.env.NG_APP_USE_EMULATORS,
+    production: environment.production,
+  });
+}
+
 /** App-wide client built from `environment.firebase` and `NG_APP_USE_EMULATORS`. */
 export function firebaseClient(): FirebaseClient {
   return (appClient ??= createFirebaseClient({
     config: environment.firebase,
-    useEmulators: shouldUseEmulators({
-      apiKey: environment.firebase.apiKey,
-      flag: import.meta.env.NG_APP_USE_EMULATORS,
-      production: environment.production,
-    }),
+    useEmulators: appUsesEmulators(),
   }));
 }

@@ -12,6 +12,7 @@
     "emailPlaceholder": "nombre@ejemplo.com",
     "errors": {
       "emailInvalid": "Escribe un email válido.",
+      "emulatorLinkMissing": "El emulador no tiene ningún enlace para este email. Pide uno nuevo.",
       "googleFailed": "No se ha podido entrar con Google. Inténtalo de nuevo.",
       "linkInvalid": "El enlace ha caducado o ya se ha usado. Pide uno nuevo.",
       "sendFailed": "No hemos podido enviar el enlace. Inténtalo de nuevo.",
@@ -20,6 +21,7 @@
     "google": "Continuar con Google",
     "lead": "Pautas cortas en positivo y un registro compartido para toda la familia.",
     "noPassword": "Sin contraseñas: te llega un enlace al correo.",
+    "openEmulatorLink": "Abrir el enlace del emulador",
     "or": "o",
     "sendLink": "Enviarme un enlace para entrar",
     "signingIn": "Entrando…",

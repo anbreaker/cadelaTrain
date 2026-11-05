@@ -3,6 +3,16 @@
   <section class="login__intro" aria-live="polite">
     <h1 class="login__title">{{ t('auth.checkEmailTitle') }}</h1>
     <p class="page-lead">{{ t('auth.checkEmailText', { email: sentTo() }) }}</p>
+    @if (offersEmulatorLink) {
+    <button
+      class="button button--primary login__emulator-link"
+      type="button"
+      [disabled]="pending()"
+      (click)="openEmulatorLink()"
+    >
+      {{ t('auth.openEmulatorLink') }}
+    </button>
+    }
     <button class="button button--link login__another" type="button" (click)="useAnotherEmail()">
       {{ t('auth.useAnotherEmail') }}
     </button>

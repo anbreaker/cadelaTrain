@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
+import { EMULATOR_SIGN_IN, EmulatorSignIn } from '@core/auth/emulator-sign-in-link';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { createFakeSession, FakeSession } from '@shared/testing/fake-session';
 import { translocoTesting } from '@shared/testing/transloco-testing';
@@ -10,10 +11,16 @@ import { LoginPageComponent } from './login.page';
 describe('LoginPageComponent', () => {
   let session: FakeSession;
 
+  let emulatorSignIn: EmulatorSignIn | null;
+
   const render = async (): Promise<ComponentFixture<LoginPageComponent>> => {
     TestBed.configureTestingModule({
       imports: [LoginPageComponent, translocoTesting()],
-      providers: [provideRouter([]), { provide: AuthSessionStore, useValue: session }],
+      providers: [
+        provideRouter([]),
+        { provide: AuthSessionStore, useValue: session },
+        { provide: EMULATOR_SIGN_IN, useValue: emulatorSignIn },
+      ],
     });
     const fixture = TestBed.createComponent(LoginPageComponent);
     await fixture.whenStable();
@@ -38,6 +45,44 @@ describe('LoginPageComponent', () => {
   beforeEach(() => {
     TestBed.resetTestingModule();
     session = createFakeSession();
+    emulatorSignIn = null;
+  });
+
+  describe('with the Auth emulator', () => {
+    const emulatorButton = (
+      fixture: ComponentFixture<LoginPageComponent>
+    ): HTMLButtonElement | null =>
+      element(fixture).querySelector<HTMLButtonElement>('.login__emulator-link');
+
+    it('should offer to open the emulator link after sending it', async () => {
+      emulatorSignIn = { openLatest: vi.fn(async () => true) };
+      const fixture = await render();
+      await submitEmail(fixture, 'ana@example.com');
+
+      emulatorButton(fixture)?.click();
+      await fixture.whenStable();
+
+      expect(emulatorButton(fixture)?.textContent).toContain('auth.openEmulatorLink');
+      expect(emulatorSignIn.openLatest).toHaveBeenCalledWith('ana@example.com');
+    });
+
+    it('should explain when the emulator has no link for that email', async () => {
+      emulatorSignIn = { openLatest: vi.fn(async () => false) };
+      const fixture = await render();
+      await submitEmail(fixture, 'ana@example.com');
+
+      emulatorButton(fixture)?.click();
+      await fixture.whenStable();
+
+      expect(element(fixture).textContent).toContain('auth.errors.emulatorLinkMissing');
+    });
+
+    it('should not offer the emulator link outside the emulators', async () => {
+      const fixture = await render();
+      await submitEmail(fixture, 'ana@example.com');
+
+      expect(emulatorButton(fixture)).toBeNull();
+    });
   });
 
   it('should reject an invalid email without sending anything', async () => {

@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { EMULATOR_SIGN_IN } from '@core/auth/emulator-sign-in-link';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { isValidEmail, normalizeEmail } from '@domain/email';
 import { eventValue } from '@shared/utils/event-value';
@@ -12,6 +13,7 @@ import { authErrorKey } from '../auth-error-key';
 type LoginView = 'confirmEmail' | 'form' | 'sent' | 'signingIn';
 
 const SESSION_ERROR_KEY = 'auth.errors.sessionFailed';
+const EMULATOR_LINK_MISSING_KEY = 'auth.errors.emulatorLinkMissing';
 
 @Component({
   standalone: true,
@@ -24,6 +26,7 @@ const SESSION_ERROR_KEY = 'auth.errors.sessionFailed';
 export class LoginPageComponent {
   private readonly session = inject(AuthSessionStore);
   private readonly document = inject(DOCUMENT);
+  private readonly emulatorSignIn = inject(EMULATOR_SIGN_IN);
 
   private readonly _email = signal('');
   private readonly _errorKey = signal<null | string>(null);
@@ -41,6 +44,7 @@ export class LoginPageComponent {
     () => this._errorKey() ?? (this.session.error() ? SESSION_ERROR_KEY : null)
   );
   protected readonly sentTo = computed(() => normalizeEmail(this._email()));
+  protected readonly offersEmulatorLink = this.emulatorSignIn !== null;
 
   constructor() {
     const url = this.document.location.href;
@@ -69,6 +73,17 @@ export class LoginPageComponent {
     } catch (error) {
       this._errorKey.set(authErrorKey(error, 'auth.errors.googleFailed'));
     }
+  }
+
+  /** Development with the Auth emulator: open the link it holds instead of hunting for it in logs. */
+  protected async openEmulatorLink(): Promise<void> {
+    const emulator = this.emulatorSignIn;
+    if (!emulator) return;
+
+    await this.run(async () => {
+      const opened = await emulator.openLatest(this.sentTo());
+      if (!opened) this._errorKey.set(EMULATOR_LINK_MISSING_KEY);
+    }, EMULATOR_LINK_MISSING_KEY);
   }
 
   protected useAnotherEmail(): void {
