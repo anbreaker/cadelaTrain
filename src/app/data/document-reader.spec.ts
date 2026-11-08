@@ -117,4 +117,16 @@ describe('DocumentReader', () => {
       `${PATH}:doneAt`
     );
   });
+
+  it('should leave a missing optional integer or enum undefined and type-check a present one', () => {
+    expect(readerOf({}).optionalInteger('attempts', 1, 20)).toBeUndefined();
+    expect(readerOf({ attempts: 10 }).optionalInteger('attempts', 1, 20)).toBe(10);
+    expect(failingField(() => readerOf({ value: 0 }).optionalInteger('value', 1, 20))).toBe(
+      `${PATH}:value`
+    );
+    expect(readerOf({}).optionalOneOf('reaction', ['calm'])).toBeUndefined();
+    expect(failingField(() => readerOf({ value: 'x' }).optionalOneOf('value', ['calm']))).toBe(
+      `${PATH}:value`
+    );
+  });
 });
