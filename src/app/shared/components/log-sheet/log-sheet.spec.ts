@@ -78,6 +78,22 @@ describe('LogSheetComponent', () => {
     expect(element().querySelector('.log-sheet__attempts-value')?.textContent?.trim()).toBe('20');
   });
 
+  it('should ask socialization for the reaction (AC3.3)', async () => {
+    await render((host) => host.kind.set('socialization'));
+
+    expect(all('.log-sheet__success')).toHaveLength(0);
+    expect(all('.log-sheet__reaction').map((button) => button.textContent?.trim())).toEqual([
+      'reactions.calm',
+      'reactions.curious',
+      'reactions.fear',
+    ]);
+
+    await click(all('.log-sheet__reaction')[2]);
+    await click(save());
+
+    expect(fixture.componentInstance.saved).toEqual([{ notes: '', reaction: 'fear' }]);
+  });
+
   it('should save other kinds with optional notes (AC3.4)', async () => {
     await render((host) => host.kind.set('feeding'));
     const notes = element().querySelector('textarea') as HTMLTextAreaElement;

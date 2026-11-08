@@ -38,6 +38,22 @@
       }
     </div>
   </fieldset>
+  } @else if (isSocialization()) {
+  <fieldset class="fieldset log-sheet__group">
+    <legend class="fieldset__legend">{{ t('log.reaction') }}</legend>
+    <div class="log-sheet__options log-sheet__options--wide">
+      @for (option of reactions; track option) {
+      <button
+        class="log-sheet__option log-sheet__reaction"
+        type="button"
+        [attr.aria-pressed]="option === reaction()"
+        (click)="chooseReaction(option)"
+      >
+        {{ t('reactions.' + option) }}
+      </button>
+      }
+    </div>
+  </fieldset>
   }
 
   <label class="field">

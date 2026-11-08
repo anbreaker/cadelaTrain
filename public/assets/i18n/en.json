@@ -517,6 +517,7 @@
     "fewerAttempts": "Fewer attempts",
     "moreAttempts": "More attempts",
     "notes": "Notes (optional)",
+    "reaction": "How did she react?",
     "save": "Save",
     "successes": "Successes out of {{attempts}}"
   },

@@ -517,6 +517,7 @@
     "fewerAttempts": "Menos intentos",
     "moreAttempts": "Más intentos",
     "notes": "Notas (opcional)",
+    "reaction": "¿Cómo reaccionó?",
     "save": "Guardar",
     "successes": "Aciertos de {{attempts}}"
   },
