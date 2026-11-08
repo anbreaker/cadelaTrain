@@ -78,6 +78,13 @@ describe('TodayPageComponent', () => {
   let guidance$: Observable<DailyGuidance | null>;
   let logs$: Observable<TaskLog[]>;
   let watchGuidance: ReturnType<typeof vi.fn>;
+  let logs: {
+    log: ReturnType<typeof vi.fn>;
+    remove: ReturnType<typeof vi.fn>;
+    update: ReturnType<typeof vi.fn>;
+    watchDay: () => Observable<TaskLog[]>;
+  };
+  let fixture: ComponentFixture<TodayPageComponent>;
 
   const render = async (now: string): Promise<HTMLElement> => {
     watchGuidance = vi.fn(() => guidance$);
@@ -88,11 +95,10 @@ describe('TodayPageComponent', () => {
         { provide: LanguageStore, useValue: { currentLang: signal('es') } },
         { provide: NOW, useValue: () => new Date(now) },
         { provide: GuidanceRepository, useValue: { watchDay: watchGuidance } },
-        { provide: TaskLogRepository, useValue: { watchDay: () => logs$ } },
+        { provide: TaskLogRepository, useValue: logs },
       ],
     });
-    const fixture: ComponentFixture<TodayPageComponent> =
-      TestBed.createComponent(TodayPageComponent);
+    fixture = TestBed.createComponent(TodayPageComponent);
     await fixture.whenStable();
     return fixture.nativeElement as HTMLElement;
   };
@@ -105,9 +111,26 @@ describe('TodayPageComponent', () => {
     session = createFakeSession();
     session.set.dog.set(dela);
     session.set.household.set(home);
+    session.set.profile.set({
+      displayName: 'Jéssica',
+      email: 'j@example.com',
+      locale: 'es',
+      uid: 'alice',
+    });
     guidance$ = of(null);
     logs$ = of([]);
+    logs = {
+      log: vi.fn(async () => 'l2'),
+      remove: vi.fn(async () => undefined),
+      update: vi.fn(async () => undefined),
+      watchDay: () => logs$,
+    };
   });
+
+  const click = async (element: HTMLElement, selector: string): Promise<void> => {
+    element.querySelector<HTMLElement>(selector)?.click();
+    await fixture.whenStable();
+  };
 
   it('should count down and show the preparation checklist instead of tasks (AC2.5)', async () => {
     const element = await render('2026-11-04T10:00:00Z');
@@ -174,5 +197,62 @@ describe('TodayPageComponent', () => {
 
     expect(banner?.textContent?.trim()).toBe('health.vetEmergency');
     expect(banner?.getAttribute('role')).toBe('alert');
+  });
+
+  it('should log a training task in three taps: Done, successes, Save (AC3.1, AC3.2, AC3.8)', async () => {
+    guidance$ = of(stored);
+    const element = await render('2026-12-20T10:00:00Z');
+
+    await click(element, '.task-card__mark');
+    await click(element, '.log-sheet__success:nth-child(9)');
+    await click(element, '.log-sheet__save');
+
+    expect(logs.log).toHaveBeenCalledWith(
+      'h1',
+      'd1',
+      {
+        draft: { attempts: 10, notes: '', successCount: 8 },
+        guidanceDate: '2026-12-20',
+        task: { id: 't1', kind: 'training', skillKey: 'name' },
+      },
+      'alice'
+    );
+    expect(element.querySelector('app-log-sheet')).toBeNull();
+  });
+
+  it('should edit and delete my latest log within 24 hours (AC3.6)', async () => {
+    guidance$ = of(stored);
+    logs$ = of([{ ...doneLog, attempts: 10, successCount: 6 }]);
+    const element = await render('2026-12-20T10:00:00Z');
+
+    await click(element, '.task-card__edit');
+    await click(element, '.log-sheet__success:nth-child(8)');
+    await click(element, '.log-sheet__save');
+    await click(element, '.task-card__edit');
+    await click(element, '.log-sheet__remove');
+
+    expect(logs.update).toHaveBeenCalledWith(
+      'h1',
+      'd1',
+      { id: 'l1', kind: 'training' },
+      { attempts: 10, notes: '', successCount: 7 }
+    );
+    expect(logs.remove).toHaveBeenCalledWith('h1', 'd1', { id: 'l1', kind: 'training' });
+  });
+
+  it('should keep the sheet open and say so when saving fails', async () => {
+    guidance$ = of(stored);
+    logs.log.mockRejectedValueOnce(new Error('unavailable'));
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const element = await render('2026-12-20T10:00:00Z');
+
+    await click(element, '.task-card__mark');
+    await click(element, '.log-sheet__success:nth-child(9)');
+    await click(element, '.log-sheet__save');
+
+    expect(element.querySelector('app-log-sheet')).not.toBeNull();
+    expect(element.querySelector('.today__log-error')?.textContent).toContain(
+      'log.errors.saveFailed'
+    );
   });
 });

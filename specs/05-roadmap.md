@@ -15,6 +15,10 @@ Today is 2026-11-04 and Dela arrives in December 2026: about four weeks for phas
 | 5 | H6 AI path + cron | Guidance at 06:00 Madrid with fallback |
 | 6 | H4 Progress, H5 Weekly | During weeks 1–3 after arrival |
 
+Deferred from phase 1 to start using the app sooner:
+
+- AC3.7 health flag from log notes (per-locale term lists and the `health.consultVet` / `health.vetEmergency` banner after saving).
+
 ## Phase 2 — Multi-household and public onboarding
 
 - Onboarding for any household: breed and size (small/medium/large affects session load and socialization), urban environment, indoor sleeping.

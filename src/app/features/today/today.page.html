@@ -37,7 +37,26 @@
     </h2>
     <ul class="today__tasks">
       @for (card of slot.cards; track card.view.id) {
-      <li><app-task-card [card]="card.view" /></li>
+      <li class="today__task">
+        <app-task-card
+          [card]="card.view"
+          (edited)="openSheet(card, 'edit')"
+          (marked)="openSheet(card, 'new')"
+        />
+        @if (sheetTaskId() === card.task.id) {
+        <app-log-sheet
+          [busy]="saving()"
+          [canRemove]="sheetInitial() !== null"
+          [initial]="sheetInitial()"
+          [kind]="card.task.kind"
+          (cancelled)="closeSheet()"
+          (removed)="remove()"
+          (saved)="save($event)"
+        />
+        @if (logFailed()) {
+        <p class="form-error today__log-error" role="alert">{{ t('log.errors.saveFailed') }}</p>
+        } }
+      </li>
       }
     </ul>
   </section>

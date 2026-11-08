@@ -515,6 +515,9 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
+    "errors": {
+      "saveFailed": "Could not save. Please try again."
+    },
     "fewerAttempts": "Fewer attempts",
     "markDone": "Done",
     "moreAttempts": "More attempts",
