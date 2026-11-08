@@ -6,6 +6,8 @@ import { translocoTesting } from '@shared/testing/transloco-testing';
 import { TaskCardComponent, TaskCardView } from './task-card';
 
 const card = (overrides: Partial<TaskCardView> = {}): TaskCardView => ({
+  canEdit: false,
+  count: 0,
   done: null,
   durationMin: 5,
   id: 't1',
@@ -17,16 +19,21 @@ const card = (overrides: Partial<TaskCardView> = {}): TaskCardView => ({
 
 @Component({
   imports: [TaskCardComponent],
-  template: '<app-task-card [card]="card()" />',
+  template:
+    '<app-task-card [card]="card()" (edited)="edits = edits + 1" (marked)="marks = marks + 1" />',
 })
 class HostComponent {
   readonly card = signal(card());
+  edits = 0;
+  marks = 0;
 }
 
 describe('TaskCardComponent', () => {
+  let fixture: ComponentFixture<HostComponent>;
+
   const render = async (view: TaskCardView): Promise<HTMLElement> => {
     TestBed.configureTestingModule({ imports: [HostComponent, translocoTesting()] });
-    const fixture: ComponentFixture<HostComponent> = TestBed.createComponent(HostComponent);
+    fixture = TestBed.createComponent(HostComponent);
     fixture.componentInstance.card.set(view);
     await fixture.whenStable();
     return fixture.nativeElement as HTMLElement;
@@ -70,5 +77,33 @@ describe('TaskCardComponent', () => {
     const element = await render(card());
 
     expect(element.querySelector('.task-card__done')).toBeNull();
+  });
+
+  it('should offer Done and emit it (AC3.1)', async () => {
+    const element = await render(card());
+
+    element.querySelector<HTMLButtonElement>('.task-card__mark')?.click();
+
+    expect(fixture.componentInstance.marks).toBe(1);
+    expect(element.querySelector('.task-card__edit')).toBeNull();
+  });
+
+  it('should offer Edit only when my latest log can still be edited (AC3.6)', async () => {
+    const element = await render(
+      card({ canEdit: true, count: 1, done: { at: '09:15', by: 'Jéssica' } })
+    );
+
+    element.querySelector<HTMLButtonElement>('.task-card__edit')?.click();
+
+    expect(fixture.componentInstance.edits).toBe(1);
+  });
+
+  it('should show how many times the task was done when more than once (AC3.5)', async () => {
+    const once = await render(card({ count: 1, done: { at: '09:15', by: 'Jéssica' } }));
+    expect(once.querySelector('.task-card__count')).toBeNull();
+
+    TestBed.resetTestingModule();
+    const twice = await render(card({ count: 2, done: { at: '09:15', by: 'Jéssica' } }));
+    expect(twice.querySelector('.task-card__count')?.textContent).toContain('today.doneCount');
   });
 });

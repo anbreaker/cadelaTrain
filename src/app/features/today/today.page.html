@@ -36,8 +36,8 @@
       {{ t(slot.labelKey) }}
     </h2>
     <ul class="today__tasks">
-      @for (card of slot.cards; track card.id) {
-      <li><app-task-card [card]="card" /></li>
+      @for (card of slot.cards; track card.view.id) {
+      <li><app-task-card [card]="card.view" /></li>
       }
     </ul>
   </section>

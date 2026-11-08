@@ -514,7 +514,9 @@
     "attempts": "Tentativas",
     "cancel": "Cancelar",
     "delete": "Apagar",
+    "edit": "Editar",
     "fewerAttempts": "Menos tentativas",
+    "markDone": "Feito",
     "moreAttempts": "Mais tentativas",
     "notes": "Notas (opcional)",
     "reaction": "Como reagiu?",
@@ -579,6 +581,7 @@
     },
     "doneAt": "Feito às {{time}}",
     "doneBy": "Feito por {{name}} às {{time}}",
+    "doneCount": "{{count}} vezes",
     "minutes": "{{minutes}} min",
     "noDuration": "Sem duração fixa",
     "title": "Hoje com {{name}}"
