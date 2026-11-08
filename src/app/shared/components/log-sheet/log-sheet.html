@@ -1,0 +1,72 @@
+<form class="log-sheet" *transloco="let t" (submit)="$event.preventDefault(); save()">
+  @if (isTraining()) {
+  <div class="log-sheet__attempts">
+    <span class="log-sheet__label" id="log-attempts">{{ t('log.attempts') }}</span>
+    <div class="log-sheet__stepper" aria-labelledby="log-attempts" role="group">
+      <button
+        class="button log-sheet__attempts-less"
+        type="button"
+        [attr.aria-label]="t('log.fewerAttempts')"
+        (click)="changeAttempts(-1)"
+      >
+        −
+      </button>
+      <span class="log-sheet__attempts-value" aria-live="polite">{{ attempts() }}</span>
+      <button
+        class="button log-sheet__attempts-more"
+        type="button"
+        [attr.aria-label]="t('log.moreAttempts')"
+        (click)="changeAttempts(1)"
+      >
+        +
+      </button>
+    </div>
+  </div>
+
+  <fieldset class="fieldset log-sheet__group">
+    <legend class="fieldset__legend">{{ t('log.successes', { attempts: attempts() }) }}</legend>
+    <div class="log-sheet__options">
+      @for (count of successOptions(); track count) {
+      <button
+        class="log-sheet__option log-sheet__success"
+        type="button"
+        [attr.aria-pressed]="count === successCount()"
+        (click)="chooseSuccesses(count)"
+      >
+        {{ count }}
+      </button>
+      }
+    </div>
+  </fieldset>
+  }
+
+  <label class="field">
+    <span class="log-sheet__label">{{ t('log.notes') }}</span>
+    <textarea
+      class="field__input log-sheet__notes"
+      rows="2"
+      [maxLength]="notesMax"
+      [value]="notes()"
+      (input)="changeNotes($event)"
+    ></textarea>
+  </label>
+
+  <div class="log-sheet__actions">
+    @if (canRemove()) {
+    <button
+      class="button button--link log-sheet__remove"
+      type="button"
+      [disabled]="busy()"
+      (click)="removed.emit()"
+    >
+      {{ t('log.delete') }}
+    </button>
+    }
+    <button class="button log-sheet__cancel" type="button" (click)="cancelled.emit()">
+      {{ t('log.cancel') }}
+    </button>
+    <button class="button button--primary log-sheet__save" type="submit" [disabled]="!canSave()">
+      {{ t('log.save') }}
+    </button>
+  </div>
+</form>
