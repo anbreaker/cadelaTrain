@@ -48,3 +48,15 @@
   font-size: 0.875rem;
   font-weight: 600;
 }
+
+.task-card__count {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.task-card__actions {
+  align-items: center;
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}

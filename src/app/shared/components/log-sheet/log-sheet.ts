@@ -13,6 +13,8 @@ import {
   ATTEMPTS_MAX,
   DEFAULT_ATTEMPTS,
   NOTES_MAX,
+  Reaction,
+  REACTIONS,
   TaskLogDraft,
   validateTaskLogDraft,
 } from '@domain/task-log';
@@ -22,12 +24,13 @@ type ResultFields = (sheet: LogSheetComponent) => Partial<TaskLogDraft>;
 
 /** The result fields each kind asks for (AC3.2–AC3.4). */
 const RESULT_FIELDS: Partial<Record<TaskKind, ResultFields>> = {
+  socialization: (sheet) => ({ reaction: sheet.reaction() }),
   training: (sheet) => ({ attempts: sheet.attempts(), successCount: sheet.successCount() }),
 };
 
 /**
  * Marks a task done or edits its log: successes as one-tap numbers (Done → number → Save, AC3.8),
- * and optional notes.
+ * the reaction for socialization, and optional notes.
  */
 @Component({
   standalone: true,
@@ -50,10 +53,13 @@ export class LogSheetComponent {
 
   readonly attempts = linkedSignal(() => this.initial()?.attempts ?? DEFAULT_ATTEMPTS);
   readonly successCount = linkedSignal(() => this.initial()?.successCount);
+  readonly reaction = linkedSignal(() => this.initial()?.reaction);
   readonly notes = linkedSignal(() => this.initial()?.notes ?? '');
 
   protected readonly notesMax = NOTES_MAX;
+  protected readonly reactions = REACTIONS;
   protected readonly isTraining = computed(() => this.kind() === 'training');
+  protected readonly isSocialization = computed(() => this.kind() === 'socialization');
   protected readonly successOptions = computed(() =>
     Array.from({ length: this.attempts() + 1 }, (_, count) => count)
   );
@@ -74,6 +80,10 @@ export class LogSheetComponent {
 
   protected chooseSuccesses(count: number): void {
     this.successCount.set(count);
+  }
+
+  protected chooseReaction(reaction: Reaction): void {
+    this.reaction.set(reaction);
   }
 
   protected changeNotes(event: Event): void {

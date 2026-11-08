@@ -119,9 +119,13 @@ export class TodayPageComponent {
       timeZone: 'Europe/Madrid',
     });
     return guidance
-      ? slotViews(guidance, this.logs() ?? [], this.session.household()?.members ?? {}, (date) =>
-          time.format(date)
-        )
+      ? slotViews(guidance, {
+          formatTime: (date) => time.format(date),
+          logs: this.logs() ?? [],
+          members: this.session.household()?.members ?? {},
+          now: this.now,
+          uid: this.session.user()?.uid ?? null,
+        })
       : [];
   });
 

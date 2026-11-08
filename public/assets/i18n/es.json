@@ -514,9 +514,12 @@
     "attempts": "Intentos",
     "cancel": "Cancelar",
     "delete": "Borrar",
+    "edit": "Editar",
     "fewerAttempts": "Menos intentos",
+    "markDone": "Hecho",
     "moreAttempts": "Más intentos",
     "notes": "Notas (opcional)",
+    "reaction": "¿Cómo reaccionó?",
     "save": "Guardar",
     "successes": "Aciertos de {{attempts}}"
   },
@@ -578,6 +581,7 @@
     },
     "doneAt": "Hecho a las {{time}}",
     "doneBy": "Hecho por {{name}} a las {{time}}",
+    "doneCount": "{{count}} veces",
     "minutes": "{{minutes}} min",
     "noDuration": "Sin duración fija",
     "title": "Hoy con {{name}}"
