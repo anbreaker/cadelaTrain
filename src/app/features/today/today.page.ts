@@ -1,5 +1,5 @@
 import { catchError, Observable, of, switchMap } from 'rxjs';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -12,11 +12,19 @@ import { TaskLogRepository } from '@data/task-log.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
 import { ageInWeeks, daysUntil, madridToday } from '@domain/dates';
 import { DailyGuidance, healthMessageKey } from '@domain/guidance';
+import { TaskLogDraft } from '@domain/task-log';
 import { templateGuidance } from '@domain/template-guidance';
+import { LogSheetComponent } from '@shared/components/log-sheet/log-sheet';
 import { TaskCardComponent } from '@shared/components/task-card/task-card';
 import { pluralKey } from '@shared/utils/plural-key';
 
-import { slotViews } from './today-view';
+import { DayCard, slotViews } from './today-view';
+
+/** The task whose log sheet is open: a new completion, or my latest log being edited. */
+interface OpenSheet {
+  card: DayCard;
+  mode: 'edit' | 'new';
+}
 
 interface DayKey {
   dogId: string;
@@ -29,12 +37,13 @@ const sameDay = (a: DayKey | null, b: DayKey | null): boolean =>
 /**
  * Today's guide for the puppy (H2): the stored guidance of the Madrid date, or the template built
  * from the bundled catalogs while none exists, so the day is never empty. Before the arrival it
- * shows the countdown and the preparation checklist instead.
+ * shows the countdown and the preparation checklist instead. Tasks are logged, edited and deleted
+ * from the card's sheet (H3).
  */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskCardComponent, TranslocoDirective],
+  imports: [LogSheetComponent, TaskCardComponent, TranslocoDirective],
   selector: 'app-today-page',
   styleUrl: './today.page.css',
   templateUrl: './today.page.html',
@@ -128,6 +137,66 @@ export class TodayPageComponent {
         })
       : [];
   });
+
+  protected readonly logFailed = signal(false);
+  protected readonly saving = signal(false);
+  protected readonly sheet = signal<null | OpenSheet>(null);
+  protected readonly sheetTaskId = computed(() => this.sheet()?.card.task.id ?? null);
+  protected readonly sheetInitial = computed(() => {
+    const sheet = this.sheet();
+    return sheet?.mode === 'edit' ? (sheet.card.edit?.draft ?? null) : null;
+  });
+
+  protected openSheet(card: DayCard, mode: OpenSheet['mode']): void {
+    this.logFailed.set(false);
+    this.sheet.set({ card, mode });
+  }
+
+  protected closeSheet(): void {
+    this.sheet.set(null);
+  }
+
+  protected save(draft: TaskLogDraft): Promise<void> {
+    return this.write((key, { card, mode }, uid) =>
+      mode === 'edit' && card.edit
+        ? this.taskLogRepository.update(key.householdId, key.dogId, card.edit.log, draft)
+        : this.taskLogRepository.log(
+            key.householdId,
+            key.dogId,
+            { draft, guidanceDate: this.today, task: card.task },
+            uid
+          )
+    );
+  }
+
+  protected remove(): Promise<void> {
+    return this.write((key, { card }) =>
+      card.edit
+        ? this.taskLogRepository.remove(key.householdId, key.dogId, card.edit.log)
+        : Promise.resolve()
+    );
+  }
+
+  /** Runs one write for the open sheet; closes it on success, keeps it open with an error otherwise. */
+  private async write(
+    run: (key: DayKey, sheet: OpenSheet, uid: string) => Promise<unknown>
+  ): Promise<void> {
+    const key = this.dayKey();
+    const sheet = this.sheet();
+    const uid = this.session.user()?.uid;
+    if (!key || !sheet || !uid || this.saving()) return;
+    this.saving.set(true);
+    this.logFailed.set(false);
+    try {
+      await run(key, sheet, uid);
+      this.sheet.set(null);
+    } catch (error) {
+      console.warn('Today: could not save the log', error);
+      this.logFailed.set(true);
+    } finally {
+      this.saving.set(false);
+    }
+  }
 
   /** Follows the household dog; a read failure falls back to the template or no done marks. */
   private watch<T>(read: (key: DayKey) => Observable<T>): Observable<null | T> {

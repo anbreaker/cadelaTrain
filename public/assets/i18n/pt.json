@@ -515,6 +515,9 @@
     "cancel": "Cancelar",
     "delete": "Apagar",
     "edit": "Editar",
+    "errors": {
+      "saveFailed": "Não foi possível guardar. Tenta de novo."
+    },
     "fewerAttempts": "Menos tentativas",
     "markDone": "Feito",
     "moreAttempts": "Mais tentativas",
