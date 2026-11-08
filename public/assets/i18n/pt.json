@@ -510,6 +510,16 @@
     "pt": "Português",
     "ptVariant": "Portugal"
   },
+  "log": {
+    "attempts": "Tentativas",
+    "cancel": "Cancelar",
+    "delete": "Apagar",
+    "fewerAttempts": "Menos tentativas",
+    "moreAttempts": "Mais tentativas",
+    "notes": "Notas (opcional)",
+    "save": "Guardar",
+    "successes": "Acertos em {{attempts}}"
+  },
   "nav": {
     "closeMenu": "Fechar menu",
     "household": "Casa",
