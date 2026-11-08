@@ -4,3 +4,4 @@ dist/
 reports/
 *.min.js
 package-lock.json
+*.md
