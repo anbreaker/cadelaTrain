@@ -30,7 +30,8 @@ export function readOnlyConverter<T>(parse: DocumentParser<T>): FirestoreDataCon
 
 const readValid = <T>(snapshot: QueryDocumentSnapshot<T>): T[] => {
   try {
-    return [snapshot.data()];
+    // A pending `serverTimestamp()` reads as `null` unless estimated; the server value replaces it.
+    return [snapshot.data({ serverTimestamps: 'estimate' })];
   } catch (error) {
     if (!(error instanceof InvalidDocumentError)) throw error;
     // One malformed document must not hide the valid ones in a list.

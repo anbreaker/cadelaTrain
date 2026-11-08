@@ -70,4 +70,12 @@ describe('validDocs', () => {
 
     expect(() => validDocs([broken])).toThrow(TypeError);
   });
+
+  it('should read pending server timestamps as local estimates, so a new log shows at once', () => {
+    const data = vi.fn((): Named => ({ id: 'a', name: 'A' }));
+
+    validDocs([{ data } as unknown as QueryDocumentSnapshot<Named>]);
+
+    expect(data).toHaveBeenCalledWith({ serverTimestamps: 'estimate' });
+  });
 });

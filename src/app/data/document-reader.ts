@@ -64,9 +64,19 @@ export class DocumentReader {
     return this.read(field, isValue);
   }
 
+  /** `undefined` when the field is missing. */
+  optionalInteger(field: string, min: number, max: number): number | undefined {
+    return this.data[field] === undefined ? undefined : this.integer(field, min, max);
+  }
+
   /** An optional catalog key: `undefined` when missing, otherwise a non-empty string. */
   optionalKey(field: string): string | undefined {
     return this.data[field] === undefined ? undefined : this.read(field, isKey);
+  }
+
+  /** `undefined` when the field is missing. */
+  optionalOneOf<T extends string>(field: string, values: readonly T[]): T | undefined {
+    return this.data[field] === undefined ? undefined : this.oneOf(field, values);
   }
 
   /** Optional strings are omitted by some writers; the domain models them as empty. */
