@@ -30,7 +30,7 @@ Dela (code name of **cadelaTrain**) helps a family educate their puppy: AI-gener
 
 ### 🧭 Overview
 
-> Status: MVP in progress. H1 (sign-up, household, invitations, puppy) is done; H2 (today's guide, from a template until the AI engine arrives) is being built; logging, progress and media follow.
+> Status: MVP in progress. H1 (sign-up, household, invitations, puppy), H2 (today's guide, from a template until the AI engine arrives) and H3 (logging tasks) are done; progress and media follow.
 
 - **Daily guidance**: every morning at 06:00 (Madrid time) the app plans the day by time slot from the 8-week plan and the last days' logs. Rules live in code (never move on below 8/10, lower the difficulty when a skill goes badly, one new socialization a day, end every session on something the puppy knows); Claude only writes the day; a template is the fallback.
 - **Shared log**: every completed task records who did it and when; training logs successes out of 10, socialization logs the reaction.
@@ -80,7 +80,7 @@ Gitflow: `main` (production), `develop` (integration), `feature/*`, `fix/*`, `ch
 
 ### 🧭 Resumen
 
-> Estado: MVP en construcción. H1 (registro, hogar, invitaciones y cachorro) está terminado; se está construyendo H2 (las pautas del día, con una plantilla hasta que llegue el motor de IA); después llegan el registro, el progreso y las fotos y vídeos.
+> Estado: MVP en construcción. H1 (registro, hogar, invitaciones y cachorro), H2 (las pautas del día, con una plantilla hasta que llegue el motor de IA) y H3 (registro de tareas) están terminados; después llegan el progreso y las fotos y vídeos.
 
 - **Pautas diarias**: cada mañana a las 6:00 (hora de Madrid) la app planifica el día por franjas a partir del plan de 8 semanas y de los registros de los últimos días. Las reglas están en el código (no se avanza por debajo de 8 de 10, se baja la dificultad si una habilidad va mal, una socialización nueva al día, cada sesión termina con algo que ya sabe); Claude solo redacta el día y, si falla, se usa una plantilla.
 - **Registro compartido**: cada tarea hecha guarda quién la hizo y cuándo; en los entrenos, aciertos de cada 10; en la socialización, la reacción.
@@ -130,7 +130,7 @@ Gitflow: `main` (producción), `develop` (integración), `feature/*`, `fix/*`, `
 
 ### 🧭 Resumo
 
-> Estado: MVP em construção. O H1 (registo, casa, convites e cachorro) está concluído; está a ser construído o H2 (as orientações do dia, com um modelo até chegar o motor de IA); seguem-se o registo de treinos, o progresso e as fotos e vídeos.
+> Estado: MVP em construção. O H1 (registo, casa, convites e cachorro), o H2 (as orientações do dia, com um modelo até chegar o motor de IA) e o H3 (registo de tarefas) estão concluídos; seguem-se o progresso e as fotos e vídeos.
 
 - **Orientações diárias**: todas as manhãs às 6:00 (hora de Madrid) a app planeia o dia por períodos a partir do plano de 8 semanas e dos registos dos últimos dias. As regras estão no código (não se avança abaixo de 8 em 10, baixa-se a dificuldade quando uma competência corre mal, uma socialização nova por dia, cada sessão termina com algo que o cachorro já sabe); o Claude só redige o dia e, se falhar, usa-se um modelo.
 - **Registo partilhado**: cada tarefa feita guarda quem a fez e quando; nos treinos, acertos em cada 10; na socialização, a reação.

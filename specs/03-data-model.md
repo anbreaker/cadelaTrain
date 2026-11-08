@@ -115,7 +115,7 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 | doneAt | timestamp | `== request.time` |
 
 ### `socializationLogs/{logId}`
-`itemKey`, `reaction`, `notes`, `doneBy`, `doneAt`, `taskLogId?` (when it came from a guidance task). A socialization task completion writes both logs in one batch.
+`itemKey`, `reaction`, `notes`, `doneBy`, `doneAt`, `taskLogId?` (when it came from a guidance task). A socialization task completion writes both logs in one batch, and the socialization log reuses the task log id, so editing or deleting one updates the other in the same batch.
 
 ### `weightLogs/{logId}`
 `kg` (number 0.5–100), `measuredOn` (`YYYY-MM-DD`), `doneBy`, `doneAt`.
