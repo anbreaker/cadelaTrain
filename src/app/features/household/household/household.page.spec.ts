@@ -1,10 +1,14 @@
-import { Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
+import { NOW } from '@core/time/now';
 import { Invitation } from '@data/household.converter';
 import { HouseholdRepository } from '@data/household.repository';
+import { TaskLogRepository } from '@data/task-log.repository';
+import { Dog } from '@domain/dog';
 import { Household } from '@domain/household';
+import { TaskLog } from '@domain/task-log';
 import { createFakeSession, FakeSession } from '@shared/testing/fake-session';
 import { translocoTesting } from '@shared/testing/transloco-testing';
 
@@ -23,6 +27,31 @@ const household: Household = {
   timezone: 'Europe/Madrid',
 };
 
+const dela: Dog = {
+  arrivalDate: '2026-12-10',
+  birthDate: '2026-10-15',
+  breed: 'Labrador',
+  environment: 'rural',
+  id: 'd1',
+  name: 'Dela',
+  notes: '',
+  planWeek: 1,
+  sleepsOutdoors: true,
+};
+
+const sitLog: TaskLog = {
+  attempts: 10,
+  doneAt: new Date('2026-12-20T07:05:00Z'),
+  doneBy: 'jess',
+  guidanceDate: '2026-12-20',
+  id: 'l1',
+  kind: 'training',
+  notes: 'Se sentó a la primera',
+  skillKey: 'sit',
+  successCount: 8,
+  taskId: 'session1',
+};
+
 const pending: Invitation = {
   email: 'luis@example.com',
   householdId: 'h1',
@@ -34,6 +63,10 @@ describe('HouseholdPageComponent', () => {
   let session: FakeSession;
   let invitations$: Subject<Invitation[]>;
   let households: { invite: ReturnType<typeof vi.fn>; watchInvitations: ReturnType<typeof vi.fn> };
+  let taskLogs: {
+    watchAll: ReturnType<typeof vi.fn>;
+    watchSocialization: ReturnType<typeof vi.fn>;
+  };
 
   const render = async (): Promise<ComponentFixture<HouseholdPageComponent>> => {
     TestBed.configureTestingModule({
@@ -41,6 +74,8 @@ describe('HouseholdPageComponent', () => {
       providers: [
         { provide: AuthSessionStore, useValue: session },
         { provide: HouseholdRepository, useValue: households },
+        { provide: TaskLogRepository, useValue: taskLogs },
+        { provide: NOW, useValue: () => new Date('2026-12-20T09:00:00Z') },
       ],
     });
     const fixture = TestBed.createComponent(HouseholdPageComponent);
@@ -83,6 +118,64 @@ describe('HouseholdPageComponent', () => {
       invite: vi.fn(async () => 'invited'),
       watchInvitations: vi.fn(() => invitations$),
     };
+    taskLogs = {
+      watchAll: vi.fn(() => of([sitLog])),
+      watchSocialization: vi.fn(() => of([])),
+    };
+  });
+
+  describe('notes export', () => {
+    let saved: Blob | undefined;
+    let fileName: string | undefined;
+
+    beforeEach(() => {
+      saved = undefined;
+      fileName = undefined;
+      URL.createObjectURL = vi.fn((blob: Blob) => {
+        saved = blob;
+        return 'blob:notes';
+      });
+      URL.revokeObjectURL = vi.fn();
+      vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (
+        this: HTMLAnchorElement
+      ) {
+        fileName = this.download;
+      });
+    });
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it('should download every log of the dog as a dated notes file', async () => {
+      session.set.dog.set(dela);
+      const fixture = await render();
+      element(fixture).querySelector<HTMLButtonElement>('.household__export')?.click();
+      await fixture.whenStable();
+
+      expect(taskLogs.watchAll).toHaveBeenCalledWith('h1', 'd1');
+      expect(fileName).toBe('dela-notes-2026-12-20.md');
+      expect(await saved?.text()).toContain('Jéssica · training · sit');
+      expect(await saved?.text()).toContain('Se sentó a la primera');
+    });
+
+    it('should say when the notes could not be read and download nothing', async () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      session.set.dog.set(dela);
+      taskLogs.watchAll.mockReturnValueOnce(throwError(() => new Error('offline')));
+      const fixture = await render();
+      element(fixture).querySelector<HTMLButtonElement>('.household__export')?.click();
+      await fixture.whenStable();
+
+      expect(saved).toBeUndefined();
+      expect(element(fixture).querySelector('.household__export-error')?.textContent).toContain(
+        'household.notes.failed'
+      );
+    });
+
+    it('should not offer the export before the puppy is registered', async () => {
+      const fixture = await render();
+
+      expect(element(fixture).querySelector('.household__export')).toBeNull();
+    });
   });
 
   it('should list the members with their role and the pending invitations (AC1.3)', async () => {

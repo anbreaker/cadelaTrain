@@ -45,6 +45,11 @@ export class DocumentReader {
     return this.read(field, isInRange);
   }
 
+  /** A required catalog key: a non-empty string. */
+  key(field: string): string {
+    return this.read(field, isKey);
+  }
+
   keys(): string[] {
     return Object.keys(this.data);
   }

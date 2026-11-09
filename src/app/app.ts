@@ -24,9 +24,10 @@ import { NavItem, SiteHeaderComponent } from '@shared/components/site-header/sit
 import { UnavailableStateComponent } from '@shared/components/unavailable-state/unavailable-state';
 import { UpdateBannerComponent } from '@shared/components/update-banner/update-banner';
 
-/** Only screens that exist are listed; later stories add progress and the weekly review. */
+/** Only screens that exist are listed; a later story adds the weekly review. */
 const NAV_ITEMS: readonly NavItem[] = [
   { labelKey: 'nav.today', path: '/today' },
+  { labelKey: 'nav.progress', path: '/progress' },
   { labelKey: 'nav.rules', path: '/rules' },
   { labelKey: 'nav.household', path: '/household' },
 ];

@@ -117,6 +117,7 @@
         "label": "The same puppy food the breeder uses, for the first days"
       },
       "cleaning": {
+        "hint": "Enzymatic cleaner breaks down the smell of pee and poop, so she doesn't go back to the same spot. Don't use bleach or ammonia: they smell like urine. The bags are for picking up poop.",
         "label": "Enzymatic cleaner and bags for accidents"
       },
       "collarAndLeash": {
@@ -145,12 +146,16 @@
       }
     },
     "principles": {
+      "calmPlay": "Play is fine, but chasing over and over (balls, sticks) shouldn't be the center of her day; balance it with exploring and calm.",
       "endWell": "Always end on a good note.",
       "foodAndSleep": "She eats 3 times a day until 4–6 months and sleeps 16–18 hours.",
       "lowerDifficulty": "If something isn't working, make it easier.",
+      "noFenceWatching": "Watching the fence or the road isn't her job: don't let her spend hours on guard.",
+      "restAfterActivity": "After activity comes rest: go out, train, eat, sleep.",
       "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, leave it, off, good.",
       "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
-      "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\"."
+      "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
+      "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
     },
     "schedule": {
       "afternoonRest": {
@@ -483,6 +488,13 @@
     "localeLegend": "Guidance language",
     "members": "Members",
     "nameLabel": "Household name",
+    "notes": {
+      "export": "Export notes",
+      "exporting": "Preparing…",
+      "failed": "Couldn't read the notes. Check your connection and try again.",
+      "hint": "Download every log and note in one file for the weekly training review.",
+      "title": "{{name}}'s notes"
+    },
     "status": {
       "member": "Member",
       "owner": "Owner",
@@ -531,11 +543,49 @@
     "household": "Household",
     "label": "Main",
     "openMenu": "Open menu",
+    "progress": "Progress",
     "rules": "Rules",
     "today": "Today"
   },
   "onboarding": {
     "step": "Step {{current}} of {{total}}"
+  },
+  "progress": {
+    "errors": {
+      "readFailed": "Couldn't load progress. Check your connection."
+    },
+    "skills": {
+      "empty": "Not trained yet.",
+      "hint": "The rate uses the 10 most recent attempts from the past 7 days. At 80% or more, the skill is mastered.",
+      "mastered": "Mastered",
+      "noRate": "Not enough attempts yet: it takes 10 in the past 7 days.",
+      "rate": "{{rate}}% success",
+      "sessions": {
+        "one": "1 session",
+        "other": "{{count}} sessions"
+      },
+      "title": "Skills",
+      "trendDay": "{{date}}: {{rate}}%",
+      "trendDayEmpty": "{{date}}: not trained",
+      "trendLabel": "Last 14 days"
+    },
+    "socialization": {
+      "deadline": {
+        "one": "1 day left until {{name}} turns 16 weeks, the end of the key socialization stage.",
+        "other": "{{days}} days left until {{name}} turns 16 weeks, the end of the key socialization stage."
+      },
+      "deadlinePassed": "{{name}} is already 16 weeks old. Keep socializing calmly.",
+      "done": "Done",
+      "last": "Last reaction:",
+      "pending": "Pending",
+      "pendingCount": {
+        "one": "1 pending",
+        "other": "{{count}} pending"
+      },
+      "repeatGently": "Repeat more gently: farther away, quieter or shorter.",
+      "title": "Socialization"
+    },
+    "title": "Progress with {{name}}"
   },
   "pwa": {
     "reload": "Reload",
@@ -600,6 +650,7 @@
     "doneCount": "{{count}} times",
     "minutes": "{{minutes}} min",
     "noDuration": "No set duration",
+    "optional": "Optional",
     "title": "Today with {{name}}"
   }
 }

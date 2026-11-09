@@ -50,6 +50,8 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC3.7 Health flag (deferred, see `05-roadmap.md`).** If notes contain health terms (vomiting, limping, wound, processionary caterpillar…, matched per locale), the app shows the `health.consultVet` banner after saving. Urgent terms (processionary caterpillar, poison, seizure, not breathing, heavy bleeding) show `health.vetEmergency`. No other health text is shown.
 - **AC3.8** A default training log takes ≤ 3 taps with one hand.
 
+- **AC3.9 Notes export.** From Household, any member downloads every task log and socialization log of the dog as one Markdown file (`dela-notes-YYYY-MM-DD.md`, Madrid date), grouped by day with who, what, result or reaction and the notes verbatim. It uses the member's own access, so the weekly training review needs no server credential. Notes can be typed or dictated with the phone keyboard's voice input.
+
 ## H4. Progress
 
 > I see success rate per skill over time and the socialization checklist.

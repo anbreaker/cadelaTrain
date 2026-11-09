@@ -52,6 +52,13 @@ export const routes: Routes = [
       },
       {
         ...sessionRoute(['ready']),
+        loadComponent: () =>
+          import('@features/progress/progress.page').then((m) => m.ProgressPageComponent),
+        path: 'progress',
+        title: 'Dela',
+      },
+      {
+        ...sessionRoute(['ready']),
         loadComponent: () => import('@features/rules/rules.page').then((m) => m.RulesPageComponent),
         path: 'rules',
         title: 'Dela',

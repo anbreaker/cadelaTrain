@@ -1,5 +1,5 @@
 {
-  "i18nFields": ["label"],
+  "i18nFields": ["label", "hint"],
   "i18nPrefix": "catalog.preparation",
   "items": [
     {
@@ -36,6 +36,12 @@
       "label": "Family rules: the same word for each cue, who feeds her and where she sleeps",
       "order": 10
     },
-    { "key": "cleaning", "label": "Enzymatic cleaner and bags for accidents", "order": 11 }
+    {
+      "key": "cleaning",
+      "label": "Enzymatic cleaner and bags for accidents",
+      "order": 11,
+      "optional": true,
+      "hint": "Enzymatic cleaner breaks down the smell of pee and poop, so she does not go back to the same spot. Do not use bleach or ammonia: they smell like urine. The bags are for picking up poop."
+    }
   ]
 }

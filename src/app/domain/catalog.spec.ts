@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import principlesSeed from '../../../seed/principles.json';
 import {
   CARE_ALERTS,
   PLAN_WEEKS,
@@ -54,6 +55,12 @@ describe('bundled catalogs', () => {
       expect(has(`catalog.careAlerts.${alert.key}.message`)).toBe(true);
   });
 
+  it('should translate every training principle', () => {
+    expect(principlesSeed.items.length).toBeGreaterThan(0);
+    for (const principle of principlesSeed.items)
+      expect(has(`catalog.principles.${principle.key}`)).toBe(true);
+  });
+
   it('should list the preparation checklist in order, every item translated (AC2.5)', () => {
     expect(PREPARATION_ITEMS.length).toBeGreaterThan(0);
     expect(PREPARATION_ITEMS.map((item) => item.order)).toEqual(
@@ -61,6 +68,13 @@ describe('bundled catalogs', () => {
     );
     for (const item of PREPARATION_ITEMS)
       expect(has(`catalog.preparation.${item.key}.label`)).toBe(true);
+  });
+
+  it('should translate the hint of every preparation item that has one', () => {
+    const withHint = PREPARATION_ITEMS.filter((item) => item.hint);
+
+    expect(withHint.map((item) => item.key)).toContain('cleaning');
+    for (const item of withHint) expect(has(`catalog.preparation.${item.key}.hint`)).toBe(true);
   });
 
   it('should clamp the plan week to 1–8', () => {
