@@ -556,6 +556,22 @@
       "trendDayEmpty": "{{date}}: sin entrenar",
       "trendLabel": "Últimos 14 días"
     },
+    "socialization": {
+      "deadline": {
+        "one": "Queda 1 día para que {{name}} cumpla 16 semanas, el final de la etapa clave de socialización.",
+        "other": "Quedan {{days}} días para que {{name}} cumpla 16 semanas, el final de la etapa clave de socialización."
+      },
+      "deadlinePassed": "{{name}} ya ha cumplido 16 semanas. Sigue socializando con calma.",
+      "done": "Hecho",
+      "last": "Última reacción:",
+      "pending": "Pendiente",
+      "pendingCount": {
+        "one": "1 pendiente",
+        "other": "{{count}} pendientes"
+      },
+      "repeatGently": "Repetir con menos intensidad: más lejos, más bajo o más corto.",
+      "title": "Socialización"
+    },
     "title": "Progreso con {{name}}"
   },
   "pwa": {

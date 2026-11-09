@@ -40,5 +40,46 @@
       }
     </ul>
   </section>
+
+  <section class="progress__section" aria-labelledby="social-title">
+    <h2 class="progress__section-title" id="social-title">
+      {{ t('progress.socialization.title') }}
+    </h2>
+    <div class="progress__deadline">
+      @if (deadline().days > 0) {
+      <span class="progress__deadline-number" aria-hidden="true">{{ deadline().days }}</span>
+      }
+      <div class="progress__deadline-body">
+        <p class="progress__deadline-text">
+          {{ t(deadline().key, { days: deadline().days, name: dog.name }) }}
+        </p>
+        <p class="meta progress__pending">{{ t(pending().key, { count: pending().count }) }}</p>
+      </div>
+    </div>
+
+    @for (group of groups(); track group.category) {
+    <section class="social-group" [attr.aria-labelledby]="'social-' + group.category">
+      <h3 class="social-group__title" [id]="'social-' + group.category">{{ t(group.labelKey) }}</h3>
+      <ul class="social-group__items">
+        @for (item of group.items; track item.key) {
+        <li class="social-item" [class.social-item--repeat]="item.repeatGently">
+          <div class="social-item__head">
+            <span class="social-item__label">{{ t(item.labelKey) }}</span>
+            <span class="social-item__status">{{ t(item.statusKey) }}</span>
+          </div>
+          @if (item.reactionKey; as reactionKey) {
+          <p class="meta social-item__last">
+            {{ t('progress.socialization.last') }} {{ t(reactionKey) }} @if (item.by) { · {{ item.by
+            }} }
+          </p>
+          } @if (item.repeatGently) {
+          <p class="social-item__repeat">{{ t('progress.socialization.repeatGently') }}</p>
+          }
+        </li>
+        }
+      </ul>
+    </section>
+    }
+  </section>
   }
 </div>

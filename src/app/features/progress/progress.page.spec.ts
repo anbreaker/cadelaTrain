@@ -6,7 +6,7 @@ import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { TaskLogRepository } from '@data/task-log.repository';
-import { SKILLS } from '@domain/catalog';
+import { SKILLS, SOCIALIZATION_CATEGORIES, SOCIALIZATION_ITEMS } from '@domain/catalog';
 import { Dog } from '@domain/dog';
 import { Household } from '@domain/household';
 import { SocializationLog, TaskLog } from '@domain/task-log';
@@ -116,6 +116,44 @@ describe('ProgressPageComponent', () => {
     );
     expect(name.querySelector('.skill-card__trend')).toBeNull();
     expect(name.querySelector('.skill-card__badge')).toBeNull();
+  });
+
+  it('should list the socialization checklist by category, flagging fear with who did it (AC4.4)', async () => {
+    const key = SOCIALIZATION_ITEMS[0].key;
+    social$ = of([
+      {
+        doneAt: new Date('2026-12-19T08:00:00Z'),
+        doneBy: 'alice',
+        id: 's1',
+        itemKey: key,
+        notes: '',
+        reaction: 'fear',
+      },
+    ]);
+    const element = await render();
+    const first = element.querySelector<HTMLElement>('.social-item');
+
+    expect(element.querySelectorAll('.social-group')).toHaveLength(SOCIALIZATION_CATEGORIES.length);
+    expect(element.querySelectorAll('.social-item')).toHaveLength(SOCIALIZATION_ITEMS.length);
+    expect(first?.classList).toContain('social-item--repeat');
+    expect(first?.textContent).toContain('progress.socialization.pending');
+    expect(first?.textContent).toContain('reactions.fear');
+    expect(first?.textContent).toContain('Jéssica');
+    expect(first?.querySelector('.social-item__repeat')?.textContent).toContain(
+      'progress.socialization.repeatGently'
+    );
+  });
+
+  it('should count the days left until 16 weeks and the pending items (AC4.5)', async () => {
+    const element = await render();
+
+    expect(element.querySelector('.progress__deadline-number')?.textContent?.trim()).toBe('46');
+    expect(element.querySelector('.progress__deadline-text')?.textContent).toContain(
+      'progress.socialization.deadline.other'
+    );
+    expect(element.querySelector('.progress__pending')?.textContent).toContain(
+      'progress.socialization.pendingCount.other'
+    );
   });
 
   it('should say the logs could not be read and keep the empty cards', async () => {

@@ -59,6 +59,8 @@ export const PLAN_WEEKS = planWeeksSeed.items as PlanWeek[];
 /** In teaching order: easiest first. */
 export const SKILLS = skillsSeed.items as Skill[];
 export const SOCIALIZATION_ITEMS = socializationSeed.items as SocializationItem[];
+/** Checklist groups, in display order. */
+export const SOCIALIZATION_CATEGORIES: readonly string[] = socializationSeed.categories;
 export const CARE_ALERTS = careAlertsSeed.items as CareAlert[];
 /** In checklist order. */
 export const PREPARATION_ITEMS = [...(preparationSeed.items as PreparationItem[])].sort(
