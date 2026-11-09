@@ -531,10 +531,32 @@
     "household": "Casa",
     "label": "Principal",
     "openMenu": "Abrir menu",
+    "progress": "Progresso",
     "today": "Hoje"
   },
   "onboarding": {
     "step": "Passo {{current}} de {{total}}"
+  },
+  "progress": {
+    "errors": {
+      "readFailed": "Não foi possível carregar o progresso. Verifica a ligação."
+    },
+    "skills": {
+      "empty": "Ainda sem treino.",
+      "hint": "A taxa usa as 10 tentativas mais recentes dos últimos 7 dias. Com 80 % ou mais, a competência está dominada.",
+      "mastered": "Dominada",
+      "noRate": "Faltam tentativas: são precisas 10 nos últimos 7 dias.",
+      "rate": "{{rate}} % de acertos",
+      "sessions": {
+        "one": "1 sessão",
+        "other": "{{count}} sessões"
+      },
+      "title": "Competências",
+      "trendDay": "{{date}}: {{rate}} %",
+      "trendDayEmpty": "{{date}}: sem treino",
+      "trendLabel": "Últimos 14 dias"
+    },
+    "title": "Progresso com {{name}}"
   },
   "pwa": {
     "reload": "Recarregar",

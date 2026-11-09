@@ -531,10 +531,32 @@
     "household": "Household",
     "label": "Main",
     "openMenu": "Open menu",
+    "progress": "Progress",
     "today": "Today"
   },
   "onboarding": {
     "step": "Step {{current}} of {{total}}"
+  },
+  "progress": {
+    "errors": {
+      "readFailed": "Couldn't load progress. Check your connection."
+    },
+    "skills": {
+      "empty": "Not trained yet.",
+      "hint": "The rate uses the 10 most recent attempts from the past 7 days. At 80% or more, the skill is mastered.",
+      "mastered": "Mastered",
+      "noRate": "Not enough attempts yet: it takes 10 in the past 7 days.",
+      "rate": "{{rate}}% success",
+      "sessions": {
+        "one": "1 session",
+        "other": "{{count}} sessions"
+      },
+      "title": "Skills",
+      "trendDay": "{{date}}: {{rate}}%",
+      "trendDayEmpty": "{{date}}: not trained",
+      "trendLabel": "Last 14 days"
+    },
+    "title": "Progress with {{name}}"
   },
   "pwa": {
     "reload": "Reload",
