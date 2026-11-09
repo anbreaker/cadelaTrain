@@ -5,16 +5,16 @@ const firebaseError = (code: string): Error & { code: string } =>
 
 describe('authErrorKey', () => {
   it('should explain an expired or used sign-in link', () => {
-    expect(authErrorKey(firebaseError('auth/expired-action-code'), 'auth.errors.sendFailed')).toBe(
+    expect(authErrorKey(firebaseError('auth/expired-action-code'), 'auth.errors.googleFailed')).toBe(
       'auth.errors.linkInvalid'
     );
-    expect(authErrorKey(firebaseError('auth/invalid-action-code'), 'auth.errors.sendFailed')).toBe(
+    expect(authErrorKey(firebaseError('auth/invalid-action-code'), 'auth.errors.googleFailed')).toBe(
       'auth.errors.linkInvalid'
     );
   });
 
   it('should treat an email the provider rejects as invalid', () => {
-    expect(authErrorKey(firebaseError('auth/invalid-email'), 'auth.errors.sendFailed')).toBe(
+    expect(authErrorKey(firebaseError('auth/invalid-email'), 'auth.errors.googleFailed')).toBe(
       'auth.errors.emailInvalid'
     );
   });
@@ -32,6 +32,6 @@ describe('authErrorKey', () => {
     expect(
       authErrorKey(firebaseError('auth/network-request-failed'), 'auth.errors.googleFailed')
     ).toBe('auth.errors.googleFailed');
-    expect(authErrorKey('boom', 'auth.errors.sendFailed')).toBe('auth.errors.sendFailed');
+    expect(authErrorKey('boom', 'auth.errors.googleFailed')).toBe('auth.errors.googleFailed');
   });
 });

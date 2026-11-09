@@ -48,7 +48,7 @@ Developed with AI coding agents using Organic-Driven Development with [gentle-ai
 - Angular 22 (standalone, `OnPush`, signals, zoneless), TypeScript 6 strict
 - Vite 8 + `@analogjs/vite-plugin-angular`, native CSS (BEM, mobile-first), View Transitions
 - Transloco 8 (`es`, `pt`, `en`)
-- Firebase Auth (email link, Google) and Firestore (`europe-southwest1`), security rules tested on the emulator
+- Firebase Auth (Google) and Firestore (`europe-southwest1`), security rules tested on the emulator
 - Vercel hosting, Vercel Functions in `api/`, Vercel Cron
 - Claude API (server side only) for the daily guidance
 - `@angular/service-worker` (installable PWA)
@@ -68,7 +68,7 @@ npm run build        # production build + service worker check
 
 `npm run dev` needs no Firebase configuration: without it the development build uses the local emulators. Access is private, so put the emails that may sign in in `.env` as `ALLOWED_EMAILS=you@example.com,partner@example.com`; `npm run dev` allows them in the emulator. Requirements: Node.js `>= 22.19.0`, npm `>= 10.9.3`, Java for the emulators.
 
-The emulator sends no email: after asking for a sign-in link, use the "Open the emulator link" button on the "check your email" screen (development only).
+Sign-in is Google only; with the emulators, the button opens the Auth emulator's fake account picker.
 
 ### 🌿 Branching and commits
 

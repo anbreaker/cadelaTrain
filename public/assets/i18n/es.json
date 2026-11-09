@@ -3,31 +3,18 @@
     "name": "Dela"
   },
   "auth": {
-    "checkEmailText": "Te hemos enviado un enlace a {{email}}. Ábrelo en este dispositivo para entrar.",
-    "checkEmailTitle": "Revisa tu correo",
-    "confirmEmail": "Entrar",
-    "confirmEmailText": "Has abierto el enlace en otro dispositivo. Escribe el email al que lo enviamos.",
-    "confirmEmailTitle": "Confirma tu email",
-    "emailLabel": "Tu email",
     "emailPlaceholder": "nombre@ejemplo.com",
     "errors": {
       "emailInvalid": "Escribe un email válido.",
-      "emulatorLinkMissing": "El emulador no tiene ningún enlace para este email. Pide uno nuevo.",
       "googleFailed": "No se ha podido entrar con Google. Inténtalo de nuevo.",
       "linkInvalid": "El enlace ha caducado o ya se ha usado. Pide uno nuevo.",
       "notAllowed": "Esta cuenta no tiene acceso a Dela. Entra con el email de la familia.",
-      "sendFailed": "No hemos podido enviar el enlace. Inténtalo de nuevo.",
       "sessionFailed": "No hemos podido cargar tu cuenta. Vuelve a entrar."
     },
     "google": "Continuar con Google",
     "lead": "Pautas cortas en positivo y un registro compartido para toda la familia.",
-    "noPassword": "Sin contraseñas: te llega un enlace al correo.",
-    "openEmulatorLink": "Abrir el enlace del emulador",
-    "or": "o",
-    "sendLink": "Enviarme un enlace para entrar",
     "signingIn": "Entrando…",
-    "tagline": "Educad a vuestro cachorro, cada día un poco",
-    "useAnotherEmail": "Usar otro email"
+    "tagline": "Educad a vuestro cachorro, cada día un poco"
   },
   "catalog": {
     "careAlerts": {
