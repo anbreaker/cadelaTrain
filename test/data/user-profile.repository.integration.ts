@@ -2,7 +2,7 @@ import { assertFails, RulesTestEnvironment } from '@firebase/rules-unit-testing'
 
 import { UserProfileRepository } from '@data/user-profile.repository';
 
-import { createRulesEnvironment, dbAs, OUTSIDER, OWNER } from '../rules/support';
+import { createRulesEnvironment, dbAs, OUTSIDER, OWNER, resetFirestore } from '../rules/support';
 import { firstMatching, repositoryFor } from './support';
 
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
@@ -20,7 +20,7 @@ describe('UserProfileRepository on the emulator', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
   });
 
   afterAll(async () => {

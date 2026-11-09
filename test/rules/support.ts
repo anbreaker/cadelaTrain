@@ -22,6 +22,15 @@ export const OWNER: TestUser = { displayName: 'Alice', email: 'alice@example.com
 export const MEMBER: TestUser = { displayName: 'Bob', email: 'bob@example.com', uid: 'bob' };
 export const INVITEE: TestUser = { displayName: 'Carol', email: 'carol@example.com', uid: 'carol' };
 export const OUTSIDER: TestUser = { displayName: 'Eve', email: 'eve@example.com', uid: 'eve' };
+/** Verified account whose email is not in `allowedEmails`: the rules treat it as signed out. */
+export const STRANGER: TestUser = {
+  displayName: 'Mallory',
+  email: 'mallory@example.com',
+  uid: 'mallory',
+};
+
+/** Every test user but the stranger has access, so other suites test their own rules. */
+export const ALLOWED_USERS: readonly TestUser[] = [OWNER, MEMBER, INVITEE, OUTSIDER];
 
 export async function createRulesEnvironment(): Promise<RulesTestEnvironment> {
   // Host and port come from FIRESTORE_EMULATOR_HOST, set by `firebase emulators:exec`.
@@ -55,6 +64,15 @@ export async function seed(
       await setDoc(doc(db, path), data);
     }
   });
+}
+
+/** Empties the emulator and restores the allowlist of the test users. */
+export async function resetFirestore(env: RulesTestEnvironment): Promise<void> {
+  await env.clearFirestore();
+  await seed(
+    env,
+    Object.fromEntries(ALLOWED_USERS.map((user) => [`allowedEmails/${user.email}`, {}]))
+  );
 }
 
 export function householdFixture(): DocumentData {

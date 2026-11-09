@@ -12,6 +12,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seedHousehold,
 } from '../rules/support';
 import { firstMatching, repositoryFor } from './support';
@@ -37,7 +38,7 @@ describe('HouseholdRepository on the emulator', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
   });
 
   afterAll(async () => {

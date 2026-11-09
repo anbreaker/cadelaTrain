@@ -7,6 +7,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seed,
   seedHousehold,
 } from './support';
@@ -65,7 +66,7 @@ describe('taskLogs rules', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seedHousehold(env);
     await seed(env, {
       [OLD_LOG_PATH]: trainingLog(OWNER.uid, {
@@ -162,7 +163,7 @@ describe('weeklyReviews rules', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seedHousehold(env);
   });
 

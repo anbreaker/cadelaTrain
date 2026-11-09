@@ -13,6 +13,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seed,
   seedHousehold,
 } from '../rules/support';
@@ -64,7 +65,7 @@ describe('GuidanceRepository and TaskLogRepository on the emulator', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seedHousehold(env);
   });
 

@@ -1,6 +1,14 @@
 import { assertFails, assertSucceeds, RulesTestEnvironment } from '@firebase/rules-unit-testing';
 
-import { createRulesEnvironment, dbAs, MEMBER, OWNER, seed, TestUser } from './support';
+import {
+  createRulesEnvironment,
+  dbAs,
+  MEMBER,
+  OWNER,
+  resetFirestore,
+  seed,
+  TestUser,
+} from './support';
 
 import { doc, DocumentData, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
@@ -17,7 +25,7 @@ describe('users rules', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
   });
 
   afterAll(async () => {

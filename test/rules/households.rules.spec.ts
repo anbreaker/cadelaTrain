@@ -8,6 +8,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seedHousehold,
   TestUser,
 } from './support';
@@ -67,7 +68,7 @@ describe('households rules', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seedHousehold(env);
   });
 
