@@ -1,0 +1,127 @@
+import { filter, map } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationSkipped,
+  NavigationStart,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { SupportedLang } from '@core/const/lang.const';
+import { AppUpdateStore } from '@core/pwa/app-update.store';
+import { AuthSessionStore } from '@core/session/auth-session.store';
+import { LanguageStore } from '@core/store/language.store';
+import { ThemeStore } from '@core/store/theme.store';
+import { ScreenPoint } from '@core/utils/theme-transition';
+import { BrandComponent } from '@shared/components/brand/brand';
+import { NavItem, SiteHeaderComponent } from '@shared/components/site-header/site-header';
+import { UnavailableStateComponent } from '@shared/components/unavailable-state/unavailable-state';
+import { UpdateBannerComponent } from '@shared/components/update-banner/update-banner';
+
+/** Only screens that exist are listed; a later story adds the weekly review. */
+const NAV_ITEMS: readonly NavItem[] = [
+  { labelKey: 'nav.today', path: '/today' },
+  { labelKey: 'nav.progress', path: '/progress' },
+  { labelKey: 'nav.rules', path: '/rules' },
+  { labelKey: 'nav.household', path: '/household' },
+];
+
+const SIGN_IN_PATH = '/login';
+
+const isNavigationBoundary = (event: unknown): boolean =>
+  event instanceof NavigationStart ||
+  event instanceof NavigationEnd ||
+  event instanceof NavigationCancel ||
+  event instanceof NavigationError ||
+  event instanceof NavigationSkipped;
+
+@Component({
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    BrandComponent,
+    RouterOutlet,
+    SiteHeaderComponent,
+    TranslocoDirective,
+    UnavailableStateComponent,
+    UpdateBannerComponent,
+  ],
+  selector: 'app-root',
+  styleUrl: './app.css',
+  templateUrl: './app.html',
+})
+export class AppComponent {
+  private readonly appUpdate = inject(AppUpdateStore);
+  private readonly session = inject(AuthSessionStore);
+  private readonly router = inject(Router);
+  private readonly language = inject(LanguageStore);
+  private readonly theme = inject(ThemeStore);
+  private readonly document = inject(DOCUMENT);
+
+  private readonly navigating = toSignal(
+    this.router.events.pipe(
+      filter(isNavigationBoundary),
+      map((event) => event instanceof NavigationStart)
+    ),
+    { initialValue: true }
+  );
+
+  protected readonly updateReady = this.appUpdate.updateReady;
+  protected readonly lang = this.language.currentLang;
+  protected readonly isDark = this.theme.isDark;
+  protected readonly signedIn = computed(() => this.session.user() !== null);
+  /** The app sections exist only once the household has its puppy; onboarding shows no navigation. */
+  protected readonly navItems = computed((): readonly NavItem[] =>
+    this.session.status() === 'ready' ? NAV_ITEMS : []
+  );
+  /**
+   * A calm surface covers the screen while the session loads or a redirect is on its way, so the
+   * sign-in screen never flashes before the user's real screen. It fades in only after a delay (CSS).
+   */
+  protected readonly unavailable = computed(() => this.session.status() === 'unavailable');
+  protected readonly busy = computed(
+    () => !this.unavailable() && (this.session.status() === 'loading' || this.navigating())
+  );
+
+  /**
+   * Opened from a sign-in email: the wait covers loading the sign-in screen, completing the link and
+   * the redirect away from it, so the surface says "signing in" until the user leaves `/login`.
+   */
+  private readonly openedFromSignInLink = this.session.isSignInLink(this.document.location.href);
+  private readonly path = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => new URL(event.urlAfterRedirects, 'http://app').pathname)
+    ),
+    { initialValue: this.document.location.pathname }
+  );
+  protected readonly loadingKey = computed(() =>
+    this.openedFromSignInLink && this.path() === SIGN_IN_PATH ? 'auth.signingIn' : 'shell.loading'
+  );
+
+  protected applyUpdate(): void {
+    void this.appUpdate.applyUpdate();
+  }
+
+  protected setLang(lang: SupportedLang): void {
+    void this.session.setLocale(lang);
+  }
+
+  protected toggleTheme(origin: ScreenPoint): void {
+    this.theme.toggle(origin);
+  }
+
+  protected retrySession(): void {
+    this.session.retry();
+  }
+
+  protected signOut(): void {
+    void this.session.signOut();
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "assetGroups": [
+    {
+      "installMode": "prefetch",
+      "name": "app",
+      "resources": {
+        "files": [
+          "/index.html",
+          "/site.webmanifest",
+          "/favicon.svg",
+          "/favicon.ico",
+          "/assets/*.css",
+          "/assets/*.js",
+          "/assets/i18n/*.json",
+          "/assets/fonts/**/*.woff2"
+        ]
+      }
+    },
+    {
+      "installMode": "lazy",
+      "name": "icons",
+      "resources": {
+        "files": ["/apple-touch-icon.png", "/icons/**"]
+      },
+      "updateMode": "prefetch"
+    }
+  ],
+  "index": "/index.html",
+  "navigationUrls": ["/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**", "!/api/**"]
+}

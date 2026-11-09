@@ -1,0 +1,85 @@
+<div class="progress" *transloco="let t">
+  @if (dog(); as dog) {
+  <header class="progress__header">
+    <h1 class="progress__title">{{ t('progress.title', { name: dog.name }) }}</h1>
+  </header>
+
+  @if (readFailed()) {
+  <p class="form-error" role="alert">{{ t('progress.errors.readFailed') }}</p>
+  }
+
+  <section class="progress__section" aria-labelledby="skills-title">
+    <h2 class="progress__section-title" id="skills-title">{{ t('progress.skills.title') }}</h2>
+    <p class="progress__hint">{{ t('progress.skills.hint') }}</p>
+    <ul class="progress__skills">
+      @for (card of cards(); track card.key) {
+      <li class="skill-card" [class.skill-card--mastered]="card.mastered">
+        <div class="skill-card__head">
+          <h3 class="skill-card__name">{{ t(card.nameKey) }}</h3>
+          @if (card.mastered) {
+          <span class="skill-card__badge">{{ t('progress.skills.mastered') }}</span>
+          }
+        </div>
+        @if (card.empty) {
+        <p class="skill-card__empty">{{ t('progress.skills.empty') }}</p>
+        } @else {
+        <p class="skill-card__rate">{{ t(card.rateKey, { rate: card.ratePercent }) }}</p>
+        <p class="meta skill-card__sessions">{{ t(card.sessionsKey, { count: card.sessions }) }}</p>
+        <ol class="skill-card__trend" [attr.aria-label]="t('progress.skills.trendLabel')">
+          @for (bar of card.trend; track $index) {
+          <li
+            class="skill-card__bar"
+            [attr.aria-label]="t(bar.labelKey, { date: bar.date, rate: bar.percent })"
+            [class.skill-card__bar--empty]="bar.percent === null"
+            [style.--bar]="bar.percent ?? 0"
+          ></li>
+          }
+        </ol>
+        }
+      </li>
+      }
+    </ul>
+  </section>
+
+  <section class="progress__section" aria-labelledby="social-title">
+    <h2 class="progress__section-title" id="social-title">
+      {{ t('progress.socialization.title') }}
+    </h2>
+    <div class="progress__deadline">
+      @if (deadline().days > 0) {
+      <span class="progress__deadline-number" aria-hidden="true">{{ deadline().days }}</span>
+      }
+      <div class="progress__deadline-body">
+        <p class="progress__deadline-text">
+          {{ t(deadline().key, { days: deadline().days, name: dog.name }) }}
+        </p>
+        <p class="meta progress__pending">{{ t(pending().key, { count: pending().count }) }}</p>
+      </div>
+    </div>
+
+    @for (group of groups(); track group.category) {
+    <section class="social-group" [attr.aria-labelledby]="'social-' + group.category">
+      <h3 class="social-group__title" [id]="'social-' + group.category">{{ t(group.labelKey) }}</h3>
+      <ul class="social-group__items">
+        @for (item of group.items; track item.key) {
+        <li class="social-item" [class.social-item--repeat]="item.repeatGently">
+          <div class="social-item__head">
+            <span class="social-item__label">{{ t(item.labelKey) }}</span>
+            <span class="social-item__status">{{ t(item.statusKey) }}</span>
+          </div>
+          @if (item.reactionKey; as reactionKey) {
+          <p class="meta social-item__last">
+            {{ t('progress.socialization.last') }} {{ t(reactionKey) }} @if (item.by) { · {{ item.by
+            }} }
+          </p>
+          } @if (item.repeatGently) {
+          <p class="social-item__repeat">{{ t('progress.socialization.repeatGently') }}</p>
+          }
+        </li>
+        }
+      </ul>
+    </section>
+    }
+  </section>
+  }
+</div>

@@ -1,118 +1,646 @@
 {
+  "app": {
+    "name": "Dela"
+  },
+  "auth": {
+    "emailPlaceholder": "nome@exemplo.com",
+    "errors": {
+      "emailInvalid": "Escreve um email válido.",
+      "googleFailed": "Não foi possível entrar com o Google. Tenta novamente.",
+      "linkInvalid": "A ligação expirou ou já foi usada. Pede uma nova.",
+      "notAllowed": "Esta conta não tem acesso à Dela. Entra com o email da família.",
+      "sessionFailed": "Não foi possível carregar a tua conta. Volta a entrar."
+    },
+    "google": "Continuar com o Google",
+    "lead": "Orientações curtas pela positiva e um registo partilhado por toda a família.",
+    "signingIn": "A entrar…",
+    "tagline": "Eduquem o vosso cachorro, um pouco cada dia"
+  },
   "catalog": {
     "careAlerts": {
-      "cold": { "message": "Casota elevada, palha seca e protegida do vento.", "title": "Frio" },
+      "cold": {
+        "message": "Casota elevada, palha seca e protegida do vento.",
+        "title": "Frio"
+      },
       "firstWeekVet": {
         "message": "Consulta, boletim sanitário e microchip. Pergunta pelo plano de vacinação, pela desparasitação ao longo de todo o ano e pela prevenção da leishmaniose, comum na zona. Consulta o teu veterinário.",
         "title": "Primeira semana: veterinário"
       },
-      "grassAwns": { "message": "Verifica orelhas, patas e nariz depois de cada passeio.", "title": "Praganas" },
-      "livestockAndHens": { "message": "Não a soltes perto até dominar «anda» e «deixa».", "title": "Gado e galinhas" },
+      "grassAwns": {
+        "message": "Verifica orelhas, patas e nariz depois de cada passeio.",
+        "title": "Praganas"
+      },
+      "livestockAndHens": {
+        "message": "Não a soltes perto até dominar «anda» e «deixa».",
+        "title": "Gado e galinhas"
+      },
       "pineProcessionary": {
         "message": "Mantém-na longe dos pinheiros e das filas de lagartas. Se lhes tocar ou as morder: urgência veterinária.",
         "title": "Processionária do pinheiro"
       },
-      "poisonsAndChemicals": { "message": "Venenos, adubos, gasóleo e produtos da oficina fora do seu alcance.", "title": "Venenos e químicos" },
-      "ticksAndHeat": { "message": "Sombra e água fresca sempre. Proteção antiparasitária: consulta o teu veterinário.", "title": "Carraças e calor" },
+      "poisonsAndChemicals": {
+        "message": "Venenos, adubos, gasóleo e produtos da oficina fora do seu alcance.",
+        "title": "Venenos e químicos"
+      },
+      "ticksAndHeat": {
+        "message": "Sombra e água fresca sempre. Proteção antiparasitária: consulta o teu veterinário.",
+        "title": "Carraças e calor"
+      },
       "unknownDogsUntilVaccinated": {
         "message": "Nada de contacto com cães desconhecidos até completar o plano de vacinação indicado pelo teu veterinário.",
         "title": "Cães desconhecidos"
       }
     },
-    "cues": { "no": "fora", "praise": "muito bem" },
+    "cues": {
+      "no": "fora",
+      "praise": "muito bem",
+      "release": "joga"
+    },
     "planWeeks": {
-      "week1": { "how": "Calma; nome e prémio; veterinário", "objective": "Adaptação e nome", "readyWhen": "Vira a cabeça ao ouvir o nome" },
-      "week2": { "how": "Prémio por cima da cabeça; o mesmo sítio para as necessidades", "objective": "«Senta» e necessidades", "readyWhen": "Senta-se com o gesto, sem prémio na mão" },
-      "week3": { "how": "Agachar-se, voz alegre, jogo entre duas pessoas", "objective": "«Anda» a 1-3 m", "readyWhen": "Vem a correr a 3 m" },
-      "week4": { "how": "Trela em casa; «ai» e parar a brincadeira", "objective": "Trela e mordida suave", "readyWhen": "Caminha alguns metros com trela" },
-      "week5": { "how": "Prémio do nariz ao chão; punho fechado", "objective": "«Deita» e «deixa»", "readyWhen": "Afasta-se da mão fechada" },
-      "week6": { "how": "5-10 m com trela comprida", "objective": "«Anda» com distrações", "readyWhen": "Vem na maioria das tentativas" },
-      "week7": { "how": "2-3 s e prémio; ignorar os saltos", "objective": "«Quieto» e calma", "readyWhen": "Aguenta 5 s sentada" },
-      "week8": { "how": "Aldeia, carro, cães vacinados", "objective": "Revisão fora da quinta", "readyWhen": "Responde fora de casa" }
+      "week1": {
+        "how": "Calma; nome e prémio; veterinário",
+        "objective": "Adaptação e nome",
+        "readyWhen": "Vira a cabeça ao ouvir o nome"
+      },
+      "week2": {
+        "how": "Prémio por cima da cabeça; o mesmo sítio para as necessidades",
+        "objective": "«Senta» e necessidades",
+        "readyWhen": "Senta-se com o gesto, sem prémio na mão"
+      },
+      "week3": {
+        "how": "Agachar-se, voz alegre, jogo entre duas pessoas",
+        "objective": "«Anda» a 1-3 m",
+        "readyWhen": "Vem a correr a 3 m"
+      },
+      "week4": {
+        "how": "Trela em casa; «ai» e parar a brincadeira",
+        "objective": "Trela e mordida suave",
+        "readyWhen": "Caminha alguns metros com trela"
+      },
+      "week5": {
+        "how": "Prémio do nariz ao chão; punho fechado",
+        "objective": "«Deita» e «deixa»",
+        "readyWhen": "Afasta-se da mão fechada"
+      },
+      "week6": {
+        "how": "5-10 m com trela comprida",
+        "objective": "«Anda» com distrações",
+        "readyWhen": "Vem na maioria das tentativas"
+      },
+      "week7": {
+        "how": "2-3 s e prémio; ignorar os saltos",
+        "objective": "«Quieta» e calma",
+        "readyWhen": "Aguenta 5 s sentada"
+      },
+      "week8": {
+        "how": "Aldeia, carro, cães vacinados",
+        "objective": "Revisão fora da quinta",
+        "readyWhen": "Responde fora de casa"
+      }
+    },
+    "preparation": {
+      "bowls": {
+        "label": "Comedouro e bebedouro pesados, que não se virem"
+      },
+      "breederFood": {
+        "label": "A mesma ração de cachorro que o criador usa, para os primeiros dias"
+      },
+      "cleaning": {
+        "hint": "O limpador enzimático elimina o cheiro do xixi e do cocó, para que não volte a fazê-lo no mesmo sítio. Não uses lixívia nem amoníaco: cheiram parecido à urina. Os sacos são para apanhar os cocós.",
+        "label": "Limpador enzimático e sacos para os acidentes"
+      },
+      "collarAndLeash": {
+        "label": "Coleira macia com chapa identificativa e uma trela leve"
+      },
+      "familyRules": {
+        "label": "Regras da família: a mesma palavra para cada ordem, quem lhe dá de comer e onde dorme"
+      },
+      "kennel": {
+        "label": "Casota elevada do chão, protegida do vento e da chuva, com cama seca"
+      },
+      "litterBlanket": {
+        "label": "Uma manta com o cheiro da ninhada (pede-a ao criador)"
+      },
+      "safeArea": {
+        "label": "Zona segura: isolar a oficina, as ferramentas, os produtos químicos e os cabos"
+      },
+      "toys": {
+        "label": "Mordedores e um brinquedo de puxar, como alternativa a morder"
+      },
+      "treats": {
+        "label": "Petiscos pequenos e moles para treinar"
+      },
+      "vetVisit": {
+        "label": "Consulta no veterinário para a primeira semana"
+      }
     },
     "principles": {
+      "calmPlay": "Brincar é bom, mas perseguir vezes sem conta (bola, paus) não deve ser o centro do dia dela; equilibra com exploração e calma.",
       "endWell": "Terminar sempre bem.",
       "foodAndSleep": "Come 3 vezes por dia até aos 4-6 meses e dorme 16-18 horas.",
       "lowerDifficulty": "Se algo não correr bem, baixar a dificuldade.",
-      "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieto, deixa, fora, muito bem.",
+      "noFenceWatching": "Vigiar a vedação ou o caminho não é o trabalho dela: que não passe horas de guarda.",
+      "restAfterActivity": "Depois da atividade, descanso: sair, treinar, comer e dormir.",
+      "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieta, joga, deixa, fora, muito bem.",
       "shortSessions": "Sessões de 3 a 5 minutos, várias por dia.",
-      "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda»."
+      "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda».",
+      "sniffing": "Deixa-a usar o faro: esconde uns prémios na relva e deixa-a procurá-los."
     },
     "schedule": {
-      "afternoonRest": { "instructions": "Sesta longa. Necessidades ao acordar.", "title": "Descanso" },
-      "bedtime": { "instructions": "Para a casota com a manta e um mordedor. Rotina sempre igual e despedida tranquila.", "title": "Dormir na casota" },
-      "breakfast": { "instructions": "«Senta» antes de pousar a tigela. Se não se sentar, esperem sem repetir a ordem.", "title": "Pequeno-almoço" },
-      "calmTime": { "instructions": "Brincadeira suave, escovagem curta e necessidades antes de dormir.", "title": "Brincadeira calma, escovagem e necessidades" },
-      "dinner": { "instructions": "Última refeição do dia.", "title": "Jantar" },
-      "farmWalk": { "instructions": "Necessidades e passeio calmo por uma zona segura da quinta, longe da oficina e dos animais.", "title": "Necessidades e exploração da quinta" },
-      "greeting": { "instructions": "Cumprimento calmo e diretamente para o sítio das necessidades. «Muito bem» e prémio no fim.", "title": "Cumprimento e necessidades" },
-      "leashWalk": { "instructions": "Passeio curto com a trela solta. Dá prémio quando caminhar ao teu lado. Se puxar, paras.", "title": "Passeio com trela" },
-      "lunch": { "instructions": "Ração do meio-dia. Separem alguns grãos de ração para os prémios da sessão.", "title": "Almoço" },
-      "morningRest": { "instructions": "Sítio tranquilo com o mordedor. Deixem-na dormir.", "title": "Descanso com mordedor" },
-      "session1": { "instructions": "Diz o nome dela e dá prémio quando olhar para ti. Depois «senta» com o prémio por cima da cabeça. Termina com algo que ela já sabe.", "title": "Sessão 1: nome e «senta»" },
-      "session2": { "instructions": "Agacha-te a 1-2 m, voz alegre, «anda» e prémio especial quando chegar. Termina com algo que ela já sabe.", "title": "Sessão 2: «anda» a pouca distância" },
-      "session3": { "instructions": "Revê o que ela já sabe e experimenta a ordem nova da semana. Termina com algo que ela já sabe.", "title": "Sessão 3: revisão e ordem nova" },
-      "socialization": { "instructions": "Uma experiência nova, à distância a que ela esteja tranquila. Premeia a calma e a curiosidade.", "title": "Socialização do dia" },
-      "tugPlay": { "instructions": "Brincadeira com a corda. Se os dentes tocarem na pele: «ai», paras a brincadeira uns segundos e recomeças.", "title": "Brincadeira com corda (mordida suave)" },
-      "visit": { "instructions": "Necessidades e manipulação suave das patas e orelhas, com prémio em cada toque.", "title": "Visita: necessidades e manipulação" }
+      "afternoonRest": {
+        "instructions": "Sesta longa. Necessidades ao acordar.",
+        "title": "Descanso"
+      },
+      "bedtime": {
+        "instructions": "Para a casota com a manta e um mordedor. Rotina sempre igual e despedida tranquila.",
+        "title": "Dormir na casota"
+      },
+      "breakfast": {
+        "instructions": "«Senta» antes de pousar a tigela. Se não se sentar, esperem sem repetir a ordem.",
+        "title": "Pequeno-almoço"
+      },
+      "calmTime": {
+        "instructions": "Brincadeira suave, escovagem curta e necessidades antes de dormir.",
+        "title": "Brincadeira calma, escovagem e necessidades"
+      },
+      "dinner": {
+        "instructions": "Última refeição do dia.",
+        "title": "Jantar"
+      },
+      "farmWalk": {
+        "instructions": "Necessidades e passeio calmo por uma zona segura da quinta, longe da oficina e dos animais.",
+        "title": "Necessidades e exploração da quinta"
+      },
+      "greeting": {
+        "instructions": "Cumprimento calmo e diretamente para o sítio das necessidades. «Muito bem» e prémio no fim.",
+        "title": "Cumprimento e necessidades"
+      },
+      "leashWalk": {
+        "instructions": "Passeio curto com a trela solta. Dá prémio quando caminhar ao teu lado. Se puxar, paras.",
+        "title": "Passeio com trela"
+      },
+      "lunch": {
+        "instructions": "Ração do meio-dia. Separem alguns grãos de ração para os prémios da sessão.",
+        "title": "Almoço"
+      },
+      "morningRest": {
+        "instructions": "Sítio tranquilo com o mordedor. Deixem-na dormir.",
+        "title": "Descanso com mordedor"
+      },
+      "session1": {
+        "instructions": "Diz o nome dela e dá prémio quando olhar para ti. Depois «senta» com o prémio por cima da cabeça. Termina com algo que ela já sabe.",
+        "title": "Sessão 1: nome e «senta»"
+      },
+      "session2": {
+        "instructions": "Agacha-te a 1-2 m, voz alegre, «anda» e prémio especial quando chegar. Termina com algo que ela já sabe.",
+        "title": "Sessão 2: «anda» a pouca distância"
+      },
+      "session3": {
+        "instructions": "Revê o que ela já sabe e experimenta a ordem nova da semana. Termina com algo que ela já sabe.",
+        "title": "Sessão 3: revisão e ordem nova"
+      },
+      "socialization": {
+        "instructions": "Uma experiência nova, à distância a que ela esteja tranquila. Premeia a calma e a curiosidade.",
+        "title": "Socialização do dia"
+      },
+      "tugPlay": {
+        "instructions": "Brincadeira com a corda. Se os dentes tocarem na pele: «ai», paras a brincadeira uns segundos e recomeças.",
+        "title": "Brincadeira com corda (mordida suave)"
+      },
+      "visit": {
+        "instructions": "Necessidades e manipulação suave das patas e orelhas, com prémio em cada toque.",
+        "title": "Visita: necessidades e manipulação"
+      }
     },
     "skills": {
-      "come": { "cue": "anda", "description": "Vem até ti quando a chamas. Prémio especial: frango cozido.", "name": "Anda" },
-      "down": { "cue": "deita", "description": "Deita-se a seguir ao prémio do nariz ao chão.", "name": "Deita" },
-      "leash": { "cue": "muito bem", "description": "Caminha ao teu lado com a trela solta.", "name": "Trela" },
-      "leaveIt": { "cue": "deixa", "description": "Afasta-se da mão fechada ou de algo no chão.", "name": "Deixa" },
-      "name": { "cue": "{{name}}", "description": "Vira a cabeça e olha para ti quando ouve o nome.", "name": "Nome" },
-      "potty": { "cue": "muito bem", "description": "Faz as necessidades no sítio de sempre.", "name": "Necessidades" },
-      "sit": { "cue": "senta", "description": "Senta-se com a ordem ou com o gesto.", "name": "Senta" },
-      "softBite": { "cue": "ai", "description": "Controla a força da mordida durante a brincadeira.", "name": "Mordida suave" },
-      "stay": { "cue": "quieto", "description": "Aguenta sentada alguns segundos até a libertares.", "name": "Quieto" }
+      "come": {
+        "cue": "anda",
+        "description": "Vem até ti quando a chamas. Prémio especial: frango cozido.",
+        "name": "Anda"
+      },
+      "down": {
+        "cue": "deita",
+        "description": "Deita-se a seguir ao prémio do nariz ao chão.",
+        "name": "Deita"
+      },
+      "leash": {
+        "cue": "muito bem",
+        "description": "Caminha ao teu lado com a trela solta.",
+        "name": "Trela"
+      },
+      "leaveIt": {
+        "cue": "deixa",
+        "description": "Afasta-se da mão fechada ou de algo no chão.",
+        "name": "Deixa"
+      },
+      "name": {
+        "cue": "{{name}}",
+        "description": "Vira a cabeça e olha para ti quando ouve o nome.",
+        "name": "Nome"
+      },
+      "potty": {
+        "cue": "muito bem",
+        "description": "Faz as necessidades no sítio de sempre.",
+        "name": "Necessidades"
+      },
+      "sit": {
+        "cue": "senta",
+        "description": "Senta-se com a ordem ou com o gesto.",
+        "name": "Senta"
+      },
+      "softBite": {
+        "cue": "ai",
+        "description": "Controla a força da mordida durante a brincadeira.",
+        "name": "Mordida suave"
+      },
+      "stay": {
+        "cue": "quieta",
+        "description": "Aguenta sentada alguns segundos até a libertares com «joga».",
+        "name": "Quieta"
+      }
     },
     "socialization": {
-      "categories": { "animals": "Animais", "handling": "Manipulação", "noises": "Ruídos", "people": "Pessoas", "places": "Lugares" },
+      "categories": {
+        "animals": "Animais",
+        "handling": "Manipulação",
+        "noises": "Ruídos",
+        "people": "Pessoas",
+        "places": "Lugares"
+      },
       "items": {
-        "animalAdultDogs": { "howTo": "Só cães conhecidos, vacinados e calmos, quando o veterinário o permitir.", "label": "Cães adultos vacinados e equilibrados" },
-        "animalCats": { "howTo": "Com trela; o gato tem de poder ir-se embora. Premeia a calma.", "label": "Gatos" },
-        "animalPoultryLivestock": { "howTo": "Sempre com trela e à distância; premeia quando olhar e voltar a olhar para ti.", "label": "Galinhas ou gado (com trela)" },
-        "handlingBrushing": { "howTo": "Duas ou três passagens e prémio.", "label": "Escovagem" },
-        "handlingCollar": { "howTo": "Põe-lha durante a refeição ou a brincadeira; tira-a quando estiver calma.", "label": "Coleira" },
-        "handlingEars": { "howTo": "Levanta a orelha um segundo e premeia.", "label": "Orelhas" },
-        "handlingHarness": { "howTo": "Que seja ela a meter a cabeça para apanhar um prémio; aperta e premeia.", "label": "Peitoral" },
-        "handlingMouth": { "howTo": "Levanta o lábio um segundo e premeia.", "label": "Boca" },
-        "handlingNails": { "howTo": "Mostra-lhe o corta-unhas e toca-lhe nas unhas com ele, sem cortar; prémio.", "label": "Unhas" },
-        "handlingPaws": { "howTo": "Toca numa pata um segundo e premeia; aumenta aos poucos.", "label": "Patas" },
-        "handlingTail": { "howTo": "Toca-lhe na cauda com suavidade e premeia.", "label": "Cauda" },
-        "noiseAngleGrinder": { "howTo": "De fora da oficina e de longe; rajadas curtas com prémio.", "label": "Rebarbadora" },
-        "noiseBrushcutter": { "howTo": "Longe e pouco tempo; premeia a calma.", "label": "Roçadora" },
-        "noiseCar": { "howTo": "Motor ligado à distância; aproximem-se aos poucos se ela estiver tranquila.", "label": "Carro" },
-        "noiseChainsaw": { "howTo": "Longe e pouco tempo; premeia a calma.", "label": "Motosserra" },
-        "noiseHammer": { "howTo": "Pancadas soltas à distância; prémio depois de cada pancada.", "label": "Martelo" },
-        "noiseThunderFireworks": { "howTo": "Gravação em volume muito baixo durante a refeição; aumenta aos poucos em dias diferentes.", "label": "Trovões ou petardos (gravação)" },
-        "noiseTractor": { "howTo": "Começa longe, com prémios enquanto soa. Nunca a aproximes se ela se assustar.", "label": "Trator" },
-        "noiseWelder": { "howTo": "Ruído à distância, sem olhar para o arco; rajadas curtas com prémio.", "label": "Máquina de soldar" },
-        "peopleCap": { "howTo": "Põe o boné à frente dela e premeia enquanto ela olha.", "label": "Pessoas de boné" },
-        "peopleChildren": { "howTo": "Crianças sentadas e calmas, com um adulto ao lado; um prémio cada uma.", "label": "Crianças" },
-        "peopleGlasses": { "howTo": "Óculos de sol e de proteção; premeia a calma.", "label": "Pessoas de óculos" },
-        "peopleHelmet": { "howTo": "Deixa primeiro o capacete no chão para ela cheirar; depois põe-no.", "label": "Pessoas de capacete" },
-        "peopleMen": { "howTo": "Que se agache e lhe ofereça um prémio com a mão aberta.", "label": "Homens" },
-        "peopleVisitors": { "howTo": "A visita ignora-a ao entrar e premeia-a quando ela se aproximar sozinha.", "label": "Visitas" },
-        "peopleWomen": { "howTo": "Que se agache e lhe ofereça um prémio com a mão aberta.", "label": "Mulheres" },
-        "peopleWorkwear": { "howTo": "Fato-macaco, botas e luvas; deixa-a cheirar primeiro.", "label": "Roupa de trabalho" },
-        "placeCar": { "howTo": "Primeiro dentro do carro parado, com prémios; depois viagens muito curtas.", "label": "Carro" },
-        "placeGrass": { "howTo": "Erva curta; brincadeira e prémio.", "label": "Erva" },
-        "placeGravel": { "howTo": "Deixa-a explorar ao seu ritmo e premeia cada passo.", "label": "Gravilha" },
-        "placeMetal": { "howTo": "Chapa no chão, bem firme para não fazer barulho; premeia cada passo.", "label": "Metal" },
-        "placeMud": { "howTo": "Uma poça pequena de lama; premeia quando ela a pisar.", "label": "Lama" },
-        "placeShallowWater": { "howTo": "Água que não lhe cubra as patas, num dia ameno; nunca a forces.", "label": "Água pouco funda" },
-        "placeStairs": { "howTo": "Só um ou dois degraus, a subir; ajuda-a a descer.", "label": "Escadas" },
-        "placeVetSocialVisit": { "howTo": "Entrar, receber prémios e sair, sem consulta.", "label": "Visita social ao veterinário" }
+        "animalAdultDogs": {
+          "howTo": "Só cães conhecidos, vacinados e calmos, quando o veterinário o permitir.",
+          "label": "Cães adultos vacinados e equilibrados"
+        },
+        "animalCats": {
+          "howTo": "Com trela; o gato tem de poder ir-se embora. Premeia a calma.",
+          "label": "Gatos"
+        },
+        "animalPoultryLivestock": {
+          "howTo": "Sempre com trela e à distância; premeia quando olhar e voltar a olhar para ti.",
+          "label": "Galinhas ou gado (com trela)"
+        },
+        "handlingBrushing": {
+          "howTo": "Duas ou três passagens e prémio.",
+          "label": "Escovagem"
+        },
+        "handlingCollar": {
+          "howTo": "Põe-lha durante a refeição ou a brincadeira; tira-a quando estiver calma.",
+          "label": "Coleira"
+        },
+        "handlingEars": {
+          "howTo": "Levanta a orelha um segundo e premeia.",
+          "label": "Orelhas"
+        },
+        "handlingHarness": {
+          "howTo": "Que seja ela a meter a cabeça para apanhar um prémio; aperta e premeia.",
+          "label": "Peitoral"
+        },
+        "handlingMouth": {
+          "howTo": "Levanta o lábio um segundo e premeia.",
+          "label": "Boca"
+        },
+        "handlingNails": {
+          "howTo": "Mostra-lhe o corta-unhas e toca-lhe nas unhas com ele, sem cortar; prémio.",
+          "label": "Unhas"
+        },
+        "handlingPaws": {
+          "howTo": "Toca numa pata um segundo e premeia; aumenta aos poucos.",
+          "label": "Patas"
+        },
+        "handlingTail": {
+          "howTo": "Toca-lhe na cauda com suavidade e premeia.",
+          "label": "Cauda"
+        },
+        "noiseAngleGrinder": {
+          "howTo": "De fora da oficina e de longe; rajadas curtas com prémio.",
+          "label": "Rebarbadora"
+        },
+        "noiseBrushcutter": {
+          "howTo": "Longe e pouco tempo; premeia a calma.",
+          "label": "Roçadora"
+        },
+        "noiseCar": {
+          "howTo": "Motor ligado à distância; aproximem-se aos poucos se ela estiver tranquila.",
+          "label": "Carro"
+        },
+        "noiseChainsaw": {
+          "howTo": "Longe e pouco tempo; premeia a calma.",
+          "label": "Motosserra"
+        },
+        "noiseHammer": {
+          "howTo": "Pancadas soltas à distância; prémio depois de cada pancada.",
+          "label": "Martelo"
+        },
+        "noiseThunderFireworks": {
+          "howTo": "Gravação em volume muito baixo durante a refeição; aumenta aos poucos em dias diferentes.",
+          "label": "Trovões ou petardos (gravação)"
+        },
+        "noiseTractor": {
+          "howTo": "Começa longe, com prémios enquanto soa. Nunca a aproximes se ela se assustar.",
+          "label": "Trator"
+        },
+        "noiseWelder": {
+          "howTo": "Ruído à distância, sem olhar para o arco; rajadas curtas com prémio.",
+          "label": "Máquina de soldar"
+        },
+        "peopleCap": {
+          "howTo": "Põe o boné à frente dela e premeia enquanto ela olha.",
+          "label": "Pessoas de boné"
+        },
+        "peopleChildren": {
+          "howTo": "Crianças sentadas e calmas, com um adulto ao lado; um prémio cada uma.",
+          "label": "Crianças"
+        },
+        "peopleGlasses": {
+          "howTo": "Óculos de sol e de proteção; premeia a calma.",
+          "label": "Pessoas de óculos"
+        },
+        "peopleHelmet": {
+          "howTo": "Deixa primeiro o capacete no chão para ela cheirar; depois põe-no.",
+          "label": "Pessoas de capacete"
+        },
+        "peopleMen": {
+          "howTo": "Que se agache e lhe ofereça um prémio com a mão aberta.",
+          "label": "Homens"
+        },
+        "peopleVisitors": {
+          "howTo": "A visita ignora-a ao entrar e premeia-a quando ela se aproximar sozinha.",
+          "label": "Visitas"
+        },
+        "peopleWomen": {
+          "howTo": "Que se agache e lhe ofereça um prémio com a mão aberta.",
+          "label": "Mulheres"
+        },
+        "peopleWorkwear": {
+          "howTo": "Fato-macaco, botas e luvas; deixa-a cheirar primeiro.",
+          "label": "Roupa de trabalho"
+        },
+        "placeCar": {
+          "howTo": "Primeiro dentro do carro parado, com prémios; depois viagens muito curtas.",
+          "label": "Carro"
+        },
+        "placeGrass": {
+          "howTo": "Erva curta; brincadeira e prémio.",
+          "label": "Erva"
+        },
+        "placeGravel": {
+          "howTo": "Deixa-a explorar ao seu ritmo e premeia cada passo.",
+          "label": "Gravilha"
+        },
+        "placeMetal": {
+          "howTo": "Chapa no chão, bem firme para não fazer barulho; premeia cada passo.",
+          "label": "Metal"
+        },
+        "placeMud": {
+          "howTo": "Uma poça pequena de lama; premeia quando ela a pisar.",
+          "label": "Lama"
+        },
+        "placeShallowWater": {
+          "howTo": "Água que não lhe cubra as patas, num dia ameno; nunca a forces.",
+          "label": "Água pouco funda"
+        },
+        "placeStairs": {
+          "howTo": "Só um ou dois degraus, a subir; ajuda-a a descer.",
+          "label": "Escadas"
+        },
+        "placeVetSocialVisit": {
+          "howTo": "Entrar, receber prémios e sair, sem consulta.",
+          "label": "Visita social ao veterinário"
+        }
       }
+    }
+  },
+  "common": {
+    "errors": {
+      "saveFailed": "Não foi possível guardar. Tenta novamente."
+    }
+  },
+  "dog": {
+    "arrivalDate": "Chegada",
+    "arrivesIn": {
+      "one": "Chega daqui a 1 dia.",
+      "other": "Chega daqui a {{days}} dias."
+    },
+    "birthDate": "Nascimento",
+    "breed": "Raça (opcional)",
+    "environmentLegend": "Ambiente",
+    "errors": {
+      "arrivalBeforeBirth": "A chegada não pode ser anterior ao nascimento.",
+      "birthDateInFuture": "A data de nascimento não pode ser futura.",
+      "breedTooLong": "Máximo de 60 caracteres.",
+      "dateInvalid": "Indica uma data válida.",
+      "nameRequired": "Escreve o nome.",
+      "nameTooLong": "Máximo de 40 caracteres.",
+      "notesTooLong": "Máximo de 1000 caracteres."
+    },
+    "indoors": "Dentro",
+    "name": "Nome",
+    "outdoors": "Fora",
+    "rural": "Rural",
+    "save": "Guardar cachorro",
+    "saving": "A guardar…",
+    "sleepsLegend": "Onde dorme?",
+    "title": "O vosso cachorro",
+    "urban": "Urbano",
+    "waitingForOwner": "Quem criou a casa vai registar o cachorro. Assim que o fizer, vais vê-lo aqui."
+  },
+  "guidance": {
+    "template": {
+      "socializationTitle": "Socialização: {{item}}",
+      "trainingInstructions": "{{description}} Premeia cada acerto e termina com algo que ela já sabe: {{closing}}.",
+      "trainingTitle": "Treino: {{skill}}"
     }
   },
   "health": {
     "consultVet": "Consulta o teu veterinário",
     "vetEmergency": "Urgência veterinária"
   },
-  "reactions": { "calm": "Calma", "curious": "Curiosidade", "fear": "Medo" },
-  "slots": { "afternoon": "Tarde", "midday": "Meio-dia", "morning": "Manhã", "night": "Noite" },
-  "taskKinds": { "care": "Cuidados", "feeding": "Refeição", "potty": "Necessidades", "socialization": "Socialização", "training": "Treino" }
+  "household": {
+    "alreadyInvited": "Já tinhas convidado {{email}}.",
+    "create": "Criar casa",
+    "createLead": "Tudo o que registarem é só da vossa casa. Depois podem convidar quem treina convosco.",
+    "createTitle": "Criem a vossa casa",
+    "creating": "A criar…",
+    "errors": {
+      "emailInvalid": "Escreve um email válido.",
+      "inviteFailed": "Não foi possível enviar o convite. Tenta novamente.",
+      "localeUnsupported": "Escolhe um idioma.",
+      "nameRequired": "Dá um nome à casa.",
+      "nameTooLong": "Máximo de 60 caracteres."
+    },
+    "invite": "Enviar convite",
+    "inviteEmail": "Email",
+    "inviteTitle": "Convidar quem treina",
+    "invited": "Convite enviado para {{email}}.",
+    "inviting": "A enviar…",
+    "localeLegend": "Idioma das orientações",
+    "members": "Membros",
+    "nameLabel": "Nome da casa",
+    "notes": {
+      "export": "Exportar notas",
+      "exporting": "A preparar…",
+      "failed": "Não foi possível ler as notas. Verifica a ligação e tenta de novo.",
+      "hint": "Descarrega todos os registos e notas num ficheiro para a revisão semanal do treino.",
+      "title": "Notas da {{name}}"
+    },
+    "status": {
+      "member": "Membro",
+      "owner": "Proprietário",
+      "pending": "Convite enviado"
+    },
+    "title": "Casa",
+    "you": "(tu)"
+  },
+  "invitations": {
+    "createOwn": "Prefiro criar a minha própria casa",
+    "errors": {
+      "joinFailed": "Não foi possível juntar-te à casa. Tenta novamente."
+    },
+    "invitedTo": "Convidaram-te para «{{name}}»",
+    "join": "Juntar-me à casa",
+    "joining": "A juntar…",
+    "text": "Vais poder ver as orientações do cachorro e registar os treinos.",
+    "title": "Tens um convite"
+  },
+  "lang": {
+    "en": "English",
+    "enVariant": "Estados Unidos",
+    "es": "Español",
+    "esVariant": "Castelhano",
+    "pt": "Português",
+    "ptVariant": "Portugal"
+  },
+  "log": {
+    "attempts": "Tentativas",
+    "cancel": "Cancelar",
+    "delete": "Apagar",
+    "edit": "Editar",
+    "errors": {
+      "saveFailed": "Não foi possível guardar. Tenta de novo."
+    },
+    "fewerAttempts": "Menos tentativas",
+    "markDone": "Feito",
+    "moreAttempts": "Mais tentativas",
+    "notes": "Notas (opcional)",
+    "reaction": "Como reagiu?",
+    "save": "Guardar",
+    "successes": "Acertos em {{attempts}}"
+  },
+  "nav": {
+    "closeMenu": "Fechar menu",
+    "household": "Casa",
+    "label": "Principal",
+    "openMenu": "Abrir menu",
+    "progress": "Progresso",
+    "rules": "Regras",
+    "today": "Hoje"
+  },
+  "onboarding": {
+    "step": "Passo {{current}} de {{total}}"
+  },
+  "progress": {
+    "errors": {
+      "readFailed": "Não foi possível carregar o progresso. Verifica a ligação."
+    },
+    "skills": {
+      "empty": "Ainda sem treino.",
+      "hint": "A taxa usa as 10 tentativas mais recentes dos últimos 7 dias. Com 80 % ou mais, a competência está dominada.",
+      "mastered": "Dominada",
+      "noRate": "Faltam tentativas: são precisas 10 nos últimos 7 dias.",
+      "rate": "{{rate}} % de acertos",
+      "sessions": {
+        "one": "1 sessão",
+        "other": "{{count}} sessões"
+      },
+      "title": "Competências",
+      "trendDay": "{{date}}: {{rate}} %",
+      "trendDayEmpty": "{{date}}: sem treino",
+      "trendLabel": "Últimos 14 dias"
+    },
+    "socialization": {
+      "deadline": {
+        "one": "Falta 1 dia para {{name}} fazer 16 semanas, o fim da fase chave de socialização.",
+        "other": "Faltam {{days}} dias para {{name}} fazer 16 semanas, o fim da fase chave de socialização."
+      },
+      "deadlinePassed": "{{name}} já fez 16 semanas. Continua a socializar com calma.",
+      "done": "Feito",
+      "last": "Última reação:",
+      "pending": "Pendente",
+      "pendingCount": {
+        "one": "1 pendente",
+        "other": "{{count}} pendentes"
+      },
+      "repeatGently": "Repetir com menos intensidade: mais longe, mais baixo ou mais curto.",
+      "title": "Socialização"
+    },
+    "title": "Progresso com {{name}}"
+  },
+  "pwa": {
+    "reload": "Recarregar",
+    "updateReady": "Há uma nova versão da Dela."
+  },
+  "reactions": {
+    "calm": "Calma",
+    "curious": "Curiosidade",
+    "fear": "Medo"
+  },
+  "rules": {
+    "cues": {
+      "hint": "Usem todos exatamente estas palavras: se cada um disser uma coisa, {{name}} não sabe o que lhe pedem.",
+      "no": "Para interromper algo",
+      "praise": "Para elogiar",
+      "release": "Para a libertar (fim de «quieta»)",
+      "title": "As mesmas palavras para todos"
+    },
+    "principles": {
+      "title": "Como treinamos"
+    },
+    "title": "Regras com {{name}}"
+  },
+  "settings": {
+    "language": "Idioma",
+    "signOut": "Terminar sessão",
+    "switchToDark": "Mudar para o modo escuro",
+    "switchToLight": "Mudar para o modo claro"
+  },
+  "shell": {
+    "householdName": "Casa: {{name}}",
+    "loading": "A carregar…",
+    "retry": "Tentar novamente",
+    "unavailableText": "Neste momento não conseguimos carregar os teus dados. A tua sessão continua aberta: tenta novamente quando tiveres rede.",
+    "unavailableTitle": "Sem ligação ao Dela"
+  },
+  "slots": {
+    "afternoon": "Tarde",
+    "midday": "Meio-dia",
+    "morning": "Manhã",
+    "night": "Noite"
+  },
+  "taskKinds": {
+    "care": "Cuidados",
+    "feeding": "Refeição",
+    "potty": "Necessidades",
+    "socialization": "Socialização",
+    "training": "Treino"
+  },
+  "today": {
+    "ageWeeks": {
+      "one": "1 semana de idade",
+      "other": "{{weeks}} semanas de idade"
+    },
+    "arrivesToday": "{{name}} chega hoje!",
+    "checklistTitle": "Antes de chegar",
+    "countdown": {
+      "one": "Falta 1 dia para a chegada de {{name}}.",
+      "other": "Faltam {{days}} dias para a chegada de {{name}}."
+    },
+    "doneAt": "Feito às {{time}}",
+    "doneBy": "Feito por {{name}} às {{time}}",
+    "doneCount": "{{count}} vezes",
+    "minutes": "{{minutes}} min",
+    "noDuration": "Sem duração fixa",
+    "optional": "Opcional",
+    "title": "Hoje com {{name}}"
+  }
 }

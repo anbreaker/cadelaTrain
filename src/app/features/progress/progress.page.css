@@ -1,0 +1,181 @@
+:host {
+  display: block;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 45rem;
+}
+
+.progress__title {
+  font-size: 1.625rem;
+}
+
+.progress__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.progress__section-title {
+  font-size: 1.25rem;
+}
+
+.progress__hint {
+  color: var(--color-text-secondary);
+}
+
+.progress__skills {
+  display: grid;
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.skill-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.skill-card--mastered {
+  border-color: var(--color-accent);
+}
+
+.skill-card__head {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.skill-card__name {
+  font-size: 1.0625rem;
+}
+
+.skill-card__badge {
+  background: var(--color-surface-selected);
+  border-radius: 999px;
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.125rem 0.625rem;
+}
+
+.skill-card__empty {
+  color: var(--color-text-secondary);
+}
+
+.skill-card__rate {
+  font-weight: 600;
+}
+
+.skill-card__trend {
+  align-items: end;
+  block-size: 3rem;
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skill-card__bar {
+  background: var(--color-accent);
+  block-size: max(4px, calc(var(--bar) * 1%));
+  border-radius: 2px 2px 0 0;
+}
+
+.skill-card__bar--empty {
+  background: var(--color-hairline);
+  block-size: 4px;
+}
+
+.progress__deadline {
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  gap: var(--space-3);
+  padding: 1rem 1.25rem;
+}
+
+.progress__deadline-number {
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.progress__deadline-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.social-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.social-group__title {
+  font-size: 1.0625rem;
+}
+
+.social-group__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.social-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+}
+
+.social-item--repeat {
+  background: var(--color-warning-bg);
+  border-color: var(--color-warning-border);
+}
+
+.social-item__head {
+  align-items: baseline;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.social-item__status {
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
+
+.social-item__repeat {
+  color: var(--color-warning-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}

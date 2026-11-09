@@ -1,0 +1,30 @@
+<main class="login" id="main-content" tabindex="-1" *transloco="let t">
+  <section class="login__intro">
+    <h1 class="login__title">{{ t('auth.tagline') }}</h1>
+    <p class="page-lead">{{ t('auth.lead') }}</p>
+  </section>
+
+  <button
+    class="button button--primary login__google"
+    type="button"
+    [disabled]="pending()"
+    (click)="signInWithGoogle()"
+  >
+    <svg
+      class="login__google-icon"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 12h8" />
+    </svg>
+    {{ t('auth.google') }}
+  </button>
+
+  @if (errorKey(); as key) {
+  <p class="form-error" role="alert">{{ t(key) }}</p>
+  }
+</main>

@@ -1,0 +1,34 @@
+<article class="task-card" *transloco="let t" [class.task-card--done]="card().done">
+  <div class="task-card__meta">
+    <span class="task-card__kind">
+      <span class="task-card__icon" aria-hidden="true">{{ icon() }}</span>
+      {{ t(kindKey()) }}
+    </span>
+    @if (card().durationMin !== null) {
+    <span class="task-card__duration">
+      {{ t('today.minutes', { minutes: card().durationMin }) }}
+    </span>
+    } @else {
+    <span class="task-card__duration" [attr.aria-label]="t('today.noDuration')">—</span>
+    }
+  </div>
+  <h3 class="task-card__title">{{ card().title }}</h3>
+  <p class="task-card__instructions">{{ card().instructions }}</p>
+  @if (card().done; as done) {
+  <p class="task-card__done">
+    {{ t(doneKey(), { name: done.by, time: done.at }) }} @if (showCount()) {
+    <span class="task-card__count">· {{ t('today.doneCount', { count: card().count }) }}</span>
+    }
+  </p>
+  }
+  <div class="task-card__actions">
+    @if (card().canEdit) {
+    <button class="button button--link task-card__edit" type="button" (click)="edited.emit()">
+      {{ t('log.edit') }}
+    </button>
+    }
+    <button class="button task-card__mark" type="button" (click)="marked.emit()">
+      {{ t('log.markDone') }}
+    </button>
+  </div>
+</article>

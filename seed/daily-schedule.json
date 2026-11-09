@@ -1,29 +1,164 @@
 {
-  "i18nPrefix": "catalog.schedule",
-  "i18nFields": ["title", "instructions"],
   "ageMonths": { "from": 2, "to": 4 },
+  "i18nFields": ["title", "instructions"],
+  "i18nPrefix": "catalog.schedule",
+  "items": [
+    {
+      "id": "greeting",
+      "time": "07:30",
+      "slot": "morning",
+      "kind": "potty",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Greeting and potty"
+    },
+    {
+      "id": "breakfast",
+      "time": "07:45",
+      "slot": "morning",
+      "kind": "feeding",
+      "skillKey": "sit",
+      "isTask": true,
+      "durationMin": null,
+      "title": "Breakfast, with sit before the bowl"
+    },
+    {
+      "id": "session1",
+      "time": "08:00",
+      "slot": "morning",
+      "kind": "training",
+      "skillKey": "sit",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Session 1: name and sit"
+    },
+    {
+      "id": "farmWalk",
+      "time": "08:10",
+      "slot": "morning",
+      "kind": "potty",
+      "isTask": true,
+      "durationMin": 10,
+      "title": "Potty and farm exploration"
+    },
+    {
+      "id": "morningRest",
+      "time": "08:30",
+      "until": "13:30",
+      "slot": "morning",
+      "kind": "care",
+      "isTask": false,
+      "durationMin": null,
+      "title": "Rest with a chew toy"
+    },
+    {
+      "id": "visit",
+      "time": "11:00",
+      "slot": "midday",
+      "kind": "care",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Visit: potty and paw and ear handling"
+    },
+    {
+      "id": "lunch",
+      "time": "14:00",
+      "slot": "midday",
+      "kind": "feeding",
+      "isTask": true,
+      "durationMin": null,
+      "title": "Lunch"
+    },
+    {
+      "id": "session2",
+      "time": "14:15",
+      "slot": "midday",
+      "kind": "training",
+      "skillKey": "come",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Session 2: come from a short distance"
+    },
+    {
+      "id": "tugPlay",
+      "time": "14:20",
+      "slot": "midday",
+      "kind": "care",
+      "skillKey": "softBite",
+      "isTask": true,
+      "durationMin": 10,
+      "title": "Tug play (soft bite)"
+    },
+    {
+      "id": "afternoonRest",
+      "time": "14:30",
+      "until": "18:30",
+      "slot": "midday",
+      "kind": "care",
+      "isTask": false,
+      "durationMin": null,
+      "title": "Rest"
+    },
+    {
+      "id": "leashWalk",
+      "time": "18:30",
+      "slot": "afternoon",
+      "kind": "care",
+      "skillKey": "leash",
+      "isTask": true,
+      "durationMin": 15,
+      "title": "Leash walk"
+    },
+    {
+      "id": "session3",
+      "time": "18:50",
+      "slot": "afternoon",
+      "kind": "training",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Session 3: review and new cue"
+    },
+    {
+      "id": "socialization",
+      "time": "19:00",
+      "slot": "afternoon",
+      "kind": "socialization",
+      "isTask": true,
+      "durationMin": 10,
+      "title": "Socialization of the day"
+    },
+    {
+      "id": "dinner",
+      "time": "20:30",
+      "slot": "night",
+      "kind": "feeding",
+      "isTask": true,
+      "durationMin": null,
+      "title": "Dinner"
+    },
+    {
+      "id": "calmTime",
+      "time": "21:00",
+      "slot": "night",
+      "kind": "care",
+      "isTask": true,
+      "durationMin": 10,
+      "title": "Quiet play, brushing and potty"
+    },
+    {
+      "id": "bedtime",
+      "time": "21:30",
+      "slot": "night",
+      "kind": "care",
+      "isTask": true,
+      "durationMin": null,
+      "title": "Bedtime in the kennel"
+    }
+  ],
   "slotRanges": {
     "morning": { "from": "07:00", "to": "10:59" },
     "midday": { "from": "11:00", "to": "15:59" },
     "afternoon": { "from": "16:00", "to": "20:29" },
     "night": { "from": "20:30", "to": "23:59" }
-  },
-  "items": [
-    { "id": "greeting", "time": "07:30", "slot": "morning", "kind": "potty", "isTask": true, "durationMin": 5, "title": "Greeting and potty" },
-    { "id": "breakfast", "time": "07:45", "slot": "morning", "kind": "feeding", "skillKey": "sit", "isTask": true, "durationMin": null, "title": "Breakfast, with sit before the bowl" },
-    { "id": "session1", "time": "08:00", "slot": "morning", "kind": "training", "skillKey": "sit", "isTask": true, "durationMin": 5, "title": "Session 1: name and sit" },
-    { "id": "farmWalk", "time": "08:10", "slot": "morning", "kind": "potty", "isTask": true, "durationMin": 10, "title": "Potty and farm exploration" },
-    { "id": "morningRest", "time": "08:30", "until": "13:30", "slot": "morning", "kind": "care", "isTask": false, "durationMin": null, "title": "Rest with a chew toy" },
-    { "id": "visit", "time": "11:00", "slot": "midday", "kind": "care", "isTask": true, "durationMin": 5, "title": "Visit: potty and paw and ear handling" },
-    { "id": "lunch", "time": "14:00", "slot": "midday", "kind": "feeding", "isTask": true, "durationMin": null, "title": "Lunch" },
-    { "id": "session2", "time": "14:15", "slot": "midday", "kind": "training", "skillKey": "come", "isTask": true, "durationMin": 5, "title": "Session 2: come from a short distance" },
-    { "id": "tugPlay", "time": "14:20", "slot": "midday", "kind": "care", "skillKey": "softBite", "isTask": true, "durationMin": 10, "title": "Tug play (soft bite)" },
-    { "id": "afternoonRest", "time": "14:30", "until": "18:30", "slot": "midday", "kind": "care", "isTask": false, "durationMin": null, "title": "Rest" },
-    { "id": "leashWalk", "time": "18:30", "slot": "afternoon", "kind": "care", "skillKey": "leash", "isTask": true, "durationMin": 15, "title": "Leash walk" },
-    { "id": "session3", "time": "18:50", "slot": "afternoon", "kind": "training", "isTask": true, "durationMin": 5, "title": "Session 3: review and new cue" },
-    { "id": "socialization", "time": "19:00", "slot": "afternoon", "kind": "socialization", "isTask": true, "durationMin": 10, "title": "Socialization of the day" },
-    { "id": "dinner", "time": "20:30", "slot": "night", "kind": "feeding", "isTask": true, "durationMin": null, "title": "Dinner" },
-    { "id": "calmTime", "time": "21:00", "slot": "night", "kind": "care", "isTask": true, "durationMin": 10, "title": "Quiet play, brushing and potty" },
-    { "id": "bedtime", "time": "21:30", "slot": "night", "kind": "care", "isTask": true, "durationMin": null, "title": "Bedtime in the kennel" }
-  ]
+  }
 }

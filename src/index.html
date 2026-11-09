@@ -1,0 +1,68 @@
+<!doctype html>
+<html data-theme="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dela</title>
+    <base href="/" />
+    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport" />
+    <meta content="#121613" name="theme-color" />
+    <!-- Critical paint colours (must match tokens.css): no white flash before the stylesheet arrives. -->
+    <style>
+      html {
+        background: #121613;
+        color-scheme: dark;
+      }
+      html[data-theme='light'] {
+        background: #f3f5f0;
+        color-scheme: light;
+      }
+    </style>
+    <link
+      as="font"
+      crossorigin
+      href="/assets/fonts/figtree/figtree-latin.woff2"
+      rel="preload"
+      type="font/woff2"
+    />
+    <link href="/site.webmanifest" rel="manifest" />
+    <link href="/favicon.ico" rel="icon" sizes="48x48" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+    <!-- Before any stylesheet: a script that follows a pending stylesheet waits for it to load. -->
+    <script>
+      (function () {
+        // Dark is the default; only an explicit per-device choice of light changes it (ThemeStore).
+        var stored = null;
+        try {
+          stored = localStorage.getItem('dela-theme');
+        } catch (error) {
+          stored = null;
+        }
+        if (stored === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f3f5f0');
+        }
+      })();
+      (function () {
+        var langs = ['en', 'es', 'pt'];
+        var stored = null;
+        try {
+          stored = localStorage.getItem('dela-lang');
+        } catch (error) {
+          stored = null;
+        }
+        var lang = stored || navigator.language.slice(0, 2);
+        var link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'fetch';
+        link.crossOrigin = 'anonymous';
+        link.href = '/assets/i18n/' + (langs.indexOf(lang) > -1 ? lang : 'es') + '.json';
+        document.head.appendChild(link);
+      })();
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+    <script src="./main.ts" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<header class="site-header" *transloco="let t">
+  <app-brand />
+
+  <button
+    class="site-header__menu-button"
+    #menuButton
+    aria-controls="site-menu"
+    type="button"
+    [attr.aria-expanded]="menuOpen()"
+    [attr.aria-label]="menuOpen() ? t('nav.closeMenu') : t('nav.openMenu')"
+    [class.site-header__menu-button--open]="menuOpen()"
+    (click)="toggleMenu()"
+  >
+    <span class="site-header__menu-bar" aria-hidden="true"></span>
+    <span class="site-header__menu-bar" aria-hidden="true"></span>
+  </button>
+
+  <div class="site-header__panel" id="site-menu" [class.site-header__panel--open]="menuOpen()">
+    @if (navItems().length > 0) {
+    <nav class="site-header__nav" [attr.aria-label]="t('nav.label')">
+      @for (item of navItems(); track item.path) {
+      <a
+        class="site-header__link"
+        ariaCurrentWhenActive="page"
+        routerLinkActive="site-header__link--active"
+        [routerLink]="item.path"
+        (click)="closeMenu()"
+      >
+        {{ t(item.labelKey) }}
+      </a>
+      }
+    </nav>
+    }
+    <div class="site-header__preferences">
+      <app-lang-selector [lang]="lang()" (langChange)="langChange.emit($event)" />
+      <app-theme-toggle [isDark]="isDark()" (toggle)="themeToggle.emit($event)" />
+    </div>
+    @if (signedIn()) {
+    <button class="site-header__sign-out" type="button" (click)="requestSignOut()">
+      {{ t('settings.signOut') }}
+    </button>
+    }
+  </div>
+</header>

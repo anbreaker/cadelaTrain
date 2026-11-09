@@ -5,6 +5,7 @@ Firestore replaces the relational proposal of the original brief. Every user doc
 ## Tree
 
 ```
+allowedEmails/{email}                         who may use the app (id = lowercased email), console-only
 users/{uid}                                   profile
 households/{hid}                              name, locale, ownerId, memberIds[], members{}
   invitations/{email}                         pending invites (id = lowercased email)
@@ -15,6 +16,7 @@ households/{hid}                              name, locale, ownerId, memberIds[]
     weightLogs/{logId}
     vetEvents/{eventId}                       appointments and notes, no dosing
     weeklyReviews/{weekNumber}                week since arrival (1, 2, …)
+    media/{mediaId}                           optional photos (Cloudinary) and videos (YouTube) per day
 ```
 
 Mapping from the original proposal: `household_members` → `households.memberIds` + `members` map; `guidance_tasks` → array `tasks` inside `dailyGuidance` (≤ 15 per day, always read together); `profiles` → `users`; `skills`, `plan_weeks`, `socialization_items` → bundled catalogs.
@@ -23,7 +25,7 @@ Mapping from the original proposal: `household_members` → `households.memberId
 
 | Name | Values |
 |------|--------|
-| `Locale` | `es` (Castilian Spanish, `es-ES`), `pt` (European Portuguese, `pt-PT`) |
+| `Locale` | `es` (Castilian Spanish, `es-ES`), `pt` (European Portuguese, `pt-PT`), `en` (US English, `en-US`) |
 | `Role` | `owner`, `member` |
 | `Environment` | `rural`, `urban` |
 | `Slot` | `morning`, `midday`, `afternoon`, `night` |
@@ -114,7 +116,7 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 | doneAt | timestamp | `== request.time` |
 
 ### `socializationLogs/{logId}`
-`itemKey`, `reaction`, `notes`, `doneBy`, `doneAt`, `taskLogId?` (when it came from a guidance task). A socialization task completion writes both logs in one batch.
+`itemKey`, `reaction`, `notes`, `doneBy`, `doneAt`, `taskLogId?` (when it came from a guidance task). A socialization task completion writes both logs in one batch, and the socialization log reuses the task log id, so editing or deleting one updates the other in the same batch.
 
 ### `weightLogs/{logId}`
 `kg` (number 0.5–100), `measuredOn` (`YYYY-MM-DD`), `doneBy`, `doneAt`.
@@ -125,6 +127,19 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 ### `weeklyReviews/{weekNumber}`
 `weekNumber`, `notes` ≤ 2000, `weightKg?`, `updatedBy`, `updatedAt`. "Does well", "struggles" and "new socialization" are computed from logs, not stored.
 
+### `media/{mediaId}`
+| Field | Type | Notes |
+|-------|------|-------|
+| kind | `photo` \| `video` | |
+| date | `YYYY-MM-DD` | Madrid date the item belongs to |
+| caption | string ≤ 280 | optional |
+| skillKey | `SkillKey`? | optional |
+| publicId | string? | `photo` only: Cloudinary public id under `dela/<householdId>/` |
+| width, height | int? | `photo` only, for layout without shift |
+| youtubeId | string? | `video` only, `^[A-Za-z0-9_-]{11}$` |
+| addedBy | uid | `== request.auth.uid` |
+| addedAt | timestamp | `== request.time` |
+
 ## Indexes
 
 | Collection (group) | Fields | Used by |
@@ -133,20 +148,25 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 | `taskLogs` | `guidanceDate` asc, `doneAt` asc | today's done marks |
 | `socializationLogs` | `itemKey` asc, `doneAt` desc | checklist last reaction |
 | `invitations` (collection group) | `email` asc | pending invitations of the signed-in user |
+| `media` | `date` desc, `addedAt` desc | timeline and weekly review |
 
 ## Security rules summary
 
 Full rules in `firestore.rules`; tested with the emulator.
 
+**Access allowlist.** The app is private to one household. "Signed in" in every rule below means: authenticated, email verified, and an `allowedEmails/{lowercased email}` document exists. Allowlist documents are created in the Firebase console (the emails are never in the repository); a client may only `get` its own entry, to learn whether it has access. Removing an entry revokes access on the next request.
+
 | Path | Read | Write |
 |------|------|-------|
+| `allowedEmails/{email}` | own entry only (`get`) | none (console only) |
 | `users/{uid}` | self | self, shape-validated |
-| `households/{hid}` | members | create: creator is sole owner/member; update: owner (name, locale, members) or invited user adding exactly themself |
+| `households/{hid}` | members | create: creator is sole owner/member; update: owner renames, changes the locale or removes members (never the owner; cannot add uids or add, relabel or rewrite member entries) or invited user adding exactly themself |
 | `invitations/{email}` | owner; invitee (collection group by email) | create/delete: owner; delete: invitee |
 | `dogs/**` | members | create/delete: owner; update: members, shape-validated; `planWeek` server-only |
 | `dailyGuidance` | members | none (server only) |
 | `*Logs`, `vetEvents` | members | create: members with `doneBy == uid`, `doneAt == request.time`; update/delete: author, within 24 h of `doneAt` |
 | `weeklyReviews` | members | members, `updatedBy == uid` |
+| `media` | members | create: members, `addedBy == uid`, `addedAt == request.time`, exactly the fields of its `kind`; update: author, caption only; delete: author |
 | anything else | denied | denied |
 
 ## Bundled catalogs (`seed/`)
@@ -161,5 +181,6 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 | `socialization-checklist.json` | 35 items in 5 categories | `key`, `category`, `order`, `label`; i18n `label`, `howTo` |
 | `care-alerts.json` | Seasonal and field risks | `key`, `months`, `arrivalWeek?`, `appliesTo { sleepsOutdoors?, environment? }`, `severity` (`info` \| `vet` \| `urgent`), `message` |
 | `principles.json` | Training principles | `key`, `text` |
+| `preparation-checklist.json` | 11 things to have ready before the arrival (AC2.5) | `key`, `order`, `label`, `optional?`, `hint?`; i18n `label`, `hint` |
 
-A unit test asserts that every catalog key exists in both `es.json` and `pt.json`, and that both files have the same key set.
+A unit test asserts that every catalog key exists in `en.json`, `es.json` and `pt.json`, and that the three files have the same key set.

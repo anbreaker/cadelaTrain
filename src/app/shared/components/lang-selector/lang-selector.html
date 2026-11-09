@@ -1,0 +1,20 @@
+<div
+  class="lang-selector"
+  role="group"
+  *transloco="let t"
+  [attr.aria-label]="t('settings.language')"
+>
+  @for (pill of pills; track pill.lang) {
+  <button
+    class="lang-selector__button"
+    type="button"
+    [attr.aria-label]="pill.name"
+    [attr.aria-pressed]="pill.lang === lang()"
+    [attr.lang]="pill.lang"
+    (click)="langChange.emit(pill.lang)"
+  >
+    <span class="lang-selector__flag" aria-hidden="true">{{ pill.flag }}</span>
+    {{ pill.code }}
+  </button>
+  }
+</div>

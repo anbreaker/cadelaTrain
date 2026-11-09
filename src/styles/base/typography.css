@@ -1,0 +1,18 @@
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+/* Small metadata: step counters, dates. */
+.meta {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}

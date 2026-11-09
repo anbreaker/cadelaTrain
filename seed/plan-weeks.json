@@ -1,6 +1,6 @@
 {
-  "i18nPrefix": "catalog.planWeeks",
   "i18nFields": ["objective", "how", "readyWhen"],
+  "i18nPrefix": "catalog.planWeeks",
   "items": [
     {
       "week": 1,

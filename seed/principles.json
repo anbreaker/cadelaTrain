@@ -1,12 +1,28 @@
 {
   "i18nPrefix": "catalog.principles",
-  "note": "Static content for the 'How we train' screen; summarized in the engine prompt. Cue words per locale live in catalog.skills.<key>.cue and catalog.cues.",
   "items": [
     { "key": "shortSessions", "text": "Sessions of 3 to 5 minutes, several times a day." },
-    { "key": "smallRewards", "text": "Chickpea-sized rewards taken from the daily ration. A special reward (boiled chicken) only for come." },
+    {
+      "key": "smallRewards",
+      "text": "Chickpea-sized rewards taken from the daily ration. A special reward (boiled chicken) only for come."
+    },
     { "key": "endWell", "text": "Always end on a success." },
     { "key": "sameWords", "text": "Everyone uses the same cue words." },
     { "key": "lowerDifficulty", "text": "If something does not work, lower the difficulty." },
-    { "key": "foodAndSleep", "text": "Three meals a day until 4-6 months; 16-18 hours of sleep." }
-  ]
+    { "key": "foodAndSleep", "text": "Three meals a day until 4-6 months; 16-18 hours of sleep." },
+    {
+      "key": "sniffing",
+      "text": "Let her use her nose: hide a few rewards in the grass and let her find them."
+    },
+    { "key": "restAfterActivity", "text": "After activity comes rest: out, train, eat, sleep." },
+    {
+      "key": "calmPlay",
+      "text": "Play is fine, but repeated chasing (ball, sticks) is not the center of her day; balance it with exploring and calm."
+    },
+    {
+      "key": "noFenceWatching",
+      "text": "Watching the fence or the road is not her job: do not let her spend hours guarding."
+    }
+  ],
+  "note": "Static content for the 'How we train' screen; summarized in the engine prompt. Cue words per locale live in catalog.skills.<key>.cue and catalog.cues."
 }

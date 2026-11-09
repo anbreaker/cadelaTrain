@@ -1,0 +1,24 @@
+@if (updateReady()) {
+<app-update-banner (reload)="applyUpdate()" />
+}
+<app-site-header
+  [isDark]="isDark()"
+  [lang]="lang()"
+  [navItems]="navItems()"
+  [signedIn]="signedIn()"
+  (langChange)="setLang($event)"
+  (signOut)="signOut()"
+  (themeToggle)="toggleTheme($event)"
+/>
+<router-outlet />
+@if (unavailable()) {
+<div class="app-unavailable">
+  <app-unavailable-state (retry)="retrySession()" />
+</div>
+} @if (busy()) {
+<div class="app-loading" role="status" *transloco="let t">
+  <app-brand size="large" />
+  <span class="app-loading__indicator" aria-hidden="true"></span>
+  <p class="app-loading__text">{{ t(loadingKey()) }}</p>
+</div>
+}

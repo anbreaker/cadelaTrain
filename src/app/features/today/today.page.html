@@ -1,0 +1,72 @@
+<div class="today" *transloco="let t">
+  @if (dog(); as dog) {
+  <header class="today__header">
+    <span class="meta today__date">
+      {{ dateLabel() }} · {{ t(age().key, { weeks: age().weeks }) }}
+    </span>
+    <h1 class="today__title">{{ t('today.title', { name: dog.name }) }}</h1>
+  </header>
+
+  @if (daysLeft(); as days) {
+  <section class="today__countdown" aria-labelledby="countdown-text">
+    <span class="today__countdown-number" aria-hidden="true">{{ days }}</span>
+    <p class="today__countdown-text" id="countdown-text">
+      {{ t(countdownKey(), { days: days, name: dog.name }) }}
+    </p>
+  </section>
+
+  <section class="today__checklist" aria-labelledby="checklist-title">
+    <h2 class="today__section-title" id="checklist-title">{{ t('today.checklistTitle') }}</h2>
+    <ul class="today__checklist-items">
+      @for (item of preparationItems; track item.labelKey) {
+      <li class="today__checklist-item">
+        {{ t(item.labelKey) }} @if (item.optional) {
+        <span class="today__checklist-optional">{{ t('today.optional') }}</span>
+        } @if (item.hintKey; as hintKey) {
+        <p class="today__checklist-hint">{{ t(hintKey) }}</p>
+        }
+      </li>
+      }
+    </ul>
+  </section>
+  } @else { @if (daysLeft() === 0) {
+  <p class="today__arrival" role="note">{{ t('today.arrivesToday', { name: dog.name }) }}</p>
+  } @if (guidance(); as guidance) { @if (healthKey(); as healthKey) {
+  <p class="today__health" role="alert">{{ t(healthKey) }}</p>
+  }
+  <p class="today__summary">{{ guidance.summary }}</p>
+
+  @for (slot of slots(); track slot.slot) {
+  <section class="today__slot" [attr.aria-labelledby]="'slot-' + slot.slot">
+    <h2 class="today__section-title today__slot-title" [id]="'slot-' + slot.slot">
+      {{ t(slot.labelKey) }}
+    </h2>
+    <ul class="today__tasks">
+      @for (card of slot.cards; track card.view.id) {
+      <li class="today__task">
+        <app-task-card
+          [card]="card.view"
+          (edited)="openSheet(card, 'edit')"
+          (marked)="openSheet(card, 'new')"
+        />
+        @if (sheetTaskId() === card.task.id) {
+        <app-log-sheet
+          [busy]="saving()"
+          [canRemove]="sheetInitial() !== null"
+          [initial]="sheetInitial()"
+          [kind]="card.task.kind"
+          (cancelled)="closeSheet()"
+          (removed)="remove()"
+          (saved)="save($event)"
+        />
+        @if (logFailed()) {
+        <p class="form-error today__log-error" role="alert">{{ t('log.errors.saveFailed') }}</p>
+        } }
+      </li>
+      }
+    </ul>
+  </section>
+  } } @else {
+  <p class="today__loading" role="status">{{ t('shell.loading') }}</p>
+  } } }
+</div>

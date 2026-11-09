@@ -21,13 +21,13 @@ flowchart TD
 
 | Input | Rule |
 |-------|------|
-| `locale` | Household locale (`es` → Castilian Spanish, `pt` → European Portuguese) |
+| `locale` | Household locale (`es` → Castilian Spanish, `pt` → European Portuguese, `en` → US English) |
 | `ageWeeks` | `floor((madridDate − birthDate) / 7 days)` |
 | `planWeek` | Current `dog.planWeek`, possibly advanced (see below); never more than `ageWeeks − 7` (week 1 at 8 weeks) and never > 8 |
 | `weekPlan` | `seed/plan-weeks.json` entry: objective, how, readyWhen (canonical English), `keySkills`, `focusSkills` |
 | `cues` | Spoken cue word per skill in the household locale, from `catalog.skills.<key>.cue` and `catalog.cues.*` |
 | `recentLogs` | Task and socialization logs of the last 3 Madrid days, with trainer display names (no uids) |
-| `skillRates` | Per skill over the **evaluation window**: the most recent 10 training attempts within the last 7 days. `rate = successes / attempts`; `null` when fewer than 10 attempts |
+| `skillRates` | Per skill over the **evaluation window**: the most recent 10 training attempts within the last 7 days. A log stores several attempts, so training logs of the last 7 Madrid days are added whole, newest first, until they reach ≥ 10 attempts (a log is never split). `rate = successes / attempts`; `null` when fewer than 10 attempts. Implemented by `skillRate` in `src/app/domain/progress.ts` |
 | `masteredSkills` | Skills with `rate ≥ 0.8`, plus `name` from week 2 on |
 | `strugglingSkills` | Skills with `rate < 0.5` (non-null) |
 | `pendingSocialization` | Catalog items without a `calm` or `curious` log; items whose last reaction is `fear` are listed separately as `toRepeatGently` |
@@ -54,7 +54,7 @@ Advance from `planWeek` to `planWeek + 1` only when **all** `keySkills` of the c
 | Known keys | `skillKey`, `closingSkillKey` ∈ `SkillKey`; `socializationItemKey` in the catalog |
 | Size | 8–15 tasks; title ≤ 80, instructions ≤ 400, summary ≤ 600 |
 
-The term lists live in `domain/guidance-safety.ts`, one list per locale (`es`, `pt`), written as **phrases, not bare nouns** so that legitimate content passes (for example, hammer blows are a valid socialization noise; hitting the dog is not). They are unit tested in both locales and shared by the validator and the template builder.
+The term lists live in `domain/guidance-safety.ts`, one list per locale (`en`, `es`, `pt`), written as **phrases, not bare nouns** so that legitimate content passes (for example, hammer blows are a valid socialization noise; hitting the dog is not). They are unit tested in both locales and shared by the validator and the template builder.
 
 ## Output schema
 
@@ -110,7 +110,7 @@ Verify exact SDK method names against the `claude-api` skill / SDK docs when imp
 
 ## Template fallback (`domain/template-guidance.ts`)
 
-Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing (`fallbackReason: noApiKey`, local development). Texts are resolved from the Transloco file of the household locale.
+Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing (`fallbackReason: noApiKey`, local development). Texts are resolved from the Transloco file of the household locale through an injected `translate(key, params)`. The today screen also builds it on the client, in the active language, while no guidance is stored for the day (AC2.4); it is never written to Firestore from the client.
 
 1. Start from the `isTask: true` rows of `seed/daily-schedule.json`.
 2. Fill training slots with the week's `focusSkills`, easiest first; for `strugglingSkills` use 3 min.
@@ -119,7 +119,7 @@ Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing 
 5. Add active care alerts as `care` tasks (message only, no dosing).
 6. Summary: the week objective, plus the fixed health phrase if `healthFlag` is set.
 
-The template output passes the same validator (test asserts it for every plan week 1–8, both locales and both seasons).
+The template output passes the same validator (test asserts it for every plan week 1–8, the three locales and both seasons).
 
 ## Safety
 
@@ -133,8 +133,8 @@ The template output passes the same validator (test asserts it for every plan we
 | Area | Cases |
 |------|-------|
 | `planWeekFor` | stays below 0.8; advances at exactly 0.8 with ≥ 10 attempts; age cap; never > 8 |
-| `skillRates` | window of last 10 attempts in 7 days; `null` under 10 |
+| `skillRates` | window of last 10 attempts in 7 days, whole logs; `null` under 10 |
 | `madridClock` | 2026-10-25 and 2027-03-28 at 04:00 and 05:00 UTC |
-| Safety lists | aversive and medical phrases rejected in `es` and `pt`; hammer-noise socialization accepted |
+| Safety lists | aversive and medical phrases rejected in `en`, `es` and `pt`; hammer-noise socialization accepted |
 | Validator | each rule rejects a crafted bad output; template output passes |
 | Handler | idempotent second run; API error → template; refusal → template; invalid output → template; missing `CRON_SECRET` → 401 |

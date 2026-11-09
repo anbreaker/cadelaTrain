@@ -1,6 +1,6 @@
 {
-  "i18nPrefix": "catalog.skills",
   "i18nFields": ["name", "cue", "description"],
+  "i18nPrefix": "catalog.skills",
   "items": [
     { "key": "name", "description": "Turns the head and looks at you on hearing her name." },
     { "key": "sit", "description": "Sits on the verbal cue or the hand signal." },
@@ -8,8 +8,11 @@
     { "key": "leash", "description": "Walks next to you on a loose leash." },
     { "key": "softBite", "description": "Controls bite strength during play." },
     { "key": "down", "description": "Lies down following the reward from nose to floor." },
-    { "key": "leaveIt", "description": "Moves away from a closed hand or something on the ground." },
-    { "key": "stay", "description": "Holds a sit for a few seconds until released." },
+    {
+      "key": "leaveIt",
+      "description": "Moves away from a closed hand or something on the ground."
+    },
+    { "key": "stay", "description": "Holds a sit for a few seconds until released with joga." },
     { "key": "potty", "description": "Relieves herself in the usual spot." }
   ]
 }

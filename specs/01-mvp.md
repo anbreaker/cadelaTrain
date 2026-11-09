@@ -1,6 +1,6 @@
 # 01 — MVP stories
 
-Each story lists acceptance criteria (AC). UI copy is never written here: it is referenced by Transloco key (`slots.morning`, `health.consultVet`…) and lives in `public/assets/i18n/{es,pt}.json`. Supported locales: `es` (Castilian Spanish, default) and `pt` (European Portuguese).
+Each story lists acceptance criteria (AC). UI copy is never written here: it is referenced by Transloco key (`slots.morning`, `health.consultVet`…) and lives in `public/assets/i18n/{en,es,pt}.json`. Supported locales: `es` (Castilian Spanish, default), `pt` (European Portuguese) and `en` (US English).
 
 | ID | Story | Depends on | Needed before arrival |
 |----|-------|------------|-----------------------|
@@ -8,6 +8,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 | H2 | Today's guidance | H1, H6 (template path) | Yes |
 | H3 | Log a task | H2 | Yes |
 | H6 | Automatic guidance | H1 | Yes (template); AI can follow |
+| H7 | Photos and videos | H1 | Yes |
 | H4 | Progress | H3 | First weeks |
 | H5 | Weekly review | H3 | First weeks |
 
@@ -17,13 +18,13 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 
 > As a family member, I sign up, create a household, invite another person by email and register the puppy.
 
-- **AC1.1 Sign-up.** Given a visitor, when they enter their email, they receive a sign-in link (Firebase email link); Google sign-in is also offered. On first sign-in a `users/{uid}` profile is created with display name and the browser locale if supported (`es` or `pt`), else `es`.
-- **AC1.2 Create household.** Given a signed-in user without a household, when they enter a household name and pick the household locale (`es` or `pt`), a household is created with them as `owner` and they are sent to the puppy registration screen.
+- **AC1.1 Sign-up.** Given a visitor, they sign in with Google, the only sign-in method (the app is private to the family; email-link sign-in was removed and returns with the invitation redesign). On first sign-in a `users/{uid}` profile is created with display name and the browser locale if supported (`en`, `es` or `pt`), else `es`.
+- **AC1.2 Create household.** Given a signed-in user without a household, when they enter a household name and pick the household locale (`en`, `es` or `pt`), a household is created with them as `owner` and they are sent to the puppy registration screen.
 - **AC1.3 Invite.** Given an owner, when they enter an email, an invitation is stored for that email and a sign-in link is sent to it. Inviting the same email twice does not duplicate it. Invalid emails show a validation error and nothing is stored.
 - **AC1.4 Accept.** Given a person signed in with the invited (verified) email, when they open the app, they see the pending invitation with the household name and can join; after joining they are a `member` and see the household's puppy. A user with a different email cannot join (enforced by rules).
 - **AC1.5 Register puppy.** Given a household, when the owner saves name, breed, birth date, arrival date, sleeps outdoors (yes/no) and environment (rural/urban), the dog is stored. Required: name, birth date, arrival date. Arrival date cannot be earlier than birth date; birth date cannot be in the future.
 - **AC1.6 Isolation.** A user who is not a member gets permission denied reading or writing any document of that household (rules test).
-- **AC1.7 Language.** Each user can switch the UI language between `es` and `pt`; the choice is stored in `users/{uid}.locale`. Generated guidance uses the household locale.
+- **AC1.7 Language.** Each user can switch the UI language between `en`, `es` and `pt`; the choice is stored in `users/{uid}.locale`. Generated guidance uses the household locale.
 
 ## H2. Today's guidance
 
@@ -32,9 +33,9 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC2.1** Given guidance exists for the dog and today's Madrid date, the home screen shows tasks grouped by slot in this order: `morning`, `midday`, `afternoon`, `night` (labels `slots.*`); within a slot, by `order`.
 - **AC2.2** Each task shows title, short instructions, duration (minutes, or a dash when none) and kind with icon and label (`taskKinds.*`).
 - **AC2.3** Done tasks show who did them and when (display name and local time).
-- **AC2.4** Given no guidance exists yet for today (cron delayed or failed), the app requests on-demand generation and shows a loading state; it never shows an empty day.
-- **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist instead of tasks.
-- **AC2.6** The summary of the day is shown on top. If a health flag is active (see H3), a banner shows `health.consultVet` or `health.vetEmergency` and nothing else about health.
+- **AC2.4** Given no guidance is stored for today (cron delayed or failed, or H6 not built yet), the app shows the template guidance built on the client from the bundled catalogs (`domain/template-guidance.ts`, in the active language); it never shows an empty day. On-demand generation (AC6.6) can replace it once H6 ships.
+- **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist (`seed/preparation-checklist.json`) instead of tasks. On the arrival date it shows the day's tasks.
+- **AC2.6** The summary of the day is shown on top. If the day's guidance carries a health flag, a banner shows `health.consultVet` or `health.vetEmergency` and nothing else about health.
 
 ## H3. Log a task
 
@@ -46,8 +47,10 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC3.4** Every task allows optional free notes (≤ 1000 chars).
 - **AC3.5** A task can be logged more than once (two trainers, repeated sessions); the task shows the latest log and the count.
 - **AC3.6** A log can be edited or deleted only by its author, within 24 hours of `doneAt`.
-- **AC3.7 Health flag.** If notes contain health terms (vomiting, limping, wound, processionary caterpillar…, matched per locale), the app shows the `health.consultVet` banner after saving. Urgent terms (processionary caterpillar, poison, seizure, not breathing, heavy bleeding) show `health.vetEmergency`. No other health text is shown.
+- **AC3.7 Health flag (deferred, see `05-roadmap.md`).** If notes contain health terms (vomiting, limping, wound, processionary caterpillar…, matched per locale), the app shows the `health.consultVet` banner after saving. Urgent terms (processionary caterpillar, poison, seizure, not breathing, heavy bleeding) show `health.vetEmergency`. No other health text is shown.
 - **AC3.8** A default training log takes ≤ 3 taps with one hand.
+
+- **AC3.9 Notes export.** From Household, any member downloads every task log and socialization log of the dog as one Markdown file (`dela-notes-YYYY-MM-DD.md`, Madrid date), grouped by day with who, what, result or reaction and the notes verbatim. It uses the member's own access, so the weekly training review needs no server credential. Notes can be typed or dictated with the phone keyboard's voice input.
 
 ## H4. Progress
 
@@ -79,3 +82,24 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC6.5** The cron endpoint rejects requests without `Authorization: Bearer ${CRON_SECRET}`.
 - **AC6.6** An authenticated on-demand endpoint (`POST /api/daily-guidance`) generates today's guidance for one dog of the caller's household, with the same idempotency (used by AC2.4).
 - **AC6.7** Each guidance stores `locale`, `model`, `source` (`ai` | `template`), `status` and `planWeek` for traceability.
+
+## H7. Photos and videos
+
+> As a household member, I can optionally add photos and YouTube videos to a day, to see progress over time.
+
+
+- **AC7.1 Optional.** A day has zero or more media items; nothing else (logging, guidance) requires them.
+- **AC7.2 Photo.** A member picks a photo from the camera or gallery (images only, ≤ 10 MB). It is uploaded straight to Cloudinary with a signature from `POST /api/sign-upload`, which only members of the household get; the app stores the Cloudinary public id, width and height.
+- **AC7.3 Video.** A member pastes a YouTube link (`youtube.com/watch?v=`, `youtu.be/`, `youtube.com/shorts/`); the app extracts and stores only the 11-character video id. Any other text shows a validation error and nothing is stored. The form explains (Transloco key) that the video must be **unlisted**: YouTube does not play private videos embedded in other sites.
+- **AC7.4 Fields.** Each item has a Madrid date (default today), an optional caption (≤ 280 chars), an optional skill (`SkillKey`), `addedBy` (uid) and `addedAt` (server time).
+- **AC7.5 Viewing.** Media appear per day in the weekly review (H5) and as a timeline in progress (H4). Photos are delivered by Cloudinary in responsive sizes (`f_auto,q_auto`, srcset). Videos load as a facade: the thumbnail first, and the `youtube-nocookie.com` player only after a tap.
+- **AC7.6 Delete.** The author deletes their own item; for a photo, `POST /api/delete-media` also removes the Cloudinary asset.
+- **AC7.7 Privacy.** Only household members read media documents (rules). Photos live in a per-household Cloudinary folder with random public ids; delivery URLs are unguessable but public if shared (authenticated delivery is a roadmap item).
+
+## H8. Household rules
+
+> Everyone who trains the puppy can look up the same words and rules at any time.
+
+- **AC8.1 Shared words and principles.** A "Rules" screen (`/rules`) lists, read-only, the spoken cue word of every skill in the active language (`catalog.skills.<key>.cue`), the praise and "no" words (`catalog.cues.*`) and the training principles (`seed/principles.json`).
+- **AC8.2 Family rules (planned).** Members write and edit the household's own rules (who feeds her, where she sleeps, other agreements); stored per household and protected by the rules like other household data.
+- **AC8.3 AI help (planned).** From `api/` only, Claude drafts family rules from a few answers; the household reviews and saves them. Uses the app's server key (`ANTHROPIC_API_KEY`), never a user's credentials in the client.

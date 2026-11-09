@@ -8,8 +8,13 @@ service cloud.firestore {
 
     // ---------- helpers ----------
 
+    // Only the household's own people use the app: a verified email listed in allowedEmails counts
+    // as signed in. Every rule below goes through signedIn() (directly or via isMember/isOwner), so
+    // removing an email from the allowlist revokes its access on the next request.
     function signedIn() {
-      return request.auth != null;
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/allowedEmails/$(request.auth.token.email.lower()));
     }
 
     function uid() {
@@ -63,7 +68,7 @@ service cloud.firestore {
     }
 
     function locales() {
-      return ['es', 'pt'];
+      return ['en', 'es', 'pt'];
     }
 
     function taskKinds() {
@@ -88,6 +93,17 @@ service cloud.firestore {
     function keepsAuthorship() {
       return request.resource.data.doneBy == resource.data.doneBy
         && request.resource.data.doneAt == resource.data.doneAt;
+    }
+
+    // ---------- access allowlist ----------
+
+    // Managed only from the console (document id = lowercase email). A signed-in account may read
+    // its own entry, present or not, to learn whether it has access; nobody lists or writes it.
+    match /allowedEmails/{email} {
+      allow get: if request.auth != null
+        && request.auth.token.email_verified == true
+        && email == request.auth.token.email.lower();
+      allow list, write: if false;
     }
 
     // ---------- users ----------
@@ -141,13 +157,19 @@ service cloud.firestore {
         && isMemberEntry(next.members[uid()], 'member');
     }
 
-    // Owner renames or removes members; ownership never changes and the owner stays.
+    // Owner renames the household, changes its locale or removes members; ownership never changes
+    // and the owner stays. New members only arrive through isJoining (an invitation), and an
+    // existing member entry (name, role) is never rewritten by the owner.
     function isOwnerEdit() {
       let next = request.resource.data;
+      let memberChanges = next.members.diff(resource.data.members);
       return resource.data.ownerId == uid()
-        && next.ownerId == resource.data.ownerId
+        && next.diff(resource.data).affectedKeys().hasOnly(['name', 'locale', 'memberIds', 'members'])
         && uid() in next.memberIds
-        && next.createdAt == resource.data.createdAt;
+        && next.memberIds.toSet().hasOnly(resource.data.memberIds)
+        && next.memberIds.size() == next.memberIds.toSet().size()
+        && memberChanges.addedKeys().size() == 0
+        && memberChanges.changedKeys().size() == 0;
     }
 
     match /households/{hid} {
@@ -160,7 +182,9 @@ service cloud.firestore {
         && isMemberEntry(request.resource.data.members[uid()], 'owner')
         && request.resource.data.createdAt == request.time;
 
-      allow update: if isHousehold(request.resource.data) && (isOwnerEdit() || isJoining(hid));
+      allow update: if signedIn()
+        && isHousehold(request.resource.data)
+        && (isOwnerEdit() || isJoining(hid));
       allow delete: if false;
 
       // ---------- invitations ----------

@@ -1,0 +1,75 @@
+{
+  "commitlint": {
+    "rules": {
+      "description": "max 50 chars, imperative, no period",
+      "format": "<type>(<scope>): <description>",
+      "scope": "optional, kebab-case (e.g. auth, gallery, routing)",
+      "types": "feat | fix | docs | style | refactor | test | chore | perf | ci | build | revert"
+    }
+  },
+  "dependencies": {
+    "@angular/common": "^22.2.4",
+    "@angular/compiler": "^22.2.4",
+    "@angular/core": "^22.2.4",
+    "@angular/forms": "^22.2.4",
+    "@angular/platform-browser": "^22.2.4",
+    "@angular/router": "^22.2.4",
+    "@angular/service-worker": "^22.2.4",
+    "@jsverse/transloco": "^8.2.1",
+    "firebase": "^13.0.0",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.3.0"
+  },
+  "description": "Mobile-first PWA to educate a puppy with daily AI guidance and a shared training log",
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^2.3.1",
+    "@angular/build": "^22.1.8",
+    "@angular/cli": "^22.1.8",
+    "@angular/compiler-cli": "^22.2.4",
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "@types/node": "^26.6.2",
+    "@vitest/ui": "^4.1.0",
+    "angular-eslint": "^22.5.0",
+    "eslint": "^10.0.3",
+    "eslint-plugin-jsonc": "^3.1.2",
+    "eslint-plugin-perfectionist": "^5.9.0",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "firebase-tools": "^15.34.2",
+    "jsdom": "^30.1.1",
+    "jsonc-eslint-parser": "^3.1.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-css-order": "^2.2.0",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "prettier-plugin-sort-json": "^4.2.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.54.0",
+    "vite": "^8.3.0",
+    "vitest": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=22.19.0",
+    "npm": ">=10.9.3"
+  },
+  "name": "dela",
+  "private": true,
+  "scripts": {
+    "build": "vite build && node scripts/check-ngsw.mjs",
+    "commit:validate": "node -e \"const msg = process.argv[1]; const ok = /^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\\(.+\\))?: .{1,50}$/.test(msg); process.exit(ok ? 0 : 1);\" --",
+    "dev": "firebase emulators:exec --only auth,firestore --project demo-dela \"npm run emulators:seed && vite --mode dev --open\"",
+    "emulators": "firebase emulators:start --only auth,firestore --project demo-dela",
+    "emulators:seed": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/seed-emulator-access.mjs",
+    "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.json\"",
+    "lint": "eslint \"src/**/*.{ts,html}\" \"test/**/*.ts\" && eslint \"*.json\" \"public/assets/i18n/*.json\"",
+    "lint:fix": "eslint \"src/**/*.{ts,html}\" \"test/**/*.ts\" --fix && eslint \"*.json\" \"public/assets/i18n/*.json\" --fix",
+    "ng": "ng",
+    "preview": "vite preview",
+    "start": "vite --mode dev --open",
+    "test": "vitest run",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-dela \"vitest run --config vitest.rules.config.ts\"",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest",
+    "watch": "vite build --watch"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}

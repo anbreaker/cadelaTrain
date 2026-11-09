@@ -1,0 +1,15 @@
+<fieldset class="segmented">
+  <legend class="segmented__legend">{{ legend() }}</legend>
+  <div class="segmented__options" *transloco="let t">
+    @for (option of options(); track option.value) {
+    <button
+      class="segmented__option"
+      type="button"
+      [attr.aria-pressed]="option.value === value()"
+      (click)="valueChange.emit(option.value)"
+    >
+      {{ t(option.labelKey) }}
+    </button>
+    }
+  </div>
+</fieldset>
