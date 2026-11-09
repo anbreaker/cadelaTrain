@@ -3,31 +3,18 @@
     "name": "Dela"
   },
   "auth": {
-    "checkEmailText": "We sent a link to {{email}}. Open it on this device to sign in.",
-    "checkEmailTitle": "Check your email",
-    "confirmEmail": "Sign in",
-    "confirmEmailText": "You opened the link on another device. Enter the email we sent it to.",
-    "confirmEmailTitle": "Confirm your email",
-    "emailLabel": "Your email",
     "emailPlaceholder": "name@example.com",
     "errors": {
       "emailInvalid": "Enter a valid email.",
-      "emulatorLinkMissing": "The emulator has no link for this email. Request a new one.",
       "googleFailed": "We couldn't sign you in with Google. Please try again.",
       "linkInvalid": "This link has expired or was already used. Request a new one.",
       "notAllowed": "This account doesn't have access to Dela. Sign in with the family's email.",
-      "sendFailed": "We couldn't send the link. Please try again.",
       "sessionFailed": "We couldn't load your account. Please sign in again."
     },
     "google": "Continue with Google",
     "lead": "Short, positive daily guidance and a shared log for the whole family.",
-    "noPassword": "No passwords: we email you a sign-in link.",
-    "openEmulatorLink": "Open the emulator link",
-    "or": "or",
-    "sendLink": "Email me a sign-in link",
     "signingIn": "Signing in…",
-    "tagline": "Train your puppy, a little every day",
-    "useAnotherEmail": "Use a different email"
+    "tagline": "Train your puppy, a little every day"
   },
   "catalog": {
     "careAlerts": {

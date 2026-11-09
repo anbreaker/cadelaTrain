@@ -18,7 +18,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 
 > As a family member, I sign up, create a household, invite another person by email and register the puppy.
 
-- **AC1.1 Sign-up.** Given a visitor, when they enter their email, they receive a sign-in link (Firebase email link); Google sign-in is also offered. On first sign-in a `users/{uid}` profile is created with display name and the browser locale if supported (`en`, `es` or `pt`), else `es`.
+- **AC1.1 Sign-up.** Given a visitor, they sign in with Google, the only sign-in method (the app is private to the family; email-link sign-in was removed and returns with the invitation redesign). On first sign-in a `users/{uid}` profile is created with display name and the browser locale if supported (`en`, `es` or `pt`), else `es`.
 - **AC1.2 Create household.** Given a signed-in user without a household, when they enter a household name and pick the household locale (`en`, `es` or `pt`), a household is created with them as `owner` and they are sent to the puppy registration screen.
 - **AC1.3 Invite.** Given an owner, when they enter an email, an invitation is stored for that email and a sign-in link is sent to it. Inviting the same email twice does not duplicate it. Invalid emails show a validation error and nothing is stored.
 - **AC1.4 Accept.** Given a person signed in with the invited (verified) email, when they open the app, they see the pending invitation with the household name and can join; after joining they are a `member` and see the household's puppy. A user with a different email cannot join (enforced by rules).

@@ -1,66 +1,15 @@
 <main class="login" id="main-content" tabindex="-1" *transloco="let t">
-  @switch (view()) { @case ('sent') {
-  <section class="login__intro" aria-live="polite">
-    <h1 class="login__title">{{ t('auth.checkEmailTitle') }}</h1>
-    <p class="page-lead">{{ t('auth.checkEmailText', { email: sentTo() }) }}</p>
-    @if (offersEmulatorLink) {
-    <button
-      class="button button--primary login__emulator-link"
-      type="button"
-      [disabled]="pending()"
-      (click)="openEmulatorLink()"
-    >
-      {{ t('auth.openEmulatorLink') }}
-    </button>
-    }
-    <button class="button button--link login__another" type="button" (click)="useAnotherEmail()">
-      {{ t('auth.useAnotherEmail') }}
-    </button>
-  </section>
-  } @case ('signingIn') {
-  <section class="login__intro" aria-busy="true" aria-live="polite">
-    <h1 class="login__title">{{ t('auth.signingIn') }}</h1>
-  </section>
-  } @default {
   <section class="login__intro">
-    @if (view() === 'confirmEmail') {
-    <h1 class="login__title">{{ t('auth.confirmEmailTitle') }}</h1>
-    <p class="page-lead">{{ t('auth.confirmEmailText') }}</p>
-    } @else {
     <h1 class="login__title">{{ t('auth.tagline') }}</h1>
     <p class="page-lead">{{ t('auth.lead') }}</p>
-    }
   </section>
 
-  <form class="login__form" novalidate (submit)="submit($event)">
-    <label class="field">
-      {{ t('auth.emailLabel') }}
-      <input
-        class="field__input"
-        autocomplete="email"
-        inputmode="email"
-        type="email"
-        [attr.aria-describedby]="emailInvalid() ? 'login-email-error' : null"
-        [attr.aria-invalid]="emailInvalid()"
-        [placeholder]="t('auth.emailPlaceholder')"
-        [value]="email()"
-        (input)="setEmail($event)"
-      />
-    </label>
-    @if (emailInvalid()) {
-    <p class="field__error" id="login-email-error">{{ t('auth.errors.emailInvalid') }}</p>
-    }
-    <button class="button button--primary" type="submit" [disabled]="pending()">
-      {{ view() === 'confirmEmail' ? t('auth.confirmEmail') : t('auth.sendLink') }}
-    </button>
-    @if (view() === 'form') {
-    <p class="meta">{{ t('auth.noPassword') }}</p>
-    }
-  </form>
-
-  @if (view() === 'form') {
-  <div class="login__divider" aria-hidden="true">{{ t('auth.or') }}</div>
-  <button class="button login__google" type="button" (click)="signInWithGoogle()">
+  <button
+    class="button button--primary login__google"
+    type="button"
+    [disabled]="pending()"
+    (click)="signInWithGoogle()"
+  >
     <svg
       class="login__google-icon"
       aria-hidden="true"
@@ -74,7 +23,8 @@
     </svg>
     {{ t('auth.google') }}
   </button>
-  } } } @if (errorKey(); as key) {
+
+  @if (errorKey(); as key) {
   <p class="form-error" role="alert">{{ t(key) }}</p>
   }
 </main>
