@@ -568,6 +568,16 @@
     "errors": {
       "readFailed": "Couldn't load progress. Check your connection."
     },
+    "nextWeek": {
+      "age": "By age, week {{week}} starts at {{weeks}} weeks old.",
+      "attempts": "Attempts in the past 7 days: {{attempts}} (at least 10)",
+      "hint": "Each key skill needs 80% success with at least 10 attempts in the past 7 days.",
+      "lastWeek": "{{name}} is in the last week of the plan.",
+      "met": "Met",
+      "noRate": "Success: no rate yet (goal 80%)",
+      "rate": "Success: {{rate}}% (goal 80%)",
+      "title": "To move up to week {{week}}"
+    },
     "skills": {
       "empty": "Not trained yet.",
       "hint": "The rate uses the 10 most recent attempts from the past 7 days. At 80% or more, the skill is mastered.",
@@ -670,6 +680,7 @@
     "optional": "Optional",
     "previewHint": "Week 1 of the plan, from the arrival day. You can log tasks once {{name}} is home.",
     "previewTitle": "How the first day will look",
-    "title": "Today with {{name}}"
+    "title": "Today with {{name}}",
+    "weekAdvanced": "{{name}} moves up to week {{week}}!"
   }
 }

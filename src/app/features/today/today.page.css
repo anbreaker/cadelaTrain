@@ -47,6 +47,7 @@
   font-size: 1rem;
 }
 
+.today__advance,
 .today__arrival {
   background: var(--color-surface-selected);
   border: 1px solid var(--color-accent);

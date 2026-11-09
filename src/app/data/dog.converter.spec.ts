@@ -1,7 +1,7 @@
 import { DogDraft } from '@domain/dog';
 
 import { InvalidDocumentError, ValidationFailedError } from './data-errors';
-import { dogUpdateData, newDogData, parseDog } from './dog.converter';
+import { dogUpdateData, newDogData, parseDog, planWeekUpdateData } from './dog.converter';
 
 import { serverTimestamp } from 'firebase/firestore';
 
@@ -57,6 +57,18 @@ describe('dogUpdateData', () => {
     expect(() => dogUpdateData({ ...draft, birthDate: '2026-11-05' }, TODAY)).toThrow(
       ValidationFailedError
     );
+  });
+});
+
+describe('planWeekUpdateData', () => {
+  it('should write only the plan week and the server time', () => {
+    expect(planWeekUpdateData(3)).toEqual({ planWeek: 3, updatedAt: serverTimestamp() });
+  });
+
+  it('should reject a week outside the 8-week plan', () => {
+    expect(() => planWeekUpdateData(9)).toThrow(ValidationFailedError);
+    expect(() => planWeekUpdateData(0)).toThrow(ValidationFailedError);
+    expect(() => planWeekUpdateData(1.5)).toThrow(ValidationFailedError);
   });
 });
 

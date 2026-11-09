@@ -4,6 +4,7 @@ import {
   createRulesEnvironment,
   dbAs,
   DOG_PATH,
+  dogFixture,
   HOUSEHOLD_ID,
   MEMBER,
   OUTSIDER,
@@ -11,6 +12,7 @@ import {
   resetFirestore,
   seed,
   seedHousehold,
+  TestUser,
 } from './support';
 
 import { doc, DocumentData, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
@@ -76,10 +78,39 @@ describe('dogs rules (AC1.5)', () => {
     );
   });
 
-  it('should deny a client changing planWeek', async () => {
-    await assertFails(
-      updateDoc(doc(dbAs(env, MEMBER), DOG_PATH), { planWeek: 2, updatedAt: serverTimestamp() })
-    );
+  describe('planWeek advance', () => {
+    const advance = (user: TestUser, planWeek: number): Promise<void> =>
+      updateDoc(doc(dbAs(env, user), DOG_PATH), { planWeek, updatedAt: serverTimestamp() });
+
+    it('should let a member move the dog to the next week', async () => {
+      await assertSucceeds(advance(MEMBER, 2));
+    });
+
+    it('should deny skipping a week', async () => {
+      await assertFails(advance(MEMBER, 3));
+    });
+
+    it('should deny going back a week', async () => {
+      await seed(env, { [DOG_PATH]: { ...dogFixture(), planWeek: 4 } });
+
+      await assertFails(advance(MEMBER, 3));
+    });
+
+    it('should deny going past week 8', async () => {
+      await seed(env, { [DOG_PATH]: { ...dogFixture(), planWeek: 8 } });
+
+      await assertFails(advance(MEMBER, 9));
+    });
+
+    it('should deny a non-member advancing the week (AC1.6)', async () => {
+      await assertFails(advance(OUTSIDER, 2));
+    });
+
+    it('should deny an advance with a client-chosen updatedAt', async () => {
+      await assertFails(
+        updateDoc(doc(dbAs(env, MEMBER), DOG_PATH), { planWeek: 2, updatedAt: new Date() })
+      );
+    });
   });
 
   it('should let a member read the dog', async () => {
