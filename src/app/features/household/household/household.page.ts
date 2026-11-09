@@ -1,13 +1,18 @@
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
+import { NOW } from '@core/time/now';
 import { Invitation, InviteResult } from '@data/household.converter';
 import { HouseholdRepository } from '@data/household.repository';
+import { TaskLogRepository } from '@data/task-log.repository';
 import { isValidEmail, normalizeEmail } from '@domain/email';
+import { notesExport, notesExportFileName } from '@domain/notes-export';
 import { MemberListComponent, MemberRow } from '@shared/components/member-list/member-list';
+import { downloadText } from '@shared/utils/download-text';
 import { eventValue } from '@shared/utils/event-value';
 
 const FEEDBACK_KEY: Record<InviteResult, string> = {
@@ -31,8 +36,13 @@ interface InviteFeedback {
 export class HouseholdPageComponent {
   private readonly session = inject(AuthSessionStore);
   private readonly households = inject(HouseholdRepository);
+  private readonly taskLogs = inject(TaskLogRepository);
+  private readonly document = inject(DOCUMENT);
+  private readonly now = inject(NOW);
 
   private readonly _email = signal('');
+  private readonly _exportFailed = signal(false);
+  private readonly _exporting = signal(false);
   private readonly _failed = signal(false);
   private readonly _feedback = signal<InviteFeedback | null>(null);
   private readonly _pending = signal(false);
@@ -52,6 +62,9 @@ export class HouseholdPageComponent {
   );
 
   protected readonly household = this.session.household;
+  protected readonly dog = this.session.dog;
+  protected readonly exporting = this._exporting.asReadonly();
+  protected readonly exportFailed = this._exportFailed.asReadonly();
   protected readonly isOwner = this.session.isOwner;
   protected readonly email = this._email.asReadonly();
   protected readonly pending = this._pending.asReadonly();
@@ -81,6 +94,35 @@ export class HouseholdPageComponent {
     }));
     return [...members, ...invited];
   });
+
+  /** Downloads every log and note of the dog as one Markdown file, read with the member's own access. */
+  protected async exportNotes(): Promise<void> {
+    const household = this.session.household();
+    const dog = this.dog();
+    if (!household || !dog || this._exporting()) return;
+    this._exporting.set(true);
+    this._exportFailed.set(false);
+    try {
+      const [logs, socialization] = await Promise.all([
+        firstValueFrom(this.taskLogs.watchAll(household.id, dog.id)),
+        firstValueFrom(this.taskLogs.watchSocialization(household.id, dog.id)),
+      ]);
+      const now = this.now();
+      const text = notesExport({
+        dogName: dog.name,
+        logs,
+        members: household.members,
+        now,
+        socialization,
+      });
+      downloadText(this.document, notesExportFileName(dog.name, now), text);
+    } catch (error) {
+      console.warn('Household: could not export the notes', error);
+      this._exportFailed.set(true);
+    } finally {
+      this._exporting.set(false);
+    }
+  }
 
   protected setEmail(event: Event): void {
     this._email.set(eventValue(event));

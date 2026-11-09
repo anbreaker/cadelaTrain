@@ -488,6 +488,13 @@
     "localeLegend": "Idioma de las pautas",
     "members": "Miembros",
     "nameLabel": "Nombre del hogar",
+    "notes": {
+      "export": "Exportar notas",
+      "exporting": "Preparando…",
+      "failed": "No se han podido leer las notas. Revisa la conexión e inténtalo de nuevo.",
+      "hint": "Descarga todos los registros y notas en un fichero para la revisión semanal del entrenamiento.",
+      "title": "Notas de {{name}}"
+    },
     "status": {
       "member": "Miembro",
       "owner": "Propietario",

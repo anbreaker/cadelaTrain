@@ -43,4 +43,24 @@
     <h2 class="household__heading" id="members-title">{{ t('household.members') }}</h2>
     <app-member-list [rows]="rows()" />
   </section>
+
+  @if (dog(); as dog) {
+  <section class="household__section" aria-labelledby="notes-title">
+    <h2 class="household__heading" id="notes-title">
+      {{ t('household.notes.title', { name: dog.name }) }}
+    </h2>
+    <p class="household__hint">{{ t('household.notes.hint') }}</p>
+    <button
+      class="button household__export"
+      type="button"
+      [disabled]="exporting()"
+      (click)="exportNotes()"
+    >
+      {{ exporting() ? t('household.notes.exporting') : t('household.notes.export') }}
+    </button>
+    @if (exportFailed()) {
+    <p class="form-error household__export-error" role="alert">{{ t('household.notes.failed') }}</p>
+    }
+  </section>
+  }
 </div>

@@ -488,6 +488,13 @@
     "localeLegend": "Guidance language",
     "members": "Members",
     "nameLabel": "Household name",
+    "notes": {
+      "export": "Export notes",
+      "exporting": "Preparing…",
+      "failed": "Couldn't read the notes. Check your connection and try again.",
+      "hint": "Download every log and note in one file for the weekly training review.",
+      "title": "{{name}}'s notes"
+    },
     "status": {
       "member": "Member",
       "owner": "Owner",
