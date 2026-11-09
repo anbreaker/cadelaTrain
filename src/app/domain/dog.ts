@@ -15,7 +15,7 @@ export interface DogDraft {
 
 export interface Dog extends DogDraft {
   id: string;
-  /** 1–8; advanced only by the guidance engine on the server. */
+  /** 1–8; members advance it one week at a time when `planWeekFor` allows it. */
   planWeek: number;
 }
 
