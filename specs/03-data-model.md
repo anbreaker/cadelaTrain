@@ -80,7 +80,7 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 | sleepsOutdoors | bool | |
 | environment | `Environment` | |
 | notes | string ≤ 1000 | |
-| planWeek | int 1–8 | advanced only by the engine (server) |
+| planWeek | int 1–8 | starts at 1; advanced by `planWeekFor` when Today opens (see `04-guidance-engine.md`); rules allow only the same week or the next one |
 | createdAt, updatedAt | timestamp | |
 
 ### `dailyGuidance/{YYYY-MM-DD}` (server-written only)
@@ -162,7 +162,7 @@ Full rules in `firestore.rules`; tested with the emulator.
 | `users/{uid}` | self | self, shape-validated |
 | `households/{hid}` | members | create: creator is sole owner/member; update: owner renames, changes the locale or removes members (never the owner; cannot add uids or add, relabel or rewrite member entries) or invited user adding exactly themself |
 | `invitations/{email}` | owner; invitee (collection group by email) | create/delete: owner; delete: invitee |
-| `dogs/**` | members | create/delete: owner; update: members, shape-validated; `planWeek` server-only |
+| `dogs/**` | members | create/delete: owner; update: members, shape-validated; `planWeek` only unchanged or `+ 1` (≤ 8), never skipped or lowered |
 | `dailyGuidance` | members | none (server only) |
 | `*Logs`, `vetEvents` | members | create: members with `doneBy == uid`, `doneAt == request.time`; update/delete: author, within 24 h of `doneAt` |
 | `weeklyReviews` | members | members, `updatedBy == uid` |

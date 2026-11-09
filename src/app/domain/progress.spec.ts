@@ -4,6 +4,7 @@ import {
   skillProgress,
   skillRate,
   socializationStatus,
+  weekAttempts,
 } from './progress';
 import { SocializationLog, TaskLog } from './task-log';
 
@@ -66,6 +67,25 @@ describe('skillRate', () => {
     const logs = [training(TODAY, 10, 10), training(TODAY, 0, 10, 'come'), walk];
 
     expect(skillRate(logs, 'sit', TODAY)).toBe(1);
+  });
+});
+
+describe('weekAttempts', () => {
+  it('should add every attempt of the skill in the last 7 Madrid days', () => {
+    const walk: TaskLog = { ...training(TODAY, 0, 10), kind: 'potty' };
+    const logs = [
+      training('2026-12-13', 10, 10),
+      training('2026-12-14', 3, 4),
+      training(TODAY, 5, 9),
+      training(TODAY, 0, 10, 'come'),
+      walk,
+    ];
+
+    expect(weekAttempts(logs, 'sit', TODAY)).toBe(13);
+  });
+
+  it('should be 0 without training in the window', () => {
+    expect(weekAttempts([], 'sit', TODAY)).toBe(0);
   });
 });
 

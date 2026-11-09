@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { IsoDate } from '@domain/dates';
 import { Dog, DogDraft } from '@domain/dog';
 
-import { dogConverter, dogUpdateData, newDogData } from './dog.converter';
+import { dogConverter, dogUpdateData, newDogData, planWeekUpdateData } from './dog.converter';
 import { FIRESTORE } from './firestore.token';
 import { watchQuery } from './firestore-converter';
 
@@ -33,6 +33,11 @@ export class DogRepository {
 
   async update(householdId: string, dogId: string, draft: DogDraft, today: IsoDate): Promise<void> {
     await updateDoc(doc(this.dogs(householdId), dogId), dogUpdateData(draft, today));
+  }
+
+  /** Moves the dog to `planWeek` (the next week, `planWeekFor`), touching nothing else. */
+  async advancePlanWeek(householdId: string, dogId: string, planWeek: number): Promise<void> {
+    await updateDoc(doc(this.dogs(householdId), dogId), { ...planWeekUpdateData(planWeek) });
   }
 
   watchAll(householdId: string): Observable<Dog[]> {

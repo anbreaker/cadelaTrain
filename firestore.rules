@@ -231,10 +231,12 @@ service cloud.firestore {
           && request.resource.data.createdAt == request.time
           && request.resource.data.updatedAt == request.time;
 
-        // planWeek is advanced only by the server engine.
+        // planWeek stays or moves to the next week (planWeekFor on the client); isDog caps it at 8.
+        // No skipping weeks and no going back.
         allow update: if isMember(hid)
           && isDog(request.resource.data)
-          && request.resource.data.planWeek == resource.data.planWeek
+          && (request.resource.data.planWeek == resource.data.planWeek
+            || request.resource.data.planWeek == resource.data.planWeek + 1)
           && request.resource.data.createdAt == resource.data.createdAt
           && request.resource.data.updatedAt == request.time;
 
