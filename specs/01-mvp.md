@@ -23,6 +23,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC1.3 Invite.** Given an owner, when they enter an email, an invitation is stored for that email and a sign-in link is sent to it. Inviting the same email twice does not duplicate it. Invalid emails show a validation error and nothing is stored.
 - **AC1.4 Accept.** Given a person signed in with the invited (verified) email, when they open the app, they see the pending invitation with the household name and can join; after joining they are a `member` and see the household's puppy. A user with a different email cannot join (enforced by rules).
 - **AC1.5 Register puppy.** Given a household, when the owner saves name, breed, birth date, arrival date, sleeps outdoors (yes/no) and environment (rural/urban), the dog is stored. Required: name, birth date, arrival date. Arrival date cannot be earlier than birth date; birth date cannot be in the future.
+- **AC1.5b Change arrival.** Any member can change the arrival date from the household screen; the other details of the dog are saved unchanged and the same validation applies (valid date, not before the birth date).
 - **AC1.6 Isolation.** A user who is not a member gets permission denied reading or writing any document of that household (rules test).
 - **AC1.7 Language.** Each user can switch the UI language between `en`, `es` and `pt`; the choice is stored in `users/{uid}.locale`. Generated guidance uses the household locale.
 
@@ -34,7 +35,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC2.2** Each task shows title, short instructions, duration (minutes, or a dash when none) and kind with icon and label (`taskKinds.*`).
 - **AC2.3** Done tasks show who did them and when (display name and local time).
 - **AC2.4** Given no guidance is stored for today (cron delayed or failed, or H6 not built yet), the app shows the template guidance built on the client from the bundled catalogs (`domain/template-guidance.ts`, in the active language); it never shows an empty day. On-demand generation (AC6.6) can replace it once H6 ships.
-- **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist (`seed/preparation-checklist.json`) instead of tasks. On the arrival date it shows the day's tasks.
+- **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist (`seed/preparation-checklist.json`) instead of tasks, followed by a read-only preview of the plan's first day (the template guidance for the arrival date: week 1 summary and tasks by slot, without Done or Edit). On the arrival date it shows the day's tasks.
 - **AC2.6** The summary of the day is shown on top. If the day's guidance carries a health flag, a banner shows `health.consultVet` or `health.vetEmergency` and nothing else about health.
 
 ## H3. Log a task

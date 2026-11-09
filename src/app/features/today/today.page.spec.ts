@@ -159,7 +159,18 @@ describe('TodayPageComponent', () => {
     expect(text(element, '.today__countdown-text')).toContain('today.countdown.other');
     expect(element.querySelectorAll('.today__checklist li')).toHaveLength(PREPARATION_ITEMS.length);
     expect(text(element, '.today__checklist')).toContain('catalog.preparation.kennel.label');
-    expect(element.querySelector('app-task-card')).toBeNull();
+    expect(element.querySelector('.task-card__mark')).toBeNull();
+  });
+
+  it('should preview the first day of the plan before the arrival, read-only', async () => {
+    const element = await render('2026-11-04T10:00:00Z');
+
+    expect(text(element, '.today__preview-title')).toContain('today.previewTitle');
+    expect(text(element, '.today__preview')).toContain('today.previewHint');
+    expect(text(element, '.today__summary')).toContain('catalog.planWeeks.week1.objective');
+    expect(element.querySelectorAll('.today__preview app-task-card').length).toBeGreaterThan(0);
+    expect(element.querySelector('.task-card__mark')).toBeNull();
+    expect(element.querySelector('.task-card__edit')).toBeNull();
   });
 
   it('should show the day on the arrival date, with the arrival note', async () => {

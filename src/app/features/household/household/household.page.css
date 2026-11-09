@@ -29,7 +29,8 @@
   color: var(--color-text-secondary);
 }
 
-.household__export {
+.household__export,
+.household__arrival-save {
   align-self: flex-start;
 }
 

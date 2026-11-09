@@ -45,6 +45,40 @@
   </section>
 
   @if (dog(); as dog) {
+  <section class="household__section" aria-labelledby="arrival-title">
+    <h2 class="household__heading" id="arrival-title">
+      {{ t('household.arrival.title', { name: dog.name }) }}
+    </h2>
+    <form class="household__form household__arrival" novalidate (submit)="saveArrival($event)">
+      <label class="field">
+        {{ t('dog.arrivalDate') }}
+        <input
+          class="field__input"
+          type="date"
+          [attr.aria-describedby]="arrivalError() ? 'arrival-error' : null"
+          [attr.aria-invalid]="arrivalError() !== null"
+          [value]="arrivalDate()"
+          (input)="setArrivalDate($event)"
+        />
+      </label>
+      @if (arrivalError(); as key) {
+      <p class="field__error" id="arrival-error">{{ t(key) }}</p>
+      }
+      <button
+        class="button household__arrival-save"
+        type="submit"
+        [disabled]="arrivalState() === 'saving'"
+      >
+        {{ t('household.arrival.save') }}
+      </button>
+      @if (arrivalState() === 'saved') {
+      <p class="household__feedback" role="status">{{ t('household.arrival.saved') }}</p>
+      } @if (arrivalState() === 'failed') {
+      <p class="form-error" role="alert">{{ t('common.errors.saveFailed') }}</p>
+      }
+    </form>
+  </section>
+
   <section class="household__section" aria-labelledby="notes-title">
     <h2 class="household__heading" id="notes-title">
       {{ t('household.notes.title', { name: dog.name }) }}
