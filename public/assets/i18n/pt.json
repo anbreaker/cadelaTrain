@@ -52,6 +52,8 @@
       }
     },
     "cues": {
+      "drop": "larga",
+      "heel": "junto",
       "no": "fora",
       "praise": "muito bem",
       "release": "joga"
@@ -239,9 +241,14 @@
         "name": "Nome"
       },
       "potty": {
-        "cue": "muito bem",
+        "cue": "xixi",
         "description": "Faz as necessidades no sítio de sempre.",
         "name": "Necessidades"
+      },
+      "search": {
+        "cue": "procura",
+        "description": "Encontra comida pelo faro: primeiro à vista, depois escondida numa divisão e depois pela quinta.",
+        "name": "Procura"
       },
       "sit": {
         "cue": "senta",
@@ -587,6 +594,8 @@
   },
   "rules": {
     "cues": {
+      "drop": "Para largar o que tem na boca",
+      "heel": "Para andar ao teu lado",
       "hint": "Usem todos exatamente estas palavras: se cada um disser uma coisa, {{name}} não sabe o que lhe pedem.",
       "no": "Para interromper algo",
       "praise": "Para elogiar",

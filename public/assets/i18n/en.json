@@ -52,6 +52,8 @@
       }
     },
     "cues": {
+      "drop": "drop it",
+      "heel": "heel",
       "no": "off",
       "praise": "good",
       "release": "joga"
@@ -239,9 +241,14 @@
         "name": "Name"
       },
       "potty": {
-        "cue": "good",
+        "cue": "go potty",
         "description": "Goes potty in the usual spot.",
         "name": "Potty"
+      },
+      "search": {
+        "cue": "find it",
+        "description": "Finds food by smell: first in plain sight, then hidden in a room, then around the farm.",
+        "name": "Search"
       },
       "sit": {
         "cue": "sit",
@@ -587,6 +594,8 @@
   },
   "rules": {
     "cues": {
+      "drop": "To let go of what is in her mouth",
+      "heel": "To walk by your side",
       "hint": "Everyone uses exactly these words: if each person says something different, {{name}} can't tell what you're asking.",
       "no": "To stop something",
       "praise": "To praise",

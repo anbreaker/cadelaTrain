@@ -52,6 +52,8 @@
       }
     },
     "cues": {
+      "drop": "suelta",
+      "heel": "junto",
       "no": "fuera",
       "praise": "muy bien",
       "release": "joga"
@@ -239,9 +241,14 @@
         "name": "Nombre"
       },
       "potty": {
-        "cue": "muy bien",
+        "cue": "pis",
         "description": "Hace sus necesidades en el sitio de siempre.",
         "name": "Necesidades"
+      },
+      "search": {
+        "cue": "busca",
+        "description": "Encuentra comida con el olfato: primero a la vista, luego escondida en una habitación y después por la finca.",
+        "name": "Búsqueda"
       },
       "sit": {
         "cue": "sienta",
@@ -587,6 +594,8 @@
   },
   "rules": {
     "cues": {
+      "drop": "Para soltar lo que tiene en la boca",
+      "heel": "Para caminar a tu lado",
       "hint": "Usad todos exactamente estas palabras: si cada uno dice una cosa, {{name}} no sabe qué se le pide.",
       "no": "Para cortar algo",
       "praise": "Para felicitar",

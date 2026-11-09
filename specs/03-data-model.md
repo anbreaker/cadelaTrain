@@ -34,7 +34,7 @@ Mapping from the original proposal: `household_members` → `households.memberId
 | `GuidanceSource` | `ai`, `template` |
 | `GuidanceStatus` | `ready`, `fallback` (template used after an AI failure; `fallbackReason` set) |
 | `FallbackReason` | `apiError`, `timeout`, `refusal`, `invalidOutput`, `noApiKey` |
-| `SkillKey` | `name`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty` |
+| `SkillKey` | `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty` |
 | `SocializationCategory` | `people`, `noises`, `animals`, `places`, `handling` |
 
 ## Documents

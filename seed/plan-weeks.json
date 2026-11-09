@@ -18,7 +18,7 @@
       "how": "Reward above the head; same spot for potty",
       "readyWhen": "Sits on the hand signal with no reward in the hand",
       "keySkills": ["sit"],
-      "focusSkills": ["sit", "potty", "name"]
+      "focusSkills": ["sit", "potty", "name", "search"]
     },
     {
       "week": 3,
@@ -36,7 +36,7 @@
       "how": "Leash indoors; say 'ouch' and stop the game",
       "readyWhen": "Walks a few metres on the leash",
       "keySkills": ["leash"],
-      "focusSkills": ["leash", "softBite", "come", "sit"]
+      "focusSkills": ["leash", "softBite", "come", "sit", "search"]
     },
     {
       "week": 5,
@@ -54,7 +54,7 @@
       "how": "5-10 m on a long line",
       "readyWhen": "Comes in most attempts",
       "keySkills": ["come"],
-      "focusSkills": ["come", "leaveIt", "down", "leash"]
+      "focusSkills": ["come", "leaveIt", "down", "leash", "search"]
     },
     {
       "week": 7,

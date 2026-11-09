@@ -76,9 +76,9 @@ Sent to Claude as `output_config.format` (JSON schema) and validated again in co
         "properties": {
           "slot": { "enum": ["morning", "midday", "afternoon", "night"] },
           "kind": { "enum": ["training", "socialization", "care", "feeding", "potty"] },
-          "skillKey": { "enum": ["name", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
+          "skillKey": { "enum": ["name", "search", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
           "socializationItemKey": { "type": "string" },
-          "closingSkillKey": { "enum": ["name", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
+          "closingSkillKey": { "enum": ["name", "search", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
           "title": { "type": "string", "maxLength": 80 },
           "instructions": { "type": "string", "maxLength": 400 },
           "durationMin": { "type": "integer", "minimum": 0, "maximum": 30 }
