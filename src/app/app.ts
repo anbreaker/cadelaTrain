@@ -28,6 +28,7 @@ import { UpdateBannerComponent } from '@shared/components/update-banner/update-b
 const NAV_ITEMS: readonly NavItem[] = [
   { labelKey: 'nav.today', path: '/today' },
   { labelKey: 'nav.progress', path: '/progress' },
+  { labelKey: 'nav.rules', path: '/rules' },
   { labelKey: 'nav.household', path: '/household' },
 ];
 

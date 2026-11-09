@@ -544,6 +544,7 @@
     "label": "Principal",
     "openMenu": "Abrir menu",
     "progress": "Progresso",
+    "rules": "Regras",
     "today": "Hoje"
   },
   "onboarding": {
@@ -594,6 +595,18 @@
     "calm": "Calma",
     "curious": "Curiosidade",
     "fear": "Medo"
+  },
+  "rules": {
+    "cues": {
+      "hint": "Usem todos exatamente estas palavras: se cada um disser uma coisa, {{name}} não sabe o que lhe pedem.",
+      "no": "Para interromper algo",
+      "praise": "Para elogiar",
+      "title": "As mesmas palavras para todos"
+    },
+    "principles": {
+      "title": "Como treinamos"
+    },
+    "title": "Regras com {{name}}"
   },
   "settings": {
     "language": "Idioma",

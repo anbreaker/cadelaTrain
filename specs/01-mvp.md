@@ -95,3 +95,11 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC7.5 Viewing.** Media appear per day in the weekly review (H5) and as a timeline in progress (H4). Photos are delivered by Cloudinary in responsive sizes (`f_auto,q_auto`, srcset). Videos load as a facade: the thumbnail first, and the `youtube-nocookie.com` player only after a tap.
 - **AC7.6 Delete.** The author deletes their own item; for a photo, `POST /api/delete-media` also removes the Cloudinary asset.
 - **AC7.7 Privacy.** Only household members read media documents (rules). Photos live in a per-household Cloudinary folder with random public ids; delivery URLs are unguessable but public if shared (authenticated delivery is a roadmap item).
+
+## H8. Household rules
+
+> Everyone who trains the puppy can look up the same words and rules at any time.
+
+- **AC8.1 Shared words and principles.** A "Rules" screen (`/rules`) lists, read-only, the spoken cue word of every skill in the active language (`catalog.skills.<key>.cue`), the praise and "no" words (`catalog.cues.*`) and the training principles (`seed/principles.json`).
+- **AC8.2 Family rules (planned).** Members write and edit the household's own rules (who feeds her, where she sleeps, other agreements); stored per household and protected by the rules like other household data.
+- **AC8.3 AI help (planned).** From `api/` only, Claude drafts family rules from a few answers; the household reviews and saves them. Uses the app's server key (`ANTHROPIC_API_KEY`), never a user's credentials in the client.

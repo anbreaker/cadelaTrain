@@ -1,0 +1,27 @@
+<div class="rules" *transloco="let t">
+  @if (dog(); as dog) {
+  <h1 class="rules__title">{{ t('rules.title', { name: dog.name }) }}</h1>
+
+  <section class="rules__section" aria-labelledby="cues-title">
+    <h2 class="rules__section-title" id="cues-title">{{ t('rules.cues.title') }}</h2>
+    <p class="rules__hint">{{ t('rules.cues.hint', { name: dog.name }) }}</p>
+    <dl class="rules__cues">
+      @for (cue of cues; track cue.cueKey) {
+      <div class="rules__cue">
+        <dt class="rules__cue-skill">{{ t(cue.labelKey) }}</dt>
+        <dd class="rules__cue-word">«{{ t(cue.cueKey, { name: dog.name }) }}»</dd>
+      </div>
+      }
+    </dl>
+  </section>
+
+  <section class="rules__section" aria-labelledby="principles-title">
+    <h2 class="rules__section-title" id="principles-title">{{ t('rules.principles.title') }}</h2>
+    <ul class="rules__principles">
+      @for (key of principleKeys; track key) {
+      <li class="rules__principle">{{ t(key, { name: dog.name }) }}</li>
+      }
+    </ul>
+  </section>
+  }
+</div>

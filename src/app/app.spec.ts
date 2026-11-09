@@ -78,7 +78,7 @@ describe('AppComponent', () => {
     });
     const compiled = await render();
 
-    expect(navLinks(compiled)).toEqual(['/today', '/progress', '/household']);
+    expect(navLinks(compiled)).toEqual(['/today', '/progress', '/rules', '/household']);
 
     compiled.querySelector<HTMLButtonElement>('.site-header__sign-out')?.click();
 
