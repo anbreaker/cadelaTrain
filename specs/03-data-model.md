@@ -175,7 +175,7 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 
 | File | Content | Item fields |
 |------|---------|-------------|
-| `skills.json` | 9 skills | `key`, `description`; i18n `name`, `cue`, `description` |
+| `skills.json` | 10 skills | `key`, `description`; i18n `name`, `cue`, `description` |
 | `plan-weeks.json` | 8 weeks | `week`, `ageWeeks`, `objective`, `how`, `readyWhen`, `keySkills`, `focusSkills` |
 | `daily-schedule.json` | Daily template for 2–4 months | `id`, `time`, `until?`, `slot`, `kind`, `skillKey?`, `isTask`, `durationMin`, `title`; rows with `isTask: false` are rest blocks shown in the timeline, never tasks |
 | `socialization-checklist.json` | 35 items in 5 categories | `key`, `category`, `order`, `label`; i18n `label`, `howTo` |

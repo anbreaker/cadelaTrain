@@ -47,11 +47,11 @@ describe('bundled catalogs', () => {
     }
   });
 
-  it('should practise search (busca) in weeks 2, 4 and 6, right after name', () => {
+  it('should practise search (busca) in weeks 2 and 3, right after name', () => {
     expect(SKILLS.map((skill) => skill.key).slice(0, 2)).toEqual(['name', 'search']);
     expect(
       PLAN_WEEKS.filter((week) => week.focusSkills.includes('search')).map((week) => week.week)
-    ).toEqual([2, 4, 6]);
+    ).toEqual([2, 3]);
   });
 
   it('should translate every word-only cue', () => {

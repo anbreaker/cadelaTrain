@@ -27,7 +27,7 @@
       "how": "Crouch, happy voice, recall game between two people",
       "readyWhen": "Runs to you from 3 m",
       "keySkills": ["come"],
-      "focusSkills": ["come", "sit", "potty"]
+      "focusSkills": ["come", "sit", "potty", "search"]
     },
     {
       "week": 4,
@@ -36,7 +36,7 @@
       "how": "Leash indoors; say 'ouch' and stop the game",
       "readyWhen": "Walks a few metres on the leash",
       "keySkills": ["leash"],
-      "focusSkills": ["leash", "softBite", "come", "sit", "search"]
+      "focusSkills": ["leash", "softBite", "come", "sit"]
     },
     {
       "week": 5,
@@ -54,7 +54,7 @@
       "how": "5-10 m on a long line",
       "readyWhen": "Comes in most attempts",
       "keySkills": ["come"],
-      "focusSkills": ["come", "leaveIt", "down", "leash", "search"]
+      "focusSkills": ["come", "leaveIt", "down", "leash"]
     },
     {
       "week": 7,

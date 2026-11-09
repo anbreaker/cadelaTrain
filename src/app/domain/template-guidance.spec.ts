@@ -44,12 +44,22 @@ describe('templateGuidance', () => {
   it('should fill the training sessions with the week focus skills, easiest first, 5 minutes each', () => {
     const training = tasksOf(
       'training',
-      templateGuidance(input({ dog: { ...dela, planWeek: 3 } })).tasks
+      templateGuidance(input({ dog: { ...dela, planWeek: 4 } })).tasks
     );
 
-    expect(training.map((task) => task.skillKey)).toEqual(['sit', 'come', 'sit']);
+    expect(training.map((task) => task.skillKey)).toEqual(['sit', 'come', 'leash']);
     expect(training.every((task) => task.durationMin === 5)).toBe(true);
     expect(training[0].title).toBe('guidance.template.trainingTitle(catalog.skills.sit.name)');
+  });
+
+  it('should start search games in weeks 2 and 3 without displacing the key skill', () => {
+    const week = (planWeek: number): (string | undefined)[] =>
+      tasksOf('training', templateGuidance(input({ dog: { ...dela, planWeek } })).tasks).map(
+        (task) => task.skillKey
+      );
+
+    expect(week(2)).toEqual(['name', 'search', 'sit']);
+    expect(week(3)).toEqual(['search', 'sit', 'come']);
   });
 
   it('should repeat the only skill of week 1 in every session (potty has its own tasks)', () => {
@@ -62,7 +72,7 @@ describe('templateGuidance', () => {
     const training = tasksOf(
       'training',
       templateGuidance(
-        input({ dog: { ...dela, planWeek: 3 }, progress: { strugglingSkills: ['come'] } })
+        input({ dog: { ...dela, planWeek: 4 }, progress: { strugglingSkills: ['come'] } })
       ).tasks
     );
 
