@@ -1,3 +1,4 @@
+import { PLAN_WEEKS } from './catalog';
 import { Dog } from './dog';
 import { GuidanceTask } from './guidance';
 import { templateGuidance, TemplateInput, Translate } from './template-guidance';
@@ -50,6 +51,20 @@ describe('templateGuidance', () => {
     expect(training.map((task) => task.skillKey)).toEqual(['sit', 'come', 'leash']);
     expect(training.every((task) => task.durationMin === 5)).toBe(true);
     expect(training[0].title).toBe('guidance.template.trainingTitle(catalog.skills.sit.name)');
+  });
+
+  it('should give every key skill of the week a session, replacing the hardest other skill', () => {
+    const week = (planWeek: number): (string | undefined)[] =>
+      tasksOf('training', templateGuidance(input({ dog: { ...dela, planWeek } })).tasks).map(
+        (task) => task.skillKey
+      );
+
+    expect(week(5)).toEqual(['come', 'leash', 'leaveIt']);
+    expect(week(7)).toEqual(['sit', 'come', 'stay']);
+    expect(week(8)).toEqual(['sit', 'come', 'stay']);
+    expect(week(6)).toEqual(['come', 'leash', 'down']);
+    for (const plan of PLAN_WEEKS)
+      for (const key of plan.keySkills) expect(week(plan.week)).toContain(key);
   });
 
   it('should start search games in weeks 2 and 3 without displacing the key skill', () => {
