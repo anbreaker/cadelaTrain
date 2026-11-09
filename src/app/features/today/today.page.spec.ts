@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { DogRepository } from '@data/dog.repository';
 import { GuidanceRepository } from '@data/guidance.repository';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
@@ -82,8 +83,11 @@ describe('TodayPageComponent', () => {
     log: ReturnType<typeof vi.fn>;
     remove: ReturnType<typeof vi.fn>;
     update: ReturnType<typeof vi.fn>;
+    watchAll: () => Observable<TaskLog[]>;
     watchDay: () => Observable<TaskLog[]>;
   };
+  let allLogs$: Observable<TaskLog[]>;
+  let dogs: { advancePlanWeek: ReturnType<typeof vi.fn> };
   let fixture: ComponentFixture<TodayPageComponent>;
 
   const render = async (now: string): Promise<HTMLElement> => {
@@ -96,6 +100,7 @@ describe('TodayPageComponent', () => {
         { provide: NOW, useValue: () => new Date(now) },
         { provide: GuidanceRepository, useValue: { watchDay: watchGuidance } },
         { provide: TaskLogRepository, useValue: logs },
+        { provide: DogRepository, useValue: dogs },
       ],
     });
     fixture = TestBed.createComponent(TodayPageComponent);
@@ -119,10 +124,13 @@ describe('TodayPageComponent', () => {
     });
     guidance$ = of(null);
     logs$ = of([]);
+    allLogs$ = of([]);
+    dogs = { advancePlanWeek: vi.fn(async () => undefined) };
     logs = {
       log: vi.fn(async () => 'l2'),
       remove: vi.fn(async () => undefined),
       update: vi.fn(async () => undefined),
+      watchAll: () => allLogs$,
       watchDay: () => logs$,
     };
   });
@@ -285,5 +293,52 @@ describe('TodayPageComponent', () => {
     expect(element.querySelector('.today__log-error')?.textContent).toContain(
       'log.errors.saveFailed'
     );
+  });
+
+  describe('plan week advance (S1)', () => {
+    const trained = (skillKey: string, successCount: number): TaskLog => ({
+      ...doneLog,
+      attempts: 10,
+      id: `l-${skillKey}`,
+      skillKey,
+      successCount,
+    });
+
+    it('should move Dela to the next week and say so once her key skills reach 80 %', async () => {
+      allLogs$ = of([trained('name', 8)]);
+      const element = await render('2026-12-20T10:00:00Z');
+
+      expect(dogs.advancePlanWeek).toHaveBeenCalledWith('h1', 'd1', 2);
+      expect(element.querySelector('.today__advance')?.textContent).toContain('today.weekAdvanced');
+    });
+
+    it('should stay in the week while a key skill is below 80 %', async () => {
+      allLogs$ = of([trained('name', 7)]);
+      const element = await render('2026-12-20T10:00:00Z');
+
+      expect(dogs.advancePlanWeek).not.toHaveBeenCalled();
+      expect(element.querySelector('.today__advance')).toBeNull();
+    });
+
+    it('should advance at most once per load, even when the stored week changes', async () => {
+      session.set.dog.set({ ...dela, birthDate: '2026-08-02' });
+      allLogs$ = of([trained('name', 10), trained('sit', 10)]);
+      await render('2026-12-20T10:00:00Z');
+
+      session.set.dog.set({ ...dela, birthDate: '2026-08-02', planWeek: 2 });
+      await fixture.whenStable();
+
+      expect(dogs.advancePlanWeek).toHaveBeenCalledTimes(1);
+    });
+
+    it('should keep the day without a notice when the advance cannot be saved', async () => {
+      allLogs$ = of([trained('name', 8)]);
+      dogs.advancePlanWeek.mockRejectedValueOnce(new Error('denied'));
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      const element = await render('2026-12-20T10:00:00Z');
+
+      expect(element.querySelector('.today__advance')).toBeNull();
+      expect(element.querySelectorAll('app-task-card').length).toBeGreaterThan(0);
+    });
   });
 });

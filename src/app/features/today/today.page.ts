@@ -1,5 +1,12 @@
 import { catchError, Observable, of, switchMap } from 'rxjs';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -7,12 +14,14 @@ import { LOCALE_BY_LANG } from '@core/const/lang.const';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { DogRepository } from '@data/dog.repository';
 import { GuidanceRepository } from '@data/guidance.repository';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
 import { ageInWeeks, daysUntil, IsoDate, madridToday } from '@domain/dates';
 import { Dog } from '@domain/dog';
 import { DailyGuidance, healthMessageKey } from '@domain/guidance';
+import { planWeekFor } from '@domain/plan-week';
 import { TaskLogDraft } from '@domain/task-log';
 import { templateGuidance } from '@domain/template-guidance';
 import { LogSheetComponent } from '@shared/components/log-sheet/log-sheet';
@@ -39,7 +48,8 @@ const sameDay = (a: DayKey | null, b: DayKey | null): boolean =>
  * Today's guide for the puppy (H2): the stored guidance of the Madrid date, or the template built
  * from the bundled catalogs while none exists, so the day is never empty. Before the arrival it
  * shows the countdown and the preparation checklist instead. Tasks are logged, edited and deleted
- * from the card's sheet (H3).
+ * from the card's sheet (H3). On opening, it moves the dog to the next plan week once the
+ * current week's key skills are mastered (`planWeekFor`) and says so.
  */
 @Component({
   standalone: true,
@@ -55,6 +65,7 @@ export class TodayPageComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly guidanceRepository = inject(GuidanceRepository);
   private readonly taskLogRepository = inject(TaskLogRepository);
+  private readonly dogRepository = inject(DogRepository);
   private readonly now = inject(NOW)();
 
   private readonly today = madridToday(this.now);
@@ -75,6 +86,13 @@ export class TodayPageComponent {
     this.watch((key) => this.taskLogRepository.watchDay(key.householdId, key.dogId, this.today)),
     { initialValue: null }
   );
+  /** Every training log, for the week advance rates (the same read as the progress screen). */
+  private readonly allLogs = toSignal(
+    this.watch((key) => this.taskLogRepository.watchAll(key.householdId, key.dogId)),
+    { initialValue: null }
+  );
+  /** The week advance is tried at most once per load, so the updated dog never loops writes. */
+  private advanceTried = false;
   /** Re-renders the template guidance once the active language's translations are loaded. */
   private readonly translation = toSignal(this.transloco.selectTranslation());
 
@@ -151,6 +169,8 @@ export class TodayPageComponent {
       : [];
   });
 
+  /** The week the dog has just moved to, for the notice; `null` when there was no advance. */
+  protected readonly advancedTo = signal<null | number>(null);
   protected readonly logFailed = signal(false);
   protected readonly saving = signal(false);
   protected readonly sheet = signal<null | OpenSheet>(null);
@@ -159,6 +179,24 @@ export class TodayPageComponent {
     const sheet = this.sheet();
     return sheet?.mode === 'edit' ? (sheet.card.edit?.draft ?? null) : null;
   });
+
+  constructor() {
+    effect(() => {
+      const key = this.dayKey();
+      const dog = this.dog();
+      const logs = this.allLogs();
+      if (this.advanceTried || !key || !dog || !logs) return;
+      const week = planWeekFor({
+        birthDate: dog.birthDate,
+        logs,
+        planWeek: dog.planWeek,
+        today: this.today,
+      });
+      if (week <= dog.planWeek) return;
+      this.advanceTried = true;
+      void this.advance(key, week);
+    });
+  }
 
   protected openSheet(card: DayCard, mode: OpenSheet['mode']): void {
     this.logFailed.set(false);
@@ -208,6 +246,15 @@ export class TodayPageComponent {
       this.logFailed.set(true);
     } finally {
       this.saving.set(false);
+    }
+  }
+
+  private async advance(key: DayKey, week: number): Promise<void> {
+    try {
+      await this.dogRepository.advancePlanWeek(key.householdId, key.dogId, week);
+      this.advancedTo.set(week);
+    } catch (error) {
+      console.warn('Today: could not advance the plan week', error);
     }
   }
 

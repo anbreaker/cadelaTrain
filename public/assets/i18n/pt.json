@@ -555,6 +555,16 @@
     "errors": {
       "readFailed": "Não foi possível carregar o progresso. Verifica a ligação."
     },
+    "nextWeek": {
+      "age": "Pela idade, a semana {{week}} começa às {{weeks}} semanas.",
+      "attempts": "Tentativas nos últimos 7 dias: {{attempts}} (mínimo 10)",
+      "hint": "Cada competência chave precisa de 80 % de acertos com pelo menos 10 tentativas nos últimos 7 dias.",
+      "lastWeek": "A {{name}} está na última semana do plano.",
+      "met": "Cumprido",
+      "noRate": "Acertos: ainda sem taxa (objetivo 80 %)",
+      "rate": "Acertos: {{rate}} % (objetivo 80 %)",
+      "title": "Para passar à semana {{week}}"
+    },
     "skills": {
       "empty": "Ainda sem treino.",
       "hint": "A taxa usa as 10 tentativas mais recentes dos últimos 7 dias. Com 80 % ou mais, a competência está dominada.",
@@ -657,6 +667,7 @@
     "optional": "Opcional",
     "previewHint": "Semana 1 do plano, a partir do dia da chegada. Podem registar tarefas quando a {{name}} estiver em casa.",
     "previewTitle": "Assim será o primeiro dia",
-    "title": "Hoje com {{name}}"
+    "title": "Hoje com {{name}}",
+    "weekAdvanced": "A {{name}} passa para a semana {{week}}!"
   }
 }

@@ -10,10 +10,11 @@ import { NOW } from '@core/time/now';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { SOCIALIZATION_ITEMS } from '@domain/catalog';
 import { IsoDate, madridToday } from '@domain/dates';
+import { weekAdvance } from '@domain/plan-week';
 import { daysToSocializationDeadline, socializationStatus } from '@domain/progress';
 import { pluralKey } from '@shared/utils/plural-key';
 
-import { skillCards, socializationGroups } from './progress-view';
+import { nextWeekView, skillCards, socializationGroups } from './progress-view';
 
 interface DogKey {
   dogId: string;
@@ -25,7 +26,8 @@ const sameDog = (a: DogKey | null, b: DogKey | null): boolean =>
 
 /**
  * The puppy's progress (H4): each skill's success rate, mastery, trend and sessions, and the
- * socialization checklist with the days left until 16 weeks.
+ * socialization checklist with the days left until 16 weeks. It also shows what is missing for the
+ * next plan week (`weekAdvance`).
  */
 @Component({
   standalone: true,
@@ -81,6 +83,20 @@ export class ProgressPageComponent {
       ),
     }))
   );
+
+  protected readonly nextWeek = computed(() => {
+    const dog = this.dog();
+    return dog
+      ? nextWeekView(
+          weekAdvance({
+            birthDate: dog.birthDate,
+            logs: this.logs() ?? [],
+            planWeek: dog.planWeek,
+            today: this.today,
+          })
+        )
+      : null;
+  });
 
   protected readonly groups = computed(() =>
     socializationGroups(this.statuses(), this.session.household()?.members ?? {})

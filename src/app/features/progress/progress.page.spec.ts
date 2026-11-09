@@ -168,4 +168,29 @@ describe('ProgressPageComponent', () => {
     );
     expect(cards(element)).toHaveLength(SKILLS.length);
   });
+
+  it('should show what is missing for the next plan week (S2)', async () => {
+    const element = await render();
+    const next = element.querySelector('.next-week');
+
+    expect(next?.querySelector('.next-week__title')?.textContent).toContain(
+      'progress.nextWeek.title'
+    );
+    const items = Array.from(next?.querySelectorAll('.next-week__skill') ?? []);
+    expect(items).toHaveLength(1);
+    expect(items[0].textContent).toContain('catalog.skills.name.name');
+    expect(items[0].textContent).toContain('progress.nextWeek.noRate');
+    expect(items[0].textContent).toContain('progress.nextWeek.attempts');
+    expect(next?.querySelector('.next-week__age')).toBeNull();
+  });
+
+  it('should say Dela is in the last week of the plan at week 8 (S2)', async () => {
+    session.set.dog.set({ ...dela, planWeek: 8 });
+    const element = await render();
+
+    expect(element.querySelector('.next-week__title')?.textContent).toContain(
+      'progress.nextWeek.lastWeek'
+    );
+    expect(element.querySelector('.next-week__skill')).toBeNull();
+  });
 });
