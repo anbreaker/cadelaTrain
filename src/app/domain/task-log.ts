@@ -27,6 +27,16 @@ export interface TaskLog {
   taskId: string;
 }
 
+/** One entry of the socialization checklist (`socializationLogs`), read by progress (AC4.4). */
+export interface SocializationLog {
+  doneAt: Date;
+  doneBy: string;
+  id: string;
+  itemKey: string;
+  notes: string;
+  reaction: Reaction;
+}
+
 /** What the trainer fills in when marking a task done (AC3.2–AC3.4). */
 export interface TaskLogDraft {
   attempts?: number;
