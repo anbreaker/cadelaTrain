@@ -12,7 +12,6 @@ import { authErrorKey } from '../auth-error-key';
 /** `confirmEmail`: the link was opened on a device that does not remember the email. */
 type LoginView = 'confirmEmail' | 'form' | 'sent' | 'signingIn';
 
-const SESSION_ERROR_KEY = 'auth.errors.sessionFailed';
 const EMULATOR_LINK_MISSING_KEY = 'auth.errors.emulatorLinkMissing';
 
 @Component({
@@ -40,9 +39,10 @@ export class LoginPageComponent {
   protected readonly emailInvalid = computed(
     () => this._submitted() && !isValidEmail(normalizeEmail(this._email()))
   );
-  protected readonly errorKey = computed(
-    () => this._errorKey() ?? (this.session.error() ? SESSION_ERROR_KEY : null)
-  );
+  protected readonly errorKey = computed(() => {
+    const sessionError = this.session.error();
+    return this._errorKey() ?? (sessionError ? `auth.errors.${sessionError}` : null);
+  });
   protected readonly sentTo = computed(() => normalizeEmail(this._email()));
   protected readonly offersEmulatorLink = this.emulatorSignIn !== null;
 

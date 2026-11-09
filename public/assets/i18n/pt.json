@@ -15,6 +15,7 @@
       "emulatorLinkMissing": "O emulador não tem nenhuma ligação para este email. Pede uma nova.",
       "googleFailed": "Não foi possível entrar com o Google. Tenta novamente.",
       "linkInvalid": "A ligação expirou ou já foi usada. Pede uma nova.",
+      "notAllowed": "Esta conta não tem acesso à Dela. Entra com o email da família.",
       "sendFailed": "Não foi possível enviar a ligação. Tenta novamente.",
       "sessionFailed": "Não foi possível carregar a tua conta. Volta a entrar."
     },

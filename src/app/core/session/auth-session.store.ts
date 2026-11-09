@@ -9,6 +9,7 @@ import {
   Subscription,
   switchMap,
   tap,
+  throwError,
   timeout,
 } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
@@ -17,6 +18,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { AUTH_GATEWAY } from '@core/auth/auth-gateway';
 import { forgetSignInEmail, readSignInEmail, rememberSignInEmail } from '@core/auth/sign-in-email';
 import { LanguageStore } from '@core/store/language.store';
+import { AccessRepository } from '@data/access.repository';
 import { DogRepository } from '@data/dog.repository';
 import { Invitation } from '@data/household.converter';
 import { HouseholdRepository } from '@data/household.repository';
@@ -29,7 +31,7 @@ import { Household, Locale } from '@domain/household';
 export type SessionStatus =
   'loading' | 'needsDog' | 'needsHousehold' | 'ready' | 'signedOut' | 'unavailable';
 
-export type SessionError = 'sessionFailed';
+export type SessionError = 'notAllowed' | 'sessionFailed';
 
 export type SignInLinkResult = 'emailNeeded' | 'signedIn';
 
@@ -57,7 +59,12 @@ const DOGS_RETRY_COUNT = 3;
 export const PROFILE_TIMEOUT_MS = 10_000;
 
 /** What a failed session load means: the session is invalid, or the backend is out of reach. */
-type FailureKind = 'invalidSession' | 'unreachable';
+type FailureKind = 'invalidSession' | 'noAccess' | 'unreachable';
+
+/** The signed-in email is not in the allowlist: the account exists but may not use the app. */
+class NoAccessError extends Error {
+  readonly code = 'app/no-access';
+}
 
 /**
  * Only errors that prove the session itself is no longer valid sign the user out. Anything else
@@ -65,6 +72,7 @@ type FailureKind = 'invalidSession' | 'unreachable';
  * so a bad connection never costs a new sign-in link.
  */
 const FAILURE_BY_CODE: Record<string, FailureKind> = {
+  'app/no-access': 'noAccess',
   'auth/invalid-refresh-token': 'invalidSession',
   'auth/invalid-user-token': 'invalidSession',
   'auth/user-disabled': 'invalidSession',
@@ -89,6 +97,7 @@ export class AuthSessionStore {
   private readonly document = inject(DOCUMENT);
   private readonly language = inject(LanguageStore);
   private readonly profiles = inject(UserProfileRepository);
+  private readonly access = inject(AccessRepository);
   private readonly households = inject(HouseholdRepository);
   private readonly dogs = inject(DogRepository);
 
@@ -105,6 +114,7 @@ export class AuthSessionStore {
 
   private readonly failureHandlers: Record<FailureKind, () => void> = {
     invalidSession: () => this.endInvalidSession(),
+    noAccess: () => this.endSession('notAllowed'),
     unreachable: () => this.reportUnavailable(),
   };
 
@@ -227,7 +237,13 @@ export class AuthSessionStore {
       tap((detail) => this._detail.set(detail))
     );
 
-    return from(this.profiles.ensureProfile(user, this.language.currentLang())).pipe(
+    // Access first: an account outside the allowlist never gets a profile.
+    return from(this.access.hasAccess(user.email)).pipe(
+      switchMap((allowed) =>
+        allowed
+          ? from(this.profiles.ensureProfile(user, this.language.currentLang()))
+          : throwError(() => new NoAccessError())
+      ),
       timeout({ first: PROFILE_TIMEOUT_MS }),
       tap((profile) => {
         this._profile.set(profile);
@@ -272,7 +288,12 @@ export class AuthSessionStore {
 
   /** An invalid session is signed out, so the user can sign in again from the sign-in screen. */
   private endInvalidSession(): void {
-    this._error.set('sessionFailed');
+    this.endSession('sessionFailed');
+  }
+
+  /** Signs out and leaves the reason for the sign-in screen. */
+  private endSession(reason: SessionError): void {
+    this._error.set(reason);
     this._user.set(null);
     void this.gateway.signOut();
   }

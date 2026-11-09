@@ -170,6 +170,15 @@ describe('LoginPageComponent', () => {
     );
   });
 
+  it('should say the account has no access when it is not allowlisted', async () => {
+    session.set.error.set('notAllowed');
+    const fixture = await render();
+
+    expect(element(fixture).querySelector('[role="alert"]')?.textContent).toContain(
+      'auth.errors.notAllowed'
+    );
+  });
+
   it('should leave language and theme to the site header', async () => {
     const fixture = await render();
 

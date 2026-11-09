@@ -15,6 +15,7 @@
       "emulatorLinkMissing": "The emulator has no link for this email. Request a new one.",
       "googleFailed": "We couldn't sign you in with Google. Please try again.",
       "linkInvalid": "This link has expired or was already used. Request a new one.",
+      "notAllowed": "This account doesn't have access to Dela. Sign in with the family's email.",
       "sendFailed": "We couldn't send the link. Please try again.",
       "sessionFailed": "We couldn't load your account. Please sign in again."
     },
