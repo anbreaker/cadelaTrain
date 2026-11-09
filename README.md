@@ -66,7 +66,7 @@ npm run lint
 npm run build        # production build + service worker check
 ```
 
-`npm run dev` needs no configuration: without Firebase config the development build uses the local emulators. Requirements: Node.js `>= 22.19.0`, npm `>= 10.9.3`, Java for the emulators.
+`npm run dev` needs no Firebase configuration: without it the development build uses the local emulators. Access is private, so put the emails that may sign in in `.env` as `ALLOWED_EMAILS=you@example.com,partner@example.com`; `npm run dev` allows them in the emulator. Requirements: Node.js `>= 22.19.0`, npm `>= 10.9.3`, Java for the emulators.
 
 The emulator sends no email: after asking for a sign-in link, use the "Open the emulator link" button on the "check your email" screen (development only).
 
@@ -116,7 +116,7 @@ npm run lint
 npm run build        # build de producción + comprobación del service worker
 ```
 
-`npm run dev` no necesita configuración: sin configuración de Firebase, la versión de desarrollo usa los emuladores locales. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` y Java para los emuladores.
+`npm run dev` no necesita configuración de Firebase: sin ella, la versión de desarrollo usa los emuladores locales. El acceso es privado: pon en `.env` los emails que pueden entrar, como `ALLOWED_EMAILS=tu@ejemplo.com,pareja@ejemplo.com`; `npm run dev` los autoriza en el emulador. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` y Java para los emuladores.
 
 El emulador no envía correos: después de pedir el enlace, usa el botón "Abrir el enlace del emulador" de la pantalla "Revisa tu correo" (solo en desarrollo).
 
@@ -166,7 +166,7 @@ npm run lint
 npm run build        # build de produção + verificação do service worker
 ```
 
-`npm run dev` não precisa de configuração: sem configuração do Firebase, a versão de desenvolvimento usa os emuladores locais. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` e Java para os emuladores.
+`npm run dev` não precisa de configuração do Firebase: sem ela, a versão de desenvolvimento usa os emuladores locais. O acesso é privado: põe no `.env` os emails que podem entrar, como `ALLOWED_EMAILS=tu@exemplo.com,par@exemplo.com`; `npm run dev` autoriza-os no emulador. Requisitos: Node.js `>= 22.19.0`, npm `>= 10.9.3` e Java para os emuladores.
 
 O emulador não envia emails: depois de pedir a ligação, usa o botão "Abrir a ligação do emulador" do ecrã "Verifica o teu email" (só em desenvolvimento).
 

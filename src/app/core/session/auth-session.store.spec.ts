@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AUTH_GATEWAY, AuthGateway } from '@core/auth/auth-gateway';
 import { LanguageStore } from '@core/store/language.store';
+import { AccessRepository } from '@data/access.repository';
 import { DogRepository } from '@data/dog.repository';
 import { Invitation } from '@data/household.converter';
 import { HouseholdRepository } from '@data/household.repository';
@@ -55,6 +56,7 @@ describe('AuthSessionStore', () => {
   let profileLocale: Locale | null;
   let pendingInvitations: Invitation[];
   let profiles: { ensureProfile: ReturnType<typeof vi.fn>; setLocale: ReturnType<typeof vi.fn> };
+  let access: { hasAccess: ReturnType<typeof vi.fn> };
   let householdRepo: {
     pendingInvitationsFor: ReturnType<typeof vi.fn>;
     watchForMember: ReturnType<typeof vi.fn>;
@@ -70,6 +72,7 @@ describe('AuthSessionStore', () => {
       providers: [
         { provide: AUTH_GATEWAY, useValue: gateway },
         { provide: UserProfileRepository, useValue: profiles },
+        { provide: AccessRepository, useValue: access },
         { provide: HouseholdRepository, useValue: householdRepo },
         { provide: DogRepository, useValue: dogRepo },
         { provide: LanguageStore, useValue: language },
@@ -103,6 +106,7 @@ describe('AuthSessionStore', () => {
       signOut: vi.fn(async () => undefined),
       verifyUser: vi.fn(async () => undefined),
     };
+    access = { hasAccess: vi.fn(async () => true) };
     profiles = {
       ensureProfile: vi.fn(async (user: AuthUser, locale: Locale): Promise<UserProfile> => ({
         displayName: user.displayName ?? '',
@@ -305,6 +309,26 @@ describe('AuthSessionStore', () => {
     expect(gateway.signOut).toHaveBeenCalledTimes(1);
     expect(store.error()).toBe('sessionFailed');
     expect(store.status()).toBe('signedOut');
+  });
+
+  it('should sign out an account whose email is not allowlisted, before creating a profile', async () => {
+    access.hasAccess.mockResolvedValueOnce(false);
+    const store = await signIn(createStore());
+
+    expect(access.hasAccess).toHaveBeenCalledWith(ana.email);
+    expect(profiles.ensureProfile).not.toHaveBeenCalled();
+    expect(gateway.signOut).toHaveBeenCalledTimes(1);
+    expect(store.error()).toBe('notAllowed');
+    expect(store.status()).toBe('signedOut');
+  });
+
+  it('should keep the session when the access check cannot reach the server', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    access.hasAccess.mockRejectedValueOnce(firebaseError('unavailable'));
+    const store = await signIn(createStore());
+
+    expect(gateway.signOut).not.toHaveBeenCalled();
+    expect(store.status()).toBe('unavailable');
   });
 
   it('should sign out when the stored refresh token is no longer valid', async () => {

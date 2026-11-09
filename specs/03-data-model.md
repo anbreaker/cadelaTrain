@@ -5,6 +5,7 @@ Firestore replaces the relational proposal of the original brief. Every user doc
 ## Tree
 
 ```
+allowedEmails/{email}                         who may use the app (id = lowercased email), console-only
 users/{uid}                                   profile
 households/{hid}                              name, locale, ownerId, memberIds[], members{}
   invitations/{email}                         pending invites (id = lowercased email)
@@ -153,8 +154,11 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 
 Full rules in `firestore.rules`; tested with the emulator.
 
+**Access allowlist.** The app is private to one household. "Signed in" in every rule below means: authenticated, email verified, and an `allowedEmails/{lowercased email}` document exists. Allowlist documents are created in the Firebase console (the emails are never in the repository); a client may only `get` its own entry, to learn whether it has access. Removing an entry revokes access on the next request.
+
 | Path | Read | Write |
 |------|------|-------|
+| `allowedEmails/{email}` | own entry only (`get`) | none (console only) |
 | `users/{uid}` | self | self, shape-validated |
 | `households/{hid}` | members | create: creator is sole owner/member; update: owner renames, changes the locale or removes members (never the owner; cannot add uids or add, relabel or rewrite member entries) or invited user adding exactly themself |
 | `invitations/{email}` | owner; invitee (collection group by email) | create/delete: owner; delete: invitee |

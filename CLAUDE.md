@@ -89,15 +89,17 @@ npm run test:rules # Firestore rules tests on the emulator (needs Java; project 
 npm run lint
 npm run build
 npm run emulators  # Auth + Firestore emulators (project demo-dela, ports in firebase.json; needs Java)
+npm run emulators:seed  # allow the ALLOWED_EMAILS of .env in the running Firestore emulator (npm run dev does it)
 vercel dev         # app + api/ functions locally
 ```
 
 ### Run the app against the local emulators
 
-There is no real Firebase project yet; everything runs on the emulators.
+The real project is `dela-train` (Firebase console); local development runs on the emulators.
 
-1. `npm run dev`: starts the Auth and Firestore emulators and the app in one command. A development run without `NG_APP_FIREBASE_*` config uses the emulators automatically; `NG_APP_USE_EMULATORS=true` forces them even with config. With emulators the client always uses project `demo-dela`, so a local run never reaches a real project.
-2. Alternatively, `npm run emulators` in one terminal and `npm start` in another.
+0. Access is private: only emails in `allowedEmails` can use the app. Put `ALLOWED_EMAILS=you@example.com,partner@example.com` in `.env` (not `NG_APP_`, never bundled); the emulators get those entries seeded. In production the entries are created in the Firebase console.
+1. `npm run dev`: starts the Auth and Firestore emulators, seeds the allowlist and starts the app in one command. A development run without `NG_APP_FIREBASE_*` config uses the emulators automatically; `NG_APP_USE_EMULATORS=true` forces them even with config. With emulators the client always uses project `demo-dela`, so a local run never reaches a real project.
+2. Alternatively, `npm run emulators` in one terminal, then `npm run emulators:seed` and `npm start` in another.
 3. Sign in with an email link: the Auth emulator sends no email. On the "check your email" screen, the button "Open the emulator link" (only with emulators) opens the newest link the emulator holds for that email. The link is also printed in the emulators terminal and listed at `http://127.0.0.1:9099/emulator/v1/projects/demo-dela/oobCodes`; open it in the same browser (another browser asks for the email again). Google sign-in shows the emulator's fake account picker.
 
 ## Reference index

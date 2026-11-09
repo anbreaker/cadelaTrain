@@ -8,6 +8,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seedHousehold,
 } from './support';
 
@@ -39,7 +40,7 @@ describe('invitations rules (AC1.3)', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seedHousehold(env);
   });
 

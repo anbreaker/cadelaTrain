@@ -14,6 +14,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seed,
 } from '../rules/support';
 import { firstMatching, repositoryFor } from './support';
@@ -49,7 +50,7 @@ describe('DogRepository on the emulator', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seed(env, { [`households/${HOUSEHOLD_ID}`]: householdFixture() });
   });
 

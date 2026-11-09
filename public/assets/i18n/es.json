@@ -15,6 +15,7 @@
       "emulatorLinkMissing": "El emulador no tiene ningún enlace para este email. Pide uno nuevo.",
       "googleFailed": "No se ha podido entrar con Google. Inténtalo de nuevo.",
       "linkInvalid": "El enlace ha caducado o ya se ha usado. Pide uno nuevo.",
+      "notAllowed": "Esta cuenta no tiene acceso a Dela. Entra con el email de la familia.",
       "sendFailed": "No hemos podido enviar el enlace. Inténtalo de nuevo.",
       "sessionFailed": "No hemos podido cargar tu cuenta. Vuelve a entrar."
     },

@@ -8,6 +8,7 @@ import {
   MEMBER,
   OUTSIDER,
   OWNER,
+  resetFirestore,
   seed,
   seedHousehold,
 } from './support';
@@ -40,7 +41,7 @@ describe('dogs rules (AC1.5)', () => {
   });
 
   beforeEach(async () => {
-    await env.clearFirestore();
+    await resetFirestore(env);
     await seedHousehold(env);
   });
 

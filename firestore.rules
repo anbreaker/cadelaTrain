@@ -8,8 +8,13 @@ service cloud.firestore {
 
     // ---------- helpers ----------
 
+    // Only the household's own people use the app: a verified email listed in allowedEmails counts
+    // as signed in. Every rule below goes through signedIn() (directly or via isMember/isOwner), so
+    // removing an email from the allowlist revokes its access on the next request.
     function signedIn() {
-      return request.auth != null;
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/allowedEmails/$(request.auth.token.email.lower()));
     }
 
     function uid() {
@@ -90,6 +95,17 @@ service cloud.firestore {
         && request.resource.data.doneAt == resource.data.doneAt;
     }
 
+    // ---------- access allowlist ----------
+
+    // Managed only from the console (document id = lowercase email). A signed-in account may read
+    // its own entry, present or not, to learn whether it has access; nobody lists or writes it.
+    match /allowedEmails/{email} {
+      allow get: if request.auth != null
+        && request.auth.token.email_verified == true
+        && email == request.auth.token.email.lower();
+      allow list, write: if false;
+    }
+
     // ---------- users ----------
 
     function isUser(data) {
@@ -166,7 +182,9 @@ service cloud.firestore {
         && isMemberEntry(request.resource.data.members[uid()], 'owner')
         && request.resource.data.createdAt == request.time;
 
-      allow update: if isHousehold(request.resource.data) && (isOwnerEdit() || isJoining(hid));
+      allow update: if signedIn()
+        && isHousehold(request.resource.data)
+        && (isOwnerEdit() || isJoining(hid));
       allow delete: if false;
 
       // ---------- invitations ----------
