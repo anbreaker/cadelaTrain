@@ -145,12 +145,16 @@
       }
     },
     "principles": {
+      "calmPlay": "Play is fine, but chasing over and over (balls, sticks) shouldn't be the center of her day; balance it with exploring and calm.",
       "endWell": "Always end on a good note.",
       "foodAndSleep": "She eats 3 times a day until 4–6 months and sleeps 16–18 hours.",
       "lowerDifficulty": "If something isn't working, make it easier.",
+      "noFenceWatching": "Watching the fence or the road isn't her job: don't let her spend hours on guard.",
+      "restAfterActivity": "After activity comes rest: go out, train, eat, sleep.",
       "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, leave it, off, good.",
       "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
-      "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\"."
+      "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
+      "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
     },
     "schedule": {
       "afternoonRest": {

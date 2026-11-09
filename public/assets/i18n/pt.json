@@ -145,12 +145,16 @@
       }
     },
     "principles": {
+      "calmPlay": "Brincar é bom, mas perseguir vezes sem conta (bola, paus) não deve ser o centro do dia dela; equilibra com exploração e calma.",
       "endWell": "Terminar sempre bem.",
       "foodAndSleep": "Come 3 vezes por dia até aos 4-6 meses e dorme 16-18 horas.",
       "lowerDifficulty": "Se algo não correr bem, baixar a dificuldade.",
+      "noFenceWatching": "Vigiar a vedação ou o caminho não é o trabalho dela: que não passe horas de guarda.",
+      "restAfterActivity": "Depois da atividade, descanso: sair, treinar, comer e dormir.",
       "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieto, deixa, fora, muito bem.",
       "shortSessions": "Sessões de 3 a 5 minutos, várias por dia.",
-      "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda»."
+      "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda».",
+      "sniffing": "Deixa-a usar o faro: esconde uns prémios na relva e deixa-a procurá-los."
     },
     "schedule": {
       "afternoonRest": {
