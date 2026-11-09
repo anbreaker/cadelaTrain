@@ -3,6 +3,10 @@
   "i18nPrefix": "catalog.skills",
   "items": [
     { "key": "name", "description": "Turns the head and looks at you on hearing her name." },
+    {
+      "key": "search",
+      "description": "Finds food by smell: first in plain sight, then hidden in a room, then around the farm."
+    },
     { "key": "sit", "description": "Sits on the verbal cue or the hand signal." },
     { "key": "come", "description": "Comes to you when called. Special reward: boiled chicken." },
     { "key": "leash", "description": "Walks next to you on a loose leash." },

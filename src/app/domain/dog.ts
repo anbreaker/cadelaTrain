@@ -57,5 +57,16 @@ const DOG_RULES: readonly ValidationRule<DogCheck, DogError>[] = [
   { code: 'notesTooLong', fails: ({ draft }) => draft.notes.trim().length > DOG_LIMITS.notes },
 ];
 
+/** The editable details of a stored dog, to change one of them and save the rest unchanged. */
+export const dogDraft = ({
+  arrivalDate,
+  birthDate,
+  breed,
+  environment,
+  name,
+  notes,
+  sleepsOutdoors,
+}: Dog): DogDraft => ({ arrivalDate, birthDate, breed, environment, name, notes, sleepsOutdoors });
+
 export const validateDogDraft = (draft: DogDraft, today: IsoDate): DogError[] =>
   collectErrors({ draft, today }, DOG_RULES);

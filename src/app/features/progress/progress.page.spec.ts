@@ -95,7 +95,10 @@ describe('ProgressPageComponent', () => {
   });
 
   it('should show the rate, mastery, sessions and 14-day trend of a trained skill (AC4.2, AC4.3)', async () => {
-    const sit = cards(await render())[1];
+    const sit = cards(await render()).find((card) =>
+      card.textContent?.includes('catalog.skills.sit.name')
+    );
+    if (!sit) throw new Error('sit card missing');
 
     expect(sit.classList).toContain('skill-card--mastered');
     expect(sit.querySelector('.skill-card__badge')?.textContent).toContain(

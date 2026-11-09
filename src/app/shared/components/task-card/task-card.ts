@@ -36,6 +36,8 @@ const KIND_ICONS: Record<TaskKind, string> = {
 })
 export class TaskCardComponent {
   readonly card = input.required<TaskCardView>();
+  /** A preview: the task is shown without the Done and Edit actions. */
+  readonly readOnly = input(false);
 
   readonly edited = output<void>();
   readonly marked = output<void>();

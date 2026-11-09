@@ -21,20 +21,26 @@ const training = (skillKey: string, successCount: number, attempts: number): Tas
 
 const formatDate = (date: string): string => `d:${date}`;
 
+type Card = ReturnType<typeof skillCards>[number];
+
+const cardOf = (cards: Card[], key: string): Card => {
+  const card = cards.find((candidate) => candidate.key === key);
+  if (!card) throw new Error(`${key} card missing`);
+  return card;
+};
+
 describe('skillCards', () => {
   it('should list every skill of the catalog in teaching order (AC4.1)', () => {
     const cards = skillCards([], TODAY, formatDate);
 
     expect(cards.map((card) => card.key)).toEqual(SKILLS.map((skill) => skill.key));
-    expect(cards[1].nameKey).toBe('catalog.skills.sit.name');
+    expect(cardOf(cards, 'sit').nameKey).toBe('catalog.skills.sit.name');
   });
 
   it('should show the rate as a whole percentage and mark mastery (AC4.2, AC4.3)', () => {
-    const [, sit, come] = skillCards(
-      [training('sit', 8, 10), training('come', 2, 3)],
-      TODAY,
-      formatDate
-    );
+    const cards = skillCards([training('sit', 8, 10), training('come', 2, 3)], TODAY, formatDate);
+    const sit = cardOf(cards, 'sit');
+    const come = cardOf(cards, 'come');
 
     expect(sit).toEqual(
       expect.objectContaining({
@@ -55,7 +61,7 @@ describe('skillCards', () => {
   });
 
   it('should label every trend bar with its date, empty days included (AC4.2)', () => {
-    const [, sit] = skillCards([training('sit', 7, 10)], TODAY, formatDate);
+    const sit = cardOf(skillCards([training('sit', 7, 10)], TODAY, formatDate), 'sit');
     const last = sit.trend[sit.trend.length - 1];
 
     expect(sit.trend).toHaveLength(14);

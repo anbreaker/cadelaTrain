@@ -10,7 +10,8 @@ import { NOW } from '@core/time/now';
 import { GuidanceRepository } from '@data/guidance.repository';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
-import { ageInWeeks, daysUntil, madridToday } from '@domain/dates';
+import { ageInWeeks, daysUntil, IsoDate, madridToday } from '@domain/dates';
+import { Dog } from '@domain/dog';
 import { DailyGuidance, healthMessageKey } from '@domain/guidance';
 import { TaskLogDraft } from '@domain/task-log';
 import { templateGuidance } from '@domain/template-guidance';
@@ -111,13 +112,23 @@ export class TodayPageComponent {
     const dog = this.dog();
     if (stored) return stored;
     if (stored === undefined || !dog) return null;
-    this.translation();
-    return templateGuidance({
-      date: this.today,
-      dog,
-      locale: this.language.currentLang(),
-      translate: (key, params) => this.transloco.translate(key, params),
-    });
+    return this.template(dog, this.today);
+  });
+  /** Before the arrival: the plan's first day, built from the catalogs and shown read-only. */
+  protected readonly preview = computed(() => {
+    const dog = this.dog();
+    if (!dog || !this.daysLeft()) return null;
+    const guidance = this.template(dog, dog.arrivalDate);
+    return {
+      slots: slotViews(guidance, {
+        formatTime: () => '',
+        logs: [],
+        members: {},
+        now: this.now,
+        uid: null,
+      }),
+      summary: guidance.summary,
+    };
   });
   protected readonly healthKey = computed(() =>
     healthMessageKey(this.guidance()?.healthFlag ?? null)
@@ -214,5 +225,16 @@ export class TodayPageComponent {
           : of(null)
       )
     );
+  }
+
+  /** Template guidance in the active language; re-runs once its translations are loaded. */
+  private template(dog: Dog, date: IsoDate): DailyGuidance {
+    this.translation();
+    return templateGuidance({
+      date,
+      dog,
+      locale: this.language.currentLang(),
+      translate: (key, params) => this.transloco.translate(key, params),
+    });
   }
 }

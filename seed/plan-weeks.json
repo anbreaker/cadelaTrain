@@ -18,7 +18,7 @@
       "how": "Reward above the head; same spot for potty",
       "readyWhen": "Sits on the hand signal with no reward in the hand",
       "keySkills": ["sit"],
-      "focusSkills": ["sit", "potty", "name"]
+      "focusSkills": ["sit", "potty", "name", "search"]
     },
     {
       "week": 3,
@@ -27,7 +27,7 @@
       "how": "Crouch, happy voice, recall game between two people",
       "readyWhen": "Runs to you from 3 m",
       "keySkills": ["come"],
-      "focusSkills": ["come", "sit", "potty"]
+      "focusSkills": ["come", "sit", "potty", "search"]
     },
     {
       "week": 4,

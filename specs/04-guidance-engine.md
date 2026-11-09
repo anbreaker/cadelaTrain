@@ -76,9 +76,9 @@ Sent to Claude as `output_config.format` (JSON schema) and validated again in co
         "properties": {
           "slot": { "enum": ["morning", "midday", "afternoon", "night"] },
           "kind": { "enum": ["training", "socialization", "care", "feeding", "potty"] },
-          "skillKey": { "enum": ["name", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
+          "skillKey": { "enum": ["name", "search", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
           "socializationItemKey": { "type": "string" },
-          "closingSkillKey": { "enum": ["name", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
+          "closingSkillKey": { "enum": ["name", "search", "sit", "come", "leash", "softBite", "down", "leaveIt", "stay", "potty"] },
           "title": { "type": "string", "maxLength": 80 },
           "instructions": { "type": "string", "maxLength": 400 },
           "durationMin": { "type": "integer", "minimum": 0, "maximum": 30 }
@@ -113,7 +113,7 @@ Verify exact SDK method names against the `claude-api` skill / SDK docs when imp
 Deterministic, pure, unit tested; also used when `ANTHROPIC_API_KEY` is missing (`fallbackReason: noApiKey`, local development). Texts are resolved from the Transloco file of the household locale through an injected `translate(key, params)`. The today screen also builds it on the client, in the active language, while no guidance is stored for the day (AC2.4); it is never written to Firestore from the client.
 
 1. Start from the `isTask: true` rows of `seed/daily-schedule.json`.
-2. Fill training slots with the week's `focusSkills`, easiest first; for `strugglingSkills` use 3 min.
+2. Fill training slots with the week's `focusSkills`, easiest first; when they do not all fit, every `keySkills` entry takes the place of the hardest non-key skill; for `strugglingSkills` use 3 min.
 3. Set `closingSkillKey` to the first mastered skill (or `name`).
 4. Add one socialization: first of `toRepeatGently`, else first pending by catalog `order`.
 5. Add active care alerts as `care` tasks (message only, no dosing).

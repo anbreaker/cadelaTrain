@@ -20,10 +20,11 @@ const card = (overrides: Partial<TaskCardView> = {}): TaskCardView => ({
 @Component({
   imports: [TaskCardComponent],
   template:
-    '<app-task-card [card]="card()" (edited)="edits = edits + 1" (marked)="marks = marks + 1" />',
+    '<app-task-card [card]="card()" [readOnly]="readOnly()" (edited)="edits = edits + 1" (marked)="marks = marks + 1" />',
 })
 class HostComponent {
   readonly card = signal(card());
+  readonly readOnly = signal(false);
   edits = 0;
   marks = 0;
 }
@@ -86,6 +87,19 @@ describe('TaskCardComponent', () => {
 
     expect(fixture.componentInstance.marks).toBe(1);
     expect(element.querySelector('.task-card__edit')).toBeNull();
+  });
+
+  it('should hide the actions when read-only', async () => {
+    TestBed.configureTestingModule({ imports: [HostComponent, translocoTesting()] });
+    fixture = TestBed.createComponent(HostComponent);
+    fixture.componentInstance.card.set(card({ canEdit: true }));
+    fixture.componentInstance.readOnly.set(true);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+
+    expect(element.querySelector('.task-card__mark')).toBeNull();
+    expect(element.querySelector('.task-card__edit')).toBeNull();
+    expect(element.querySelector('.task-card__title')?.textContent).toContain('Training: name');
   });
 
   it('should offer Edit only when my latest log can still be edited (AC3.6)', async () => {

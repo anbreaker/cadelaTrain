@@ -52,6 +52,8 @@
       }
     },
     "cues": {
+      "drop": "suelta",
+      "heel": "junto",
       "no": "fuera",
       "praise": "muy bien",
       "release": "joga"
@@ -239,9 +241,14 @@
         "name": "Nombre"
       },
       "potty": {
-        "cue": "muy bien",
+        "cue": "pis",
         "description": "Hace sus necesidades en el sitio de siempre.",
         "name": "Necesidades"
+      },
+      "search": {
+        "cue": "busca",
+        "description": "Encuentra comida con el olfato: primero a la vista, luego escondida en una habitación y después por la finca.",
+        "name": "Búsqueda"
       },
       "sit": {
         "cue": "sienta",
@@ -458,6 +465,11 @@
   },
   "household": {
     "alreadyInvited": "Ya habías invitado a {{email}}.",
+    "arrival": {
+      "save": "Guardar fecha",
+      "saved": "Fecha de llegada guardada.",
+      "title": "Cuándo llega {{name}}"
+    },
     "create": "Crear hogar",
     "createLead": "Todo lo que registréis es solo de vuestro hogar. Después podréis invitar a quien entrene con vosotros.",
     "createTitle": "Cread vuestro hogar",
@@ -587,6 +599,8 @@
   },
   "rules": {
     "cues": {
+      "drop": "Para soltar lo que tiene en la boca",
+      "heel": "Para caminar a tu lado",
       "hint": "Usad todos exactamente estas palabras: si cada uno dice una cosa, {{name}} no sabe qué se le pide.",
       "no": "Para cortar algo",
       "praise": "Para felicitar",
@@ -641,6 +655,8 @@
     "minutes": "{{minutes}} min",
     "noDuration": "Sin duración fija",
     "optional": "Opcional",
+    "previewHint": "Semana 1 del plan, desde el día de llegada. Podréis registrar tareas cuando {{name}} esté en casa.",
+    "previewTitle": "Así será el primer día",
     "title": "Hoy con {{name}}"
   }
 }
