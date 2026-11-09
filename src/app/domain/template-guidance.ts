@@ -43,12 +43,25 @@ type Draft = Omit<GuidanceTask, 'id' | 'order'>;
 
 const skillRank = (key: string): number => SKILLS.findIndex((skill) => skill.key === key);
 
-/** The week's focus skills that fit a session, easiest first (catalog order). */
+const byRank = (a: string, b: string): number => skillRank(a) - skillRank(b);
+
+/** Training sessions per day: the schedule's training rows. */
+const SESSION_COUNT = SCHEDULE.filter((row) => row.isTask && row.kind === 'training').length;
+
+/**
+ * The week's focus skills for the day's sessions, easiest first (catalog order). Only the first
+ * `SESSION_COUNT` fit, so a key skill left out takes the place of the hardest other skill.
+ */
 function sessionSkills(week: number): string[] {
-  const skills = planWeek(week)
-    .focusSkills.filter((key) => key !== NOT_A_SESSION_SKILL)
-    .sort((a, b) => skillRank(a) - skillRank(b));
-  return skills.length > 0 ? skills : [FALLBACK_SKILL];
+  const { focusSkills, keySkills } = planWeek(week);
+  const sorted = focusSkills.filter((key) => key !== NOT_A_SESSION_SKILL).sort(byRank);
+  if (sorted.length === 0) return [FALLBACK_SKILL];
+
+  const chosen = sorted.slice(0, SESSION_COUNT);
+  const missing = keySkills.filter((key) => key !== NOT_A_SESSION_SKILL && !chosen.includes(key));
+  const replaceable = chosen.filter((key) => !keySkills.includes(key)).reverse();
+  const dropped = new Set(replaceable.slice(0, missing.length));
+  return [...chosen.filter((key) => !dropped.has(key)), ...missing].sort(byRank);
 }
 
 function socializationItem(progress: TemplateProgress): string | undefined {
