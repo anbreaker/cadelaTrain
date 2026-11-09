@@ -1,6 +1,11 @@
 import { addDays } from './dates';
-import { skillProgress, skillRate } from './progress';
-import { TaskLog } from './task-log';
+import {
+  daysToSocializationDeadline,
+  skillProgress,
+  skillRate,
+  socializationStatus,
+} from './progress';
+import { SocializationLog, TaskLog } from './task-log';
 
 const TODAY = '2026-12-20';
 
@@ -99,5 +104,73 @@ describe('skillProgress', () => {
     expect(skillProgress([], 'sit', TODAY)).toEqual(
       expect.objectContaining({ mastered: false, rate: null, sessions: 0 })
     );
+  });
+});
+
+const social = (
+  itemKey: string,
+  reaction: SocializationLog['reaction'],
+  doneAt: string,
+  doneBy = 'alice'
+): SocializationLog => ({
+  doneAt: new Date(doneAt),
+  doneBy,
+  id: `${itemKey}-${doneAt}`,
+  itemKey,
+  notes: '',
+  reaction,
+});
+
+describe('socializationStatus (AC4.4)', () => {
+  const items = [
+    { category: 'people', key: 'peopleMen', order: 1 },
+    { category: 'noises', key: 'noiseGrinder', order: 2 },
+    { category: 'animals', key: 'animalHens', order: 3 },
+  ];
+
+  it('should keep the last reaction and who did it, and mark an item done once calm or curious', () => {
+    const logs = [
+      social('peopleMen', 'fear', '2026-12-18T08:00:00Z'),
+      social('peopleMen', 'curious', '2026-12-15T08:00:00Z', 'bob'),
+      social('noiseGrinder', 'calm', '2026-12-19T08:00:00Z', 'bob'),
+    ];
+    const [men, grinder, hens] = socializationStatus(items, logs);
+
+    expect(men).toEqual({
+      done: true,
+      item: items[0],
+      lastBy: 'alice',
+      lastReaction: 'fear',
+      repeatGently: true,
+    });
+    expect(grinder).toEqual({
+      done: true,
+      item: items[1],
+      lastBy: 'bob',
+      lastReaction: 'calm',
+      repeatGently: false,
+    });
+    expect(hens).toEqual({
+      done: false,
+      item: items[2],
+      lastBy: null,
+      lastReaction: null,
+      repeatGently: false,
+    });
+  });
+
+  it('should keep an item pending while its only reactions are fear', () => {
+    const [men] = socializationStatus(items, [social('peopleMen', 'fear', '2026-12-18T08:00:00Z')]);
+
+    expect(men.done).toBe(false);
+    expect(men.repeatGently).toBe(true);
+  });
+});
+
+describe('daysToSocializationDeadline (AC4.5)', () => {
+  it('should count the days left until 16 weeks of age, never below zero', () => {
+    expect(daysToSocializationDeadline('2026-10-15', '2026-12-20')).toBe(46);
+    expect(daysToSocializationDeadline('2026-10-15', '2027-02-04')).toBe(0);
+    expect(daysToSocializationDeadline('2026-10-15', '2027-03-01')).toBe(0);
   });
 });
