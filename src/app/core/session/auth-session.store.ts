@@ -65,6 +65,7 @@ type FailureKind = 'invalidSession' | 'unreachable';
  * so a bad connection never costs a new sign-in link.
  */
 const FAILURE_BY_CODE: Record<string, FailureKind> = {
+  'auth/invalid-refresh-token': 'invalidSession',
   'auth/invalid-user-token': 'invalidSession',
   'auth/user-disabled': 'invalidSession',
   'auth/user-not-found': 'invalidSession',
