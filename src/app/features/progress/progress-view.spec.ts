@@ -2,7 +2,7 @@ import { SKILLS, SOCIALIZATION_CATEGORIES, SOCIALIZATION_ITEMS } from '@domain/c
 import { SocializationStatus } from '@domain/progress';
 import { TaskLog } from '@domain/task-log';
 
-import { skillCards, socializationGroups } from './progress-view';
+import { nextWeekView, skillCards, socializationGroups } from './progress-view';
 
 const TODAY = '2026-12-20';
 
@@ -133,5 +133,69 @@ describe('socializationGroups (AC4.4)', () => {
         statusKey: 'progress.socialization.done',
       })
     );
+  });
+});
+
+describe('nextWeekView (S2)', () => {
+  it('should show each key skill with its rate against 80 % and its attempts against 10', () => {
+    const view = nextWeekView({
+      ageAllows: true,
+      keySkills: [
+        { attempts: 12, met: true, rate: 0.834, skillKey: 'come' },
+        { attempts: 4, met: false, rate: null, skillKey: 'sit' },
+      ],
+      minAgeWeeks: 9,
+      nextWeek: 2,
+    });
+
+    expect(view).toEqual({
+      ageKey: null,
+      hintKey: 'progress.nextWeek.hint',
+      minAgeWeeks: 9,
+      skills: [
+        {
+          attempts: 12,
+          attemptsKey: 'progress.nextWeek.attempts',
+          key: 'come',
+          met: true,
+          nameKey: 'catalog.skills.come.name',
+          rateKey: 'progress.nextWeek.rate',
+          ratePercent: 83,
+        },
+        {
+          attempts: 4,
+          attemptsKey: 'progress.nextWeek.attempts',
+          key: 'sit',
+          met: false,
+          nameKey: 'catalog.skills.sit.name',
+          rateKey: 'progress.nextWeek.noRate',
+          ratePercent: null,
+        },
+      ],
+      titleKey: 'progress.nextWeek.title',
+      week: 2,
+    });
+  });
+
+  it('should say from which age the next week starts while she is too young', () => {
+    const view = nextWeekView({ ageAllows: false, keySkills: [], minAgeWeeks: 10, nextWeek: 3 });
+
+    expect(view.ageKey).toBe('progress.nextWeek.age');
+  });
+
+  it('should say she is in the last week, with nothing left to meet', () => {
+    const view = nextWeekView({
+      ageAllows: false,
+      keySkills: [],
+      minAgeWeeks: null,
+      nextWeek: null,
+    });
+
+    expect(view).toMatchObject({
+      ageKey: null,
+      hintKey: null,
+      skills: [],
+      titleKey: 'progress.nextWeek.lastWeek',
+    });
   });
 });

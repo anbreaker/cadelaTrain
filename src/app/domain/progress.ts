@@ -41,6 +41,14 @@ const add = (totals: Totals, log: TaskLog): Totals => ({
 const ratio = ({ attempts, successes }: Totals): null | number =>
   attempts > 0 ? successes / attempts : null;
 
+/** Training logs of the skill in the last 7 Madrid days, newest first. */
+const lastWeekOf = (logs: readonly TaskLog[], skillKey: string, today: IsoDate): TaskLog[] => {
+  const since = addDays(today, 1 - WINDOW_DAYS);
+  return trainingOf(logs, skillKey)
+    .filter((log) => log.guidanceDate >= since && log.guidanceDate <= today)
+    .sort((a, b) => b.doneAt.getTime() - a.doneAt.getTime());
+};
+
 /**
  * Success rate of a skill over the evaluation window: training logs of the last 7 Madrid days,
  * newest first, are added whole (never split) until they reach 10 attempts.
@@ -50,18 +58,17 @@ export function skillRate(
   skillKey: string,
   today: IsoDate
 ): null | number {
-  const since = addDays(today, 1 - WINDOW_DAYS);
-  const recent = trainingOf(logs, skillKey)
-    .filter((log) => log.guidanceDate >= since && log.guidanceDate <= today)
-    .sort((a, b) => b.doneAt.getTime() - a.doneAt.getTime());
-
   let totals: Totals = { attempts: 0, successes: 0 };
-  for (const log of recent) {
+  for (const log of lastWeekOf(logs, skillKey, today)) {
     totals = add(totals, log);
     if (totals.attempts >= WINDOW_ATTEMPTS) return ratio(totals);
   }
   return null;
 }
+
+/** Attempts of the skill in the last 7 Madrid days: the rate needs at least 10 of them. */
+export const weekAttempts = (logs: readonly TaskLog[], skillKey: string, today: IsoDate): number =>
+  lastWeekOf(logs, skillKey, today).reduce(add, { attempts: 0, successes: 0 }).attempts;
 
 /** What the progress screen shows for one skill (AC4.2, AC4.3). */
 export function skillProgress(

@@ -27,6 +27,7 @@ import { UpdateBannerComponent } from '@shared/components/update-banner/update-b
 /** Only screens that exist are listed; a later story adds the weekly review. */
 const NAV_ITEMS: readonly NavItem[] = [
   { labelKey: 'nav.today', path: '/today' },
+  { labelKey: 'nav.plan', path: '/plan' },
   { labelKey: 'nav.progress', path: '/progress' },
   { labelKey: 'nav.rules', path: '/rules' },
   { labelKey: 'nav.household', path: '/household' },

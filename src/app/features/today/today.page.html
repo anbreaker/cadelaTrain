@@ -50,6 +50,10 @@
   </section>
   } } @else { @if (daysLeft() === 0) {
   <p class="today__arrival" role="note">{{ t('today.arrivesToday', { name: dog.name }) }}</p>
+  } @if (advancedTo(); as week) {
+  <p class="today__advance" role="status">
+    {{ t('today.weekAdvanced', { name: dog.name, week: week }) }}
+  </p>
   } @if (guidance(); as guidance) { @if (healthKey(); as healthKey) {
   <p class="today__health" role="alert">{{ t(healthKey) }}</p>
   }

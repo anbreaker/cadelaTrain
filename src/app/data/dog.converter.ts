@@ -36,11 +36,27 @@ export const newDogData = (draft: DogDraft, today: IsoDate): NewDogData => ({
   updatedAt: serverTimestamp(),
 });
 
-/** Leaves `planWeek` (server-owned) and `createdAt` out, so a partial update keeps them. */
+/**
+ * Leaves `planWeek` (changed only by `planWeekUpdateData`) and `createdAt` out, so editing the
+ * dog's details keeps them.
+ */
 export const dogUpdateData = (draft: DogDraft, today: IsoDate): DogUpdateData => ({
   ...dogFields(draft, today),
   updatedAt: serverTimestamp(),
 });
+
+export interface PlanWeekUpdateData {
+  planWeek: number;
+  updatedAt: FieldValue;
+}
+
+/** The week advance alone; the rules accept only the stored week or the next one. */
+export const planWeekUpdateData = (planWeek: number): PlanWeekUpdateData => {
+  const valid =
+    Number.isInteger(planWeek) && planWeek >= FIRST_PLAN_WEEK && planWeek <= LAST_PLAN_WEEK;
+  if (!valid) throw new ValidationFailedError(['planWeekOutOfRange']);
+  return { planWeek, updatedAt: serverTimestamp() };
+};
 
 export const parseDog = (id: string, path: string, data: DocumentData): Dog => {
   const reader = new DocumentReader(path, data);

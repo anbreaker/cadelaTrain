@@ -1,6 +1,7 @@
 import { SKILLS, SOCIALIZATION_CATEGORIES } from '@domain/catalog';
 import { IsoDate } from '@domain/dates';
 import { HouseholdMember } from '@domain/household';
+import { KeySkillStatus, WeekAdvance } from '@domain/plan-week';
 import { skillProgress, SocializationStatus } from '@domain/progress';
 import { TaskLog } from '@domain/task-log';
 
@@ -54,6 +55,55 @@ export const skillCards = (
       })),
     };
   });
+
+/** One key skill of the current week against the advance rule (S2). */
+export interface KeySkillView {
+  /** Attempts in the last 7 days, shown against the 10 the rate needs. */
+  attempts: number;
+  attemptsKey: string;
+  key: string;
+  met: boolean;
+  nameKey: string;
+  rateKey: string;
+  /** Whole percentage, shown against 80 %; `null` without enough attempts. */
+  ratePercent: null | number;
+}
+
+/** What is missing for the next plan week; at week 8 only the last-week note. */
+export interface NextWeekView {
+  /** Set while she is too young for the next week. */
+  ageKey: null | string;
+  hintKey: null | string;
+  minAgeWeeks: null | number;
+  skills: KeySkillView[];
+  titleKey: string;
+  week: null | number;
+}
+
+const keySkillView = (skill: KeySkillStatus): KeySkillView => {
+  const ratePercent = toPercent(skill.rate);
+  return {
+    attempts: skill.attempts,
+    attemptsKey: 'progress.nextWeek.attempts',
+    key: skill.skillKey,
+    met: skill.met,
+    nameKey: `catalog.skills.${skill.skillKey}.name`,
+    rateKey: ratePercent === null ? 'progress.nextWeek.noRate' : 'progress.nextWeek.rate',
+    ratePercent,
+  };
+};
+
+export const nextWeekView = (advance: WeekAdvance): NextWeekView => {
+  const last = advance.nextWeek === null;
+  return {
+    ageKey: last || advance.ageAllows ? null : 'progress.nextWeek.age',
+    hintKey: last ? null : 'progress.nextWeek.hint',
+    minAgeWeeks: advance.minAgeWeeks,
+    skills: last ? [] : advance.keySkills.map(keySkillView),
+    titleKey: last ? 'progress.nextWeek.lastWeek' : 'progress.nextWeek.title',
+    week: advance.nextWeek,
+  };
+};
 
 /** One checklist item on the progress screen (AC4.4). */
 export interface SocializationItemView {

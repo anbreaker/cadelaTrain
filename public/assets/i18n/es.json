@@ -544,6 +544,7 @@
     "household": "Hogar",
     "label": "Principal",
     "openMenu": "Abrir menú",
+    "plan": "Plan",
     "progress": "Progreso",
     "rules": "Normas",
     "today": "Hoy"
@@ -551,9 +552,31 @@
   "onboarding": {
     "step": "Paso {{current}} de {{total}}"
   },
+  "plan": {
+    "ages": "De {{from}} a {{to}} semanas",
+    "current": "Esta semana",
+    "hint": "Las ocho semanas de adiestramiento de {{name}}, paso a paso. Abre una semana para leer cómo trabajarla y cómo es un día.",
+    "how": "Cómo",
+    "keySkills": "Habilidades clave y sus palabras",
+    "readyWhen": "Lista cuando",
+    "title": "El plan de {{name}}",
+    "typicalDay": "Un día tipo",
+    "typicalDayHint": "Hecho a partir del plan. El día real puede cambiar según sus progresos.",
+    "week": "Semana {{week}}"
+  },
   "progress": {
     "errors": {
       "readFailed": "No se ha podido cargar el progreso. Revisa la conexión."
+    },
+    "nextWeek": {
+      "age": "Por edad, la semana {{week}} empieza a las {{weeks}} semanas.",
+      "attempts": "Intentos en los últimos 7 días: {{attempts}} (mínimo 10)",
+      "hint": "Cada habilidad clave necesita un 80 % de aciertos con al menos 10 intentos en los últimos 7 días.",
+      "lastWeek": "{{name}} está en la última semana del plan.",
+      "met": "Cumplido",
+      "noRate": "Aciertos: aún sin tasa (objetivo 80 %)",
+      "rate": "Aciertos: {{rate}} % (objetivo 80 %)",
+      "title": "Para pasar a la semana {{week}}"
     },
     "skills": {
       "empty": "Todavía sin entrenar.",
@@ -657,6 +680,7 @@
     "optional": "Opcional",
     "previewHint": "Semana 1 del plan, desde el día de llegada. Podréis registrar tareas cuando {{name}} esté en casa.",
     "previewTitle": "Así será el primer día",
-    "title": "Hoy con {{name}}"
+    "title": "Hoy con {{name}}",
+    "weekAdvanced": "¡{{name}} pasa a la semana {{week}}!"
   }
 }

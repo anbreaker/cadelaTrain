@@ -6,6 +6,33 @@
 
   @if (readFailed()) {
   <p class="form-error" role="alert">{{ t('progress.errors.readFailed') }}</p>
+  } @if (nextWeek(); as next) {
+  <section class="progress__section next-week" aria-labelledby="next-week-title">
+    <h2 class="progress__section-title next-week__title" id="next-week-title">
+      {{ t(next.titleKey, { name: dog.name, week: next.week }) }}
+    </h2>
+    @if (next.hintKey; as hintKey) {
+    <p class="progress__hint">{{ t(hintKey) }}</p>
+    } @if (next.ageKey; as ageKey) {
+    <p class="next-week__age" role="note">
+      {{ t(ageKey, { week: next.week, weeks: next.minAgeWeeks }) }}
+    </p>
+    }
+    <ul class="next-week__skills">
+      @for (skill of next.skills; track skill.key) {
+      <li class="next-week__skill" [class.next-week__skill--met]="skill.met">
+        <div class="next-week__head">
+          <h3 class="next-week__name">{{ t(skill.nameKey) }}</h3>
+          @if (skill.met) {
+          <span class="next-week__badge">{{ t('progress.nextWeek.met') }}</span>
+          }
+        </div>
+        <p class="next-week__rate">{{ t(skill.rateKey, { rate: skill.ratePercent }) }}</p>
+        <p class="meta">{{ t(skill.attemptsKey, { attempts: skill.attempts }) }}</p>
+      </li>
+      }
+    </ul>
+  </section>
   }
 
   <section class="progress__section" aria-labelledby="skills-title">

@@ -544,6 +544,7 @@
     "household": "Household",
     "label": "Main",
     "openMenu": "Open menu",
+    "plan": "Plan",
     "progress": "Progress",
     "rules": "Rules",
     "today": "Today"
@@ -551,9 +552,31 @@
   "onboarding": {
     "step": "Step {{current}} of {{total}}"
   },
+  "plan": {
+    "ages": "{{from}}–{{to}} weeks old",
+    "current": "This week",
+    "hint": "The eight weeks of training for {{name}}, one step at a time. Open a week to read how to work on it and what a day looks like.",
+    "how": "How",
+    "keySkills": "Key skills and their words",
+    "readyWhen": "Ready when",
+    "title": "{{name}}'s plan",
+    "typicalDay": "A typical day",
+    "typicalDayHint": "Built from the plan. The real day can change with her progress.",
+    "week": "Week {{week}}"
+  },
   "progress": {
     "errors": {
       "readFailed": "Couldn't load progress. Check your connection."
+    },
+    "nextWeek": {
+      "age": "By age, week {{week}} starts at {{weeks}} weeks old.",
+      "attempts": "Attempts in the past 7 days: {{attempts}} (at least 10)",
+      "hint": "Each key skill needs 80% success with at least 10 attempts in the past 7 days.",
+      "lastWeek": "{{name}} is in the last week of the plan.",
+      "met": "Met",
+      "noRate": "Success: no rate yet (goal 80%)",
+      "rate": "Success: {{rate}}% (goal 80%)",
+      "title": "To move up to week {{week}}"
     },
     "skills": {
       "empty": "Not trained yet.",
@@ -657,6 +680,7 @@
     "optional": "Optional",
     "previewHint": "Week 1 of the plan, from the arrival day. You can log tasks once {{name}} is home.",
     "previewTitle": "How the first day will look",
-    "title": "Today with {{name}}"
+    "title": "Today with {{name}}",
+    "weekAdvanced": "{{name}} moves up to week {{week}}!"
   }
 }
