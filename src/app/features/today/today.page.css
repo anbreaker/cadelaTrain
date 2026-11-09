@@ -61,6 +61,12 @@
 }
 
 .today__checklist,
+.today__preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
 .today__slot {
   display: flex;
   flex-direction: column;

@@ -641,6 +641,8 @@
     "minutes": "{{minutes}} min",
     "noDuration": "Sin duración fija",
     "optional": "Opcional",
+    "previewHint": "Semana 1 del plan, desde el día de llegada. Podréis registrar tareas cuando {{name}} esté en casa.",
+    "previewTitle": "Así será el primer día",
     "title": "Hoy con {{name}}"
   }
 }

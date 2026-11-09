@@ -21,6 +21,7 @@
     }
   </p>
   }
+  @if (!readOnly()) {
   <div class="task-card__actions">
     @if (card().canEdit) {
     <button class="button button--link task-card__edit" type="button" (click)="edited.emit()">
@@ -31,4 +32,5 @@
       {{ t('log.markDone') }}
     </button>
   </div>
+}
 </article>

@@ -34,7 +34,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC2.2** Each task shows title, short instructions, duration (minutes, or a dash when none) and kind with icon and label (`taskKinds.*`).
 - **AC2.3** Done tasks show who did them and when (display name and local time).
 - **AC2.4** Given no guidance is stored for today (cron delayed or failed, or H6 not built yet), the app shows the template guidance built on the client from the bundled catalogs (`domain/template-guidance.ts`, in the active language); it never shows an empty day. On-demand generation (AC6.6) can replace it once H6 ships.
-- **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist (`seed/preparation-checklist.json`) instead of tasks. On the arrival date it shows the day's tasks.
+- **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist (`seed/preparation-checklist.json`) instead of tasks, followed by a read-only preview of the plan's first day (the template guidance for the arrival date: week 1 summary and tasks by slot, without Done or Edit). On the arrival date it shows the day's tasks.
 - **AC2.6** The summary of the day is shown on top. If the day's guidance carries a health flag, a banner shows `health.consultVet` or `health.vetEmergency` and nothing else about health.
 
 ## H3. Log a task

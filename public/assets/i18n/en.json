@@ -641,6 +641,8 @@
     "minutes": "{{minutes}} min",
     "noDuration": "No set duration",
     "optional": "Optional",
+    "previewHint": "Week 1 of the plan, from the arrival day. You can log tasks once {{name}} is home.",
+    "previewTitle": "How the first day will look",
     "title": "Today with {{name}}"
   }
 }

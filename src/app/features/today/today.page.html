@@ -29,7 +29,26 @@
       }
     </ul>
   </section>
-  } @else { @if (daysLeft() === 0) {
+
+  @if (preview(); as preview) {
+  <section class="today__preview" aria-labelledby="preview-title">
+    <h2 class="today__section-title today__preview-title" id="preview-title">
+      {{ t('today.previewTitle') }}
+    </h2>
+    <p class="meta today__preview-hint">{{ t('today.previewHint', { name: dog.name }) }}</p>
+    <p class="today__summary">{{ preview.summary }}</p>
+    @for (slot of preview.slots; track slot.slot) {
+    <section class="today__slot" [attr.aria-labelledby]="'preview-slot-' + slot.slot">
+      <h3 class="today__slot-title" [id]="'preview-slot-' + slot.slot">{{ t(slot.labelKey) }}</h3>
+      <ul class="today__tasks">
+        @for (card of slot.cards; track card.view.id) {
+        <li class="today__task"><app-task-card [card]="card.view" [readOnly]="true" /></li>
+        }
+      </ul>
+    </section>
+    }
+  </section>
+  } } @else { @if (daysLeft() === 0) {
   <p class="today__arrival" role="note">{{ t('today.arrivesToday', { name: dog.name }) }}</p>
   } @if (guidance(); as guidance) { @if (healthKey(); as healthKey) {
   <p class="today__health" role="alert">{{ t(healthKey) }}</p>
