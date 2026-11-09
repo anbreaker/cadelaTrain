@@ -145,12 +145,16 @@
       }
     },
     "principles": {
+      "calmPlay": "Jugar está bien, pero perseguir una y otra vez (pelota, palos) no debe ser el centro de su día; equilíbralo con exploración y calma.",
       "endWell": "Terminar siempre bien.",
       "foodAndSleep": "Come 3 veces al día hasta los 4-6 meses y duerme 16-18 horas.",
       "lowerDifficulty": "Si algo no sale, bajar la dificultad.",
+      "noFenceWatching": "Vigilar la valla o el camino no es su trabajo: que no pase horas haciendo guardia.",
+      "restAfterActivity": "Después de la actividad, descanso: salir, entrenar, comer y dormir.",
       "sameWords": "Las mismas palabras para todos: {{name}}, ven, sienta, tumba, quieto, deja, fuera, muy bien.",
       "shortSessions": "Sesiones de 3 a 5 minutos, varias al día.",
-      "smallRewards": "Premios del tamaño de un garbanzo, sacados de su ración. Un premio especial (pollo cocido) solo para «ven»."
+      "smallRewards": "Premios del tamaño de un garbanzo, sacados de su ración. Un premio especial (pollo cocido) solo para «ven».",
+      "sniffing": "Deja que use el olfato: esconde unos premios en la hierba y que los busque."
     },
     "schedule": {
       "afternoonRest": {

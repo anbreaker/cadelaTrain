@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import principlesSeed from '../../../seed/principles.json';
 import {
   CARE_ALERTS,
   PLAN_WEEKS,
@@ -52,6 +53,12 @@ describe('bundled catalogs', () => {
       expect(has(`catalog.socialization.items.${item.key}.howTo`)).toBe(true);
     for (const alert of CARE_ALERTS)
       expect(has(`catalog.careAlerts.${alert.key}.message`)).toBe(true);
+  });
+
+  it('should translate every training principle', () => {
+    expect(principlesSeed.items.length).toBeGreaterThan(0);
+    for (const principle of principlesSeed.items)
+      expect(has(`catalog.principles.${principle.key}`)).toBe(true);
   });
 
   it('should list the preparation checklist in order, every item translated (AC2.5)', () => {
