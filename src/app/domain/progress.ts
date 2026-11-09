@@ -1,11 +1,14 @@
-import { addDays, IsoDate } from './dates';
-import { TaskLog } from './task-log';
+import { SocializationItem } from './catalog';
+import { addDays, daysUntil, IsoDate } from './dates';
+import { Reaction, SocializationLog, TaskLog } from './task-log';
 
 /** Evaluation window (`specs/04-guidance-engine.md`): the newest 10 attempts within 7 days. */
 export const WINDOW_DAYS = 7;
 export const WINDOW_ATTEMPTS = 10;
 export const MASTERED_RATE = 0.8;
 export const TREND_DAYS = 14;
+/** The socialization window closes at 16 weeks of age (`seed/socialization-checklist.json`). */
+export const SOCIALIZATION_DEADLINE_WEEKS = 16;
 
 export interface TrendPoint {
   date: IsoDate;
@@ -83,3 +86,40 @@ export function skillProgress(
     trend,
   };
 }
+
+/** One checklist item on the progress screen (AC4.4). */
+export interface SocializationStatus {
+  /** Done once she met it calm or curious, as `pendingSocialization` in the engine. */
+  done: boolean;
+  item: SocializationItem;
+  /** uid of whoever logged the last reaction. */
+  lastBy: null | string;
+  lastReaction: null | Reaction;
+  /** The last reaction was fear: repeat at a lower intensity. */
+  repeatGently: boolean;
+}
+
+const POSITIVE: readonly Reaction[] = ['calm', 'curious'];
+
+/** Each catalog item with its newest reaction, in the order given. */
+export function socializationStatus(
+  items: readonly SocializationItem[],
+  logs: readonly SocializationLog[]
+): SocializationStatus[] {
+  const newestFirst = [...logs].sort((a, b) => b.doneAt.getTime() - a.doneAt.getTime());
+  return items.map((item) => {
+    const ofItem = newestFirst.filter((log) => log.itemKey === item.key);
+    const last = ofItem[0];
+    return {
+      done: ofItem.some((log) => POSITIVE.includes(log.reaction)),
+      item,
+      lastBy: last?.doneBy ?? null,
+      lastReaction: last?.reaction ?? null,
+      repeatGently: last?.reaction === 'fear',
+    };
+  });
+}
+
+/** Days left until 16 weeks of age; 0 once reached (AC4.5). */
+export const daysToSocializationDeadline = (birthDate: IsoDate, today: IsoDate): number =>
+  Math.max(0, daysUntil(addDays(birthDate, SOCIALIZATION_DEADLINE_WEEKS * 7), today));
