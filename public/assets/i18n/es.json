@@ -536,10 +536,32 @@
     "household": "Hogar",
     "label": "Principal",
     "openMenu": "Abrir menú",
+    "progress": "Progreso",
     "today": "Hoy"
   },
   "onboarding": {
     "step": "Paso {{current}} de {{total}}"
+  },
+  "progress": {
+    "errors": {
+      "readFailed": "No se ha podido cargar el progreso. Revisa la conexión."
+    },
+    "skills": {
+      "empty": "Todavía sin entrenar.",
+      "hint": "La tasa usa los 10 intentos más recientes de los últimos 7 días. Con un 80 % o más, la habilidad está dominada.",
+      "mastered": "Dominada",
+      "noRate": "Faltan intentos: hacen falta 10 en los últimos 7 días.",
+      "rate": "{{rate}} % de aciertos",
+      "sessions": {
+        "one": "1 sesión",
+        "other": "{{count}} sesiones"
+      },
+      "title": "Habilidades",
+      "trendDay": "{{date}}: {{rate}} %",
+      "trendDayEmpty": "{{date}}: sin entrenar",
+      "trendLabel": "Últimos 14 días"
+    },
+    "title": "Progreso con {{name}}"
   },
   "pwa": {
     "reload": "Recargar",
