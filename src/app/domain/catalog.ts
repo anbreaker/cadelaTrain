@@ -39,7 +39,11 @@ export interface SocializationItem {
 
 /** Things to have ready before the dog arrives. */
 export interface PreparationItem {
+  /** Canonical English explanation; the UI text is `catalog.preparation.<key>.hint`. */
+  hint?: string;
   key: string;
+  /** Nice to have, not needed by every household. */
+  optional?: boolean;
   order: number;
 }
 

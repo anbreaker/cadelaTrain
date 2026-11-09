@@ -132,6 +132,26 @@ describe('TodayPageComponent', () => {
     await fixture.whenStable();
   };
 
+  it('should mark optional preparation items and explain them', async () => {
+    const element = await render('2026-11-04T10:00:00Z');
+    const items = Array.from(element.querySelectorAll<HTMLElement>('.today__checklist-item'));
+    const cleaning = items.find((item) =>
+      item.textContent?.includes('catalog.preparation.cleaning.label')
+    );
+    const kennel = items.find((item) =>
+      item.textContent?.includes('catalog.preparation.kennel.label')
+    );
+
+    expect(cleaning?.querySelector('.today__checklist-optional')?.textContent).toContain(
+      'today.optional'
+    );
+    expect(cleaning?.querySelector('.today__checklist-hint')?.textContent).toContain(
+      'catalog.preparation.cleaning.hint'
+    );
+    expect(kennel?.querySelector('.today__checklist-optional')).toBeNull();
+    expect(kennel?.querySelector('.today__checklist-hint')).toBeNull();
+  });
+
   it('should count down and show the preparation checklist instead of tasks (AC2.5)', async () => {
     const element = await render('2026-11-04T10:00:00Z');
 

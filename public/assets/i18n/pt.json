@@ -117,6 +117,7 @@
         "label": "A mesma ração de cachorro que o criador usa, para os primeiros dias"
       },
       "cleaning": {
+        "hint": "O limpador enzimático elimina o cheiro do xixi e do cocó, para que não volte a fazê-lo no mesmo sítio. Não uses lixívia nem amoníaco: cheiram parecido à urina. Os sacos são para apanhar os cocós.",
         "label": "Limpador enzimático e sacos para os acidentes"
       },
       "collarAndLeash": {
@@ -587,6 +588,7 @@
     "doneCount": "{{count}} vezes",
     "minutes": "{{minutes}} min",
     "noDuration": "Sem duração fixa",
+    "optional": "Opcional",
     "title": "Hoje com {{name}}"
   }
 }

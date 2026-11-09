@@ -100,9 +100,11 @@ export class TodayPageComponent {
   protected readonly countdownKey = computed(() =>
     pluralKey('today.countdown', this.daysLeft() ?? 0, this.language.currentLang())
   );
-  protected readonly preparationKeys = PREPARATION_ITEMS.map(
-    (item) => `catalog.preparation.${item.key}.label`
-  );
+  protected readonly preparationItems = PREPARATION_ITEMS.map((item) => ({
+    hintKey: item.hint ? `catalog.preparation.${item.key}.hint` : null,
+    labelKey: `catalog.preparation.${item.key}.label`,
+    optional: item.optional === true,
+  }));
 
   protected readonly guidance = computed((): DailyGuidance | null => {
     const stored = this.stored();
