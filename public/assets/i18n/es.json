@@ -117,6 +117,7 @@
         "label": "El mismo pienso de cachorro que usa el criador, para los primeros días"
       },
       "cleaning": {
+        "hint": "El limpiador enzimático elimina el olor del pis y la caca, para que no vuelva a hacerlo en el mismo sitio. No uses lejía ni amoníaco: huelen parecido a la orina. Las bolsas son para recoger las cacas.",
         "label": "Limpiador enzimático y bolsas para los accidentes"
       },
       "collarAndLeash": {
@@ -591,6 +592,7 @@
     "doneCount": "{{count}} veces",
     "minutes": "{{minutes}} min",
     "noDuration": "Sin duración fija",
+    "optional": "Opcional",
     "title": "Hoy con {{name}}"
   }
 }

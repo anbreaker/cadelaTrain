@@ -117,6 +117,7 @@
         "label": "The same puppy food the breeder uses, for the first days"
       },
       "cleaning": {
+        "hint": "Enzymatic cleaner breaks down the smell of pee and poop, so she doesn't go back to the same spot. Don't use bleach or ammonia: they smell like urine. The bags are for picking up poop.",
         "label": "Enzymatic cleaner and bags for accidents"
       },
       "collarAndLeash": {
@@ -591,6 +592,7 @@
     "doneCount": "{{count}} times",
     "minutes": "{{minutes}} min",
     "noDuration": "No set duration",
+    "optional": "Optional",
     "title": "Today with {{name}}"
   }
 }

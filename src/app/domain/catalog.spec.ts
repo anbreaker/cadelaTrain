@@ -70,6 +70,13 @@ describe('bundled catalogs', () => {
       expect(has(`catalog.preparation.${item.key}.label`)).toBe(true);
   });
 
+  it('should translate the hint of every preparation item that has one', () => {
+    const withHint = PREPARATION_ITEMS.filter((item) => item.hint);
+
+    expect(withHint.map((item) => item.key)).toContain('cleaning');
+    for (const item of withHint) expect(has(`catalog.preparation.${item.key}.hint`)).toBe(true);
+  });
+
   it('should clamp the plan week to 1–8', () => {
     expect(planWeek(0).week).toBe(1);
     expect(planWeek(3).week).toBe(3);
