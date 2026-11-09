@@ -531,6 +531,7 @@
     "household": "Household",
     "label": "Main",
     "openMenu": "Open menu",
+    "rules": "Rules",
     "today": "Today"
   },
   "onboarding": {
@@ -544,6 +545,18 @@
     "calm": "Calm",
     "curious": "Curious",
     "fear": "Fear"
+  },
+  "rules": {
+    "cues": {
+      "hint": "Everyone uses exactly these words: if each person says something different, {{name}} can't tell what you're asking.",
+      "no": "To stop something",
+      "praise": "To praise",
+      "title": "The same words for everyone"
+    },
+    "principles": {
+      "title": "How we train"
+    },
+    "title": "Rules with {{name}}"
   },
   "settings": {
     "language": "Language",

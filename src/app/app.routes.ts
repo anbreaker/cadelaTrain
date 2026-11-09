@@ -51,6 +51,12 @@ export const routes: Routes = [
         title: 'Dela',
       },
       {
+        ...sessionRoute(['ready']),
+        loadComponent: () => import('@features/rules/rules.page').then((m) => m.RulesPageComponent),
+        path: 'rules',
+        title: 'Dela',
+      },
+      {
         ...sessionRoute(['needsDog', 'ready']),
         loadComponent: () =>
           import('@features/household/household/household.page').then(

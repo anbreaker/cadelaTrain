@@ -2,6 +2,7 @@ import careAlertsSeed from '../../../seed/care-alerts.json';
 import scheduleSeed from '../../../seed/daily-schedule.json';
 import planWeeksSeed from '../../../seed/plan-weeks.json';
 import preparationSeed from '../../../seed/preparation-checklist.json';
+import principlesSeed from '../../../seed/principles.json';
 import skillsSeed from '../../../seed/skills.json';
 import socializationSeed from '../../../seed/socialization-checklist.json';
 import { Environment } from './dog';
@@ -43,6 +44,11 @@ export interface PreparationItem {
   order: number;
 }
 
+/** How the household trains: shown on the rules screen and summarized in the engine prompt. */
+export interface Principle {
+  key: string;
+}
+
 export type AlertSeverity = 'info' | 'urgent' | 'vet';
 
 export interface CareAlert {
@@ -60,6 +66,8 @@ export const PLAN_WEEKS = planWeeksSeed.items as PlanWeek[];
 export const SKILLS = skillsSeed.items as Skill[];
 export const SOCIALIZATION_ITEMS = socializationSeed.items as SocializationItem[];
 export const CARE_ALERTS = careAlertsSeed.items as CareAlert[];
+/** In display order. */
+export const PRINCIPLES = principlesSeed.items as Principle[];
 /** In checklist order. */
 export const PREPARATION_ITEMS = [...(preparationSeed.items as PreparationItem[])].sort(
   (a, b) => a.order - b.order

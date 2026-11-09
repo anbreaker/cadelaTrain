@@ -531,6 +531,7 @@
     "household": "Hogar",
     "label": "Principal",
     "openMenu": "Abrir menú",
+    "rules": "Normas",
     "today": "Hoy"
   },
   "onboarding": {
@@ -544,6 +545,18 @@
     "calm": "Calma",
     "curious": "Curiosidad",
     "fear": "Miedo"
+  },
+  "rules": {
+    "cues": {
+      "hint": "Usad todos exactamente estas palabras: si cada uno dice una cosa, {{name}} no sabe qué se le pide.",
+      "no": "Para cortar algo",
+      "praise": "Para felicitar",
+      "title": "Las mismas palabras para todos"
+    },
+    "principles": {
+      "title": "Cómo entrenamos"
+    },
+    "title": "Normas con {{name}}"
   },
   "settings": {
     "language": "Idioma",
