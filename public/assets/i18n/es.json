@@ -544,12 +544,25 @@
     "household": "Hogar",
     "label": "Principal",
     "openMenu": "Abrir menú",
+    "plan": "Plan",
     "progress": "Progreso",
     "rules": "Normas",
     "today": "Hoy"
   },
   "onboarding": {
     "step": "Paso {{current}} de {{total}}"
+  },
+  "plan": {
+    "ages": "De {{from}} a {{to}} semanas",
+    "current": "Esta semana",
+    "hint": "Las ocho semanas de adiestramiento de {{name}}, paso a paso. Abre una semana para leer cómo trabajarla y cómo es un día.",
+    "how": "Cómo",
+    "keySkills": "Habilidades clave y sus palabras",
+    "readyWhen": "Lista cuando",
+    "title": "El plan de {{name}}",
+    "typicalDay": "Un día tipo",
+    "typicalDayHint": "Hecho a partir del plan. El día real puede cambiar según sus progresos.",
+    "week": "Semana {{week}}"
   },
   "progress": {
     "errors": {
