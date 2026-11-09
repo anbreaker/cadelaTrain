@@ -47,6 +47,18 @@ describe('bundled catalogs', () => {
     }
   });
 
+  it('should practise search (busca) in weeks 2 and 3, right after name', () => {
+    expect(SKILLS.map((skill) => skill.key).slice(0, 2)).toEqual(['name', 'search']);
+    expect(
+      PLAN_WEEKS.filter((week) => week.focusSkills.includes('search')).map((week) => week.week)
+    ).toEqual([2, 3]);
+  });
+
+  it('should translate every word-only cue', () => {
+    for (const cue of ['drop', 'heel', 'no', 'praise', 'release'])
+      expect(has(`catalog.cues.${cue}`)).toBe(true);
+  });
+
   it('should translate every skill, socialization item and care alert', () => {
     for (const skill of SKILLS) expect(has(`catalog.skills.${skill.key}.name`)).toBe(true);
     for (const item of SOCIALIZATION_ITEMS)

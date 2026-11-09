@@ -34,7 +34,7 @@ Mapping from the original proposal: `household_members` → `households.memberId
 | `GuidanceSource` | `ai`, `template` |
 | `GuidanceStatus` | `ready`, `fallback` (template used after an AI failure; `fallbackReason` set) |
 | `FallbackReason` | `apiError`, `timeout`, `refusal`, `invalidOutput`, `noApiKey` |
-| `SkillKey` | `name`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty` |
+| `SkillKey` | `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty` |
 | `SocializationCategory` | `people`, `noises`, `animals`, `places`, `handling` |
 
 ## Documents
@@ -175,7 +175,7 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 
 | File | Content | Item fields |
 |------|---------|-------------|
-| `skills.json` | 9 skills | `key`, `description`; i18n `name`, `cue`, `description` |
+| `skills.json` | 10 skills | `key`, `description`; i18n `name`, `cue`, `description` |
 | `plan-weeks.json` | 8 weeks | `week`, `ageWeeks`, `objective`, `how`, `readyWhen`, `keySkills`, `focusSkills` |
 | `daily-schedule.json` | Daily template for 2–4 months | `id`, `time`, `until?`, `slot`, `kind`, `skillKey?`, `isTask`, `durationMin`, `title`; rows with `isTask: false` are rest blocks shown in the timeline, never tasks |
 | `socialization-checklist.json` | 35 items in 5 categories | `key`, `category`, `order`, `label`; i18n `label`, `howTo` |

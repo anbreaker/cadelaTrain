@@ -104,6 +104,18 @@ describe('taskLogs rules', () => {
     await assertFails(setDoc(doc(dbAs(env, MEMBER), NEW_LOG_PATH), log));
   });
 
+  it('should let a member log a search training session', async () => {
+    await assertSucceeds(
+      setDoc(doc(dbAs(env, MEMBER), NEW_LOG_PATH), trainingLog(MEMBER.uid, { skillKey: 'search' }))
+    );
+  });
+
+  it('should deny a training log with an unknown skillKey', async () => {
+    await assertFails(
+      setDoc(doc(dbAs(env, MEMBER), NEW_LOG_PATH), trainingLog(MEMBER.uid, { skillKey: 'attack' }))
+    );
+  });
+
   it('should deny a training log without skillKey', async () => {
     const log = trainingLog(MEMBER.uid);
     delete log['skillKey'];
