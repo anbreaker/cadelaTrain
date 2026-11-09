@@ -95,7 +95,7 @@ vercel dev         # app + api/ functions locally
 
 ### Run the app against the local emulators
 
-There is no real Firebase project yet; everything runs on the emulators.
+The real project is `dela-train` (Firebase console); local development runs on the emulators.
 
 0. Access is private: only emails in `allowedEmails` can use the app. Put `ALLOWED_EMAILS=you@example.com,partner@example.com` in `.env` (not `NG_APP_`, never bundled); the emulators get those entries seeded. In production the entries are created in the Firebase console.
 1. `npm run dev`: starts the Auth and Firestore emulators, seeds the allowlist and starts the app in one command. A development run without `NG_APP_FIREBASE_*` config uses the emulators automatically; `NG_APP_USE_EMULATORS=true` forces them even with config. With emulators the client always uses project `demo-dela`, so a local run never reaches a real project.
