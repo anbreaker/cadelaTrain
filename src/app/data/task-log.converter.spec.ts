@@ -2,6 +2,7 @@ import { InvalidDocumentError, ValidationFailedError } from './data-errors';
 import {
   newSocializationLogData,
   newTaskLogData,
+  parseSocializationLog,
   parseTaskLog,
   taskLogResultData,
 } from './task-log.converter';
@@ -163,5 +164,35 @@ describe('newSocializationLogData (data model: both logs in one batch)', () => {
       reaction: 'curious',
       taskLogId: 'l1',
     });
+  });
+});
+
+describe('parseSocializationLog (AC4.4)', () => {
+  const SOCIAL_PATH = 'households/h1/dogs/d1/socializationLogs/l1';
+  const social = (overrides: Record<string, unknown> = {}): Record<string, unknown> => ({
+    doneAt: Timestamp.fromDate(DONE_AT),
+    doneBy: 'alice',
+    itemKey: 'peopleMen',
+    notes: 'From far away',
+    reaction: 'fear',
+    taskLogId: 'l1',
+    ...overrides,
+  });
+
+  it('should read the item, reaction, who and when', () => {
+    expect(parseSocializationLog('l1', SOCIAL_PATH, social())).toEqual({
+      doneAt: DONE_AT,
+      doneBy: 'alice',
+      id: 'l1',
+      itemKey: 'peopleMen',
+      notes: 'From far away',
+      reaction: 'fear',
+    });
+  });
+
+  it('should reject an unknown reaction', () => {
+    expect(() => parseSocializationLog('l1', SOCIAL_PATH, social({ reaction: 'angry' }))).toThrow(
+      InvalidDocumentError
+    );
   });
 });

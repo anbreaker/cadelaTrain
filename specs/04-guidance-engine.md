@@ -27,7 +27,7 @@ flowchart TD
 | `weekPlan` | `seed/plan-weeks.json` entry: objective, how, readyWhen (canonical English), `keySkills`, `focusSkills` |
 | `cues` | Spoken cue word per skill in the household locale, from `catalog.skills.<key>.cue` and `catalog.cues.*` |
 | `recentLogs` | Task and socialization logs of the last 3 Madrid days, with trainer display names (no uids) |
-| `skillRates` | Per skill over the **evaluation window**: the most recent 10 training attempts within the last 7 days. `rate = successes / attempts`; `null` when fewer than 10 attempts |
+| `skillRates` | Per skill over the **evaluation window**: the most recent 10 training attempts within the last 7 days. A log stores several attempts, so training logs of the last 7 Madrid days are added whole, newest first, until they reach ≥ 10 attempts (a log is never split). `rate = successes / attempts`; `null` when fewer than 10 attempts. Implemented by `skillRate` in `src/app/domain/progress.ts` |
 | `masteredSkills` | Skills with `rate ≥ 0.8`, plus `name` from week 2 on |
 | `strugglingSkills` | Skills with `rate < 0.5` (non-null) |
 | `pendingSocialization` | Catalog items without a `calm` or `curious` log; items whose last reaction is `fear` are listed separately as `toRepeatGently` |
@@ -133,7 +133,7 @@ The template output passes the same validator (test asserts it for every plan we
 | Area | Cases |
 |------|-------|
 | `planWeekFor` | stays below 0.8; advances at exactly 0.8 with ≥ 10 attempts; age cap; never > 8 |
-| `skillRates` | window of last 10 attempts in 7 days; `null` under 10 |
+| `skillRates` | window of last 10 attempts in 7 days, whole logs; `null` under 10 |
 | `madridClock` | 2026-10-25 and 2027-03-28 at 04:00 and 05:00 UTC |
 | Safety lists | aversive and medical phrases rejected in `en`, `es` and `pt`; hammer-noise socialization accepted |
 | Validator | each rule rejects a crafted bad output; template output passes |

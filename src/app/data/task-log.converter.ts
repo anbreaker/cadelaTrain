@@ -4,6 +4,7 @@ import {
   ATTEMPTS_MAX,
   Reaction,
   REACTIONS,
+  SocializationLog,
   TaskLog,
   TaskLogDraft,
   validateTaskLogDraft,
@@ -123,3 +124,22 @@ export const parseTaskLog = (id: string, path: string, data: DocumentData): Task
 };
 
 export const taskLogConverter = readOnlyConverter(parseTaskLog);
+
+/** Reads one checklist entry: the item, how she reacted, who did it and when. */
+export const parseSocializationLog = (
+  id: string,
+  path: string,
+  data: DocumentData
+): SocializationLog => {
+  const reader = new DocumentReader(path, data);
+  return {
+    doneAt: reader.timestamp('doneAt'),
+    doneBy: reader.string('doneBy'),
+    id,
+    itemKey: reader.key('itemKey'),
+    notes: reader.optionalString('notes'),
+    reaction: reader.oneOf('reaction', REACTIONS),
+  };
+};
+
+export const socializationLogConverter = readOnlyConverter(parseSocializationLog);

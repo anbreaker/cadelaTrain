@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 
 import { IsoDate } from '@domain/dates';
-import { TaskLog, TaskLogDraft } from '@domain/task-log';
+import { SocializationLog, TaskLog, TaskLogDraft } from '@domain/task-log';
 
 import { FIRESTORE } from './firestore.token';
 import { watchQuery } from './firestore-converter';
@@ -10,6 +10,7 @@ import {
   LogEntry,
   newSocializationLogData,
   newTaskLogData,
+  socializationLogConverter,
   taskLogConverter,
   taskLogResultData,
 } from './task-log.converter';
@@ -83,6 +84,21 @@ export class TaskLogRepository {
   watchDay(householdId: string, dogId: string, date: IsoDate): Observable<TaskLog[]> {
     const logs = this.logs(householdId, dogId).withConverter(taskLogConverter);
     return watchQuery(query(logs, where('guidanceDate', '==', date), orderBy('doneAt')));
+  }
+
+  /**
+   * Every completion of the dog, newest first, for progress (H4). Ordering by `doneAt` alone uses
+   * the automatic single-field index; a puppy's whole history stays small.
+   */
+  watchAll(householdId: string, dogId: string): Observable<TaskLog[]> {
+    const logs = this.logs(householdId, dogId).withConverter(taskLogConverter);
+    return watchQuery(query(logs, orderBy('doneAt', 'desc')));
+  }
+
+  /** The socialization checklist entries, newest first (AC4.4). */
+  watchSocialization(householdId: string, dogId: string): Observable<SocializationLog[]> {
+    const logs = this.socialization(householdId, dogId).withConverter(socializationLogConverter);
+    return watchQuery(query(logs, orderBy('doneAt', 'desc')));
   }
 
   private logs(householdId: string, dogId: string): CollectionReference {

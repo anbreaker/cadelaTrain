@@ -33,3 +33,7 @@ export const ageInWeeks = (birthDate: IsoDate, onDate: IsoDate): number =>
 /** Calendar days from `onDate` to `date`; negative once `date` has passed. */
 export const daysUntil = (date: IsoDate, onDate: IsoDate): number =>
   Math.round((toUtcMs(date) - toUtcMs(onDate)) / DAY_MS);
+
+/** The Madrid date `days` calendar days after `date` (before it when negative). */
+export const addDays = (date: IsoDate, days: number): IsoDate =>
+  new Date(toUtcMs(date) + days * DAY_MS).toISOString().slice(0, 10);
