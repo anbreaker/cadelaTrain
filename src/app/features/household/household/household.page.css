@@ -25,6 +25,14 @@
   font-size: 1.25rem;
 }
 
+.household__hint {
+  color: var(--color-text-secondary);
+}
+
+.household__export {
+  align-self: flex-start;
+}
+
 .household__form {
   display: flex;
   flex-direction: column;

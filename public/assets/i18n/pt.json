@@ -483,6 +483,13 @@
     "localeLegend": "Idioma das orientações",
     "members": "Membros",
     "nameLabel": "Nome da casa",
+    "notes": {
+      "export": "Exportar notas",
+      "exporting": "A preparar…",
+      "failed": "Não foi possível ler as notas. Verifica a ligação e tenta de novo.",
+      "hint": "Descarrega todos os registos e notas num ficheiro para a revisão semanal do treino.",
+      "title": "Notas da {{name}}"
+    },
     "status": {
       "member": "Membro",
       "owner": "Proprietário",

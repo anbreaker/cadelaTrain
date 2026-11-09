@@ -19,6 +19,8 @@ export interface ScheduleRow {
   skillKey?: string;
   slot: Slot;
   time: string;
+  /** Canonical English title; the UI text is `catalog.schedule.<id>.title`. */
+  title: string;
 }
 
 export interface PlanWeek {
@@ -34,6 +36,8 @@ export interface Skill {
 export interface SocializationItem {
   category: string;
   key: string;
+  /** Canonical English label; the UI text is `catalog.socialization.items.<key>.label`. */
+  label: string;
   order: number;
 }
 
