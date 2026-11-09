@@ -1,0 +1,80 @@
+<div class="plan" *transloco="let t">
+  @if (dog(); as dog) {
+  <header class="plan__header">
+    <h1 class="plan__title">{{ t('plan.title', { name: dog.name }) }}</h1>
+    <p class="plan__hint">{{ t('plan.hint', { name: dog.name }) }}</p>
+  </header>
+
+  <ol class="plan__weeks">
+    @for (week of weeks(); track week.week) {
+    <li>
+      <details
+        class="plan__week"
+        [attr.aria-current]="week.current ? 'step' : null"
+        [class.plan__week--current]="week.current"
+        [open]="week.current"
+      >
+        <summary class="plan__summary">
+          <span class="meta plan__week-meta">
+            {{ t('plan.week', { week: week.week }) }} · {{ t('plan.ages', { from: week.ages.from,
+            to: week.ages.to }) }} @if (week.current) {
+            <span class="plan__current">{{ t('plan.current') }}</span>
+            }
+          </span>
+          <span class="plan__objective">{{ t(week.objectiveKey) }}</span>
+        </summary>
+
+        <div class="plan__body">
+          <dl class="plan__facts">
+            <div class="plan__fact">
+              <dt class="plan__fact-label">{{ t('plan.how') }}</dt>
+              <dd class="plan__how">{{ t(week.howKey) }}</dd>
+            </div>
+            <div class="plan__fact">
+              <dt class="plan__fact-label">{{ t('plan.readyWhen') }}</dt>
+              <dd class="plan__ready-when">{{ t(week.readyWhenKey, { name: dog.name }) }}</dd>
+            </div>
+          </dl>
+
+          <section class="plan__section" [attr.aria-labelledby]="'skills-' + week.week">
+            <h2 class="plan__section-title" [id]="'skills-' + week.week">
+              {{ t('plan.keySkills') }}
+            </h2>
+            <ul class="plan__skills">
+              @for (skill of week.keySkills; track skill.key) {
+              <li class="plan__skill">
+                <span class="plan__skill-name">{{ t(skill.nameKey) }}</span>
+                <span class="plan__skill-cue">«{{ t(skill.cueKey, { name: dog.name }) }}»</span>
+              </li>
+              }
+            </ul>
+          </section>
+
+          <section class="plan__section" [attr.aria-labelledby]="'day-' + week.week">
+            <h2 class="plan__section-title" [id]="'day-' + week.week">
+              {{ t('plan.typicalDay') }}
+            </h2>
+            <p class="meta">{{ t('plan.typicalDayHint') }}</p>
+            @for (slot of week.day; track slot.slot) {
+            <section
+              class="plan__slot"
+              [attr.aria-labelledby]="'day-' + week.week + '-' + slot.slot"
+            >
+              <h3 class="plan__slot-title" [id]="'day-' + week.week + '-' + slot.slot">
+                {{ t(slot.labelKey) }}
+              </h3>
+              <ul class="plan__tasks">
+                @for (card of slot.cards; track card.view.id) {
+                <li><app-task-card [card]="card.view" [readOnly]="true" /></li>
+                }
+              </ul>
+            </section>
+            }
+          </section>
+        </div>
+      </details>
+    </li>
+    }
+  </ol>
+  }
+</div>

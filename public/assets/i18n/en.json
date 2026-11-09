@@ -544,12 +544,25 @@
     "household": "Household",
     "label": "Main",
     "openMenu": "Open menu",
+    "plan": "Plan",
     "progress": "Progress",
     "rules": "Rules",
     "today": "Today"
   },
   "onboarding": {
     "step": "Step {{current}} of {{total}}"
+  },
+  "plan": {
+    "ages": "{{from}}–{{to}} weeks old",
+    "current": "This week",
+    "hint": "The eight weeks of training for {{name}}, one step at a time. Open a week to read how to work on it and what a day looks like.",
+    "how": "How",
+    "keySkills": "Key skills and their words",
+    "readyWhen": "Ready when",
+    "title": "{{name}}'s plan",
+    "typicalDay": "A typical day",
+    "typicalDayHint": "Built from the plan. The real day can change with her progress.",
+    "week": "Week {{week}}"
   },
   "progress": {
     "errors": {

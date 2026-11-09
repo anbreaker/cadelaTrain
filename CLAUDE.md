@@ -48,7 +48,7 @@ src/app/
 ├── core/       # app-wide singletons: config, i18n loader, auth session, error handling
 ├── domain/     # pure types and rules; no Angular, no Firebase; 100% unit tested
 ├── data/       # Firestore repositories and converters (the only place that imports firebase/*)
-├── features/   # screens per story: household, today, log, progress, weekly
+├── features/   # screens per story: household, today, log, progress, plan, rules, weekly
 └── shared/     # presentational UI components, directives, pipes
 api/
 ├── _<name>.ts       # pure handler with injected dependencies + _<name>.spec.ts

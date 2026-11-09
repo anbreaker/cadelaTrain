@@ -37,6 +37,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC2.4** Given no guidance is stored for today (cron delayed or failed, or H6 not built yet), the app shows the template guidance built on the client from the bundled catalogs (`domain/template-guidance.ts`, in the active language); it never shows an empty day. On-demand generation (AC6.6) can replace it once H6 ships.
 - **AC2.5** Given the dog has not arrived yet (today < arrival date), the screen shows a countdown and the preparation checklist (`seed/preparation-checklist.json`) instead of tasks, followed by a read-only preview of the plan's first day (the template guidance for the arrival date: week 1 summary and tasks by slot, without Done or Edit). On the arrival date it shows the day's tasks.
 - **AC2.6** The summary of the day is shown on top. If the day's guidance carries a health flag, a banner shows `health.consultVet` or `health.vetEmergency` and nothing else about health.
+- **AC2.7 Plan browser.** A read-only "Plan" screen (`/plan`) lists weeks 1–8 of `seed/plan-weeks.json`: age range, objective, how, ready when (`catalog.planWeeks.week<N>.*`) and the key skills with their cue words (`catalog.skills.<key>.{name,cue}`). Each week opens to a typical day: the template guidance for that week's first day (arrival date + 7 × (week − 1)), as task cards grouped by slot, without Done or Edit. The dog's current `planWeek` is highlighted and open.
 
 ## H3. Log a task
 
