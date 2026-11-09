@@ -23,6 +23,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC1.3 Invite.** Given an owner, when they enter an email, an invitation is stored for that email and a sign-in link is sent to it. Inviting the same email twice does not duplicate it. Invalid emails show a validation error and nothing is stored.
 - **AC1.4 Accept.** Given a person signed in with the invited (verified) email, when they open the app, they see the pending invitation with the household name and can join; after joining they are a `member` and see the household's puppy. A user with a different email cannot join (enforced by rules).
 - **AC1.5 Register puppy.** Given a household, when the owner saves name, breed, birth date, arrival date, sleeps outdoors (yes/no) and environment (rural/urban), the dog is stored. Required: name, birth date, arrival date. Arrival date cannot be earlier than birth date; birth date cannot be in the future.
+- **AC1.5b Change arrival.** Any member can change the arrival date from the household screen; the other details of the dog are saved unchanged and the same validation applies (valid date, not before the birth date).
 - **AC1.6 Isolation.** A user who is not a member gets permission denied reading or writing any document of that household (rules test).
 - **AC1.7 Language.** Each user can switch the UI language between `en`, `es` and `pt`; the choice is stored in `users/{uid}.locale`. Generated guidance uses the household locale.
 

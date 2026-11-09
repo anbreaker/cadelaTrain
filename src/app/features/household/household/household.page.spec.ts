@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { NOW } from '@core/time/now';
+import { DogRepository } from '@data/dog.repository';
 import { Invitation } from '@data/household.converter';
 import { HouseholdRepository } from '@data/household.repository';
 import { TaskLogRepository } from '@data/task-log.repository';
@@ -63,6 +64,7 @@ describe('HouseholdPageComponent', () => {
   let session: FakeSession;
   let invitations$: Subject<Invitation[]>;
   let households: { invite: ReturnType<typeof vi.fn>; watchInvitations: ReturnType<typeof vi.fn> };
+  let dogs: { update: ReturnType<typeof vi.fn> };
   let taskLogs: {
     watchAll: ReturnType<typeof vi.fn>;
     watchSocialization: ReturnType<typeof vi.fn>;
@@ -73,6 +75,7 @@ describe('HouseholdPageComponent', () => {
       imports: [HouseholdPageComponent, translocoTesting()],
       providers: [
         { provide: AuthSessionStore, useValue: session },
+        { provide: DogRepository, useValue: dogs },
         { provide: HouseholdRepository, useValue: households },
         { provide: TaskLogRepository, useValue: taskLogs },
         { provide: NOW, useValue: () => new Date('2026-12-20T09:00:00Z') },
@@ -122,6 +125,7 @@ describe('HouseholdPageComponent', () => {
       watchAll: vi.fn(() => of([sitLog])),
       watchSocialization: vi.fn(() => of([])),
     };
+    dogs = { update: vi.fn(async () => undefined) };
   });
 
   describe('notes export', () => {
@@ -248,5 +252,75 @@ describe('HouseholdPageComponent', () => {
 
     expect(element(fixture).querySelector('input[type="email"]')).toBeNull();
     expect(households.watchInvitations).not.toHaveBeenCalled();
+  });
+
+  describe('arrival date', () => {
+    beforeEach(() => session.set.dog.set(dela));
+
+    const changeArrival = async (
+      fixture: ComponentFixture<HouseholdPageComponent>,
+      date: string
+    ): Promise<void> => {
+      const input = element(fixture).querySelector<HTMLInputElement>('.household__arrival input');
+      if (!input) throw new Error('arrival input missing');
+      input.value = date;
+      input.dispatchEvent(new Event('input'));
+      element(fixture).querySelector('.household__arrival')?.dispatchEvent(new Event('submit'));
+      await fixture.whenStable();
+    };
+
+    it('should start from the current arrival date', async () => {
+      const fixture = await render();
+
+      expect(
+        element(fixture).querySelector<HTMLInputElement>('.household__arrival input')?.value
+      ).toBe('2026-12-10');
+    });
+
+    it('should save a new arrival date and keep the other details', async () => {
+      const fixture = await render();
+
+      await changeArrival(fixture, '2026-11-10');
+
+      expect(dogs.update).toHaveBeenCalledWith(
+        'h1',
+        'd1',
+        {
+          arrivalDate: '2026-11-10',
+          birthDate: '2026-10-15',
+          breed: 'Labrador',
+          environment: 'rural',
+          name: 'Dela',
+          notes: '',
+          sleepsOutdoors: true,
+        },
+        '2026-12-20'
+      );
+      expect(
+        element(fixture).querySelector('.household__arrival [role="status"]')?.textContent
+      ).toContain('household.arrival.saved');
+    });
+
+    it('should reject an arrival before the birth date without saving', async () => {
+      const fixture = await render();
+
+      await changeArrival(fixture, '2026-10-01');
+
+      expect(dogs.update).not.toHaveBeenCalled();
+      expect(
+        element(fixture).querySelector('.household__arrival .field__error')?.textContent
+      ).toContain('dog.errors.arrivalBeforeBirth');
+    });
+
+    it('should explain when the arrival date cannot be saved', async () => {
+      dogs.update.mockRejectedValueOnce(new Error('offline'));
+      const fixture = await render();
+
+      await changeArrival(fixture, '2026-11-10');
+
+      expect(
+        element(fixture).querySelector('.household__arrival [role="alert"]')?.textContent
+      ).toContain('common.errors.saveFailed');
+    });
   });
 });

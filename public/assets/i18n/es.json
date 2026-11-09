@@ -458,6 +458,11 @@
   },
   "household": {
     "alreadyInvited": "Ya habías invitado a {{email}}.",
+    "arrival": {
+      "save": "Guardar fecha",
+      "saved": "Fecha de llegada guardada.",
+      "title": "Cuándo llega {{name}}"
+    },
     "create": "Crear hogar",
     "createLead": "Todo lo que registréis es solo de vuestro hogar. Después podréis invitar a quien entrene con vosotros.",
     "createTitle": "Cread vuestro hogar",

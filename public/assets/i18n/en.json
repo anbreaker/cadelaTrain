@@ -458,6 +458,11 @@
   },
   "household": {
     "alreadyInvited": "You already invited {{email}}.",
+    "arrival": {
+      "save": "Save date",
+      "saved": "Arrival date saved.",
+      "title": "When {{name}} arrives"
+    },
     "create": "Create household",
     "createLead": "Everything you log belongs only to your household. Later you can invite whoever trains with you.",
     "createTitle": "Create your household",
