@@ -307,6 +307,21 @@ describe('AuthSessionStore', () => {
     expect(store.status()).toBe('signedOut');
   });
 
+  it('should sign out when the stored refresh token is no longer valid', async () => {
+    vi.useFakeTimers();
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    profiles.ensureProfile.mockReturnValueOnce(new Promise<UserProfile>(() => undefined));
+    gateway.verifyUser.mockRejectedValueOnce(firebaseError('auth/invalid-refresh-token'));
+    const store = createStore();
+    emitUser(ana);
+
+    await vi.advanceTimersByTimeAsync(PROFILE_TIMEOUT_MS);
+
+    expect(gateway.signOut).toHaveBeenCalledTimes(1);
+    expect(store.error()).toBe('sessionFailed');
+    expect(store.status()).toBe('signedOut');
+  });
+
   it('should report sessionFailed when the auth check signs the user out before rejecting', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     // Firebase `reload` signs an invalidated user out first, then rethrows.
