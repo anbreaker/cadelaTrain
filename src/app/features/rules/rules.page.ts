@@ -10,7 +10,7 @@ interface CueRow {
 }
 
 /** Spoken words that are not tied to one skill (`catalog.cues.*`). */
-const EXTRA_CUES = ['praise', 'no'] as const;
+const EXTRA_CUES = ['praise', 'release', 'no'] as const;
 
 /**
  * The household's shared rules, read-only: the spoken word for each cue in the active language and

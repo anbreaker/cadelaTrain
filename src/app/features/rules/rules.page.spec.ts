@@ -39,11 +39,11 @@ describe('RulesPageComponent', () => {
     session.set.dog.set(dela);
   });
 
-  it('should list the cue word of every skill, plus praise and no', async () => {
+  it('should list the cue word of every skill, plus praise, release and no', async () => {
     const element = await render();
     const rows = Array.from(element.querySelectorAll<HTMLElement>('.rules__cue'));
 
-    expect(rows).toHaveLength(SKILLS.length + 2);
+    expect(rows).toHaveLength(SKILLS.length + 3);
     expect(rows[1].querySelector('.rules__cue-skill')?.textContent).toContain(
       'catalog.skills.sit.name'
     );
@@ -52,6 +52,12 @@ describe('RulesPageComponent', () => {
     );
     expect(rows.at(-1)?.querySelector('.rules__cue-word')?.textContent).toContain(
       'catalog.cues.no'
+    );
+    expect(rows.at(-2)?.querySelector('.rules__cue-skill')?.textContent).toContain(
+      'rules.cues.release'
+    );
+    expect(rows.at(-2)?.querySelector('.rules__cue-word')?.textContent).toContain(
+      'catalog.cues.release'
     );
   });
 

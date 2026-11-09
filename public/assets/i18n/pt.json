@@ -66,7 +66,8 @@
     },
     "cues": {
       "no": "fora",
-      "praise": "muito bem"
+      "praise": "muito bem",
+      "release": "joga"
     },
     "planWeeks": {
       "week1": {
@@ -101,7 +102,7 @@
       },
       "week7": {
         "how": "2-3 s e prémio; ignorar os saltos",
-        "objective": "«Quieto» e calma",
+        "objective": "«Quieta» e calma",
         "readyWhen": "Aguenta 5 s sentada"
       },
       "week8": {
@@ -153,7 +154,7 @@
       "lowerDifficulty": "Se algo não correr bem, baixar a dificuldade.",
       "noFenceWatching": "Vigiar a vedação ou o caminho não é o trabalho dela: que não passe horas de guarda.",
       "restAfterActivity": "Depois da atividade, descanso: sair, treinar, comer e dormir.",
-      "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieto, deixa, fora, muito bem.",
+      "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieta, joga, deixa, fora, muito bem.",
       "shortSessions": "Sessões de 3 a 5 minutos, várias por dia.",
       "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda».",
       "sniffing": "Deixa-a usar o faro: esconde uns prémios na relva e deixa-a procurá-los."
@@ -266,9 +267,9 @@
         "name": "Mordida suave"
       },
       "stay": {
-        "cue": "quieto",
-        "description": "Aguenta sentada alguns segundos até a libertares.",
-        "name": "Quieto"
+        "cue": "quieta",
+        "description": "Aguenta sentada alguns segundos até a libertares com «joga».",
+        "name": "Quieta"
       }
     },
     "socialization": {
@@ -602,6 +603,7 @@
       "hint": "Usem todos exatamente estas palavras: se cada um disser uma coisa, {{name}} não sabe o que lhe pedem.",
       "no": "Para interromper algo",
       "praise": "Para elogiar",
+      "release": "Para a libertar (fim de «quieta»)",
       "title": "As mesmas palavras para todos"
     },
     "principles": {

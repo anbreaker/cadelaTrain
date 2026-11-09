@@ -12,7 +12,7 @@
       "key": "leaveIt",
       "description": "Moves away from a closed hand or something on the ground."
     },
-    { "key": "stay", "description": "Holds a sit for a few seconds until released." },
+    { "key": "stay", "description": "Holds a sit for a few seconds until released with joga." },
     { "key": "potty", "description": "Relieves herself in the usual spot." }
   ]
 }

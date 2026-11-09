@@ -25,7 +25,7 @@ Labrador, arrives December 2026 at 8 weeks, rural Extremadura near the Alentejo 
 1. **Positive reinforcement only.** Rewards, short sessions, end on success, lower difficulty when it does not work.
 2. **Never a vet substitute.** Health topics only produce the fixed phrases `health.consultVet` or `health.vetEmergency`.
 3. **Short and doable.** Sessions of 3–5 minutes, 4–5 per day for 2–4 month puppies.
-4. **One shared vocabulary.** Same cue words for everyone in the household: the dog's name, come, sit, down, stay, leave it, no, good (spoken words per locale in `catalog.skills.*.cue` and `catalog.cues.*`).
+4. **One shared vocabulary.** Same cue words for everyone in the household: the dog's name, come, sit, down, stay, the release word «joga» (the same in every language, ends a stay), leave it, no, good (spoken words per locale in `catalog.skills.*.cue` and `catalog.cues.*`).
 5. **Deterministic core, AI on top.** Plan progression and safety are enforced by code; the AI personalizes wording and selection. If the AI fails, the template plan still works.
 6. **Private by design.** Household data never leaks to another household.
 
