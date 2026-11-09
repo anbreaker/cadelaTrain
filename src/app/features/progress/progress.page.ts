@@ -8,10 +8,12 @@ import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { TaskLogRepository } from '@data/task-log.repository';
+import { SOCIALIZATION_ITEMS } from '@domain/catalog';
 import { IsoDate, madridToday } from '@domain/dates';
+import { daysToSocializationDeadline, socializationStatus } from '@domain/progress';
 import { pluralKey } from '@shared/utils/plural-key';
 
-import { skillCards } from './progress-view';
+import { skillCards, socializationGroups } from './progress-view';
 
 interface DogKey {
   dogId: string;
@@ -21,7 +23,10 @@ interface DogKey {
 const sameDog = (a: DogKey | null, b: DogKey | null): boolean =>
   a?.dogId === b?.dogId && a?.householdId === b?.householdId;
 
-/** The puppy's progress (H4): each skill's success rate, mastery, trend and sessions. */
+/**
+ * The puppy's progress (H4): each skill's success rate, mastery, trend and sessions, and the
+ * socialization checklist with the days left until 16 weeks.
+ */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +53,13 @@ export class ProgressPageComponent {
     this.watch((key) => this.taskLogRepository.watchAll(key.householdId, key.dogId)),
     { initialValue: null }
   );
+  private readonly socialLogs = toSignal(
+    this.watch((key) => this.taskLogRepository.watchSocialization(key.householdId, key.dogId)),
+    { initialValue: null }
+  );
+  private readonly statuses = computed(() =>
+    socializationStatus(SOCIALIZATION_ITEMS, this.socialLogs() ?? [])
+  );
   private readonly formatDate = computed(() => {
     const format = new Intl.DateTimeFormat(LOCALE_BY_LANG[this.language.currentLang()], {
       day: 'numeric',
@@ -69,6 +81,29 @@ export class ProgressPageComponent {
       ),
     }))
   );
+
+  protected readonly groups = computed(() =>
+    socializationGroups(this.statuses(), this.session.household()?.members ?? {})
+  );
+  protected readonly pending = computed(() => {
+    const count = this.statuses().filter((status) => !status.done).length;
+    return {
+      count,
+      key: pluralKey('progress.socialization.pendingCount', count, this.language.currentLang()),
+    };
+  });
+  /** Days left until 16 weeks of age, with the text that reads them (AC4.5). */
+  protected readonly deadline = computed(() => {
+    const dog = this.dog();
+    const days = dog ? daysToSocializationDeadline(dog.birthDate, this.today) : 0;
+    return {
+      days,
+      key:
+        days > 0
+          ? pluralKey('progress.socialization.deadline', days, this.language.currentLang())
+          : 'progress.socialization.deadlinePassed',
+    };
+  });
 
   /** Follows the household dog; a read failure shows a notice and leaves the cards empty. */
   private watch<T>(read: (key: DogKey) => Observable<T>): Observable<null | T> {

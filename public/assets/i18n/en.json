@@ -561,6 +561,22 @@
       "trendDayEmpty": "{{date}}: not trained",
       "trendLabel": "Last 14 days"
     },
+    "socialization": {
+      "deadline": {
+        "one": "1 day left until {{name}} turns 16 weeks, the end of the key socialization stage.",
+        "other": "{{days}} days left until {{name}} turns 16 weeks, the end of the key socialization stage."
+      },
+      "deadlinePassed": "{{name}} is already 16 weeks old. Keep socializing calmly.",
+      "done": "Done",
+      "last": "Last reaction:",
+      "pending": "Pending",
+      "pendingCount": {
+        "one": "1 pending",
+        "other": "{{count}} pending"
+      },
+      "repeatGently": "Repeat more gently: farther away, quieter or shorter.",
+      "title": "Socialization"
+    },
     "title": "Progress with {{name}}"
   },
   "pwa": {

@@ -1,7 +1,8 @@
-import { SKILLS } from '@domain/catalog';
+import { SKILLS, SOCIALIZATION_CATEGORIES, SOCIALIZATION_ITEMS } from '@domain/catalog';
+import { SocializationStatus } from '@domain/progress';
 import { TaskLog } from '@domain/task-log';
 
-import { skillCards } from './progress-view';
+import { skillCards, socializationGroups } from './progress-view';
 
 const TODAY = '2026-12-20';
 
@@ -70,5 +71,61 @@ describe('skillCards', () => {
     const [name] = skillCards([], TODAY, formatDate);
 
     expect(name).toEqual(expect.objectContaining({ empty: true, ratePercent: null, sessions: 0 }));
+  });
+});
+
+describe('socializationGroups (AC4.4)', () => {
+  const status = (
+    key: string,
+    overrides: Partial<SocializationStatus> = {}
+  ): SocializationStatus => ({
+    done: false,
+    item: SOCIALIZATION_ITEMS.find((item) => item.key === key) ?? SOCIALIZATION_ITEMS[0],
+    lastBy: null,
+    lastReaction: null,
+    repeatGently: false,
+    ...overrides,
+  });
+  const members = { alice: { displayName: 'Jéssica', role: 'owner' as const } };
+
+  it('should group the items by category in checklist order', () => {
+    const groups = socializationGroups(
+      SOCIALIZATION_ITEMS.map((item) => status(item.key)),
+      members
+    );
+
+    expect(groups.map((group) => group.category)).toEqual(SOCIALIZATION_CATEGORIES);
+    expect(groups[0].labelKey).toBe('catalog.socialization.categories.people');
+    expect(groups.flatMap((group) => group.items)).toHaveLength(SOCIALIZATION_ITEMS.length);
+  });
+
+  it('should show done or pending, the last reaction and who, and flag fear to repeat gently', () => {
+    const key = SOCIALIZATION_ITEMS[0].key;
+    const [people] = socializationGroups(
+      [status(key, { lastBy: 'alice', lastReaction: 'fear', repeatGently: true })],
+      members
+    );
+
+    expect(people.items[0]).toEqual({
+      by: 'Jéssica',
+      key,
+      labelKey: `catalog.socialization.items.${key}.label`,
+      reactionKey: 'reactions.fear',
+      repeatGently: true,
+      statusKey: 'progress.socialization.pending',
+    });
+  });
+
+  it('should leave the reaction and author empty for an item never tried', () => {
+    const key = SOCIALIZATION_ITEMS[0].key;
+    const [people] = socializationGroups([status(key, { done: true })], members);
+
+    expect(people.items[0]).toEqual(
+      expect.objectContaining({
+        by: null,
+        reactionKey: null,
+        statusKey: 'progress.socialization.done',
+      })
+    );
   });
 });

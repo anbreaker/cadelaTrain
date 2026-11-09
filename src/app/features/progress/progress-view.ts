@@ -1,6 +1,7 @@
-import { SKILLS } from '@domain/catalog';
+import { SKILLS, SOCIALIZATION_CATEGORIES } from '@domain/catalog';
 import { IsoDate } from '@domain/dates';
-import { skillProgress } from '@domain/progress';
+import { HouseholdMember } from '@domain/household';
+import { skillProgress, SocializationStatus } from '@domain/progress';
 import { TaskLog } from '@domain/task-log';
 
 export interface TrendBar {
@@ -53,3 +54,41 @@ export const skillCards = (
       })),
     };
   });
+
+/** One checklist item on the progress screen (AC4.4). */
+export interface SocializationItemView {
+  /** Name of whoever logged the last reaction. */
+  by: null | string;
+  key: string;
+  labelKey: string;
+  reactionKey: null | string;
+  repeatGently: boolean;
+  statusKey: string;
+}
+
+export interface SocializationGroupView {
+  category: string;
+  items: SocializationItemView[];
+  labelKey: string;
+}
+
+/** The checklist grouped by category, each group in checklist order. */
+export const socializationGroups = (
+  statuses: readonly SocializationStatus[],
+  members: Readonly<Record<string, HouseholdMember>>
+): SocializationGroupView[] =>
+  SOCIALIZATION_CATEGORIES.map((category) => ({
+    category,
+    items: statuses
+      .filter(({ item }) => item.category === category)
+      .sort((a, b) => a.item.order - b.item.order)
+      .map((status) => ({
+        by: status.lastBy ? (members[status.lastBy]?.displayName ?? null) : null,
+        key: status.item.key,
+        labelKey: `catalog.socialization.items.${status.item.key}.label`,
+        reactionKey: status.lastReaction ? `reactions.${status.lastReaction}` : null,
+        repeatGently: status.repeatGently,
+        statusKey: status.done ? 'progress.socialization.done' : 'progress.socialization.pending',
+      })),
+    labelKey: `catalog.socialization.categories.${category}`,
+  }));
