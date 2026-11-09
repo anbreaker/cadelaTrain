@@ -66,7 +66,8 @@
     },
     "cues": {
       "no": "off",
-      "praise": "good"
+      "praise": "good",
+      "release": "joga"
     },
     "planWeeks": {
       "week1": {
@@ -153,7 +154,7 @@
       "lowerDifficulty": "If something isn't working, make it easier.",
       "noFenceWatching": "Watching the fence or the road isn't her job: don't let her spend hours on guard.",
       "restAfterActivity": "After activity comes rest: go out, train, eat, sleep.",
-      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, leave it, off, good.",
+      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, joga, leave it, off, good.",
       "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
       "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
       "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
@@ -267,7 +268,7 @@
       },
       "stay": {
         "cue": "stay",
-        "description": "Holds a sit for a few seconds until released.",
+        "description": "Holds a sit for a few seconds until released with “joga”.",
         "name": "Stay"
       }
     },
@@ -602,6 +603,7 @@
       "hint": "Everyone uses exactly these words: if each person says something different, {{name}} can't tell what you're asking.",
       "no": "To stop something",
       "praise": "To praise",
+      "release": "To release her (ends “stay”)",
       "title": "The same words for everyone"
     },
     "principles": {
