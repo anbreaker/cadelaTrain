@@ -371,21 +371,23 @@ service cloud.firestore {
           return !('caption' in data) || isString(data.caption, 0, 280);
         }
 
-        // Split instead of a regex built from hid: the household id is never read as a pattern.
-        // Exactly dela/<hid>/<id>, so a photo never points into another household's folder.
-        function isHouseholdPublicId(value) {
-          return isString(value, 1, 200)
-            && value.split('/').size() == 3
+        // Split instead of a regex built from hid or uid: neither is ever read as a pattern.
+        // Exactly dela/<hid>/<uid>/<id> with the creator's uid, so a photo never points into another
+        // household's folder nor another member's, and api/delete-media only destroys own assets.
+        function isOwnPublicId(value) {
+          return isString(value, 1, 400)
+            && value.split('/').size() == 4
             && value.split('/')[0] == 'dela'
             && value.split('/')[1] == hid
-            && value.split('/')[2].matches('^[A-Za-z0-9_-]{1,100}$');
+            && value.split('/')[2] == uid()
+            && value.split('/')[3].matches('^[A-Za-z0-9_-]{1,100}$');
         }
 
         function isPhoto(data) {
           return hasExactly(data,
               ['kind', 'date', 'publicId', 'width', 'height', 'addedBy', 'addedAt'],
               ['caption', 'skillKey'])
-            && isHouseholdPublicId(data.publicId)
+            && isOwnPublicId(data.publicId)
             && isIntBetween(data.width, 1, 20000)
             && isIntBetween(data.height, 1, 20000);
         }

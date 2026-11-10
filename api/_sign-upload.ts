@@ -12,7 +12,9 @@ import {
 /** Signed upload preset configured in Cloudinary: images only, max 10 MB, unique random public ids. */
 export const UPLOAD_PRESET = 'dela';
 
-export const householdFolder = (householdId: string): string => `dela/${householdId}`;
+/** Each member uploads into their own folder, so nobody can claim (and delete) another's asset. */
+export const uploaderFolder = (householdId: string, uid: string): string =>
+  `dela/${householdId}/${uid}`;
 
 export interface SignUploadEnv {
   apiKey: string | undefined;
@@ -38,7 +40,8 @@ const MEMBERSHIP_ERRORS = {
 } as const;
 
 /**
- * `POST { householdId }`: a short-lived signature for one photo upload into `dela/<householdId>`.
+ * `POST { householdId }`: a short-lived signature for one photo upload into the caller's own folder
+ * `dela/<householdId>/<uid>`.
  * Only members get it: the household document is read with the caller's token and the rules let
  * only members read it.
  */
@@ -81,7 +84,7 @@ export const handleSignUpload = async (
     return MEMBERSHIP_ERRORS[membership.status]();
   }
 
-  const folder = householdFolder(householdId);
+  const folder = uploaderFolder(householdId, caller.uid);
   const timestamp = Math.floor(now() / 1000);
 
   return json(200, {

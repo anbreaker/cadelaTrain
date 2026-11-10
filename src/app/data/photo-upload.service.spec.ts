@@ -16,7 +16,7 @@ import { vi } from 'vitest';
 const SIGNATURE = {
   apiKey: 'key-1',
   cloudName: 'demo-cloud',
-  folder: 'dela/h1',
+  folder: 'dela/h1/alice',
   signature: 'sig-1',
   timestamp: 1_700_000_000,
   uploadPreset: 'dela',
@@ -39,7 +39,7 @@ const photo: Media = {
   height: 600,
   id: 'm1',
   kind: 'photo',
-  publicId: 'dela/h1/abc123',
+  publicId: 'dela/h1/alice/abc123',
   width: 800,
 };
 
@@ -88,7 +88,7 @@ describe('PhotoUploadService', () => {
     fetchFn = vi.fn(async (url: string) =>
       url === '/api/sign-upload'
         ? jsonResponse(200, SIGNATURE)
-        : jsonResponse(200, { height: 600, public_id: 'dela/h1/abc123', width: 800 })
+        : jsonResponse(200, { height: 600, public_id: 'dela/h1/alice/abc123', width: 800 })
     );
   });
 
@@ -96,9 +96,9 @@ describe('PhotoUploadService', () => {
     it('should sign with the ID token, upload to Cloudinary and return the public id and size', async () => {
       const file = photoFile();
 
-      await expect(service().uploadPhoto('h1', file)).resolves.toEqual({
+      await expect(service().uploadPhoto('h1', 'alice', file)).resolves.toEqual({
         height: 600,
-        publicId: 'dela/h1/abc123',
+        publicId: 'dela/h1/alice/abc123',
         width: 800,
       });
 
@@ -121,7 +121,7 @@ describe('PhotoUploadService', () => {
       expect(form.get('api_key')).toBe('key-1');
       expect(form.get('timestamp')).toBe('1700000000');
       expect(form.get('signature')).toBe('sig-1');
-      expect(form.get('folder')).toBe('dela/h1');
+      expect(form.get('folder')).toBe('dela/h1/alice');
       expect(form.get('upload_preset')).toBe('dela');
     });
 
@@ -129,35 +129,39 @@ describe('PhotoUploadService', () => {
       ['photoNotImage', photoFile('application/pdf')],
       ['photoTooLarge', photoFile('image/png', PHOTO_MAX_BYTES + 1)],
     ])('should refuse with %s before any request', async (code, file) => {
-      expect(await rejection(service().uploadPhoto('h1', file))).toBe(code);
+      expect(await rejection(service().uploadPhoto('h1', 'alice', file))).toBe(code);
       expect(fetchFn).not.toHaveBeenCalled();
     });
 
     it('should refuse without a cloud name', async () => {
       cloudName = '';
 
-      expect(await rejection(service().uploadPhoto('h1', photoFile()))).toBe('notConfigured');
+      expect(await rejection(service().uploadPhoto('h1', 'alice', photoFile()))).toBe(
+        'notConfigured'
+      );
       expect(fetchFn).not.toHaveBeenCalled();
     });
 
     it('should refuse when signed out', async () => {
       idToken.mockResolvedValueOnce(null);
 
-      expect(await rejection(service().uploadPhoto('h1', photoFile()))).toBe('notSignedIn');
+      expect(await rejection(service().uploadPhoto('h1', 'alice', photoFile()))).toBe(
+        'notSignedIn'
+      );
       expect(fetchFn).not.toHaveBeenCalled();
     });
 
     it('should report a refused signature and not upload', async () => {
       fetchFn.mockResolvedValueOnce(jsonResponse(403, { error: 'forbidden' }));
 
-      expect(await rejection(service().uploadPhoto('h1', photoFile()))).toBe('signFailed');
+      expect(await rejection(service().uploadPhoto('h1', 'alice', photoFile()))).toBe('signFailed');
       expect(fetchFn).toHaveBeenCalledTimes(1);
     });
 
     it('should report an unreachable signature endpoint', async () => {
       fetchFn.mockRejectedValueOnce(new TypeError('Failed to fetch'));
 
-      expect(await rejection(service().uploadPhoto('h1', photoFile()))).toBe('signFailed');
+      expect(await rejection(service().uploadPhoto('h1', 'alice', photoFile()))).toBe('signFailed');
     });
 
     it('should report a failed upload', async () => {
@@ -165,11 +169,19 @@ describe('PhotoUploadService', () => {
         url === '/api/sign-upload' ? jsonResponse(200, SIGNATURE) : jsonResponse(400, {})
       );
 
-      expect(await rejection(service().uploadPhoto('h1', photoFile()))).toBe('uploadFailed');
+      expect(await rejection(service().uploadPhoto('h1', 'alice', photoFile()))).toBe(
+        'uploadFailed'
+      );
     });
 
-    it.each(['abc123', 'dela/h2/abc123', 'dela/h1/sub/abc123'])(
-      'should refuse a returned public id %s outside dela/<householdId>/',
+    it.each([
+      'abc123',
+      'dela/h1/abc123',
+      'dela/h2/alice/abc123',
+      'dela/h1/bob/abc123',
+      'dela/h1/alice/sub/abc123',
+    ])(
+      'should refuse a returned public id %s outside dela/<householdId>/<uid>/',
       async (publicId) => {
         fetchFn.mockImplementation(async (url: string) =>
           url === '/api/sign-upload'
@@ -177,7 +189,7 @@ describe('PhotoUploadService', () => {
             : jsonResponse(200, { height: 600, public_id: publicId, width: 800 })
         );
 
-        expect(await rejection(service().uploadPhoto('h1', photoFile()))).toBe(
+        expect(await rejection(service().uploadPhoto('h1', 'alice', photoFile()))).toBe(
           'unexpectedPublicId'
         );
       }

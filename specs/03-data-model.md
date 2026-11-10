@@ -134,7 +134,7 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 | date | `YYYY-MM-DD` | Madrid date the item belongs to |
 | caption | string ≤ 280 | optional |
 | skillKey | `SkillKey`? | optional |
-| publicId | string? | `photo` only: Cloudinary public id, exactly `dela/<householdId>/<id>` with `<id>` matching `^[A-Za-z0-9_-]{1,100}$` (the client refuses any other id Cloudinary returns) |
+| publicId | string? | `photo` only: Cloudinary public id, exactly `dela/<householdId>/<addedBy>/<id>` (the creator's own folder) with `<id>` matching `^[A-Za-z0-9_-]{1,100}$` (the rules refuse another member's folder; the client refuses any other id Cloudinary returns) |
 | width, height | int? | `photo` only, for layout without shift |
 | youtubeId | string? | `video` only, `^[A-Za-z0-9_-]{11}$` |
 | addedBy | uid | `== request.auth.uid` |

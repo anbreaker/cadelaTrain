@@ -1,13 +1,7 @@
 import { inject, Injectable, InjectionToken } from '@angular/core';
 
 import { AUTH_GATEWAY } from '@core/auth/auth-gateway';
-import {
-  isHouseholdPublicId,
-  Media,
-  MediaKind,
-  PhotoFileError,
-  validatePhotoFile,
-} from '@domain/media';
+import { isOwnPublicId, Media, MediaKind, PhotoFileError, validatePhotoFile } from '@domain/media';
 import { environment } from '@environments/environment';
 
 import { MediaRepository } from './media.repository';
@@ -108,8 +102,11 @@ export class PhotoUploadService {
     video: (householdId, dogId, mediaId) => this.repository.remove(householdId, dogId, mediaId),
   };
 
-  /** Uploads an image of at most 10 MB to `dela/<householdId>/` and returns what Cloudinary stored. */
-  async uploadPhoto(householdId: string, file: File): Promise<UploadedPhoto> {
+  /**
+   * Uploads an image of at most 10 MB to the signed-in member's folder `dela/<householdId>/<uid>/`
+   * and returns what Cloudinary stored.
+   */
+  async uploadPhoto(householdId: string, uid: string, file: File): Promise<UploadedPhoto> {
     if (!this.cloudName) throw new PhotoUploadError('notConfigured');
     const [fileError] = validatePhotoFile(file);
     if (fileError) throw new PhotoUploadError(fileError);
@@ -127,7 +124,7 @@ export class PhotoUploadService {
     if (!isObject(body) || !isSide(body['width']) || !isSide(body['height']))
       throw new PhotoUploadError('uploadFailed');
     const publicId = body['public_id'];
-    if (typeof publicId !== 'string' || !isHouseholdPublicId(publicId, householdId))
+    if (typeof publicId !== 'string' || !isOwnPublicId(publicId, householdId, uid))
       throw new PhotoUploadError('unexpectedPublicId');
     return { height: body['height'], publicId, width: body['width'] };
   }

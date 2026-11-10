@@ -38,7 +38,7 @@ function photo(addedBy: string, overrides: DocumentData = {}): DocumentData {
     date: '2026-12-05',
     height: 1080,
     kind: 'photo',
-    publicId: `dela/${HOUSEHOLD_ID}/k3j9x0aa1b2c3d4e5f6g`,
+    publicId: `dela/${HOUSEHOLD_ID}/${addedBy}/k3j9x0aa1b2c3d4e5f6g`,
     skillKey: 'leash',
     width: 1920,
     ...overrides,
@@ -94,6 +94,12 @@ describe('media rules (AC7.4, AC7.6, AC7.7)', () => {
   describe('create', () => {
     it('should let a member add a photo as themself at server time', async () => {
       await assertSucceeds(create(photo(MEMBER.uid)));
+    });
+
+    it('should let a member add a photo in their own folder dela/<hid>/<uid>/<id>', async () => {
+      await assertSucceeds(
+        create(photo(MEMBER.uid, { publicId: `dela/${HOUSEHOLD_ID}/${MEMBER.uid}/abc_DEF-123` }))
+      );
     });
 
     it('should let a member add a photo without caption or skill', async () => {
@@ -172,16 +178,34 @@ describe('media rules (AC7.4, AC7.6, AC7.7)', () => {
     });
 
     it("should deny a publicId under another household's folder", async () => {
-      await assertFails(create(photo(MEMBER.uid, { publicId: 'dela/h2/k3j9x0aa1b2c3d4e5f6g' })));
+      await assertFails(
+        create(photo(MEMBER.uid, { publicId: `dela/h2/${MEMBER.uid}/k3j9x0aa1b2c3d4e5f6g` }))
+      );
+    });
+
+    it("should deny a photo whose publicId is in another member's folder", async () => {
+      await assertFails(
+        create(
+          photo(MEMBER.uid, { publicId: `dela/${HOUSEHOLD_ID}/${OWNER.uid}/k3j9x0aa1b2c3d4e5f6g` })
+        )
+      );
+    });
+
+    it('should deny the old dela/<hid>/<id> shape without the uploader folder', async () => {
+      await assertFails(
+        create(photo(MEMBER.uid, { publicId: `dela/${HOUSEHOLD_ID}/k3j9x0aa1b2c3d4e5f6g` }))
+      );
     });
 
     it('should deny a publicId outside the dela folder or nested deeper', async () => {
       for (const publicId of [
-        `other/${HOUSEHOLD_ID}/abc`,
-        `dela/${HOUSEHOLD_ID}/`,
-        `dela/${HOUSEHOLD_ID}/a/b`,
-        `dela/${HOUSEHOLD_ID}/../h2/abc`,
-        `dela/${HOUSEHOLD_ID}/${'a'.repeat(101)}`,
+        `other/${HOUSEHOLD_ID}/${MEMBER.uid}/abc`,
+        `dela/${HOUSEHOLD_ID}/${MEMBER.uid}/`,
+        `dela/${HOUSEHOLD_ID}/${MEMBER.uid}/a/b`,
+        `dela/${HOUSEHOLD_ID}/${MEMBER.uid}/../h2/abc`,
+        `dela/${HOUSEHOLD_ID}/${MEMBER.uid}/abc.jpg`,
+        `dela/${HOUSEHOLD_ID}/${MEMBER.uid}/${'a'.repeat(101)}`,
+        `dela/${HOUSEHOLD_ID}/${MEMBER.uid}`,
         `dela/${HOUSEHOLD_ID}`,
         42,
       ])
@@ -233,7 +257,7 @@ describe('media rules (AC7.4, AC7.6, AC7.7)', () => {
       for (const change of [
         { date: '2026-12-06' },
         { skillKey: 'sit' },
-        { publicId: `dela/${HOUSEHOLD_ID}/other` },
+        { publicId: `dela/${HOUSEHOLD_ID}/${OWNER.uid}/other` },
         { width: 100 },
         { addedBy: MEMBER.uid },
         { addedAt: serverTimestamp() },

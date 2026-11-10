@@ -65,7 +65,7 @@ export class TodayMediaComponent {
   private readonly savers: Readonly<Record<MediaKind, Saver>> = {
     photo: async ({ dogId, householdId }, { draft, photo }, uid) => {
       if (!photo) throw new PhotoUploadError('photoMissing');
-      const uploaded = await this.uploads.uploadPhoto(householdId, photo);
+      const uploaded = await this.uploads.uploadPhoto(householdId, uid, photo);
       const { caption, date, skillKey } = draft;
       return this.repository.addPhoto(
         householdId,

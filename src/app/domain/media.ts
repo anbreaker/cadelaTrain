@@ -23,7 +23,7 @@ export interface Media {
   height?: number;
   id: string;
   kind: MediaKind;
-  /** `photo` only: Cloudinary public id under `dela/<householdId>/`. */
+  /** `photo` only: Cloudinary public id `dela/<householdId>/<addedBy>/<id>`. */
   publicId?: string;
   skillKey?: string;
   /** `photo` only. */
@@ -62,9 +62,15 @@ const ID_READERS: Readonly<Record<string, IdReader>> = {
   'youtube.com': fromWatchOrShorts,
 };
 
+/** Text that already names a scheme (`https://`, `ftp://`, `javascript:`…) is parsed as is. */
+const HAS_SCHEME = /^[A-Za-z][A-Za-z0-9+.-]*:/;
+
+/** A link pasted without a scheme (`youtu.be/…`) is read as `https://`. */
+const withScheme = (text: string): string => (HAS_SCHEME.test(text) ? text : `https://${text}`);
+
 const parseUrl = (text: string): null | URL => {
   try {
-    return new URL(text.trim());
+    return new URL(withScheme(text.trim()));
   } catch {
     return null;
   }
@@ -72,7 +78,7 @@ const parseUrl = (text: string): null | URL => {
 
 /**
  * The 11-character id of a `youtube.com/watch?v=`, `youtu.be/` or `youtube.com/shorts/` link
- * (http or https), or `null` for any other text (AC7.3). Only the id is ever stored.
+ * (http, https or pasted without a scheme), or `null` for any other text (AC7.3). Only the id is ever stored.
  */
 export function youtubeIdFrom(text: string): null | string {
   const url = parseUrl(text);
@@ -114,11 +120,12 @@ export const validatePhotoFile = (file: null | PhotoFile): PhotoFileError[] =>
 const PUBLIC_ID_NAME = /^[A-Za-z0-9_-]{1,100}$/;
 
 /**
- * Whether a Cloudinary public id is exactly `dela/<householdId>/<id>`, the only shape the rules
- * accept: an account with dynamic folders returns a bare id unless its preset prefixes the folder.
+ * Whether a Cloudinary public id is exactly `dela/<householdId>/<uid>/<id>`, the uploader's own
+ * folder and the only shape the rules accept: an account with dynamic folders returns a bare id
+ * unless its preset prefixes the folder.
  */
-export function isHouseholdPublicId(publicId: string, householdId: string): boolean {
-  const prefix = `dela/${householdId}/`;
+export function isOwnPublicId(publicId: string, householdId: string, uid: string): boolean {
+  const prefix = `dela/${householdId}/${uid}/`;
   return publicId.startsWith(prefix) && PUBLIC_ID_NAME.test(publicId.slice(prefix.length));
 }
 

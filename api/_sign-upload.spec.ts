@@ -41,7 +41,7 @@ describe('sign-upload', () => {
     expect(sign({ upload_preset: 'p', timestamp: 10, folder: 'f' }, 'secret-xyz')).toBe(expected);
   });
 
-  it('should sign an upload into the household folder for a member', async () => {
+  it("should sign an upload into the caller's own folder of the household", async () => {
     const fetchFn = firestoreReturns(200);
     const token = tokenFor('uid-1');
 
@@ -52,9 +52,9 @@ describe('sign-upload', () => {
     expect(await response.json()).toEqual({
       apiKey: 'key-123',
       cloudName: 'demo-cloud',
-      folder: 'dela/h1',
+      folder: 'dela/h1/uid-1',
       signature: sign(
-        { folder: 'dela/h1', timestamp: 1_700_000_000, upload_preset: 'dela' },
+        { folder: 'dela/h1/uid-1', timestamp: 1_700_000_000, upload_preset: 'dela' },
         'secret-xyz'
       ),
       timestamp: 1_700_000_000,
@@ -65,6 +65,19 @@ describe('sign-upload', () => {
     expect(fetchFn).toHaveBeenCalledWith(
       'https://firestore.googleapis.com/v1/projects/demo-project/databases/(default)/documents/households/h1',
       { headers: { Authorization: `Bearer ${token}` }, signal: expect.any(AbortSignal) }
+    );
+  });
+
+  it('should put each member in a folder named by the uid of their own token', async () => {
+    const response = await handle(post({ householdId: 'h1' }, tokenFor('uid-2')));
+    const body = (await response.json()) as { folder: string; signature: string };
+
+    expect(body.folder).toBe('dela/h1/uid-2');
+    expect(body.signature).toBe(
+      sign(
+        { folder: 'dela/h1/uid-2', timestamp: 1_700_000_000, upload_preset: 'dela' },
+        'secret-xyz'
+      )
     );
   });
 

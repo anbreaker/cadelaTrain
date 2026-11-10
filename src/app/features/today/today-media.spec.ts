@@ -54,7 +54,7 @@ const myPhoto: Media = {
   height: 600,
   id: 'm1',
   kind: 'photo',
-  publicId: 'dela/h1/abc123',
+  publicId: 'dela/h1/alice/abc123',
   width: 800,
 };
 
@@ -147,7 +147,11 @@ describe('TodayMediaComponent', () => {
     };
     uploads = {
       removeMedia: vi.fn(async () => undefined),
-      uploadPhoto: vi.fn(async () => ({ height: 900, publicId: 'dela/h1/new1', width: 1200 })),
+      uploadPhoto: vi.fn(async () => ({
+        height: 900,
+        publicId: 'dela/h1/alice/new1',
+        width: 1200,
+      })),
     };
   });
 
@@ -192,7 +196,7 @@ describe('TodayMediaComponent', () => {
     await click('.media-form__save');
     await settle();
 
-    expect(uploads.uploadPhoto).toHaveBeenCalledWith('h1', file);
+    expect(uploads.uploadPhoto).toHaveBeenCalledWith('h1', 'alice', file);
     expect(repository.addPhoto).toHaveBeenCalledWith(
       'h1',
       'd1',
@@ -200,7 +204,7 @@ describe('TodayMediaComponent', () => {
         caption: 'Sit',
         date: '2026-12-20',
         height: 900,
-        publicId: 'dela/h1/new1',
+        publicId: 'dela/h1/alice/new1',
         skillKey: null,
         width: 1200,
       },

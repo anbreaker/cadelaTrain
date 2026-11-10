@@ -34,7 +34,7 @@ const photoRecord = (date: string): Parameters<MediaRepository['addPhoto']>[2] =
   caption: 'Barro',
   date,
   height: 1080,
-  publicId: `dela/${HOUSEHOLD_ID}/k3j9x0aa1b2c3d4e5f6g`,
+  publicId: `dela/${HOUSEHOLD_ID}/${OWNER.uid}/k3j9x0aa1b2c3d4e5f6g`,
   skillKey: 'leash',
   width: 1920,
 });

@@ -6,7 +6,7 @@ import { serverTimestamp, Timestamp } from 'firebase/firestore';
 const PATH = 'households/h1/dogs/d1/media/m1';
 const ADDED_AT = new Date('2026-12-05T10:00:00Z');
 const YOUTUBE_ID = 'dQw4w9WgXcQ';
-const PUBLIC_ID = 'dela/h1/k3j9x0aa1b2c3d4e5f6g';
+const PUBLIC_ID = 'dela/h1/alice/k3j9x0aa1b2c3d4e5f6g';
 
 const storedVideo = (overrides: Record<string, unknown> = {}): Record<string, unknown> => ({
   addedAt: Timestamp.fromDate(ADDED_AT),

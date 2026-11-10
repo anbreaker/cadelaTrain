@@ -92,8 +92,8 @@ Phase 2 (Portugal, `Europe/Lisbon`, one hour behind): store `timezone` per house
 | Path | Auth | Purpose |
 |------|------|---------|
 | `GET /api/cron-daily-guidance` | `CRON_SECRET` | Batch generation for all eligible dogs |
-| `POST /api/sign-upload` `{ householdId }` | Firebase ID token + membership check: reads `households/{hid}` through Firestore REST with the caller's own token (no `firebase-admin`, no service account; the rules refuse non-members and forged tokens) | Short-lived Cloudinary signature for one photo upload into `dela/<householdId>/`, images only, ≤ 10 MB |
-| `POST /api/delete-media` `{ householdId, dogId, mediaId }` | Firebase ID token + author check (reads the media document with the caller's token, `addedBy == uid`) | Destroys the Cloudinary asset (signed `image/destroy`), then deletes the media document with the caller's token; a failed destroy keeps the document |
+| `POST /api/sign-upload` `{ householdId }` | Firebase ID token + membership check: reads `households/{hid}` through Firestore REST with the caller's own token (no `firebase-admin`, no service account; the rules refuse non-members and forged tokens) | Short-lived Cloudinary signature for one photo upload into the caller's own folder `dela/<householdId>/<uid>` (uid from the token), images only, ≤ 10 MB |
+| `POST /api/delete-media` `{ householdId, dogId, mediaId }` | Firebase ID token + author check (reads the media document with the caller's token, `addedBy == uid`) and owner check (the `publicId` must be exactly `dela/<householdId>/<uid>/<id>`, otherwise 403 without calling Cloudinary) | Destroys the Cloudinary asset (signed `image/destroy`), then deletes the media document with the caller's token; a failed destroy keeps the document |
 | `POST /api/daily-guidance` `{ dogId }` | Firebase ID token (`verifyIdToken`) + membership check | On-demand generation for today (idempotent) |
 
 Both return `Cache-Control: no-store` and never return the AI raw output.

@@ -32,7 +32,7 @@ const mediaDoc = (overrides: Record<string, string> = {}) => ({
     Object.entries({
       addedBy: 'uid-1',
       kind: 'photo',
-      publicId: 'dela/h1/abc123',
+      publicId: 'dela/h1/uid-1/abc123',
       ...overrides,
     }).map(([key, value]) => [key, { stringValue: value }])
   ),
@@ -69,9 +69,9 @@ const READ_CALL = [
 const DESTROY_BODY = new URLSearchParams({
   api_key: 'key-123',
   invalidate: 'true',
-  public_id: 'dela/h1/abc123',
+  public_id: 'dela/h1/uid-1/abc123',
   signature: sign(
-    { invalidate: 'true', public_id: 'dela/h1/abc123', timestamp: 1_700_000_000 },
+    { invalidate: 'true', public_id: 'dela/h1/uid-1/abc123', timestamp: 1_700_000_000 },
     'secret-xyz'
   ),
   timestamp: '1700000000',
@@ -130,6 +130,32 @@ describe('delete-media', () => {
     }
   });
 
+  it('should keep the document when Cloudinary answers non-JSON', async () => {
+    const fetchFn = fakeFetch({ destroy: async () => new Response('<html>busy</html>') });
+    const response = await handle(post(), fetchFn);
+
+    expect(response.status).toBe(502);
+    expect(await response.json()).toEqual({ error: 'destroy-failed' });
+    expect(fetchFn.mock.calls).toEqual([READ_CALL, DESTROY_CALL]);
+  });
+
+  it("should refuse to destroy an asset outside the caller's own folder", async () => {
+    for (const publicId of [
+      'dela/h1/uid-2/abc123',
+      'dela/h1/abc123',
+      'dela/h1/uid-1/sub/abc123',
+      'dela/h1/uid-1/',
+      'dela/h1/uid-10/abc123',
+    ]) {
+      const fetchFn = fakeFetch({ read: async () => Response.json(mediaDoc({ publicId })) });
+      const response = await handle(post(), fetchFn);
+
+      expect(response.status).toBe(403);
+      expect(await response.json()).toEqual({ error: 'not-your-asset' });
+      expect(fetchFn.mock.calls).toEqual([READ_CALL]);
+    }
+  });
+
   it('should refuse someone who is not the author, never calling Cloudinary', async () => {
     const fetchFn = fakeFetch({ read: async () => Response.json(mediaDoc({ addedBy: 'uid-2' })) });
     const response = await handle(post(), fetchFn);
@@ -158,21 +184,22 @@ describe('delete-media', () => {
     expect(down.mock.calls).toEqual([READ_CALL]);
   });
 
-  it('should refuse a video or a public id outside the household folder', async () => {
-    const cases: Record<string, string>[] = [
-      { kind: 'video' },
-      { publicId: 'dela/h2/abc' },
-      { publicId: 'dela/h1' },
-      { publicId: 'other/dela/h1/abc' },
-      { publicId: '' },
-    ];
+  it('should refuse a video, never calling Cloudinary', async () => {
+    const fetchFn = fakeFetch({ read: async () => Response.json(mediaDoc({ kind: 'video' })) });
+    const response = await handle(post(), fetchFn);
 
-    for (const overrides of cases) {
-      const fetchFn = fakeFetch({ read: async () => Response.json(mediaDoc(overrides)) });
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ error: 'not-a-photo' });
+    expect(fetchFn.mock.calls).toEqual([READ_CALL]);
+  });
+
+  it('should refuse a public id outside the household folder, never calling Cloudinary', async () => {
+    for (const publicId of ['dela/h2/uid-1/abc', 'dela/h1', 'other/dela/h1/uid-1/abc', '']) {
+      const fetchFn = fakeFetch({ read: async () => Response.json(mediaDoc({ publicId })) });
       const response = await handle(post(), fetchFn);
 
-      expect(response.status).toBe(400);
-      expect(await response.json()).toEqual({ error: 'not-a-photo' });
+      expect(response.status).toBe(403);
+      expect(await response.json()).toEqual({ error: 'not-your-asset' });
       expect(fetchFn.mock.calls).toEqual([READ_CALL]);
     }
   });

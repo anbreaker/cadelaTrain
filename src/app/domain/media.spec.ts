@@ -1,6 +1,6 @@
 import {
   CAPTION_MAX,
-  isHouseholdPublicId,
+  isOwnPublicId,
   Media,
   mediaByDay,
   MediaDraft,
@@ -25,6 +25,12 @@ describe('youtubeIdFrom (AC7.3)', () => {
     `https://www.youtube.com/shorts/${ID}`,
     `https://youtube.com/shorts/${ID}?feature=share`,
     `  https://youtu.be/${ID}  `,
+    `youtube.com/watch?v=${ID}`,
+    `www.youtube.com/watch?v=${ID}`,
+    `m.youtube.com/watch?v=${ID}`,
+    `youtu.be/${ID}`,
+    `www.youtube.com/shorts/${ID}`,
+    `  youtu.be/${ID}?si=abc123  `,
   ])('should extract only the 11-character id from %s', (link) => {
     expect(youtubeIdFrom(link)).toBe(ID);
   });
@@ -37,7 +43,6 @@ describe('youtubeIdFrom (AC7.3)', () => {
     '',
     'hello',
     ID,
-    `youtube.com/watch?v=${ID}`,
     `ftp://youtube.com/watch?v=${ID}`,
     `https://www.youtube.com/watch?v=${ID}x`,
     `https://www.youtube.com/watch?v=dQw4w9WgXc`,
@@ -49,6 +54,11 @@ describe('youtubeIdFrom (AC7.3)', () => {
     `https://evil.com/watch?v=${ID}`,
     `https://youtube.com.evil.com/watch?v=${ID}`,
     `https://youtu.be/dQw4w9WgX%3CQ`,
+    `vimeo.com/${ID}`,
+    `youtube.com.evil.com/watch?v=${ID}`,
+    `evil.com/youtu.be/${ID}`,
+    `javascript:alert(1)//youtu.be/${ID}`,
+    `youtube.com/watch?v=${ID}x`,
   ])('should return null for %j', (text) => {
     expect(youtubeIdFrom(text)).toBeNull();
   });
@@ -124,21 +134,24 @@ describe('validatePhotoFile (AC7.2)', () => {
   });
 });
 
-describe('isHouseholdPublicId (AC7.7)', () => {
-  it('should accept exactly dela/<householdId>/<id>', () => {
-    expect(isHouseholdPublicId('dela/h1/abc_DEF-123', 'h1')).toBe(true);
+describe('isOwnPublicId (AC7.7)', () => {
+  it("should accept exactly dela/<householdId>/<uid>/<id>, the uploader's own folder", () => {
+    expect(isOwnPublicId('dela/h1/alice/abc_DEF-123', 'h1', 'alice')).toBe(true);
   });
 
   it.each([
     'abc123',
-    'dela/h2/abc123',
-    'dela/h1/sub/abc123',
-    'dela/h1/',
-    'dela/h1/abc.jpg',
-    `dela/h1/${'a'.repeat(101)}`,
-    'other/dela/h1/abc123',
+    'dela/h1/abc123',
+    'dela/h2/alice/abc123',
+    'dela/h1/bob/abc123',
+    'dela/h1/alice2/abc123',
+    'dela/h1/alice/sub/abc123',
+    'dela/h1/alice/',
+    'dela/h1/alice/abc.jpg',
+    `dela/h1/alice/${'a'.repeat(101)}`,
+    'other/dela/h1/alice/abc123',
   ])('should refuse %s', (publicId) => {
-    expect(isHouseholdPublicId(publicId, 'h1')).toBe(false);
+    expect(isOwnPublicId(publicId, 'h1', 'alice')).toBe(false);
   });
 });
 

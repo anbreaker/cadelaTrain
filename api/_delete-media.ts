@@ -8,7 +8,7 @@ import {
   readJsonObject,
   stringField,
 } from './_firebase-auth.js';
-import { householdFolder, sign } from './_sign-upload.js';
+import { sign, uploaderFolder } from './_sign-upload.js';
 
 export interface DeleteMediaEnv {
   apiKey: string | undefined;
@@ -27,6 +27,15 @@ const CLOUDINARY_TIMEOUT_MS = 8000;
 
 /** Cloudinary answers `not found` when the asset is already gone: the goal is reached either way. */
 const DESTROYED = new Set(['not found', 'ok']);
+
+const ASSET_NAME = /^[A-Za-z0-9_-]{1,100}$/;
+
+/** Exactly `dela/<householdId>/<uid>/<id>`: an asset the caller uploaded into their own folder. */
+const isCallerAsset = (publicId: string, householdId: string, uid: string): boolean => {
+  const prefix = `${uploaderFolder(householdId, uid)}/`;
+
+  return publicId.startsWith(prefix) && ASSET_NAME.test(publicId.slice(prefix.length));
+};
 
 const READ_ERRORS = {
   'not-found': () => json(404, { error: 'not-found' }),
@@ -89,7 +98,8 @@ const readIds = async (
 
 /**
  * `POST { householdId, dogId, mediaId }`: the author deletes their own photo. The media document is
- * read with the caller's token (the rules let only members read it), the Cloudinary asset is
+ * read with the caller's token (the rules let only members read it); only an asset in the caller's
+ * own folder `dela/<householdId>/<uid>/` is destroyed (a document can name any id), the asset is
  * destroyed, and only then the document is deleted with the caller's token (the rules let only the
  * author delete it). A failed destroy keeps the document, so the asset is never orphaned silently.
  */
@@ -132,13 +142,14 @@ export const handleDeleteMedia = async (
     return json(403, { error: 'forbidden' });
   }
 
-  const publicId = stringField(media.fields, 'publicId') ?? '';
-  const isOwnPhoto =
-    stringField(media.fields, 'kind') === 'photo' &&
-    publicId.startsWith(`${householdFolder(ids.householdId)}/`);
-
-  if (!isOwnPhoto) {
+  if (stringField(media.fields, 'kind') !== 'photo') {
     return json(400, { error: 'not-a-photo' });
+  }
+
+  const publicId = stringField(media.fields, 'publicId') ?? '';
+
+  if (!isCallerAsset(publicId, ids.householdId, caller.uid)) {
+    return json(403, { error: 'not-your-asset' });
   }
 
   const destroyed = await destroyAsset(
