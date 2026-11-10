@@ -1,6 +1,7 @@
 import { catchError, combineLatest, Observable, of, switchMap } from 'rxjs';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { LOCALE_BY_LANG } from '@core/const/lang.const';
@@ -9,8 +10,10 @@ import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { WeeklyReviewRepository } from '@data/weekly-review.repository';
+import { preparationChecklist } from '@domain/catalog';
 import { IsoDate, madridToday } from '@domain/dates';
 import {
+  PREPARATION_WEEK,
   REVIEW_NOTES_MAX,
   reviewWeekOf,
   validateWeeklyReviewDraft,
@@ -18,6 +21,7 @@ import {
   WeeklyReviewDraft,
   weeklySummary,
 } from '@domain/weekly-review';
+import { PreparationListComponent } from '@shared/components/preparation-list/preparation-list';
 import { eventValue } from '@shared/utils/event-value';
 
 interface DogKey {
@@ -36,13 +40,14 @@ const parseWeight = (text: string): null | number =>
 
 /**
  * The weekly review (H5): one week since the arrival at a time, from the current week back to week
- * 1. What she does well, what is hard and the new socialization come from the logs; weight and
- * notes are written by any member.
+ * 0. What she does well, what is hard and the new socialization come from the logs; weight and
+ * notes are written by any member. Week 0, before the arrival, shows the preparation checklist,
+ * notes and a link to the plan.
  */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective],
+  imports: [PreparationListComponent, RouterLink, TranslocoDirective],
   selector: 'app-weekly-page',
   styleUrl: './weekly.page.css',
   templateUrl: './weekly.page.html',
@@ -85,13 +90,17 @@ export class WeeklyPageComponent {
   protected readonly readFailed = signal(false);
   protected readonly saveState = this._saveState.asReadonly();
 
-  /** The week in progress; `null` before the arrival. */
+  /** The week in progress: `PREPARATION_WEEK` before the arrival. */
   protected readonly currentWeek = computed(() => {
     const dog = this.dog();
     return dog ? reviewWeekOf(dog.arrivalDate, this.today) : null;
   });
   protected readonly week = computed(() => this._week() ?? this.currentWeek());
-  protected readonly canGoBack = computed(() => (this.week() ?? 1) > 1);
+  protected readonly isPreparation = computed(() => this.week() === PREPARATION_WEEK);
+  protected readonly preparationItems = preparationChecklist();
+  protected readonly canGoBack = computed(
+    () => (this.week() ?? PREPARATION_WEEK) > PREPARATION_WEEK
+  );
   protected readonly canGoForward = computed(() => {
     const week = this.week();
     const current = this.currentWeek();
@@ -101,7 +110,7 @@ export class WeeklyPageComponent {
   private readonly stored = toSignal(
     combineLatest([toObservable(this.dogKey), toObservable(this.week)]).pipe(
       switchMap(([key, week]) =>
-        key && week
+        key && week !== null
           ? this.reviews
               .watchWeek(key.householdId, key.dogId, week)
               .pipe(catchError(() => this.readError<null | WeeklyReview>(null)))
@@ -114,7 +123,7 @@ export class WeeklyPageComponent {
   protected readonly summary = computed(() => {
     const dog = this.dog();
     const week = this.week();
-    return dog && week
+    return dog && week !== null && week !== PREPARATION_WEEK
       ? weeklySummary({
           dog,
           logs: this.logs() ?? [],
@@ -133,9 +142,14 @@ export class WeeklyPageComponent {
     });
     return (date: IsoDate): string => format.format(new Date(`${date}T00:00:00Z`));
   });
+  /** Week 0 shows the arrival date; any other week its first and last day. */
   protected readonly dates = computed(() => {
+    const format = this.formatDate();
     const week = this.summary()?.week;
-    return week ? { end: this.formatDate()(week.end), start: this.formatDate()(week.start) } : null;
+    const dog = this.dog();
+    if (this.isPreparation() && dog)
+      return { arrival: format(dog.arrivalDate), end: '', start: '' };
+    return week ? { arrival: null, end: format(week.end), start: format(week.start) } : null;
   });
 
   protected readonly notes = computed(() => this._notes() ?? this.stored()?.notes ?? '');
@@ -143,9 +157,10 @@ export class WeeklyPageComponent {
     const stored = this.stored()?.weightKg;
     return this._weight() ?? (stored === null || stored === undefined ? '' : String(stored));
   });
+  /** Week 0 has no weight: she is not home yet. */
   private readonly draft = computed((): WeeklyReviewDraft => ({
     notes: this.notes(),
-    weightKg: parseWeight(this.weight()),
+    weightKg: this.isPreparation() ? null : parseWeight(this.weight()),
   }));
   protected readonly errorKeys = computed(() =>
     this._submitted()
@@ -197,7 +212,7 @@ export class WeeklyPageComponent {
     const week = this.week();
     const uid = this.session.profile()?.uid;
     const draft = this.draft();
-    if (!key || !week || !uid || this._saveState() === 'saving') return;
+    if (!key || week === null || !uid || this._saveState() === 'saving') return;
     if (validateWeeklyReviewDraft(draft).length > 0) return;
 
     this._saveState.set('saving');

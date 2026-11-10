@@ -1,5 +1,6 @@
 import { IsoDate } from '@domain/dates';
 import {
+  PREPARATION_WEEK,
   REVIEW_NOTES_MAX,
   validateWeeklyReviewDraft,
   WeeklyReview,
@@ -69,7 +70,7 @@ export const parseWeeklyReview = (id: string, path: string, data: DocumentData):
     notes,
     updatedAt: reader.timestamp('updatedAt'),
     updatedBy: reader.string('updatedBy'),
-    weekNumber: reader.integer('weekNumber', 1, 52),
+    weekNumber: reader.integer('weekNumber', PREPARATION_WEEK, 52),
     weightKg: reader.nullableNumber('weightKg', WEIGHT_MIN_KG, WEIGHT_MAX_KG),
   };
 };

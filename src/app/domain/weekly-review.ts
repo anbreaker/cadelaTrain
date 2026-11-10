@@ -6,6 +6,8 @@ import { Reaction, SocializationLog, TaskLog } from './task-log';
 import { collectErrors, ValidationRule } from './validation';
 
 const DAYS_PER_WEEK = 7;
+/** Week 0: before the arrival, for the preparation checklist and notes. */
+export const PREPARATION_WEEK = 0;
 /** Below this rate, with a full evaluation window, a skill is struggling (AC5.2). */
 export const STRUGGLING_RATE = 0.5;
 
@@ -42,10 +44,10 @@ export interface WeeklySummary {
   week: ReviewWeek;
 }
 
-/** The review week a date belongs to; `null` before the arrival. */
-export const reviewWeekOf = (arrivalDate: IsoDate, date: IsoDate): null | number => {
+/** The review week a date belongs to; `PREPARATION_WEEK` before the arrival. */
+export const reviewWeekOf = (arrivalDate: IsoDate, date: IsoDate): number => {
   const days = daysUntil(date, arrivalDate);
-  return days < 0 ? null : Math.floor(days / DAYS_PER_WEEK) + 1;
+  return days < 0 ? PREPARATION_WEEK : Math.floor(days / DAYS_PER_WEEK) + 1;
 };
 
 export const reviewWeek = (arrivalDate: IsoDate, number: number): ReviewWeek => {

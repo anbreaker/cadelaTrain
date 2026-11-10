@@ -5,7 +5,6 @@
     <h1 class="page-title">{{ t('weekly.pageTitle', { name: dog.name }) }}</h1>
   </header>
 
-  @if (summary(); as summary) {
   <nav class="weekly__nav" [attr.aria-label]="t('weekly.navLabel')">
     <button
       class="button weekly__previous"
@@ -16,9 +15,14 @@
       {{ t('weekly.previous') }}
     </button>
     <div class="weekly__week">
-      <h2 class="weekly__title">{{ t('weekly.title', { week: summary.week.number }) }}</h2>
+      <h2 class="weekly__title">
+        {{ isPreparation() ? t('weekly.preparationTitle') : t('weekly.title', { week: week() }) }}
+      </h2>
       @if (dates(); as dates) {
-      <p class="weekly__dates">{{ dates.start }} – {{ dates.end }}</p>
+      <p class="weekly__dates">
+        {{ dates.arrival ? t('weekly.arrivesOn', { date: dates.arrival, name: dog.name }) :
+        dates.start + ' – ' + dates.end }}
+      </p>
       }
     </div>
     <button
@@ -31,6 +35,17 @@
     </button>
   </nav>
 
+  @if (readFailed()) {
+  <p class="form-error" role="alert">{{ t('weekly.readFailed') }}</p>
+  } @if (isPreparation()) {
+  <section class="weekly__section" aria-labelledby="preparation-title">
+    <h3 class="weekly__heading" id="preparation-title">{{ t('today.checklistTitle') }}</h3>
+    <app-preparation-list [items]="preparationItems" />
+    <a class="button button--link weekly__plan-link" routerLink="/plan">
+      {{ t('weekly.planLink') }}
+    </a>
+  </section>
+  } @else if (summary(); as summary) {
   <section class="weekly__section">
     <p class="weekly__meta">
       {{ t('weekly.planWeek', { week: summary.planWeek }) }} · {{ t('weekly.age', { weeks:
@@ -38,10 +53,6 @@
     </p>
     <p class="weekly__objective">{{ t(summary.objectiveKey) }}</p>
   </section>
-
-  @if (readFailed()) {
-  <p class="form-error" role="alert">{{ t('weekly.readFailed') }}</p>
-  }
 
   <section class="weekly__section weekly__does-well" aria-labelledby="does-well-title">
     <h3 class="weekly__heading" id="does-well-title">{{ t('weekly.doesWell') }}</h3>
@@ -82,9 +93,14 @@
     }
   </section>
 
+  }
+
   <section class="weekly__section" aria-labelledby="review-title">
-    <h3 class="weekly__heading" id="review-title">{{ t('weekly.reviewTitle') }}</h3>
+    <h3 class="weekly__heading" id="review-title">
+      {{ isPreparation() ? t('weekly.notes') : t('weekly.reviewTitle') }}
+    </h3>
     <form class="weekly__form" novalidate (submit)="save($event)">
+      @if (!isPreparation()) {
       <label class="field">
         {{ t('weekly.weight') }}
         <input
@@ -97,6 +113,7 @@
           (input)="setWeight($event)"
         />
       </label>
+      }
       <label class="field">
         {{ t('weekly.notes') }}
         <textarea
@@ -130,7 +147,5 @@
     </p>
     }
   </section>
-  } @else {
-  <p class="weekly__empty">{{ t('weekly.beforeArrival', { name: dog.name }) }}</p>
-  } }
+  }
 </main>

@@ -1,5 +1,6 @@
 import { SocializationLog, TaskLog } from './task-log';
 import {
+  PREPARATION_WEEK,
   reviewWeek,
   reviewWeekOf,
   validateWeeklyReviewDraft,
@@ -60,8 +61,9 @@ describe('reviewWeekOf (AC5.1)', () => {
     expect(reviewWeekOf(ARRIVAL, '2027-01-02')).toBe(5);
   });
 
-  it('should have no week before the arrival', () => {
-    expect(reviewWeekOf(ARRIVAL, '2026-12-04')).toBeNull();
+  it('should be in week 0, the preparation week, before the arrival', () => {
+    expect(reviewWeekOf(ARRIVAL, '2026-12-04')).toBe(PREPARATION_WEEK);
+    expect(reviewWeekOf(ARRIVAL, '2026-11-10')).toBe(0);
   });
 });
 

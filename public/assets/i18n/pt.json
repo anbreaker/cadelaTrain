@@ -847,7 +847,7 @@
   },
   "weekly": {
     "age": "{{weeks}} semanas de idade",
-    "beforeArrival": "A primeira semana começa no dia em que {{name}} chega. Aqui vão ver, semana a semana, o que faz bem, o que lhe custa, a socialização nova, o peso e as vossas notas.",
+    "arrivesOn": "{{name}} chega a {{date}}",
     "doesWell": "Faz bem",
     "editedBy": "Última edição: {{name}}, {{date}}",
     "errors": {
@@ -860,7 +860,9 @@
     "none": "Nada esta semana.",
     "notes": "Notas da semana",
     "pageTitle": "A semana de {{name}}",
+    "planLink": "Ver o plano semana a semana",
     "planWeek": "Semana {{week}} do plano",
+    "preparationTitle": "Semana 0: antes da chegada",
     "previous": "Anterior",
     "readFailed": "Não foi possível ler os registos. Verifica a ligação.",
     "reviewTitle": "Peso e notas",

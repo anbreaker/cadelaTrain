@@ -37,6 +37,16 @@ describe('parseWeeklyReview (AC5.3)', () => {
     expect(parseWeeklyReview('2', PATH, withoutWeight).weightKg).toBeNull();
   });
 
+  it('should read the notes of week 0, before the arrival', () => {
+    const { weightKg, ...preparation } = stored({ weekNumber: 0 });
+    void weightKg;
+
+    expect(parseWeeklyReview('0', PATH, preparation)).toMatchObject({
+      weekNumber: 0,
+      weightKg: null,
+    });
+  });
+
   it('should reject a stored review with a weight out of range', () => {
     expect(() => parseWeeklyReview('2', PATH, stored({ weightKg: 0 }))).toThrow(
       InvalidDocumentError

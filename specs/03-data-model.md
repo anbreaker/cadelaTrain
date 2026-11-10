@@ -15,7 +15,7 @@ households/{hid}                              name, locale, ownerId, memberIds[]
     socializationLogs/{logId}                 one per socialization exposure
     weightLogs/{logId}
     vetEvents/{eventId}                       appointments and notes, no dosing
-    weeklyReviews/{weekNumber}                week since arrival (1, 2, …)
+    weeklyReviews/{weekNumber}                week since arrival (1, 2, …); 0 = before the arrival
     media/{mediaId}                           optional photos (Cloudinary) and videos (YouTube) per day
 ```
 
@@ -125,7 +125,7 @@ Deleted when accepted (by the joining user) or revoked (by the owner).
 `kind` (`checkup` | `vaccine` | `deworming` | `microchip` | `other`), `date`, `notes` ≤ 1000, `doneBy`, `doneAt`. Free text only; the app never suggests products or doses.
 
 ### `weeklyReviews/{weekNumber}`
-`weekNumber`, `notes` ≤ 2000, `weightKg?`, `updatedBy`, `updatedAt`. "Does well", "struggles" and "new socialization" are computed from logs, not stored. Saving a changed weight also adds a `weightLogs` entry in the same batch (`WeeklyReviewRepository.save`).
+`weekNumber` (0–52; 0 = before the arrival, notes only), `notes` ≤ 2000, `weightKg?`, `updatedBy`, `updatedAt`. "Does well", "struggles" and "new socialization" are computed from logs, not stored. Saving a changed weight also adds a `weightLogs` entry in the same batch (`WeeklyReviewRepository.save`).
 
 ### `media/{mediaId}`
 | Field | Type | Notes |

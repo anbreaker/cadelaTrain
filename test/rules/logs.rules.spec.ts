@@ -191,6 +191,25 @@ describe('weeklyReviews rules', () => {
     await assertSucceeds(setDoc(doc(dbAs(env, MEMBER), REVIEW_PATH), review(MEMBER.uid)));
   });
 
+  it('should let a member write the notes of week 0, before the arrival', async () => {
+    await assertSucceeds(
+      setDoc(doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/0`), {
+        ...review(MEMBER.uid),
+        weekNumber: 0,
+      })
+    );
+  });
+
+  it('should deny a review numbered below 0 or above 52', async () => {
+    for (const weekNumber of [-1, 53])
+      await assertFails(
+        setDoc(doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/${weekNumber}`), {
+          ...review(MEMBER.uid),
+          weekNumber,
+        })
+      );
+  });
+
   it('should deny a review written in the name of someone else', async () => {
     await assertFails(setDoc(doc(dbAs(env, MEMBER), REVIEW_PATH), review(OWNER.uid)));
   });

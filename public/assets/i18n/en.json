@@ -847,7 +847,7 @@
   },
   "weekly": {
     "age": "{{weeks}} weeks old",
-    "beforeArrival": "The first week starts the day {{name}} arrives. Each week you will see here what she does well, what is hard, new socialization, her weight and your notes.",
+    "arrivesOn": "{{name}} arrives on {{date}}",
     "doesWell": "Does well",
     "editedBy": "Last edited by {{name}}, {{date}}",
     "errors": {
@@ -860,7 +860,9 @@
     "none": "Nothing this week.",
     "notes": "Notes of the week",
     "pageTitle": "{{name}}'s week",
+    "planLink": "See the plan week by week",
     "planWeek": "Plan week {{week}}",
+    "preparationTitle": "Week 0: before the arrival",
     "previous": "Previous",
     "readFailed": "The logs could not be read. Check the connection.",
     "reviewTitle": "Weight and notes",

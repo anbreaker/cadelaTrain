@@ -1,12 +1,14 @@
 import { Observable, of } from 'rxjs';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { WeeklyReviewRepository } from '@data/weekly-review.repository';
+import { PREPARATION_ITEMS } from '@domain/catalog';
 import { Dog } from '@domain/dog';
 import { Household } from '@domain/household';
 import { SocializationLog, TaskLog } from '@domain/task-log';
@@ -73,6 +75,7 @@ describe('WeeklyPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [WeeklyPageComponent, translocoTesting()],
       providers: [
+        provideRouter([]),
         { provide: AuthSessionStore, useValue: session },
         { provide: LanguageStore, useValue: { currentLang: signal('es') } },
         { provide: NOW, useValue: () => new Date(now) },
@@ -135,11 +138,51 @@ describe('WeeklyPageComponent', () => {
     };
   });
 
-  it('should say there is no review before the arrival', async () => {
-    const element = await render('2026-12-01T10:00:00Z');
+  describe('week 0, before the arrival', () => {
+    it('should open on week 0 before the arrival, with the checklist, notes and plan link', async () => {
+      const element = await render('2026-12-01T10:00:00Z');
 
-    expect(text(element, '.weekly__empty')).toContain('weekly.beforeArrival');
-    expect(element.querySelector('form')).toBeNull();
+      expect(reviews.watchWeek).toHaveBeenCalledWith('h1', 'd1', 0);
+      expect(text(element, '.weekly__title')).toContain('weekly.preparationTitle');
+      expect(element.querySelectorAll('.preparation-list__item')).toHaveLength(
+        PREPARATION_ITEMS.length
+      );
+      expect(element.querySelector('.weekly__notes')).not.toBeNull();
+      expect(element.querySelector('.weekly__weight')).toBeNull();
+      expect(element.querySelector('.weekly__does-well')).toBeNull();
+      expect(element.querySelector('a.weekly__plan-link')?.getAttribute('href')).toBe('/plan');
+      expect(element.querySelector<HTMLButtonElement>('.weekly__previous')?.disabled).toBe(true);
+      expect(element.querySelector<HTMLButtonElement>('.weekly__next')?.disabled).toBe(true);
+    });
+
+    it('should go back from week 1 to week 0', async () => {
+      const element = await render('2026-12-12T10:00:00Z');
+
+      await click(element, '.weekly__previous');
+
+      expect(reviews.watchWeek).toHaveBeenLastCalledWith('h1', 'd1', 0);
+      expect(text(element, '.weekly__title')).toContain('weekly.preparationTitle');
+      expect(element.querySelector<HTMLButtonElement>('.weekly__next')?.disabled).toBe(false);
+    });
+
+    it('should save the notes of week 0 without weight', async () => {
+      const element = await render('2026-12-01T10:00:00Z');
+
+      await type(element, '.weekly__notes', 'Cita con el veterinario el día 9');
+      await submit(element);
+
+      expect(reviews.save).toHaveBeenCalledWith(
+        'h1',
+        'd1',
+        {
+          draft: { notes: 'Cita con el veterinario el día 9', weightKg: null },
+          measuredOn: '2026-12-01',
+          weekNumber: 0,
+        },
+        'alice',
+        null
+      );
+    });
   });
 
   it('should open on the current week with its dates, plan week, age and objective (AC5.1)', async () => {
@@ -181,7 +224,7 @@ describe('WeeklyPageComponent', () => {
     expect(text(element, '.weekly__does-well')).toContain('weekly.none');
   });
 
-  it('should go back to previous weeks but never past the current one (AC5.4)', async () => {
+  it('should go back to previous weeks down to week 0, never past the current one (AC5.4)', async () => {
     const element = await render();
     const next = (): HTMLButtonElement | null =>
       element.querySelector<HTMLButtonElement>('.weekly__next');
@@ -193,8 +236,12 @@ describe('WeeklyPageComponent', () => {
     await click(element, '.weekly__previous');
 
     expect(reviews.watchWeek).toHaveBeenLastCalledWith('h1', 'd1', 1);
-    expect(previous()?.disabled).toBe(true);
     expect(next()?.disabled).toBe(false);
+
+    await click(element, '.weekly__previous');
+
+    expect(reviews.watchWeek).toHaveBeenLastCalledWith('h1', 'd1', 0);
+    expect(previous()?.disabled).toBe(true);
   });
 
   it('should show the stored notes, weight and last editor of the week (AC5.3)', async () => {
