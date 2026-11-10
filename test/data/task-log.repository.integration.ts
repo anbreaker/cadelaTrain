@@ -152,6 +152,29 @@ describe('TaskLogRepository writes on the emulator', () => {
     await assertFails(owner.remove(HOUSEHOLD_ID, DOG_ID, { id, kind: 'training' }));
   });
 
+  it('should watch only the logs from a guidance date on, newest date first', async () => {
+    await repositoryAs().log(
+      HOUSEHOLD_ID,
+      DOG_ID,
+      { ...training, guidanceDate: '2026-12-01' },
+      MEMBER.uid
+    );
+    await repositoryAs().log(HOUSEHOLD_ID, DOG_ID, training, MEMBER.uid);
+    await repositoryAs().log(
+      HOUSEHOLD_ID,
+      DOG_ID,
+      { ...training, guidanceDate: '2026-12-06' },
+      MEMBER.uid
+    );
+
+    const logs = await firstMatching(
+      repositoryAs(OWNER).watchSince(HOUSEHOLD_ID, DOG_ID, '2026-12-06'),
+      (found) => found.length === 2
+    );
+
+    expect(logs.map((log) => log.guidanceDate)).toEqual([DAY, '2026-12-06']);
+  });
+
   it('should deny an outsider logging a task', async () => {
     await assertFails(repositoryAs(OUTSIDER).log(HOUSEHOLD_ID, DOG_ID, training, OUTSIDER.uid));
   });
