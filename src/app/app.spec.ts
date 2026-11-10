@@ -130,39 +130,6 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.app-loading__indicator')).not.toBeNull();
   });
 
-  /** Starts a navigation and reads the loading text while it is still pending. */
-  const loadingTextDuring = async (
-    fixture: ReturnType<typeof TestBed.createComponent<AppComponent>>,
-    url: string
-  ): Promise<string | undefined> => {
-    const navigation = TestBed.inject(Router).navigateByUrl(url);
-    fixture.detectChanges();
-    const element = fixture.nativeElement as HTMLElement;
-    const text = element.querySelector('.app-loading__text')?.textContent?.trim();
-    await navigation;
-    return text;
-  };
-
-  it('should say it is signing in from a sign-in link until the user leaves the sign-in screen', async () => {
-    session.isSignInLink.mockReturnValue(true);
-    session.set.status.set('needsHousehold');
-    // The app starts on the sign-in screen the email link points to.
-    history.replaceState(null, '', '/login');
-    const fixture = TestBed.createComponent(AppComponent);
-    history.replaceState(null, '', '/');
-
-    expect(await loadingTextDuring(fixture, '/login')).toBe('auth.signingIn');
-    expect(await loadingTextDuring(fixture, '/today')).toBe('auth.signingIn');
-    expect(await loadingTextDuring(fixture, '/household')).toBe('shell.loading');
-  });
-
-  it('should keep the plain loading text when not opened from a sign-in link', async () => {
-    session.set.status.set('needsHousehold');
-    const fixture = TestBed.createComponent(AppComponent);
-
-    expect(await loadingTextDuring(fixture, '/login')).toBe('shell.loading');
-  });
-
   it('should keep a signed-in user in place with a calm retry screen when the data is unreachable', async () => {
     session.set.status.set('unavailable');
     session.set.profile.set({

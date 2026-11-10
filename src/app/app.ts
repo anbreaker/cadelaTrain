@@ -1,5 +1,4 @@
 import { filter, map } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -33,8 +32,6 @@ const NAV_ITEMS: readonly NavItem[] = [
   { labelKey: 'nav.household', path: '/household' },
 ];
 
-const SIGN_IN_PATH = '/login';
-
 const isNavigationBoundary = (event: unknown): boolean =>
   event instanceof NavigationStart ||
   event instanceof NavigationEnd ||
@@ -63,7 +60,6 @@ export class AppComponent {
   private readonly router = inject(Router);
   private readonly language = inject(LanguageStore);
   private readonly theme = inject(ThemeStore);
-  private readonly document = inject(DOCUMENT);
 
   private readonly navigating = toSignal(
     this.router.events.pipe(
@@ -88,22 +84,6 @@ export class AppComponent {
   protected readonly unavailable = computed(() => this.session.status() === 'unavailable');
   protected readonly busy = computed(
     () => !this.unavailable() && (this.session.status() === 'loading' || this.navigating())
-  );
-
-  /**
-   * Opened from a sign-in email: the wait covers loading the sign-in screen, completing the link and
-   * the redirect away from it, so the surface says "signing in" until the user leaves `/login`.
-   */
-  private readonly openedFromSignInLink = this.session.isSignInLink(this.document.location.href);
-  private readonly path = toSignal(
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map((event) => new URL(event.urlAfterRedirects, 'http://app').pathname)
-    ),
-    { initialValue: this.document.location.pathname }
-  );
-  protected readonly loadingKey = computed(() =>
-    this.openedFromSignInLink && this.path() === SIGN_IN_PATH ? 'auth.signingIn' : 'shell.loading'
   );
 
   protected applyUpdate(): void {

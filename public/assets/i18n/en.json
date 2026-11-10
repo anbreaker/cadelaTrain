@@ -5,15 +5,12 @@
   "auth": {
     "emailPlaceholder": "name@example.com",
     "errors": {
-      "emailInvalid": "Enter a valid email.",
       "googleFailed": "We couldn't sign you in with Google. Please try again.",
-      "linkInvalid": "This link has expired or was already used. Request a new one.",
       "notAllowed": "This account doesn't have access to Dela. Sign in with the family's email.",
       "sessionFailed": "We couldn't load your account. Please sign in again."
     },
     "google": "Continue with Google",
     "lead": "Short, positive daily guidance and a shared log for the whole family.",
-    "signingIn": "Signing in…",
     "tagline": "Train your puppy, a little every day"
   },
   "catalog": {
@@ -464,7 +461,7 @@
     "vetEmergency": "Veterinary emergency"
   },
   "household": {
-    "alreadyInvited": "You already invited {{email}}.",
+    "alreadyInvited": "You had already invited {{email}}. Send them this link and ask them to sign in with Google using that email.",
     "arrival": {
       "save": "Save date",
       "saved": "Arrival date saved.",
@@ -476,16 +473,17 @@
     "creating": "Creating…",
     "errors": {
       "emailInvalid": "Enter a valid email.",
-      "inviteFailed": "We couldn't send the invitation. Please try again.",
+      "inviteFailed": "The invitation could not be saved. Try again.",
       "localeUnsupported": "Choose a language.",
       "nameRequired": "Give your household a name.",
       "nameTooLong": "60 characters max."
     },
-    "invite": "Send invitation",
+    "invite": "Invite",
     "inviteEmail": "Email",
     "inviteTitle": "Invite someone who trains",
-    "invited": "Invitation sent to {{email}}.",
-    "inviting": "Sending…",
+    "invited": "Invitation saved for {{email}}. Send them this link and ask them to sign in with Google using that email.",
+    "inviting": "Inviting…",
+    "linkCopied": "Link copied.",
     "localeLegend": "Guidance language",
     "members": "Members",
     "nameLabel": "Household name",
@@ -496,10 +494,12 @@
       "hint": "Download every log and note in one file for the weekly training review.",
       "title": "{{name}}'s notes"
     },
+    "share": "Share link",
+    "shareText": "I invited you to {{name}} on Dela. Sign in with Google using the email I invited.",
     "status": {
       "member": "Member",
       "owner": "Owner",
-      "pending": "Invitation sent"
+      "pending": "Invitation pending"
     },
     "title": "Household",
     "you": "(you)"

@@ -1,9 +1,6 @@
 /** `null`: the user cancelled on purpose, so nothing is shown. */
 const KEY_BY_CODE: Record<string, null | string> = {
   'auth/cancelled-popup-request': null,
-  'auth/expired-action-code': 'auth.errors.linkInvalid',
-  'auth/invalid-action-code': 'auth.errors.linkInvalid',
-  'auth/invalid-email': 'auth.errors.emailInvalid',
   'auth/popup-closed-by-user': null,
 };
 

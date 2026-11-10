@@ -31,9 +31,15 @@
     </form>
     <!-- Always present so screen readers announce the result; reserved height avoids a jump. -->
     <p class="household__feedback" role="status">
-      @if (feedback(); as feedback) { {{ t(feedback.key, { email: feedback.email }) }} }
+      @if (feedback(); as feedback) { {{ t(feedback.key, { email: feedback.email }) }} } @if
+      (linkCopied()) { {{ t('household.linkCopied') }} }
     </p>
-    @if (failed()) {
+    @if (feedback()) {
+    <p class="household__link">{{ appUrl }}</p>
+    <button class="button household__share" type="button" (click)="shareLink()">
+      {{ t('household.share') }}
+    </button>
+    } @if (failed()) {
     <p class="form-error" role="alert">{{ t('household.errors.inviteFailed') }}</p>
     }
   </section>
