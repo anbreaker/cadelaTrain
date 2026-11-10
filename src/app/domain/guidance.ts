@@ -18,6 +18,8 @@ export interface GuidanceTask {
   closingSkillKey?: string;
   /** Minutes; `null` for tasks without a fixed length (meals, bedtime). */
   durationMin: null | number;
+  /** Guide shown on the card when it is not the skill's own (routines, potty walks). */
+  guideKey?: string;
   id: string;
   instructions: string;
   kind: TaskKind;

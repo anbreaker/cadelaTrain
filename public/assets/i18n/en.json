@@ -145,6 +145,56 @@
       "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
       "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
     },
+    "routines": {
+      "brushing": {
+        "howTo": {
+          "levelUp": "She stays calm 4 times out of 5: brush a little longer and add her chest, legs and tail.",
+          "mistakes": "Brushing against the coat, pulling on knots, and brushing for a long time when she is excited.",
+          "setup": "A soft brush and a few treats. A quiet moment in the evening, before bed.",
+          "step1": "Let her sniff the brush and give her a treat.",
+          "step2": "Make one short stroke along her back, say “good” and give a treat.",
+          "step3": "Add strokes one at a time along her back and sides, in the direction of the coat.",
+          "step4": "Stop after a minute or two, while she is calm, and finish with a gentle game.",
+          "troubleshoot": "If she bites the brush or wriggles, give her a chew toy to hold, go back to one stroke and reward more often."
+        }
+      },
+      "handling": {
+        "howTo": {
+          "levelUp": "She stays relaxed 4 times out of 5: hold a little longer, or bring a towel or a brush she can see and sniff first.",
+          "mistakes": "Holding her down while she struggles, handling her only when something has to be done, and long sessions.",
+          "setup": "A calm moment, ideally after a nap or a walk. Small treats at hand and a soft surface where she can sit or lie down.",
+          "step1": "Touch a paw for one second, say “good” and give a treat. Do the same with an ear.",
+          "step2": "Little by little, hold the paw a bit longer, gently spread the toes and look inside the ear.",
+          "step3": "Reward every touch, even the short ones, and stop before she tries to pull away.",
+          "step4": "Practice what the vet will do: lift her lips to see her teeth, touch her belly and her tail.",
+          "troubleshoot": "If she pulls away or mouths your hand, you went too fast: go back to a shorter touch she accepts and reward more often."
+        }
+      },
+      "kennel": {
+        "howTo": {
+          "levelUp": "She goes in and settles 4 nights out of 5: keep the routine short and at the same time every night.",
+          "mistakes": "Using the kennel as a punishment, long goodbyes, changing the routine every night, and playing with her when she cries.",
+          "setup": "A raised kennel sheltered from wind and rain, with dry bedding, her blanket and a chew toy. Practice during the day before using it at night.",
+          "step1": "During the day, toss treats into the kennel and let her go in and out freely; say “good” when she goes in.",
+          "step2": "Give her a meal or a chew toy inside, so the kennel means good things.",
+          "step3": "At bedtime, follow the same calm routine every night: potty, a short quiet moment, then to the kennel with her blanket.",
+          "step4": "Say goodnight calmly and leave, without a long goodbye.",
+          "troubleshoot": "If she cries, check calmly that she does not need to go potty and that she is warm and dry, then leave again without playing; on cold nights follow the cold alert."
+        }
+      },
+      "socialization": {
+        "howTo": {
+          "levelUp": "She stays relaxed and curious 4 times out of 5: get a little closer, or make it a little louder or longer, one change at a time.",
+          "mistakes": "Forcing her to face what scares her, too many new things in one day, and missing the signs of fear.",
+          "setup": "Pick one new experience from the checklist. Have tasty treats ready and choose a distance at which she stays relaxed: loose body, wagging tail, curious.",
+          "step1": "Let her watch the new thing from that distance; every time she looks at it calmly, say “good” and give a treat.",
+          "step2": "Let her choose to get closer; never carry or pull her toward it.",
+          "step3": "If she sniffs or explores on her own, praise her quietly and keep the treats coming.",
+          "step4": "Stop after a few minutes, while she is still relaxed, and go somewhere calm.",
+          "troubleshoot": "If she freezes, tucks her tail, hides or will not take treats, she is too close: move away calmly until she relaxes, and next time start farther away."
+        }
+      }
+    },
     "schedule": {
       "afternoonRest": {
         "instructions": "Long nap. Potty break when she wakes up.",
@@ -215,51 +265,155 @@
       "come": {
         "cue": "come",
         "description": "Comes to you when called. Special treat: boiled chicken.",
+        "howTo": {
+          "levelUp": "She comes at once 4 times out of 5: increase the distance, then call her from another room, then in the fenced yard.",
+          "mistakes": "Calling her for something she dislikes (a bath, being shut in), calling when she surely will not come, and scolding her when she finally arrives.",
+          "setup": "Boiled chicken in small pieces, only for this exercise. Start indoors, 1–2 yards from her and, if you can, with a second person.",
+          "step1": "Crouch down, open your arms and say her name and “come” once, in a happy voice.",
+          "step2": "Take one or two steps back to invite her to follow you.",
+          "step3": "When she reaches you, gently hold her collar, say “good” and give her the chicken.",
+          "step4": "Release her with “joga” so coming to you does not always mean the fun is over.",
+          "step5": "With two people, call her in turns from different spots in the room.",
+          "troubleshoot": "If she does not come, do not repeat or chase her: run the other way, crouch down or make a funny noise, and make the next call easier and closer."
+        },
         "name": "Come"
       },
       "down": {
         "cue": "down",
         "description": "Lies down following the treat from nose to floor.",
+        "howTo": {
+          "levelUp": "She lies down at once 4 times out of 5: use a smaller gesture, then practice in other places with few distractions.",
+          "mistakes": "Pushing her shoulders down, moving the treat too fast, and asking her to stay down for long at this age.",
+          "setup": "She already sits well. A quiet place, a soft floor or rug and treats in your hand.",
+          "step1": "Ask her to sit, hold a treat at her nose and lower it slowly straight down to the floor, between her front paws.",
+          "step2": "Then slide it slowly along the floor away from her: she will stretch out and lie down.",
+          "step3": "The moment her elbows touch the floor, say “good” and give her the treat on the floor.",
+          "step4": "After about 5 good repetitions, add the word “down” just before the hand movement.",
+          "step5": "Release her with “joga”.",
+          "troubleshoot": "If she stands up, move the treat more slowly and closer to her chest; reward halfway (head low) and build up little by little."
+        },
         "name": "Down"
       },
       "leash": {
         "cue": "good",
         "description": "Walks next to you on a loose leash.",
+        "howTo": {
+          "levelUp": "4 out of 5 short walks with a loose leash: walk longer stretches, then in the yard with more smells, then along the farm track.",
+          "mistakes": "Pulling the leash back, jerking it, letting her get where she wants by pulling, and walks that are too long for her age.",
+          "setup": "A light collar or harness and a 6-foot leash. Start indoors or in the yard, before a walk, with treats in the hand on her side.",
+          "step1": "Let her wear the collar and leash for a few minutes while she eats or plays, so she gets used to them.",
+          "step2": "Walk a few steps; every time she is next to your leg with a loose leash, say “good” and give her a treat next to your leg.",
+          "step3": "If the leash goes tight, stop and stand still; as soon as it loosens, say “good” and keep walking.",
+          "step4": "Change direction often and reward her when she follows you.",
+          "troubleshoot": "If she pulls all the time, the place is too exciting: go back somewhere quieter and reward more often, every one or two steps."
+        },
         "name": "Leash"
       },
       "leaveIt": {
         "cue": "leave it",
         "description": "Moves away from a closed hand or something on the ground.",
+        "howTo": {
+          "levelUp": "She moves away at once 4 times out of 5: uncover the treat a little, then leave it on the floor in sight, ready to cover it.",
+          "mistakes": "Letting her eat the forbidden treat after leaving it, saying “leave it” over and over, and using it in situations she cannot win yet.",
+          "setup": "Two kinds of treats: plain ones in a closed hand and better ones in the other hand. Sit on the floor next to her.",
+          "step1": "Show her your closed hand with a treat inside and let her sniff, lick or paw at it without opening it.",
+          "step2": "The moment she moves her nose away, say “good” and give her a treat from the other hand, never the one in the closed hand.",
+          "step3": "Repeat until she moves away quickly; then say “leave it” just as you show the closed hand.",
+          "step4": "Next, put the treat on the floor under your hand and do the same.",
+          "troubleshoot": "If she manages to grab it, it was too hard: go back to the closed hand and make the next repetitions easier."
+        },
         "name": "Leave it"
       },
       "name": {
         "cue": "{{name}}",
         "description": "Turns her head and looks at you when she hears her name.",
+        "howTo": {
+          "levelUp": "She turns at once 4 times out of 5: practice in the yard, then with a family member walking past, then from a little farther away.",
+          "mistakes": "Repeating her name over and over, rewarding late, and calling her only to end something fun.",
+          "setup": "A quiet room and about 10 pea-sized treats from her daily ration. Train before a meal, when she is keen.",
+          "step1": "When she is not looking at you, say her name once in a happy voice.",
+          "step2": "The instant she turns her head, say “good” and give the treat within a second.",
+          "step3": "Wait until she looks away, then repeat. No more than 5 times per session.",
+          "step4": "Never use her name to scold her or before something she dislikes: her name must always predict good things.",
+          "troubleshoot": "If she does not turn, the place is too exciting or you are too far: move closer, go somewhere quieter and try again next session."
+        },
         "name": "Name"
       },
       "potty": {
         "cue": "go potty",
         "description": "Goes potty in the usual spot.",
+        "howTo": {
+          "levelUp": "She goes in her spot 4 times out of 5: space the outings out a little, as long as there are no accidents.",
+          "mistakes": "Scolding accidents (it teaches her to hide), rewarding late once back inside, and changing the spot.",
+          "setup": "Choose one spot in the yard, always the same. Take her there when she wakes up, after eating, after playing and every 1–2 hours.",
+          "step1": "Carry her or walk her on the leash straight to the spot, without playing on the way.",
+          "step2": "Wait quietly; as she starts, say “go potty” in a calm voice.",
+          "step3": "When she finishes, say “good” and give her a treat right there, within seconds.",
+          "step4": "Then, as a bonus, a little play or exploring.",
+          "troubleshoot": "If there is an accident, clean it with an enzymatic cleaner without saying anything and take her out more often; an accident only means she needed to go out sooner."
+        },
         "name": "Potty"
       },
       "search": {
         "cue": "find it",
         "description": "Finds food by smell: first in plain sight, then hidden in a room, then around the farm.",
+        "howTo": {
+          "levelUp": "She finds it easily 4 times out of 5: hide it in another room, then in the grass of the yard, then around the farm (weeks 2 and 3 of the plan).",
+          "mistakes": "Always pointing at the food, hiding it too hard too soon, and long sessions that tire her.",
+          "setup": "5 treats or kibbles from her ration and a room with no other food in sight. Hold her gently, or ask someone to, while you place the food.",
+          "step1": "Let her watch you put a treat on the floor a yard away, say “find it” and let her go to eat it.",
+          "step2": "Repeat with the treat half hidden: behind a chair leg or under the corner of a cloth.",
+          "step3": "Hide it out of sight in the same room, say “find it” and let her work it out with her nose; praise her calmly when she finds it.",
+          "step4": "Stop after 3–5 finds, while she still wants more.",
+          "troubleshoot": "If she gives up or looks at you, make it easier: put the food back in sight or closer and help her by pointing near it."
+        },
         "name": "Search"
       },
       "sit": {
         "cue": "sit",
         "description": "Sits on the verbal cue or the hand signal.",
+        "howTo": {
+          "levelUp": "She sits at once 4 times out of 5: say “sit” with a smaller gesture, then in other rooms, then in the yard with few distractions.",
+          "mistakes": "Pushing her rear down, saying “sit” several times, and rewarding when she is already getting up.",
+          "setup": "Stand in front of her in a quiet place with treats in your hand. Do not say the word yet.",
+          "step1": "Hold a treat at her nose and move it slowly up and back over her head: her rear will go down on its own.",
+          "step2": "The moment her rear touches the floor, say “good” and give the treat.",
+          "step3": "After about 5 good repetitions, make the same movement with an empty hand and reward from the other hand.",
+          "step4": "When she always sits following your hand, say “sit” just before the gesture.",
+          "step5": "Release her with “joga” so she knows the exercise is over.",
+          "troubleshoot": "If she jumps, your hand is too high: keep it right at her nose. If she backs away, practice with a wall behind her."
+        },
         "name": "Sit"
       },
       "softBite": {
         "cue": "ouch",
         "description": "Controls the strength of her bite during play.",
+        "howTo": {
+          "levelUp": "She softens her mouth at once 4 times out of 5: play a little longer and have the rest of the family follow the same rule.",
+          "mistakes": "Pulling your hand away fast (it invites chasing), shouting, tapping her muzzle, and only some people following the rule.",
+          "setup": "Play on the floor with a rope or a soft chew toy at hand. Short games, when she is calm, not when she is overtired.",
+          "step1": "Play gently with her using your hands and the toy.",
+          "step2": "If her teeth press hard on your skin, say “ouch” in a soft, high voice and stop the game for a few seconds, hands still.",
+          "step3": "When she calms down, offer her the toy and keep playing; say “good” if she bites the toy.",
+          "step4": "If she bites hard again, end the game calmly and leave her a chew toy.",
+          "troubleshoot": "If she gets more excited, she is tired or overstimulated: give her a chew toy and let her rest; sleepy puppies bite more."
+        },
         "name": "Soft bite"
       },
       "stay": {
         "cue": "stay",
         "description": "Holds a sit for a few seconds until released with “joga”.",
+        "howTo": {
+          "levelUp": "She holds it 4 times out of 5: increase time or distance, never both at once, then add a few distractions.",
+          "mistakes": "Calling her to you out of the “stay” (that is another exercise), forgetting the release word, and increasing time and distance together.",
+          "setup": "She already sits every time. Stand in front of her in a quiet place with the treats ready.",
+          "step1": "Ask her to sit, show her your open palm and say “stay” once.",
+          "step2": "Count one second, say “good” and give her the treat while she is still sitting.",
+          "step3": "Release her with “joga” and invite her to move.",
+          "step4": "Add one second at a time: 2, 3, 5 seconds, always rewarding before she gets up.",
+          "step5": "Later, take one small step back and return to her to reward.",
+          "troubleshoot": "If she gets up before you release her, you asked too much: go back to the last time or distance she managed and build from there."
+        },
         "name": "Stay"
       }
     },
@@ -675,6 +829,14 @@
     "doneAt": "Done at {{time}}",
     "doneBy": "Done by {{name}} at {{time}}",
     "doneCount": "{{count}} times",
+    "howTo": {
+      "levelUp": "When to make it harder",
+      "mistakes": "Common trainer mistakes",
+      "setup": "Before you start",
+      "steps": "Step by step",
+      "title": "How to do it",
+      "troubleshoot": "If she does not get it"
+    },
     "minutes": "{{minutes}} min",
     "noDuration": "No set duration",
     "optional": "Optional",
