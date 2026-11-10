@@ -1,0 +1,82 @@
+<form class="media-form" novalidate *transloco="let t" (submit)="$event.preventDefault(); save()">
+  <app-segmented-control
+    [legend]="t('media.kind')"
+    [options]="kindOptions()"
+    [value]="kind()"
+    (valueChange)="chooseKind($event)"
+  />
+  @if (!photoEnabled()) {
+  <p class="meta media-form__photo-off">{{ t('media.photoOff') }}</p>
+  } @if (isPhoto()) {
+  <label class="field">
+    <span class="media-form__label">{{ t('media.photo') }}</span>
+    <input
+      class="field__input media-form__photo"
+      accept="image/*"
+      capture="environment"
+      type="file"
+      (change)="choosePhoto($event)"
+    />
+  </label>
+  } @else {
+  <label class="field">
+    <span class="media-form__label">{{ t('media.videoLink') }}</span>
+    <input
+      class="field__input media-form__video"
+      autocomplete="off"
+      inputmode="url"
+      type="url"
+      [value]="videoLink()"
+      (input)="changeVideoLink($event)"
+    />
+  </label>
+  <p class="meta media-form__video-hint">{{ t('media.videoHint') }}</p>
+  }
+
+  <label class="field">
+    <span class="media-form__label">{{ t('media.date') }}</span>
+    <input
+      class="field__input media-form__date"
+      type="date"
+      [max]="today()"
+      [value]="date()"
+      (change)="changeDate($event)"
+    />
+  </label>
+
+  <label class="field">
+    <span class="media-form__label">{{ t('media.caption') }}</span>
+    <textarea
+      class="field__input media-form__caption"
+      rows="2"
+      [maxLength]="captionMax"
+      [value]="caption()"
+      (input)="changeCaption($event)"
+    ></textarea>
+  </label>
+
+  <label class="field">
+    <span class="media-form__label">{{ t('media.skill') }}</span>
+    <select class="field__input media-form__skill" (change)="changeSkill($event)">
+      <option value="" [selected]="skillKey() === null">{{ t('media.noSkill') }}</option>
+      @for (skill of skills; track skill.key) {
+      <option [selected]="skill.key === skillKey()" [value]="skill.key">
+        {{ t(skill.nameKey) }}
+      </option>
+      }
+    </select>
+  </label>
+
+  @for (key of errorKeys(); track key) {
+  <p class="field__error">{{ t(key) }}</p>
+  }
+
+  <div class="media-form__actions">
+    <button class="button media-form__cancel" type="button" (click)="cancelled.emit()">
+      {{ t('media.cancel') }}
+    </button>
+    <button class="button button--primary media-form__save" type="submit" [disabled]="busy()">
+      {{ busy() ? t('media.saving') : t('media.save') }}
+    </button>
+  </div>
+</form>

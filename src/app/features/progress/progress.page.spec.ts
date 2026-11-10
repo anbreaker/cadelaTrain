@@ -1,14 +1,17 @@
 import { Observable, of, throwError } from 'rxjs';
 import { signal } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { MediaRepository } from '@data/media.repository';
+import { CLOUDINARY_CLOUD_NAME, PhotoUploadService } from '@data/photo-upload.service';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { SKILLS, SOCIALIZATION_CATEGORIES, SOCIALIZATION_ITEMS } from '@domain/catalog';
 import { Dog } from '@domain/dog';
 import { Household } from '@domain/household';
+import { Media } from '@domain/media';
 import { SocializationLog, TaskLog } from '@domain/task-log';
 import { createFakeSession, FakeSession } from '@shared/testing/fake-session';
 import { translocoTesting } from '@shared/testing/transloco-testing';
@@ -54,6 +57,9 @@ describe('ProgressPageComponent', () => {
   let session: FakeSession;
   let logs$: Observable<TaskLog[]>;
   let social$: Observable<SocializationLog[]>;
+  let media: { watchRange: ReturnType<typeof vi.fn> };
+  let uploads: { removeMedia: ReturnType<typeof vi.fn> };
+  let fixture: ComponentFixture<ProgressPageComponent>;
 
   const render = async (): Promise<HTMLElement> => {
     TestBed.configureTestingModule({
@@ -66,9 +72,12 @@ describe('ProgressPageComponent', () => {
           provide: TaskLogRepository,
           useValue: { watchAll: () => logs$, watchSocialization: () => social$ },
         },
+        { provide: MediaRepository, useValue: media },
+        { provide: PhotoUploadService, useValue: uploads },
+        { provide: CLOUDINARY_CLOUD_NAME, useValue: 'demo-cloud' },
       ],
     });
-    const fixture = TestBed.createComponent(ProgressPageComponent);
+    fixture = TestBed.createComponent(ProgressPageComponent);
     await fixture.whenStable();
     return fixture.nativeElement as HTMLElement;
   };
@@ -83,6 +92,8 @@ describe('ProgressPageComponent', () => {
     session.set.household.set(home);
     logs$ = of([sitLog]);
     social$ = of([]);
+    media = { watchRange: vi.fn(() => of([])) };
+    uploads = { removeMedia: vi.fn(async () => undefined) };
   });
 
   it('should show one card per skill with its name (AC4.1)', async () => {
@@ -192,5 +203,70 @@ describe('ProgressPageComponent', () => {
       'progress.nextWeek.lastWeek'
     );
     expect(element.querySelector('.next-week__skill')).toBeNull();
+  });
+
+  describe('photos and videos timeline (AC7.5)', () => {
+    const video = (id: string, date: string, addedBy: string): Media => ({
+      addedAt: new Date(`${date}T08:00:00Z`),
+      addedBy,
+      caption: '',
+      date,
+      id,
+      kind: 'video',
+      youtubeId: 'dQw4w9WgXcQ',
+    });
+
+    beforeEach(() =>
+      session.set.profile.set({
+        displayName: 'Jéssica',
+        email: 'j@example.com',
+        locale: 'es',
+        uid: 'alice',
+      })
+    );
+
+    it('should show every item since her birth, newest day first, delete only on mine', async () => {
+      media.watchRange.mockReturnValue(
+        of([video('a', '2026-12-11', 'alice'), video('b', '2026-12-19', 'bob')])
+      );
+      const element = await render();
+
+      expect(media.watchRange).toHaveBeenCalledWith('h1', 'd1', '2026-10-15', '2026-12-20');
+      expect(element.querySelector('.progress__media-title')?.textContent).toContain('media.title');
+      const days = Array.from(element.querySelectorAll('.media-list__day'));
+      expect(days).toHaveLength(2);
+      expect(days[0]?.querySelector('.media-item__delete')).toBeNull();
+      expect(days[1]?.querySelector('.media-item__delete')).not.toBeNull();
+    });
+
+    it('should say when there are no media yet', async () => {
+      const element = await render();
+
+      expect(element.querySelector('.progress__media-empty')?.textContent).toContain('media.empty');
+    });
+
+    it('should delete my item through the upload service (AC7.6)', async () => {
+      const mine = video('a', '2026-12-11', 'alice');
+      media.watchRange.mockReturnValue(of([mine]));
+      const element = await render();
+      element.querySelector<HTMLElement>('.media-item__delete')?.click();
+      await fixture.whenStable();
+
+      expect(uploads.removeMedia).toHaveBeenCalledWith('h1', 'd1', mine);
+    });
+
+    it('should say when a deletion fails', async () => {
+      media.watchRange.mockReturnValue(of([video('a', '2026-12-11', 'alice')]));
+      uploads.removeMedia.mockRejectedValueOnce(new Error('denied'));
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      const element = await render();
+      element.querySelector<HTMLElement>('.media-item__delete')?.click();
+      await new Promise((resolve) => setTimeout(resolve));
+      await fixture.whenStable();
+
+      expect(element.querySelector('.progress__media-error')?.textContent).toContain(
+        'media.errors.deleteFailed'
+      );
+    });
   });
 });

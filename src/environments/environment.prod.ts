@@ -1,6 +1,7 @@
 import { Environment } from './environment.model';
 
 export const environment: Environment = {
+  cloudinaryCloudName: import.meta.env.NG_APP_CLOUDINARY_CLOUD_NAME ?? '',
   env: 'production',
   firebase: {
     apiKey: import.meta.env.NG_APP_FIREBASE_API_KEY ?? '',

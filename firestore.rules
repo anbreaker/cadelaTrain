@@ -364,6 +364,61 @@ service cloud.firestore {
           allow create, update: if isMember(hid) && isWeeklyReview(request.resource.data, weekNumber);
           allow delete: if false;
         }
+
+        // ---------- media (photos on Cloudinary, unlisted YouTube videos) ----------
+
+        function isCaption(data) {
+          return !('caption' in data) || isString(data.caption, 0, 280);
+        }
+
+        // Split instead of a regex built from hid or uid: neither is ever read as a pattern.
+        // Exactly dela/<hid>/<uid>/<id> with the creator's uid, so a photo never points into another
+        // household's folder nor another member's, and api/delete-media only destroys own assets.
+        function isOwnPublicId(value) {
+          return isString(value, 1, 400)
+            && value.split('/').size() == 4
+            && value.split('/')[0] == 'dela'
+            && value.split('/')[1] == hid
+            && value.split('/')[2] == uid()
+            && value.split('/')[3].matches('^[A-Za-z0-9_-]{1,100}$');
+        }
+
+        function isPhoto(data) {
+          return hasExactly(data,
+              ['kind', 'date', 'publicId', 'width', 'height', 'addedBy', 'addedAt'],
+              ['caption', 'skillKey'])
+            && isOwnPublicId(data.publicId)
+            && isIntBetween(data.width, 1, 20000)
+            && isIntBetween(data.height, 1, 20000);
+        }
+
+        function isVideo(data) {
+          return hasExactly(data, ['kind', 'date', 'youtubeId', 'addedBy', 'addedAt'], ['caption', 'skillKey'])
+            && data.youtubeId is string
+            && data.youtubeId.matches('^[A-Za-z0-9_-]{11}$');
+        }
+
+        function isMedia(data) {
+          return isDate(data.date)
+            && isCaption(data)
+            && (!('skillKey' in data) || data.skillKey in skillKeys())
+            && ((data.kind == 'photo' && isPhoto(data)) || (data.kind == 'video' && isVideo(data)));
+        }
+
+        match /media/{mediaId} {
+          allow read: if isMember(hid);
+          allow create: if isMember(hid)
+            && isMedia(request.resource.data)
+            && request.resource.data.addedBy == uid()
+            && request.resource.data.addedAt == request.time;
+          // The author only rewrites or removes the caption; everything else stays as added.
+          allow update: if isMember(hid)
+            && resource.data.addedBy == uid()
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['caption'])
+            && isCaption(request.resource.data);
+          // The Cloudinary asset of a photo is removed by api/delete-media (AC7.6).
+          allow delete: if isMember(hid) && resource.data.addedBy == uid();
+        }
       }
     }
 

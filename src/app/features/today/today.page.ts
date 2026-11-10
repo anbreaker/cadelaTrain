@@ -30,6 +30,7 @@ import { PreparationListComponent } from '@shared/components/preparation-list/pr
 import { TaskCardComponent } from '@shared/components/task-card/task-card';
 import { pluralKey } from '@shared/utils/plural-key';
 
+import { TodayMediaComponent } from './today-media';
 import { DayCard, slotViews } from './today-view';
 
 /** The task whose log sheet is open: a new completion, or my latest log being edited. */
@@ -51,12 +52,19 @@ const sameDay = (a: DayKey | null, b: DayKey | null): boolean =>
  * from the bundled catalogs while none exists, so the day is never empty. Before the arrival it
  * shows the countdown and the preparation checklist instead. Tasks are logged, edited and deleted
  * from the card's sheet (H3). On opening, it moves the dog to the next plan week once the
- * current week's key skills are mastered (`planWeekFor`) and says so.
+ * current week's key skills are mastered (`planWeekFor`) and says so. Once she is home, the day's
+ * photos and videos follow the tasks (H7).
  */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LogSheetComponent, PreparationListComponent, TaskCardComponent, TranslocoDirective],
+  imports: [
+    LogSheetComponent,
+    PreparationListComponent,
+    TaskCardComponent,
+    TodayMediaComponent,
+    TranslocoDirective,
+  ],
   selector: 'app-today-page',
   styleUrl: './today.page.css',
   templateUrl: './today.page.html',

@@ -1,0 +1,65 @@
+<figure class="media-item" *transloco="let t">
+  <div class="media-item__frame">
+    @if (isPhoto()) { @if (photo(); as photo) {
+    <img
+      class="media-item__photo"
+      decoding="async"
+      loading="lazy"
+      [alt]="media().caption || t('media.photoAlt')"
+      [attr.sizes]="photo.sizes"
+      [attr.srcset]="photo.srcset"
+      [height]="photo.height"
+      [src]="photo.src"
+      [width]="photo.width"
+    />
+    } @else {
+    <p class="media-item__unavailable">{{ t('media.photoUnavailable') }}</p>
+    } } @else if (player(); as player) {
+    <iframe
+      class="media-item__player"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"
+      [src]="player"
+      [title]="t('media.videoTitle')"
+    ></iframe>
+    } @else if (thumbnail(); as thumbnail) {
+    <button
+      class="media-item__play"
+      type="button"
+      [attr.aria-label]="t('media.play')"
+      (click)="play()"
+    >
+      <img
+        class="media-item__thumbnail"
+        alt=""
+        decoding="async"
+        height="360"
+        loading="lazy"
+        width="480"
+        [src]="thumbnail"
+      />
+      <span class="media-item__play-icon" aria-hidden="true">▶</span>
+    </button>
+    }
+  </div>
+
+  <figcaption class="media-item__details">
+    @if (media().caption) {
+    <p class="media-item__caption">{{ media().caption }}</p>
+    } @if (skillNameKey(); as skillNameKey) {
+    <span class="media-item__skill">{{ t(skillNameKey) }}</span>
+    }
+    <span class="meta media-item__author">{{ t('media.addedBy', { name: item().author }) }}</span>
+    @if (item().canDelete) {
+    <button
+      class="button button--link media-item__delete"
+      type="button"
+      [disabled]="busy()"
+      (click)="remove()"
+    >
+      {{ t('media.delete') }}
+    </button>
+    }
+  </figcaption>
+</figure>
