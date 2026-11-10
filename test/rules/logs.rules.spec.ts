@@ -13,6 +13,7 @@ import {
 } from './support';
 
 import {
+  deleteDoc,
   doc,
   DocumentData,
   getDoc,
@@ -198,6 +199,57 @@ describe('weeklyReviews rules', () => {
         weekNumber: 0,
       })
     );
+  });
+
+  it('should deny a weight on week 0: she is not home yet', async () => {
+    await assertFails(
+      setDoc(doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/0`), {
+        ...review(MEMBER.uid),
+        weekNumber: 0,
+        weightKg: 9,
+      })
+    );
+  });
+
+  it('should deny an outsider reading or writing week 0', async () => {
+    await setDoc(doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/0`), {
+      ...review(MEMBER.uid),
+      weekNumber: 0,
+    });
+    await assertFails(getDoc(doc(dbAs(env, OUTSIDER), `${DOG_PATH}/weeklyReviews/0`)));
+    await assertFails(
+      setDoc(doc(dbAs(env, OUTSIDER), `${DOG_PATH}/weeklyReviews/0`), {
+        ...review(OUTSIDER.uid),
+        weekNumber: 0,
+      })
+    );
+  });
+
+  it('should deny week 0 under an id other than "0"', async () => {
+    for (const id of ['00', '0.0', '-0', ' 0', '1'])
+      await assertFails(
+        setDoc(doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/${id}`), {
+          ...review(MEMBER.uid),
+          weekNumber: 0,
+        })
+      );
+  });
+
+  it('should deny a non-integer or string week number on document 0', async () => {
+    for (const weekNumber of [0.5, '0'])
+      await assertFails(
+        setDoc(doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/0`), {
+          ...review(MEMBER.uid),
+          weekNumber,
+        })
+      );
+  });
+
+  it('should deny deleting week 0 or renumbering it', async () => {
+    const ref = doc(dbAs(env, MEMBER), `${DOG_PATH}/weeklyReviews/0`);
+    await setDoc(ref, { ...review(MEMBER.uid), weekNumber: 0 });
+    await assertFails(deleteDoc(ref));
+    await assertFails(updateDoc(ref, { updatedAt: serverTimestamp(), weekNumber: 1 }));
   });
 
   it('should deny a review numbered below 0 or above 52', async () => {
