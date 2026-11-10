@@ -122,6 +122,7 @@ export function templateGuidance(input: TemplateInput): DailyGuidance {
     itemKey
       ? {
           durationMin: row.durationMin,
+          ...(row.guideKey ? { guideKey: row.guideKey } : {}),
           instructions: t(`catalog.socialization.items.${itemKey}.howTo`),
           kind: 'socialization',
           slot: row.slot,
@@ -134,6 +135,7 @@ export function templateGuidance(input: TemplateInput): DailyGuidance {
 
   const scheduled = (row: ScheduleRow): Draft => ({
     durationMin: row.durationMin,
+    ...(row.guideKey ? { guideKey: row.guideKey } : {}),
     instructions: t(`catalog.schedule.${row.id}.instructions`),
     kind: row.kind,
     ...(row.skillKey ? { skillKey: row.skillKey } : {}),

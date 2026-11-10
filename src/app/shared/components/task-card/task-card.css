@@ -43,6 +43,38 @@
   color: var(--color-text-secondary);
 }
 
+.task-card__how {
+  border-top: 1px solid var(--color-hairline);
+  padding-top: var(--space-2);
+}
+
+.task-card__how-summary {
+  color: var(--color-accent);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.task-card__how-body {
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+}
+
+.task-card__how-heading {
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  margin-top: var(--space-1);
+}
+
+.task-card__how-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: 1.25rem;
+}
+
 .task-card__done {
   color: var(--color-accent);
   font-size: 0.875rem;

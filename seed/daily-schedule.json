@@ -8,6 +8,7 @@
       "time": "07:30",
       "slot": "morning",
       "kind": "potty",
+      "guideKey": "potty",
       "isTask": true,
       "durationMin": 5,
       "title": "Greeting and potty"
@@ -37,6 +38,7 @@
       "time": "08:10",
       "slot": "morning",
       "kind": "potty",
+      "guideKey": "potty",
       "isTask": true,
       "durationMin": 10,
       "title": "Potty and farm exploration"
@@ -56,6 +58,7 @@
       "time": "11:00",
       "slot": "midday",
       "kind": "care",
+      "guideKey": "handling",
       "isTask": true,
       "durationMin": 5,
       "title": "Visit: potty and paw and ear handling"
@@ -123,6 +126,7 @@
       "time": "19:00",
       "slot": "afternoon",
       "kind": "socialization",
+      "guideKey": "socialization",
       "isTask": true,
       "durationMin": 10,
       "title": "Socialization of the day"
@@ -141,6 +145,7 @@
       "time": "21:00",
       "slot": "night",
       "kind": "care",
+      "guideKey": "brushing",
       "isTask": true,
       "durationMin": 10,
       "title": "Quiet play, brushing and potty"
@@ -150,6 +155,7 @@
       "time": "21:30",
       "slot": "night",
       "kind": "care",
+      "guideKey": "kennel",
       "isTask": true,
       "durationMin": null,
       "title": "Bedtime in the kennel"

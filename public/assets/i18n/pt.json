@@ -145,6 +145,56 @@
       "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda».",
       "sniffing": "Deixa-a usar o faro: esconde uns prémios na relva e deixa-a procurá-los."
     },
+    "routines": {
+      "brushing": {
+        "howTo": {
+          "levelUp": "Continua calma 4 em cada 5 vezes: escova um pouco mais e junta o peito, as patas e a cauda.",
+          "mistakes": "Escovar contra o pelo, puxar os nós e escovar muito tempo quando está excitada.",
+          "setup": "Uma escova macia e uns prémios. Um momento calmo à noite, antes de dormir.",
+          "step1": "Deixa-a cheirar a escova e dá-lhe um prémio.",
+          "step2": "Dá uma passagem curta pelo dorso, diz «muito bem» e dá-lhe um prémio.",
+          "step3": "Junta passagens uma a uma pelo dorso e pelos lados, no sentido do pelo.",
+          "step4": "Para ao fim de um ou dois minutos, enquanto está calma, e acaba com uma brincadeira suave.",
+          "troubleshoot": "Se morde a escova ou se contorce, dá-lhe um mordedor para segurar, volta a uma só passagem e premeia mais vezes."
+        }
+      },
+      "handling": {
+        "howTo": {
+          "levelUp": "Continua relaxada 4 em cada 5 vezes: segura um pouco mais ou aproxima uma toalha ou uma escova que primeiro possa ver e cheirar.",
+          "mistakes": "Segurá-la à força enquanto se debate, mexer-lhe só quando é preciso fazer-lhe alguma coisa e sessões longas.",
+          "setup": "Um momento calmo, de preferência depois de uma sesta ou de um passeio. Prémios pequenos à mão e uma superfície macia onde se possa sentar ou deitar.",
+          "step1": "Toca-lhe numa pata durante um segundo, diz «muito bem» e dá-lhe um prémio. Faz o mesmo com uma orelha.",
+          "step2": "Aos poucos, segura a pata um pouco mais, afasta com suavidade os dedos e espreita dentro da orelha.",
+          "step3": "Premeia cada toque, mesmo os curtos, e para antes de ela tentar afastar-se.",
+          "step4": "Pratica o que o veterinário vai fazer: levanta-lhe os lábios para ver os dentes e toca-lhe na barriga e na cauda.",
+          "troubleshoot": "Se se afasta ou te morde a mão, foste depressa demais: volta a um toque mais curto que aceite e premeia mais vezes."
+        }
+      },
+      "kennel": {
+        "howTo": {
+          "levelUp": "Entra e acomoda-se 4 em cada 5 noites: mantém a rotina curta e à mesma hora todas as noites.",
+          "mistakes": "Usar a casota como castigo, despedidas longas, mudar a rotina todas as noites e pôr-te a brincar com ela quando chora.",
+          "setup": "Casota elevada, protegida do vento e da chuva, com cama seca, a manta dela e um mordedor. Pratica de dia antes de a usar à noite.",
+          "step1": "De dia, atira prémios para dentro da casota e deixa-a entrar e sair à vontade; diz «muito bem» quando entrar.",
+          "step2": "Dá-lhe alguma refeição ou um mordedor lá dentro, para que a casota signifique coisas boas.",
+          "step3": "À hora de dormir, segue a mesma rotina calma todas as noites: necessidades, um momento de calma e para a casota com a manta.",
+          "step4": "Despede-te com calma e sai, sem despedidas longas.",
+          "troubleshoot": "Se chorar, verifica com calma que não precisa de fazer as necessidades e que está seca e quente, e volta a sair sem brincar; nas noites frias segue o aviso de frio."
+        }
+      },
+      "socialization": {
+        "howTo": {
+          "levelUp": "Continua relaxada e curiosa 4 em cada 5 vezes: aproxima-te um pouco, ou que seja um pouco mais ruidoso ou mais longo, uma mudança de cada vez.",
+          "mistakes": "Obrigá-la a enfrentar o que lhe mete medo, demasiadas novidades no mesmo dia e não reparar nos sinais de medo.",
+          "setup": "Escolhe uma experiência nova da lista. Tem prémios saborosos preparados e procura uma distância a que ela esteja relaxada: corpo solto, cauda a abanar, curiosa.",
+          "step1": "Deixa-a olhar para a novidade a essa distância; sempre que olhar com calma, diz «muito bem» e dá-lhe um prémio.",
+          "step2": "Deixa que seja ela a decidir aproximar-se; nunca a leves ao colo nem a puxes para a novidade.",
+          "step3": "Se cheirar ou explorar por conta própria, elogia-a em voz baixa e continua a premiar.",
+          "step4": "Termina ao fim de poucos minutos, enquanto ainda está relaxada, e vai para um sítio calmo.",
+          "troubleshoot": "Se fica paralisada, mete a cauda entre as pernas, se esconde ou não aceita prémios, está demasiado perto: afasta-te com calma até relaxar e da próxima vez começa mais longe."
+        }
+      }
+    },
     "schedule": {
       "afternoonRest": {
         "instructions": "Sesta longa. Necessidades ao acordar.",
@@ -215,51 +265,155 @@
       "come": {
         "cue": "anda",
         "description": "Vem até ti quando a chamas. Prémio especial: frango cozido.",
+        "howTo": {
+          "levelUp": "Vem à primeira 4 em cada 5 vezes: aumenta a distância, depois chama-a de outra divisão e depois no quintal vedado.",
+          "mistakes": "Chamá-la para algo de que não gosta (um banho, fechá-la), chamá-la quando de certeza não vem e repreendê-la quando finalmente chega.",
+          "setup": "Frango cozido em pedacinhos, só para este exercício. Começa dentro de casa, a 1–2 metros dela e, se puderes, com outra pessoa.",
+          "step1": "Baixa-te, abre os braços e diz o nome dela e «anda» uma vez, com voz alegre.",
+          "step2": "Dá um ou dois passos para trás para a convidar a seguir-te.",
+          "step3": "Quando chegar, segura-a com suavidade pela coleira, diz «muito bem» e dá-lhe o frango.",
+          "step4": "Liberta-a com «joga» para que vir até ti não signifique sempre o fim da diversão.",
+          "step5": "Se forem dois, chamem-na à vez de pontos diferentes da divisão.",
+          "troubleshoot": "Se não vem, não repitas nem a persigas: corre na direção contrária, baixa-te ou faz um ruído engraçado, e torna a chamada seguinte mais fácil e mais perto."
+        },
         "name": "Anda"
       },
       "down": {
         "cue": "deita",
         "description": "Deita-se a seguir ao prémio do nariz ao chão.",
+        "howTo": {
+          "levelUp": "Deita-se à primeira 4 em cada 5 vezes: usa um gesto mais pequeno e depois pratica noutros sítios com poucas distrações.",
+          "mistakes": "Empurrar-lhe os ombros, mover o prémio depressa demais e pedir-lhe que fique deitada muito tempo nesta idade.",
+          "setup": "Já se senta bem. Um sítio tranquilo, chão macio ou tapete e prémios na mão.",
+          "step1": "Pede-lhe que se sente, põe um prémio no nariz dela e baixa-o devagar em linha reta até ao chão, entre as patas da frente.",
+          "step2": "Depois desliza-o devagar pelo chão, afastando-o dela: vai esticar-se e deitar-se.",
+          "step3": "Assim que os cotovelos tocarem no chão, diz «muito bem» e dá-lhe o prémio no chão.",
+          "step4": "Depois de umas 5 repetições boas, junta a palavra «deita» mesmo antes do movimento da mão.",
+          "step5": "Liberta-a com «joga».",
+          "troubleshoot": "Se se levanta, move o prémio mais devagar e mais perto do peito dela; premeia a meio caminho (cabeça baixa) e avança aos poucos."
+        },
         "name": "Deita"
       },
       "leash": {
         "cue": "muito bem",
         "description": "Caminha ao teu lado com a trela solta.",
+        "howTo": {
+          "levelUp": "4 em cada 5 passeios curtos com a trela solta: alarga os troços, depois no quintal com mais cheiros e depois pelo caminho da quinta.",
+          "mistakes": "Puxar a trela para trás, dar esticões, deixá-la chegar onde quer a puxar e passeios demasiado longos para a idade dela.",
+          "setup": "Coleira ou peitoral leve e uma trela de 2 metros. Começa em casa ou no quintal, antes de um passeio, com prémios na mão do lado em que ela vai.",
+          "step1": "Deixa-lhe a coleira e a trela postas uns minutos enquanto come ou brinca, para se habituar.",
+          "step2": "Caminha uns passos; sempre que for junto à tua perna com a trela solta, diz «muito bem» e dá-lhe um prémio junto à perna.",
+          "step3": "Se a trela esticar, para sem te mexeres; assim que afrouxar, diz «muito bem» e continua a andar.",
+          "step4": "Muda de direção muitas vezes e premeia-a quando te seguir.",
+          "troubleshoot": "Se puxa o tempo todo, o sítio entusiasma-a demais: volta a um lugar mais calmo e premeia mais vezes, a cada um ou dois passos."
+        },
         "name": "Trela"
       },
       "leaveIt": {
         "cue": "deixa",
         "description": "Afasta-se da mão fechada ou de algo no chão.",
+        "howTo": {
+          "levelUp": "Afasta-se à primeira 4 em cada 5 vezes: destapa um pouco o prémio e depois deixa-o no chão à vista, pronto para o tapar.",
+          "mistakes": "Deixá-la comer o prémio proibido depois de o deixar, dizer «deixa» vezes sem conta e usá-lo em situações que ainda não consegue ganhar.",
+          "setup": "Dois tipos de prémio: uns normais numa mão fechada e outros melhores na outra mão. Senta-te no chão ao lado dela.",
+          "step1": "Mostra-lhe a mão fechada com um prémio lá dentro e deixa-a cheirar, lamber ou tocar com a pata sem a abrires.",
+          "step2": "Assim que afastar o nariz, diz «muito bem» e dá-lhe um prémio da outra mão, nunca o da mão fechada.",
+          "step3": "Repete até se afastar depressa; então diz «deixa» mesmo ao mostrar a mão fechada.",
+          "step4": "Depois põe o prémio no chão debaixo da tua mão e faz o mesmo.",
+          "troubleshoot": "Se o conseguir apanhar, era difícil demais: volta à mão fechada e torna as repetições seguintes mais fáceis."
+        },
         "name": "Deixa"
       },
       "name": {
         "cue": "{{name}}",
         "description": "Vira a cabeça e olha para ti quando ouve o nome.",
+        "howTo": {
+          "levelUp": "Vira-se à primeira 4 em cada 5 vezes: pratica no quintal, depois com alguém da família a passar perto e depois um pouco mais longe.",
+          "mistakes": "Repetir o nome dela vezes sem conta, premiar tarde e chamá-la só para acabar com algo divertido.",
+          "setup": "Uma divisão tranquila e uns 10 prémios do tamanho de um grão-de-bico, tirados da ração dela. Treina antes de uma refeição, quando tem vontade.",
+          "step1": "Quando não estiver a olhar para ti, diz o nome dela uma vez com voz alegre.",
+          "step2": "Assim que virar a cabeça, diz «muito bem» e dá-lhe o prémio em menos de um segundo.",
+          "step3": "Espera que olhe para outro lado e repete. No máximo 5 vezes por sessão.",
+          "step4": "Nunca uses o nome dela para a repreender nem antes de algo de que não gosta: o nome tem sempre de anunciar coisas boas.",
+          "troubleshoot": "Se não se vira, o sítio tem estímulos a mais ou estás demasiado longe: aproxima-te, procura um lugar mais calmo e tenta de novo na sessão seguinte."
+        },
         "name": "Nome"
       },
       "potty": {
         "cue": "xixi",
         "description": "Faz as necessidades no sítio de sempre.",
+        "howTo": {
+          "levelUp": "Fá-lo no sítio dela 4 em cada 5 vezes: espaça um pouco as saídas, desde que não haja acidentes.",
+          "mistakes": "Repreender os acidentes (ensina-a a esconder-se), premiar tarde já dentro de casa e mudar de sítio.",
+          "setup": "Escolhe um sítio do quintal, sempre o mesmo. Leva-a ao acordar, depois de comer, depois de brincar e a cada 1–2 horas.",
+          "step1": "Leva-a ao colo ou com a trela diretamente ao sítio, sem brincar pelo caminho.",
+          "step2": "Espera em silêncio; quando começar, diz «xixi» com voz calma.",
+          "step3": "Quando acabar, diz «muito bem» e dá-lhe um prémio ali mesmo, em poucos segundos.",
+          "step4": "Depois, como bónus, um pouco de brincadeira ou de exploração.",
+          "troubleshoot": "Se houver um acidente, limpa-o com um produto enzimático sem dizer nada e leva-a à rua mais vezes; um acidente só quer dizer que precisava de sair mais cedo."
+        },
         "name": "Necessidades"
       },
       "search": {
         "cue": "procura",
         "description": "Encontra comida pelo faro: primeiro à vista, depois escondida numa divisão e depois pela quinta.",
+        "howTo": {
+          "levelUp": "Encontra-o com facilidade 4 em cada 5 vezes: esconde-o noutra divisão, depois na relva do quintal e depois pela quinta (semanas 2 e 3 do plano).",
+          "mistakes": "Apontar-lhe sempre a comida, escondê-la difícil demais cedo demais e sessões longas que a cansam.",
+          "setup": "5 prémios ou grãos da ração dela e uma divisão sem mais comida à vista. Segura-a com suavidade, ou pede a alguém que o faça, enquanto colocas a comida.",
+          "step1": "Deixa-a ver-te pôr um prémio no chão a um metro, diz «procura» e solta-a para o comer.",
+          "step2": "Repete com o prémio meio escondido: atrás da perna de uma cadeira ou debaixo da ponta de um pano.",
+          "step3": "Esconde-o fora da vista dela na mesma divisão, diz «procura» e deixa-a resolver com o nariz; elogia-a com calma quando o encontrar.",
+          "step4": "Termina após 3–5 descobertas, quando ainda quer mais.",
+          "troubleshoot": "Se desiste ou olha para ti, facilita: volta a pôr a comida à vista ou mais perto e ajuda-a apontando perto com a mão."
+        },
         "name": "Procura"
       },
       "sit": {
         "cue": "senta",
         "description": "Senta-se com a ordem ou com o gesto.",
+        "howTo": {
+          "levelUp": "Senta-se à primeira 4 em cada 5 vezes: diz «senta» com um gesto mais pequeno, depois noutras divisões e depois no quintal com poucas distrações.",
+          "mistakes": "Empurrar-lhe o rabo para baixo, dizer «senta» várias vezes e premiar quando já se está a levantar.",
+          "setup": "Põe-te à frente dela num sítio tranquilo com prémios na mão. Ainda não digas a palavra.",
+          "step1": "Põe um prémio encostado ao nariz dela e leva-o devagar para cima e para trás, por cima da cabeça: o rabo vai baixar sozinho.",
+          "step2": "Assim que o rabo tocar no chão, diz «muito bem» e dá-lhe o prémio.",
+          "step3": "Depois de umas 5 repetições boas, faz o mesmo movimento com a mão vazia e premeia-a com a outra mão.",
+          "step4": "Quando se sentar sempre a seguir a tua mão, diz «senta» mesmo antes do gesto.",
+          "step5": "Liberta-a com «joga» para que saiba que o exercício acabou.",
+          "troubleshoot": "Se salta, a tua mão está demasiado alta: mantém-na encostada ao nariz dela. Se recua, pratica com uma parede atrás dela."
+        },
         "name": "Senta"
       },
       "softBite": {
         "cue": "ai",
         "description": "Controla a força da mordida durante a brincadeira.",
+        "howTo": {
+          "levelUp": "Suaviza logo a boca 4 em cada 5 vezes: brinca um pouco mais e que o resto da família siga a mesma regra.",
+          "mistakes": "Retirar a mão de repente (convida-a a persegui-la), gritar, bater-lhe no focinho e só algumas pessoas seguirem a regra.",
+          "setup": "Brinca no chão com uma corda ou um mordedor macio à mão. Brincadeiras curtas, quando está calma, não quando está exausta.",
+          "step1": "Brinca com suavidade com ela usando as mãos e o brinquedo.",
+          "step2": "Se apertar os dentes com força na tua pele, diz «ai» com voz suave e aguda e para a brincadeira uns segundos, com as mãos quietas.",
+          "step3": "Quando acalmar, oferece-lhe o brinquedo e continua a brincar; diz «muito bem» se morder o brinquedo.",
+          "step4": "Se voltar a morder com força, acaba a brincadeira com calma e deixa-lhe um mordedor.",
+          "troubleshoot": "Se fica mais excitada, está cansada ou sobre-estimulada: dá-lhe um mordedor e deixa-a descansar; os cachorros com sono mordem mais."
+        },
         "name": "Mordida suave"
       },
       "stay": {
         "cue": "quieta",
         "description": "Aguenta sentada alguns segundos até a libertares com «joga».",
+        "howTo": {
+          "levelUp": "Aguenta 4 em cada 5 vezes: aumenta o tempo ou a distância, nunca as duas coisas ao mesmo tempo, e depois junta alguma distração.",
+          "mistakes": "Chamá-la para vir a partir do «quieta» (é outro exercício), esquecer a palavra de libertação e aumentar tempo e distância ao mesmo tempo.",
+          "setup": "Já se senta sempre. Põe-te à frente dela num sítio tranquilo com os prémios preparados.",
+          "step1": "Pede-lhe que se sente, mostra-lhe a palma aberta e diz «quieta» uma vez.",
+          "step2": "Conta um segundo, diz «muito bem» e dá-lhe o prémio enquanto continua sentada.",
+          "step3": "Liberta-a com «joga» e convida-a a mexer-se.",
+          "step4": "Junta um segundo de cada vez: 2, 3, 5 segundos, premiando sempre antes de se levantar.",
+          "step5": "Mais tarde dá um passinho atrás e volta até ela para a premiar.",
+          "troubleshoot": "Se se levanta antes de a libertares, pediste demasiado: volta ao último tempo ou distância que conseguiu e avança a partir daí."
+        },
         "name": "Quieta"
       }
     },
@@ -675,6 +829,14 @@
     "doneAt": "Feito às {{time}}",
     "doneBy": "Feito por {{name}} às {{time}}",
     "doneCount": "{{count}} vezes",
+    "howTo": {
+      "levelUp": "Quando aumentar a dificuldade",
+      "mistakes": "Erros típicos de quem treina",
+      "setup": "Antes de começar",
+      "steps": "Passo a passo",
+      "title": "Como fazer",
+      "troubleshoot": "Se não conseguir"
+    },
     "minutes": "{{minutes}} min",
     "noDuration": "Sem duração fixa",
     "optional": "Opcional",
