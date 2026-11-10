@@ -215,51 +215,155 @@
       "come": {
         "cue": "ven",
         "description": "Viene hasta ti al llamarla. Premio especial: pollo cocido.",
+        "howTo": {
+          "levelUp": "Viene a la primera 4 de cada 5 veces: aumenta la distancia, luego llámala desde otra habitación y después en el patio vallado.",
+          "mistakes": "Llamarla para algo que no le gusta (un baño, encerrarla), llamarla cuando seguro que no vendrá y reñirla cuando por fin llega.",
+          "setup": "Pollo cocido en trocitos, solo para este ejercicio. Empieza dentro de casa, a 1–2 metros de ella y, si puedes, con otra persona.",
+          "step1": "Agáchate, abre los brazos y di su nombre y «ven» una vez, con voz alegre.",
+          "step2": "Da uno o dos pasos hacia atrás para invitarla a seguirte.",
+          "step3": "Cuando llegue, cógela con suavidad del collar, di «muy bien» y dale el pollo.",
+          "step4": "Libérala con «joga» para que venir a ti no signifique siempre que se acaba la diversión.",
+          "step5": "Si sois dos, llamadla por turnos desde distintos puntos de la habitación.",
+          "troubleshoot": "Si no viene, no repitas ni la persigas: corre en dirección contraria, agáchate o haz un ruido gracioso, y haz la siguiente llamada más fácil y más cerca."
+        },
         "name": "Ven"
       },
       "down": {
         "cue": "tumba",
         "description": "Se tumba siguiendo el premio de la nariz al suelo.",
+        "howTo": {
+          "levelUp": "Se tumba a la primera 4 de cada 5 veces: usa un gesto más pequeño y luego practica en otros sitios con pocas distracciones.",
+          "mistakes": "Empujarle los hombros, mover el premio demasiado rápido y pedirle que se quede tumbada mucho rato a esta edad.",
+          "setup": "Ya se sienta bien. Un sitio tranquilo, suelo blando o alfombra y premios en la mano.",
+          "step1": "Pídele que se siente, pon un premio en su nariz y bájalo despacio en línea recta hasta el suelo, entre sus patas delanteras.",
+          "step2": "Después deslízalo despacio por el suelo, alejándolo de ella: se estirará y se tumbará.",
+          "step3": "En cuanto los codos toquen el suelo, di «muy bien» y dale el premio en el suelo.",
+          "step4": "Tras unas 5 repeticiones buenas, añade la palabra «tumba» justo antes del movimiento de la mano.",
+          "step5": "Libérala con «joga».",
+          "troubleshoot": "Si se levanta, mueve el premio más despacio y más cerca de su pecho; premia a medio camino (cabeza baja) y avanza poco a poco."
+        },
         "name": "Tumba"
       },
       "leash": {
         "cue": "muy bien",
         "description": "Camina a tu lado con la correa floja.",
+        "howTo": {
+          "levelUp": "4 de cada 5 paseos cortos con la correa floja: alarga los tramos, luego en el patio con más olores y después por el camino de la finca.",
+          "mistakes": "Tirar de la correa hacia atrás, dar tirones, dejar que llegue a donde quiere tirando y paseos demasiado largos para su edad.",
+          "setup": "Collar o arnés ligero y una correa de 2 metros. Empieza en casa o en el patio, antes de un paseo, con premios en la mano del lado por el que va ella.",
+          "step1": "Déjale puestos el collar y la correa unos minutos mientras come o juega, para que se acostumbre.",
+          "step2": "Camina unos pasos; cada vez que vaya junto a tu pierna con la correa floja, di «muy bien» y dale un premio junto a tu pierna.",
+          "step3": "Si la correa se tensa, detente sin moverte; en cuanto se afloje, di «muy bien» y sigue caminando.",
+          "step4": "Cambia de dirección a menudo y prémiala cuando te siga.",
+          "troubleshoot": "Si tira todo el rato, el sitio la emociona demasiado: vuelve a un lugar más tranquilo y premia más a menudo, cada uno o dos pasos."
+        },
         "name": "Correa"
       },
       "leaveIt": {
         "cue": "deja",
         "description": "Se aparta de la mano cerrada o de algo del suelo.",
+        "howTo": {
+          "levelUp": "Se aparta a la primera 4 de cada 5 veces: destapa un poco el premio y luego déjalo en el suelo a la vista, listo para taparlo.",
+          "mistakes": "Dejar que se coma el premio prohibido después de dejarlo, decir «deja» una y otra vez y usarlo en situaciones que todavía no puede ganar.",
+          "setup": "Dos tipos de premio: unos normales en una mano cerrada y otros mejores en la otra mano. Siéntate en el suelo a su lado.",
+          "step1": "Enséñale la mano cerrada con un premio dentro y deja que la olfatee, la lama o la toque con la pata sin abrirla.",
+          "step2": "En cuanto aparte la nariz, di «muy bien» y dale un premio de la otra mano, nunca el de la mano cerrada.",
+          "step3": "Repite hasta que se aparte rápido; entonces di «deja» justo al enseñar la mano cerrada.",
+          "step4": "Después pon el premio en el suelo bajo tu mano y haz lo mismo.",
+          "troubleshoot": "Si consigue cogerlo, era demasiado difícil: vuelve a la mano cerrada y haz las siguientes repeticiones más fáciles."
+        },
         "name": "Deja"
       },
       "name": {
         "cue": "{{name}}",
         "description": "Gira la cabeza y te mira al oír su nombre.",
+        "howTo": {
+          "levelUp": "Gira a la primera 4 de cada 5 veces: practica en el patio, luego con alguien de la familia pasando cerca y después desde un poco más lejos.",
+          "mistakes": "Repetir su nombre una y otra vez, premiar tarde y llamarla solo para acabar con algo divertido.",
+          "setup": "Una habitación tranquila y unos 10 premios del tamaño de un garbanzo, sacados de su ración. Entrena antes de una comida, cuando tiene ganas.",
+          "step1": "Cuando no te esté mirando, di su nombre una vez con voz alegre.",
+          "step2": "En cuanto gire la cabeza, di «muy bien» y dale el premio en menos de un segundo.",
+          "step3": "Espera a que mire hacia otro lado y repite. Como mucho 5 veces por sesión.",
+          "step4": "Nunca uses su nombre para reñirla ni antes de algo que no le gusta: su nombre siempre tiene que anunciar cosas buenas.",
+          "troubleshoot": "Si no gira, el sitio tiene demasiados estímulos o estás demasiado lejos: acércate, busca un lugar más tranquilo y vuelve a intentarlo en la siguiente sesión."
+        },
         "name": "Nombre"
       },
       "potty": {
         "cue": "pis",
         "description": "Hace sus necesidades en el sitio de siempre.",
+        "howTo": {
+          "levelUp": "Lo hace en su sitio 4 de cada 5 veces: espacia un poco las salidas, siempre que no haya accidentes.",
+          "mistakes": "Reñir los accidentes (le enseña a esconderse), premiar tarde ya dentro de casa y cambiar de sitio.",
+          "setup": "Elige un sitio del patio, siempre el mismo. Llévala al despertar, después de comer, después de jugar y cada 1–2 horas.",
+          "step1": "Llévala en brazos o con la correa directamente al sitio, sin jugar por el camino.",
+          "step2": "Espera en silencio; cuando empiece, di «pis» con voz tranquila.",
+          "step3": "Cuando termine, di «muy bien» y dale un premio allí mismo, en pocos segundos.",
+          "step4": "Después, como extra, un poco de juego o de exploración.",
+          "troubleshoot": "Si hay un accidente, límpialo con un limpiador enzimático sin decir nada y sácala más a menudo; un accidente solo significa que necesitaba salir antes."
+        },
         "name": "Necesidades"
       },
       "search": {
         "cue": "busca",
         "description": "Encuentra comida con el olfato: primero a la vista, luego escondida en una habitación y después por la finca.",
+        "howTo": {
+          "levelUp": "Lo encuentra con facilidad 4 de cada 5 veces: escóndelo en otra habitación, luego en la hierba del patio y después por la finca (semanas 2 y 3 del plan).",
+          "mistakes": "Señalarle siempre la comida, esconderla demasiado difícil demasiado pronto y sesiones largas que la cansan.",
+          "setup": "5 premios o bolitas de su ración y una habitación sin más comida a la vista. Sujétala con suavidad, o pide a alguien que lo haga, mientras colocas la comida.",
+          "step1": "Deja que vea cómo pones un premio en el suelo a un metro, di «busca» y suéltala para que se lo coma.",
+          "step2": "Repite con el premio medio escondido: detrás de la pata de una silla o bajo la esquina de un trapo.",
+          "step3": "Escóndelo fuera de su vista en la misma habitación, di «busca» y deja que lo resuelva con la nariz; felicítala con calma cuando lo encuentre.",
+          "step4": "Termina tras 3–5 hallazgos, cuando todavía quiere más.",
+          "troubleshoot": "Si se rinde o te mira, ponlo más fácil: vuelve a dejar la comida a la vista o más cerca y ayúdala señalando cerca con la mano."
+        },
         "name": "Búsqueda"
       },
       "sit": {
         "cue": "sienta",
         "description": "Se sienta con la orden o el gesto.",
+        "howTo": {
+          "levelUp": "Se sienta a la primera 4 de cada 5 veces: di «sienta» con un gesto más pequeño, luego en otras habitaciones y después en el patio con pocas distracciones.",
+          "mistakes": "Empujarle el culete hacia abajo, decir «sienta» varias veces y premiar cuando ya se está levantando.",
+          "setup": "Ponte delante de ella en un sitio tranquilo con premios en la mano. Todavía no digas la palabra.",
+          "step1": "Pon un premio pegado a su nariz y llévalo despacio hacia arriba y hacia atrás, por encima de su cabeza: el culete bajará solo.",
+          "step2": "En cuanto el culete toque el suelo, di «muy bien» y dale el premio.",
+          "step3": "Tras unas 5 repeticiones buenas, haz el mismo movimiento con la mano vacía y prémiala con la otra mano.",
+          "step4": "Cuando se siente siempre siguiendo tu mano, di «sienta» justo antes del gesto.",
+          "step5": "Libérala con «joga» para que sepa que el ejercicio ha terminado.",
+          "troubleshoot": "Si salta, tu mano está demasiado alta: mantenla pegada a su nariz. Si retrocede, practica con una pared detrás de ella."
+        },
         "name": "Sienta"
       },
       "softBite": {
         "cue": "ay",
         "description": "Controla la fuerza de la mordida durante el juego.",
+        "howTo": {
+          "levelUp": "Suaviza la boca enseguida 4 de cada 5 veces: juega un poco más y que el resto de la familia siga la misma regla.",
+          "mistakes": "Retirar la mano de golpe (la invita a perseguirla), gritar, darle en el hocico y que solo algunas personas sigan la regla.",
+          "setup": "Juega en el suelo con una cuerda o un mordedor blando a mano. Juegos cortos, cuando está tranquila, no cuando está agotada.",
+          "step1": "Juega con suavidad con ella usando las manos y el juguete.",
+          "step2": "Si aprieta fuerte los dientes sobre tu piel, di «ay» con voz suave y aguda y para el juego unos segundos, con las manos quietas.",
+          "step3": "Cuando se calme, ofrécele el juguete y sigue jugando; di «muy bien» si muerde el juguete.",
+          "step4": "Si vuelve a morder fuerte, termina el juego con calma y déjale un mordedor.",
+          "troubleshoot": "Si se excita más, está cansada o sobreestimulada: dale un mordedor y deja que descanse; los cachorros con sueño muerden más."
+        },
         "name": "Mordida suave"
       },
       "stay": {
         "cue": "quieta",
         "description": "Aguanta sentada unos segundos hasta que la liberas con «joga».",
+        "howTo": {
+          "levelUp": "Aguanta 4 de cada 5 veces: aumenta el tiempo o la distancia, nunca las dos cosas a la vez, y luego añade alguna distracción.",
+          "mistakes": "Llamarla para que venga desde el «quieta» (es otro ejercicio), olvidar la palabra de liberación y subir tiempo y distancia a la vez.",
+          "setup": "Ya se sienta siempre. Ponte delante de ella en un sitio tranquilo con los premios preparados.",
+          "step1": "Pídele que se siente, enséñale la palma abierta y di «quieta» una vez.",
+          "step2": "Cuenta un segundo, di «muy bien» y dale el premio mientras sigue sentada.",
+          "step3": "Libérala con «joga» e invítala a moverse.",
+          "step4": "Añade un segundo cada vez: 2, 3, 5 segundos, premiando siempre antes de que se levante.",
+          "step5": "Más adelante da un pasito atrás y vuelve hasta ella para premiarla.",
+          "troubleshoot": "Si se levanta antes de que la liberes, le pediste demasiado: vuelve al último tiempo o distancia que consiguió y avanza desde ahí."
+        },
         "name": "Quieta"
       }
     },
@@ -675,6 +779,14 @@
     "doneAt": "Hecho a las {{time}}",
     "doneBy": "Hecho por {{name}} a las {{time}}",
     "doneCount": "{{count}} veces",
+    "howTo": {
+      "levelUp": "Cuándo subir la dificultad",
+      "mistakes": "Errores típicos de quien entrena",
+      "setup": "Antes de empezar",
+      "steps": "Paso a paso",
+      "title": "Cómo hacerlo",
+      "troubleshoot": "Si no le sale"
+    },
     "minutes": "{{minutes}} min",
     "noDuration": "Sin duración fija",
     "optional": "Opcional",
