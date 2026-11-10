@@ -701,7 +701,8 @@
     "plan": "Plan",
     "progress": "Progress",
     "rules": "Rules",
-    "today": "Today"
+    "today": "Today",
+    "weekly": "Review"
   },
   "onboarding": {
     "step": "Step {{current}} of {{total}}"
@@ -843,5 +844,31 @@
     "previewTitle": "How the first day will look",
     "title": "Today with {{name}}",
     "weekAdvanced": "{{name}} moves up to week {{week}}!"
+  },
+  "weekly": {
+    "age": "{{weeks}} weeks old",
+    "beforeArrival": "The first week starts the day {{name}} arrives. Each week you will see here what she does well, what is hard, new socialization, her weight and your notes.",
+    "doesWell": "Does well",
+    "editedBy": "Last edited by {{name}}, {{date}}",
+    "errors": {
+      "notesTooLong": "2000 characters at most.",
+      "weightOutOfRange": "Enter a weight between 0.5 and 100 kg."
+    },
+    "navLabel": "Weeks",
+    "newSocialization": "New socialization",
+    "next": "Next",
+    "none": "Nothing this week.",
+    "notes": "Notes of the week",
+    "pageTitle": "{{name}}'s week",
+    "planWeek": "Plan week {{week}}",
+    "previous": "Previous",
+    "readFailed": "The logs could not be read. Check the connection.",
+    "reviewTitle": "Weight and notes",
+    "save": "Save",
+    "saved": "Review saved.",
+    "saving": "Saving…",
+    "struggles": "Finds it hard",
+    "title": "Week {{week}}",
+    "weight": "Weight (kg)"
   }
 }

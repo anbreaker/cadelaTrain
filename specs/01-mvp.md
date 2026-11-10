@@ -68,9 +68,9 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 
 > A per-week view with what she does well, what is hard, new socialization, weight and notes.
 
-- **AC5.1** Weeks are numbered from arrival (week 1 = arrival day + 6 days); the view shows plan week, age in weeks and the objective.
-- **AC5.2** Auto-filled: skills ≥ 80 % (does well), skills < 50 % with ≥ 10 attempts (struggles), socialization items first done that week.
-- **AC5.3** Editable by any member: weight (kg, one per week; also stored as a weight log) and free notes. Last editor and time are stored.
+- **AC5.1** Weeks are numbered from arrival (week 1 = arrival day + 6 days); the view shows plan week, age in weeks and the objective. Screen "Review" (`/weekly`, nav after Progress) opens on the current week; before the arrival it explains that the first week starts on the arrival day. The week in progress shows the stored plan week and today's age; a past week shows its age on its last day and a plan week replayed from the logs (`planWeekFor`, at most one advance per day, never above the stored week).
+- **AC5.2** Auto-filled: skills ≥ 80 % (does well), skills < 50 % with ≥ 10 attempts (struggles), socialization items first done that week. Rates use the 7-day window ending on the week's last day (or today); "done" means met calm or curious, by Madrid date. `weeklySummary` in `src/app/domain/weekly-review.ts`.
+- **AC5.3** Editable by any member: weight (kg, one per week; also stored as a weight log) and free notes. Last editor and time are stored. A weight log (`measuredOn` = the save date) is added in the same batch only when the weight differs from the stored one; an empty weight leaves `weightKg` out.
 - **AC5.4** Navigation to previous weeks; future weeks are not navigable.
 
 ## H6. Automatic guidance
