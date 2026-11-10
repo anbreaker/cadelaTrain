@@ -123,6 +123,7 @@ describe('createFirebaseClient', () => {
 
     expect(sdk.initializeApp).toHaveBeenCalledWith({
       apiKey: 'demo-api-key',
+      authDomain: `${EMULATOR_PROJECT_ID}.firebaseapp.com`,
       projectId: EMULATOR_PROJECT_ID,
     });
   });

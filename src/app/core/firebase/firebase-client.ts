@@ -52,12 +52,19 @@ export function shouldUseEmulators({ apiKey, flag, production }: EmulatorDecisio
   return flag === 'true' || (!production && apiKey.length === 0);
 }
 
+/** `signInWithPopup` requires an auth domain even against the emulator, which never contacts it. */
+const EMULATOR_OPTIONS: FirebaseOptions = {
+  apiKey: 'demo-api-key',
+  authDomain: `${EMULATOR_PROJECT_ID}.firebaseapp.com`,
+  projectId: EMULATOR_PROJECT_ID,
+};
+
 /**
  * With emulators on, the real config is ignored on purpose: a `demo-` project id guarantees that a
  * local run never reaches a real project, even when `.env.local` holds production values.
  */
 function resolveOptions({ config, useEmulators }: FirebaseClientOptions): FirebaseOptions {
-  return useEmulators ? { apiKey: 'demo-api-key', projectId: EMULATOR_PROJECT_ID } : config;
+  return useEmulators ? EMULATOR_OPTIONS : config;
 }
 
 /** Initializes Firebase on the first service request and connects each service once. */
