@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.preparation-list {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 1rem 1rem 1rem 2.25rem;
+}
+
+.preparation-list__item {
+  color: var(--color-text-secondary);
+}
+
+.preparation-list__optional {
+  border: 1px solid var(--color-hairline);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  margin-inline-start: 0.375rem;
+  padding: 0.0625rem 0.5rem;
+  white-space: nowrap;
+}
+
+.preparation-list__hint {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  margin-block-start: 0.25rem;
+}

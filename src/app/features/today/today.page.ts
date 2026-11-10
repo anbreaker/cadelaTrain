@@ -17,7 +17,7 @@ import { NOW } from '@core/time/now';
 import { DogRepository } from '@data/dog.repository';
 import { GuidanceRepository } from '@data/guidance.repository';
 import { TaskLogRepository } from '@data/task-log.repository';
-import { PREPARATION_ITEMS } from '@domain/catalog';
+import { preparationChecklist } from '@domain/catalog';
 import { addDays, ageInWeeks, daysUntil, IsoDate, madridToday } from '@domain/dates';
 import { Dog } from '@domain/dog';
 import { DailyGuidance, healthMessageKey } from '@domain/guidance';
@@ -26,6 +26,7 @@ import { WINDOW_DAYS } from '@domain/progress';
 import { TaskLogDraft } from '@domain/task-log';
 import { templateGuidance } from '@domain/template-guidance';
 import { LogSheetComponent } from '@shared/components/log-sheet/log-sheet';
+import { PreparationListComponent } from '@shared/components/preparation-list/preparation-list';
 import { TaskCardComponent } from '@shared/components/task-card/task-card';
 import { pluralKey } from '@shared/utils/plural-key';
 
@@ -55,7 +56,7 @@ const sameDay = (a: DayKey | null, b: DayKey | null): boolean =>
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LogSheetComponent, TaskCardComponent, TranslocoDirective],
+  imports: [LogSheetComponent, PreparationListComponent, TaskCardComponent, TranslocoDirective],
   selector: 'app-today-page',
   styleUrl: './today.page.css',
   templateUrl: './today.page.html',
@@ -126,11 +127,7 @@ export class TodayPageComponent {
   protected readonly countdownKey = computed(() =>
     pluralKey('today.countdown', this.daysLeft() ?? 0, this.language.currentLang())
   );
-  protected readonly preparationItems = PREPARATION_ITEMS.map((item) => ({
-    hintKey: item.hint ? `catalog.preparation.${item.key}.hint` : null,
-    labelKey: `catalog.preparation.${item.key}.label`,
-    optional: item.optional === true,
-  }));
+  protected readonly preparationItems = preparationChecklist();
 
   protected readonly guidance = computed((): DailyGuidance | null => {
     const stored = this.stored();
