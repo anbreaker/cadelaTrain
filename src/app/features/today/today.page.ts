@@ -18,10 +18,11 @@ import { DogRepository } from '@data/dog.repository';
 import { GuidanceRepository } from '@data/guidance.repository';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
-import { ageInWeeks, daysUntil, IsoDate, madridToday } from '@domain/dates';
+import { addDays, ageInWeeks, daysUntil, IsoDate, madridToday } from '@domain/dates';
 import { Dog } from '@domain/dog';
 import { DailyGuidance, healthMessageKey } from '@domain/guidance';
 import { planWeekFor } from '@domain/plan-week';
+import { WINDOW_DAYS } from '@domain/progress';
 import { TaskLogDraft } from '@domain/task-log';
 import { templateGuidance } from '@domain/template-guidance';
 import { LogSheetComponent } from '@shared/components/log-sheet/log-sheet';
@@ -86,9 +87,15 @@ export class TodayPageComponent {
     this.watch((key) => this.taskLogRepository.watchDay(key.householdId, key.dogId, this.today)),
     { initialValue: null }
   );
-  /** Every training log, for the week advance rates (the same read as the progress screen). */
-  private readonly allLogs = toSignal(
-    this.watch((key) => this.taskLogRepository.watchAll(key.householdId, key.dogId)),
+  /** The logs of the evaluation window (last 7 Madrid days), all the week advance rates need. */
+  private readonly windowLogs = toSignal(
+    this.watch((key) =>
+      this.taskLogRepository.watchSince(
+        key.householdId,
+        key.dogId,
+        addDays(this.today, 1 - WINDOW_DAYS)
+      )
+    ),
     { initialValue: null }
   );
   /** The week advance is tried at most once per load, so the updated dog never loops writes. */
@@ -184,7 +191,7 @@ export class TodayPageComponent {
     effect(() => {
       const key = this.dayKey();
       const dog = this.dog();
-      const logs = this.allLogs();
+      const logs = this.windowLogs();
       if (this.advanceTried || !key || !dog || !logs) return;
       const week = planWeekFor({
         birthDate: dog.birthDate,

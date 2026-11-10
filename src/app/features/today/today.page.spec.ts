@@ -83,8 +83,8 @@ describe('TodayPageComponent', () => {
     log: ReturnType<typeof vi.fn>;
     remove: ReturnType<typeof vi.fn>;
     update: ReturnType<typeof vi.fn>;
-    watchAll: () => Observable<TaskLog[]>;
     watchDay: () => Observable<TaskLog[]>;
+    watchSince: ReturnType<typeof vi.fn>;
   };
   let allLogs$: Observable<TaskLog[]>;
   let dogs: { advancePlanWeek: ReturnType<typeof vi.fn> };
@@ -130,8 +130,8 @@ describe('TodayPageComponent', () => {
       log: vi.fn(async () => 'l2'),
       remove: vi.fn(async () => undefined),
       update: vi.fn(async () => undefined),
-      watchAll: () => allLogs$,
       watchDay: () => logs$,
+      watchSince: vi.fn(() => allLogs$),
     };
   });
 
@@ -302,6 +302,12 @@ describe('TodayPageComponent', () => {
       id: `l-${skillKey}`,
       skillKey,
       successCount,
+    });
+
+    it('should read only the logs of the 7-day evaluation window', async () => {
+      await render('2026-12-20T10:00:00Z');
+
+      expect(logs.watchSince).toHaveBeenCalledWith('h1', 'd1', '2026-12-14');
     });
 
     it('should move Dela to the next week and say so once her key skills reach 80 %', async () => {

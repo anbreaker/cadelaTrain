@@ -39,7 +39,7 @@ flowchart TD
 
 Advance from `planWeek` to `planWeek + 1` only when **all** `keySkills` of the current week have `rate ≥ 0.8` (`skillRate`, so ≥ 10 attempts in the past 7 days) and the age cap allows it. Otherwise stay. Never go back automatically.
 
-The rule is `planWeekFor` in `src/app/domain/plan-week.ts` (pure, unit tested); `weekAdvance` in the same file reports, per key skill, the rate and the attempts of the last 7 days, which the progress screen shows as what is missing for the next week. The client applies it: when Today opens, it reads the dog's training logs and, if `planWeekFor(...) > dog.planWeek`, writes `planWeek + 1` (with `updatedAt`) at most once per load and shows a notice ("¡Dela pasa a la semana N!"). The Firestore rules accept only the stored week or the next one, up to 8, so a client can neither skip a week nor go back. The engine reads the stored `dog.planWeek`.
+The rule is `planWeekFor` in `src/app/domain/plan-week.ts` (pure, unit tested); `weekAdvance` in the same file reports, per key skill, the rate and the attempts of the last 7 days, which the progress screen shows as what is missing for the next week. The client applies it: when Today opens, it reads only the logs of the last 7 Madrid days (`TaskLogRepository.watchSince`, `guidanceDate >=` the window start) and, if `planWeekFor(...) > dog.planWeek`, writes `planWeek + 1` (with `updatedAt`) at most once per load and shows a notice ("¡Dela pasa a la semana N!"). The Firestore rules accept only the stored week or the next one, up to 8, so a client can neither skip a week nor go back. The engine reads the stored `dog.planWeek`.
 
 ## Engine rules (enforced by the validator, stated in the prompt)
 

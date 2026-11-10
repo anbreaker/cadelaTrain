@@ -87,6 +87,7 @@ npm start          # the app only
 npm test           # vitest run (jsdom unit tests; excludes test/rules)
 npm run test:rules # Firestore rules tests on the emulator (needs Java; project demo-dela)
 npm run lint
+npm run typecheck  # tsc on the app and the specs (Vite and Vitest do not type-check)
 npm run build
 npm run emulators  # Auth + Firestore emulators (project demo-dela, ports in firebase.json; needs Java)
 npm run emulators:seed  # allow the ALLOWED_EMAILS of .env in the running Firestore emulator (npm run dev does it)
