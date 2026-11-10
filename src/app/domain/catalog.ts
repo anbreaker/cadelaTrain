@@ -113,6 +113,21 @@ export const PRINCIPLES = principlesSeed.items as Principle[];
  */
 export const EXTRA_CUES = ['drop', 'praise', 'release', 'no'] as const;
 
+/** One preparation item as the UI shows it: translation keys and whether it is optional. */
+export interface PreparationRow {
+  hintKey: null | string;
+  labelKey: string;
+  optional: boolean;
+}
+
+/** The preparation checklist in display order (AC2.5). */
+export const preparationChecklist = (): PreparationRow[] =>
+  PREPARATION_ITEMS.map((item) => ({
+    hintKey: item.hint ? `catalog.preparation.${item.key}.hint` : null,
+    labelKey: `catalog.preparation.${item.key}.label`,
+    optional: item.optional === true,
+  }));
+
 /** In display order. */
 export const ROUTINE_GUIDES = routineGuidesSeed.items as RoutineGuide[];
 

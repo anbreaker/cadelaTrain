@@ -17,17 +17,7 @@
 
   <section class="today__checklist" aria-labelledby="checklist-title">
     <h2 class="today__section-title" id="checklist-title">{{ t('today.checklistTitle') }}</h2>
-    <ul class="today__checklist-items">
-      @for (item of preparationItems; track item.labelKey) {
-      <li class="today__checklist-item">
-        {{ t(item.labelKey) }} @if (item.optional) {
-        <span class="today__checklist-optional">{{ t('today.optional') }}</span>
-        } @if (item.hintKey; as hintKey) {
-        <p class="today__checklist-hint">{{ t(hintKey) }}</p>
-        }
-      </li>
-      }
-    </ul>
+    <app-preparation-list [items]="preparationItems" />
   </section>
 
   @if (preview(); as preview) {

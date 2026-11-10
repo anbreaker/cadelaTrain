@@ -349,10 +349,12 @@ service cloud.firestore {
 
         function isWeeklyReview(data, weekNumber) {
           return hasExactly(data, ['weekNumber', 'notes', 'updatedBy', 'updatedAt'], ['weightKg'])
-            && isIntBetween(data.weekNumber, 1, 52)
+            && isIntBetween(data.weekNumber, 0, 52)
             && string(data.weekNumber) == weekNumber
             && isString(data.notes, 0, 2000)
             && (!('weightKg' in data) || isNumberBetween(data.weightKg, 0.5, 100))
+            // Week 0 is before the arrival: notes only, no weight.
+            && (data.weekNumber > 0 || !('weightKg' in data))
             && data.updatedBy == uid()
             && data.updatedAt == request.time;
         }

@@ -59,6 +59,13 @@ export const routes: Routes = [
       },
       {
         ...sessionRoute(['ready']),
+        loadComponent: () =>
+          import('@features/weekly/weekly.page').then((m) => m.WeeklyPageComponent),
+        path: 'weekly',
+        title: 'Dela',
+      },
+      {
+        ...sessionRoute(['ready']),
         loadComponent: () => import('@features/plan/plan.page').then((m) => m.PlanPageComponent),
         path: 'plan',
         title: 'Dela',

@@ -1,0 +1,151 @@
+<main class="weekly" id="main-content" tabindex="-1" *transloco="let t">
+  @if (dog(); as dog) {
+  <header class="weekly__header">
+    <span class="meta">{{ t('nav.weekly') }}</span>
+    <h1 class="page-title">{{ t('weekly.pageTitle', { name: dog.name }) }}</h1>
+  </header>
+
+  <nav class="weekly__nav" [attr.aria-label]="t('weekly.navLabel')">
+    <button
+      class="button weekly__previous"
+      type="button"
+      [disabled]="!canGoBack()"
+      (click)="goToWeek(-1)"
+    >
+      {{ t('weekly.previous') }}
+    </button>
+    <div class="weekly__week">
+      <h2 class="weekly__title">
+        {{ isPreparation() ? t('weekly.preparationTitle') : t('weekly.title', { week: week() }) }}
+      </h2>
+      @if (dates(); as dates) {
+      <p class="weekly__dates">
+        {{ dates.arrival ? t('weekly.arrivesOn', { date: dates.arrival, name: dog.name }) :
+        dates.start + ' – ' + dates.end }}
+      </p>
+      }
+    </div>
+    <button
+      class="button weekly__next"
+      type="button"
+      [disabled]="!canGoForward()"
+      (click)="goToWeek(1)"
+    >
+      {{ t('weekly.next') }}
+    </button>
+  </nav>
+
+  @if (readFailed()) {
+  <p class="form-error" role="alert">{{ t('weekly.readFailed') }}</p>
+  } @if (isPreparation()) {
+  <section class="weekly__section" aria-labelledby="preparation-title">
+    <h3 class="weekly__heading" id="preparation-title">{{ t('today.checklistTitle') }}</h3>
+    <app-preparation-list [items]="preparationItems" />
+    <a class="button button--link weekly__plan-link" routerLink="/plan">
+      {{ t('weekly.planLink') }}
+    </a>
+  </section>
+  } @else if (summary(); as summary) {
+  <section class="weekly__section">
+    <p class="weekly__meta">
+      {{ t('weekly.planWeek', { week: summary.planWeek }) }} · {{ t('weekly.age', { weeks:
+      summary.ageWeeks }) }}
+    </p>
+    <p class="weekly__objective">{{ t(summary.objectiveKey) }}</p>
+  </section>
+
+  <section class="weekly__section weekly__does-well" aria-labelledby="does-well-title">
+    <h3 class="weekly__heading" id="does-well-title">{{ t('weekly.doesWell') }}</h3>
+    @if (summary.doesWell.length > 0) {
+    <ul class="weekly__list">
+      @for (key of summary.doesWell; track key) {
+      <li>{{ t('catalog.skills.' + key + '.name') }}</li>
+      }
+    </ul>
+    } @else {
+    <p class="weekly__none">{{ t('weekly.none') }}</p>
+    }
+  </section>
+
+  <section class="weekly__section weekly__struggles" aria-labelledby="struggles-title">
+    <h3 class="weekly__heading" id="struggles-title">{{ t('weekly.struggles') }}</h3>
+    @if (summary.struggles.length > 0) {
+    <ul class="weekly__list">
+      @for (key of summary.struggles; track key) {
+      <li>{{ t('catalog.skills.' + key + '.name') }}</li>
+      }
+    </ul>
+    } @else {
+    <p class="weekly__none">{{ t('weekly.none') }}</p>
+    }
+  </section>
+
+  <section class="weekly__section weekly__socialization" aria-labelledby="socialization-title">
+    <h3 class="weekly__heading" id="socialization-title">{{ t('weekly.newSocialization') }}</h3>
+    @if (summary.newSocialization.length > 0) {
+    <ul class="weekly__list">
+      @for (key of summary.newSocialization; track key) {
+      <li>{{ t('catalog.socialization.items.' + key + '.label') }}</li>
+      }
+    </ul>
+    } @else {
+    <p class="weekly__none">{{ t('weekly.none') }}</p>
+    }
+  </section>
+
+  }
+
+  <section class="weekly__section" aria-labelledby="review-title">
+    <h3 class="weekly__heading" id="review-title">
+      {{ isPreparation() ? t('weekly.notes') : t('weekly.reviewTitle') }}
+    </h3>
+    <form class="weekly__form" novalidate (submit)="save($event)">
+      @if (!isPreparation()) {
+      <label class="field">
+        {{ t('weekly.weight') }}
+        <input
+          class="field__input weekly__weight"
+          autocomplete="off"
+          inputmode="decimal"
+          type="text"
+          [attr.aria-invalid]="errorKeys().includes('weekly.errors.weightOutOfRange')"
+          [value]="weight()"
+          (input)="setWeight($event)"
+        />
+      </label>
+      }
+      <label class="field">
+        {{ t('weekly.notes') }}
+        <textarea
+          class="field__input weekly__notes"
+          rows="4"
+          [maxLength]="notesMax"
+          [value]="notes()"
+          (input)="setNotes($event)"
+        ></textarea>
+      </label>
+      @for (key of errorKeys(); track key) {
+      <p class="field__error">{{ t(key) }}</p>
+      }
+      <button
+        class="button button--primary weekly__save"
+        type="submit"
+        [disabled]="saveState() === 'saving'"
+      >
+        {{ saveState() === 'saving' ? t('weekly.saving') : t('weekly.save') }}
+      </button>
+      <p class="weekly__feedback" role="status">
+        @if (saveState() === 'saved') { {{ t('weekly.saved') }} }
+      </p>
+      @if (saveState() === 'failed') {
+      <p class="form-error" role="alert">{{ t('common.errors.saveFailed') }}</p>
+      }
+    </form>
+    @if (edited(); as edited) {
+    <p class="weekly__edited">
+      {{ t('weekly.editedBy', { date: edited.date, name: edited.name }) }}
+    </p>
+    }
+  </section>
+  }
+</main>
