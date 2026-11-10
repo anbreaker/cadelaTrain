@@ -14,7 +14,27 @@
   </div>
   <h3 class="task-card__title">{{ card().title }}</h3>
   <p class="task-card__instructions">{{ card().instructions }}</p>
-  @if (card().done; as done) {
+  @if (card().howTo; as howTo) {
+  <details class="task-card__how">
+    <summary class="task-card__how-summary">{{ t('today.howTo.title') }}</summary>
+    <div class="task-card__how-body">
+      <h4 class="task-card__how-heading">{{ t('today.howTo.setup') }}</h4>
+      <p>{{ t(howTo.setupKey) }}</p>
+      <h4 class="task-card__how-heading">{{ t('today.howTo.steps') }}</h4>
+      <ol class="task-card__how-steps">
+        @for (step of howTo.stepKeys; track step) {
+        <li>{{ t(step) }}</li>
+        }
+      </ol>
+      <h4 class="task-card__how-heading">{{ t('today.howTo.levelUp') }}</h4>
+      <p>{{ t(howTo.levelUpKey) }}</p>
+      <h4 class="task-card__how-heading">{{ t('today.howTo.troubleshoot') }}</h4>
+      <p>{{ t(howTo.troubleshootKey) }}</p>
+      <h4 class="task-card__how-heading">{{ t('today.howTo.mistakes') }}</h4>
+      <p>{{ t(howTo.mistakesKey) }}</p>
+    </div>
+  </details>
+  } @if (card().done; as done) {
   <p class="task-card__done">
     {{ t(doneKey(), { name: done.by, time: done.at }) }} @if (showCount()) {
     <span class="task-card__count">· {{ t('today.doneCount', { count: card().count }) }}</span>

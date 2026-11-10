@@ -8,6 +8,7 @@ import {
   planWeek,
   PREPARATION_ITEMS,
   SCHEDULE,
+  skillHowTo,
   SKILLS,
   SOCIALIZATION_ITEMS,
 } from './catalog';
@@ -65,6 +66,34 @@ describe('bundled catalogs', () => {
       expect(has(`catalog.socialization.items.${item.key}.howTo`)).toBe(true);
     for (const alert of CARE_ALERTS)
       expect(has(`catalog.careAlerts.${alert.key}.message`)).toBe(true);
+  });
+
+  it('should give every skill a translated how-to guide with at least three steps', () => {
+    for (const skill of SKILLS) {
+      const guide = skillHowTo(skill.key);
+      expect(guide?.stepKeys.length ?? 0).toBeGreaterThanOrEqual(3);
+      for (const key of [
+        guide?.setupKey,
+        ...(guide?.stepKeys ?? []),
+        guide?.levelUpKey,
+        guide?.troubleshootKey,
+        guide?.mistakesKey,
+      ])
+        expect(has(key ?? 'missing')).toBe(true);
+    }
+  });
+
+  it('should name the translation keys of a skill guide in step order', () => {
+    const steps = SKILLS.find((skill) => skill.key === 'sit')?.howTo.steps ?? [];
+
+    expect(skillHowTo('sit')).toEqual({
+      levelUpKey: 'catalog.skills.sit.howTo.levelUp',
+      mistakesKey: 'catalog.skills.sit.howTo.mistakes',
+      setupKey: 'catalog.skills.sit.howTo.setup',
+      stepKeys: steps.map((_, index) => `catalog.skills.sit.howTo.step${index + 1}`),
+      troubleshootKey: 'catalog.skills.sit.howTo.troubleshoot',
+    });
+    expect(skillHowTo('unknown')).toBeNull();
   });
 
   it('should translate every training principle', () => {

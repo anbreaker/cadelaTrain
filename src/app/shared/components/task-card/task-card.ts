@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { SkillHowTo } from '@domain/catalog';
 import { TaskKind, taskKindLabelKey } from '@domain/guidance';
 
 export interface TaskCardView {
@@ -11,6 +12,8 @@ export interface TaskCardView {
   /** Latest completion: who (`null` once they left the household) and local time. */
   done: null | { at: string; by: null | string };
   durationMin: null | number;
+  /** Trainer guide of the skill a training task practises; `null` for other tasks. */
+  howTo: null | SkillHowTo;
   id: string;
   instructions: string;
   kind: TaskKind;

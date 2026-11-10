@@ -31,7 +31,18 @@ export interface PlanWeek {
 }
 
 export interface Skill {
+  /** Canonical English trainer guide; the UI text lives in `catalog.skills.<key>.howTo`. */
+  howTo: { steps: readonly string[] };
   key: string;
+}
+
+/** Translation keys of a skill's trainer guide ("how to do it"), steps in order. */
+export interface SkillHowTo {
+  levelUpKey: string;
+  mistakesKey: string;
+  setupKey: string;
+  stepKeys: readonly string[];
+  troubleshootKey: string;
 }
 
 export interface SocializationItem {
@@ -78,6 +89,21 @@ export const SOCIALIZATION_CATEGORIES: readonly string[] = socializationSeed.cat
 export const CARE_ALERTS = careAlertsSeed.items as CareAlert[];
 /** In display order. */
 export const PRINCIPLES = principlesSeed.items as Principle[];
+
+/** The trainer guide of a skill, or `null` when the catalog does not know the skill. */
+export function skillHowTo(skillKey: string): null | SkillHowTo {
+  const skill = SKILLS.find(({ key }) => key === skillKey);
+  if (!skill) return null;
+
+  const prefix = `catalog.skills.${skillKey}.howTo`;
+  return {
+    levelUpKey: `${prefix}.levelUp`,
+    mistakesKey: `${prefix}.mistakes`,
+    setupKey: `${prefix}.setup`,
+    stepKeys: skill.howTo.steps.map((_, index) => `${prefix}.step${index + 1}`),
+    troubleshootKey: `${prefix}.troubleshoot`,
+  };
+}
 /** In checklist order. */
 export const PREPARATION_ITEMS = [...(preparationSeed.items as PreparationItem[])].sort(
   (a, b) => a.order - b.order

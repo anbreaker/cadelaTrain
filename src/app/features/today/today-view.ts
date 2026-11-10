@@ -1,5 +1,6 @@
 import { LoggedTask } from '@data/task-log.converter';
 import { LogRef } from '@data/task-log.repository';
+import { skillHowTo } from '@domain/catalog';
 import { DailyGuidance, groupBySlot, GuidanceTask, Slot } from '@domain/guidance';
 import { HouseholdMember } from '@domain/household';
 import { TaskLog, TaskLogDraft } from '@domain/task-log';
@@ -73,6 +74,7 @@ function dayCard(task: GuidanceTask, day: DayContext): DayCard {
         ? { at: day.formatTime(latest.doneAt), by: day.members[latest.doneBy]?.displayName ?? null }
         : null,
       durationMin: task.durationMin,
+      howTo: task.skillKey ? skillHowTo(task.skillKey) : null,
       id: task.id,
       instructions: task.instructions,
       kind: task.kind,

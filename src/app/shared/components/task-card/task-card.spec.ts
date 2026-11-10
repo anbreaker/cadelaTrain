@@ -10,6 +10,7 @@ const card = (overrides: Partial<TaskCardView> = {}): TaskCardView => ({
   count: 0,
   done: null,
   durationMin: 5,
+  howTo: null,
   id: 't1',
   instructions: 'Say her name and reward.',
   kind: 'training',
@@ -52,6 +53,36 @@ describe('TaskCardComponent', () => {
     expect(element.querySelector('.task-card__duration')?.textContent).toContain('today.minutes');
     expect(element.querySelector('.task-card__kind')?.textContent).toContain('taskKinds.training');
     expect(element.querySelector('.task-card__icon')?.textContent?.trim()).not.toBe('');
+  });
+
+  it('should offer a collapsed how-to guide with its steps in order', async () => {
+    const element = await render(
+      card({
+        howTo: {
+          levelUpKey: 'g.levelUp',
+          mistakesKey: 'g.mistakes',
+          setupKey: 'g.setup',
+          stepKeys: ['g.step1', 'g.step2', 'g.step3'],
+          troubleshootKey: 'g.troubleshoot',
+        },
+      })
+    );
+    const guide = element.querySelector<HTMLDetailsElement>('details.task-card__how');
+    const text = guide?.textContent ?? '';
+
+    expect(guide?.open).toBe(false);
+    expect(guide?.querySelector('summary')?.textContent).toContain('today.howTo.title');
+    expect(
+      [...(guide?.querySelectorAll('ol li') ?? [])].map((step) => step.textContent?.trim())
+    ).toEqual(['g.step1', 'g.step2', 'g.step3']);
+    for (const key of ['g.setup', 'g.levelUp', 'g.troubleshoot', 'g.mistakes'])
+      expect(text).toContain(key);
+  });
+
+  it('should not offer a guide for tasks without one', async () => {
+    const element = await render(card());
+
+    expect(element.querySelector('.task-card__how')).toBeNull();
   });
 
   it('should show a dash when the task has no duration (AC2.2)', async () => {

@@ -1,3 +1,4 @@
+import { skillHowTo } from '@domain/catalog';
 import { DailyGuidance, GuidanceTask } from '@domain/guidance';
 import { HouseholdMember } from '@domain/household';
 import { TaskLog } from '@domain/task-log';
@@ -70,12 +71,20 @@ describe('slotViews', () => {
         count: 0,
         done: null,
         durationMin: 5,
+        howTo: skillHowTo('sit'),
         id: 't1',
         instructions: 't1 instructions',
         kind: 'training',
         title: 't1 title',
       },
     });
+  });
+
+  it('should attach the skill guide only to tasks that train a skill', () => {
+    const potty: GuidanceTask = { ...task('t2', 'morning', 2), kind: 'potty', skillKey: undefined };
+    const [morning] = slotViews(guidance([task('t1', 'morning', 1), potty]), context([]));
+
+    expect(morning.cards.map((card) => card.view.howTo)).toEqual([skillHowTo('sit'), null]);
   });
 
   it('should show the latest completion and the count (AC2.3, AC3.5)', () => {
