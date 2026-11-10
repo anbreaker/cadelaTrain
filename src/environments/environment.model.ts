@@ -9,6 +9,8 @@ export interface FirebaseEnvironment {
 }
 
 export interface Environment {
+  /** Cloudinary cloud name for photo upload and delivery; empty means photos are off. */
+  cloudinaryCloudName: string;
   env: 'development' | 'production';
   firebase: FirebaseEnvironment;
   production: boolean;

@@ -92,8 +92,8 @@ Phase 2 (Portugal, `Europe/Lisbon`, one hour behind): store `timezone` per house
 | Path | Auth | Purpose |
 |------|------|---------|
 | `GET /api/cron-daily-guidance` | `CRON_SECRET` | Batch generation for all eligible dogs |
-| `POST /api/sign-upload` `{ householdId }` | Firebase ID token + membership check | Short-lived Cloudinary signature for one photo upload into `dela/<householdId>/`, images only, ≤ 10 MB |
-| `POST /api/delete-media` `{ householdId, dogId, mediaId }` | Firebase ID token + author check | Deletes the media document and its Cloudinary asset |
+| `POST /api/sign-upload` `{ householdId }` | Firebase ID token + membership check: reads `households/{hid}` through Firestore REST with the caller's own token (no `firebase-admin`, no service account; the rules refuse non-members and forged tokens) | Short-lived Cloudinary signature for one photo upload into the caller's own folder `dela/<householdId>/<uid>` (uid from the token), images only, ≤ 10 MB |
+| `POST /api/delete-media` `{ householdId, dogId, mediaId }` | Firebase ID token + author check (reads the media document with the caller's token, `addedBy == uid`) and owner check (the `publicId` must be exactly `dela/<householdId>/<uid>/<id>`, otherwise 403 without calling Cloudinary) | Destroys the Cloudinary asset (signed `image/destroy`), then deletes the media document with the caller's token; a failed destroy keeps the document |
 | `POST /api/daily-guidance` `{ dogId }` | Firebase ID token (`verifyIdToken`) + membership check | On-demand generation for today (idempotent) |
 
 Both return `Cache-Control: no-store` and never return the AI raw output.
@@ -103,7 +103,8 @@ Both return `Cache-Control: no-store` and never return the AI raw output.
 | Name | Where | Notes |
 |------|-------|-------|
 | `NG_APP_FIREBASE_*` | Client (public config) | apiKey, authDomain, projectId, appId |
-| `FIREBASE_SERVICE_ACCOUNT` | Server only | Service account JSON |
+| `FIREBASE_SERVICE_ACCOUNT` | Server only | Service account JSON (AI engine only; not used by the media endpoints) |
+| `FIREBASE_PROJECT_ID` | Server only | Firestore REST calls of `api/sign-upload` and `api/delete-media` |
 | `ANTHROPIC_API_KEY` | Server only | Never prefixed with `NG_APP_` |
 | `CLAUDE_MODEL` | Server only | Default `claude-opus-5-5` |
 | `CRON_SECRET` | Server only | Vercel sends it as Bearer on cron calls |

@@ -7,11 +7,16 @@ import { LOCALE_BY_LANG } from '@core/const/lang.const';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { MediaRepository } from '@data/media.repository';
+import { CLOUDINARY_CLOUD_NAME, PhotoUploadService } from '@data/photo-upload.service';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { SOCIALIZATION_ITEMS } from '@domain/catalog';
 import { IsoDate, madridToday } from '@domain/dates';
+import { Media } from '@domain/media';
 import { weekAdvance } from '@domain/plan-week';
 import { daysToSocializationDeadline, socializationStatus } from '@domain/progress';
+import { MediaListComponent } from '@shared/components/media-list/media-list';
+import { mediaDayViews } from '@shared/components/media-list/media-list-view';
 import { pluralKey } from '@shared/utils/plural-key';
 
 import { nextWeekView, skillCards, socializationGroups } from './progress-view';
@@ -27,12 +32,12 @@ const sameDog = (a: DogKey | null, b: DogKey | null): boolean =>
 /**
  * The puppy's progress (H4): each skill's success rate, mastery, trend and sessions, and the
  * socialization checklist with the days left until 16 weeks. It also shows what is missing for the
- * next plan week (`weekAdvance`).
+ * next plan week (`weekAdvance`), and a timeline of every photo and video, newest day first (AC7.5).
  */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective],
+  imports: [MediaListComponent, TranslocoDirective],
   selector: 'app-progress-page',
   styleUrl: './progress.page.css',
   templateUrl: './progress.page.html',
@@ -41,6 +46,9 @@ export class ProgressPageComponent {
   private readonly session = inject(AuthSessionStore);
   private readonly language = inject(LanguageStore);
   private readonly taskLogRepository = inject(TaskLogRepository);
+  private readonly mediaRepository = inject(MediaRepository);
+  private readonly uploads = inject(PhotoUploadService);
+  protected readonly cloudName = inject(CLOUDINARY_CLOUD_NAME);
   private readonly today = madridToday(inject(NOW)());
 
   private readonly dogKey = computed(
@@ -59,6 +67,16 @@ export class ProgressPageComponent {
     this.watch((key) => this.taskLogRepository.watchSocialization(key.householdId, key.dogId)),
     { initialValue: null }
   );
+  /** Every item from her birth to today: the whole timeline. */
+  private readonly media = toSignal(
+    this.watch((key) => {
+      const dog = this.session.dog();
+      return dog
+        ? this.mediaRepository.watchRange(key.householdId, key.dogId, dog.birthDate, this.today)
+        : of([]);
+    }),
+    { initialValue: null }
+  );
   private readonly statuses = computed(() =>
     socializationStatus(SOCIALIZATION_ITEMS, this.socialLogs() ?? [])
   );
@@ -73,6 +91,8 @@ export class ProgressPageComponent {
 
   protected readonly dog = this.session.dog;
   protected readonly readFailed = signal(false);
+  protected readonly removeFailed = signal(false);
+  protected readonly removingId = signal<null | string>(null);
   protected readonly cards = computed(() =>
     skillCards(this.logs() ?? [], this.today, this.formatDate()).map((card) => ({
       ...card,
@@ -120,6 +140,30 @@ export class ProgressPageComponent {
           : 'progress.socialization.deadlinePassed',
     };
   });
+
+  protected readonly mediaDays = computed(() =>
+    mediaDayViews(this.media() ?? [], {
+      formatDate: this.formatDate(),
+      members: this.session.household()?.members ?? {},
+      uid: this.session.user()?.uid ?? null,
+    })
+  );
+
+  /** The author deletes their own photo or video (AC7.6). */
+  protected async removeMedia(media: Media): Promise<void> {
+    const key = this.dogKey();
+    if (!key || this.removingId()) return;
+    this.removingId.set(media.id);
+    this.removeFailed.set(false);
+    try {
+      await this.uploads.removeMedia(key.householdId, key.dogId, media);
+    } catch (error) {
+      console.warn('Progress: could not delete the media', error);
+      this.removeFailed.set(true);
+    } finally {
+      this.removingId.set(null);
+    }
+  }
 
   /** Follows the household dog; a read failure shows a notice and leaves the cards empty. */
   private watch<T>(read: (key: DogKey) => Observable<T>): Observable<null | T> {

@@ -1,0 +1,37 @@
+<section class="today-media" aria-labelledby="today-media-title" *transloco="let t">
+  <div class="today-media__head">
+    <h2 class="today-media__title" id="today-media-title">{{ t('media.todayTitle') }}</h2>
+    @if (!formOpen()) {
+    <button class="button today-media__add" type="button" (click)="openForm()">
+      {{ t('media.add') }}
+    </button>
+    }
+  </div>
+
+  @if (formOpen()) {
+  <app-media-form
+    [busy]="saving()"
+    [photoEnabled]="photoEnabled"
+    [today]="today"
+    (cancelled)="closeForm()"
+    (saved)="add($event)"
+  />
+  } @if (errorKey(); as errorKey) {
+  <p class="form-error today-media__error" role="alert">{{ t(errorKey) }}</p>
+  } @if (readFailed()) {
+  <p class="form-error today-media__error" role="alert">{{ t('media.errors.readFailed') }}</p>
+  }
+  <p class="today-media__saved" role="status">@if (saved()) { {{ t('media.saved') }} }</p>
+
+  @if (isEmpty()) {
+  <p class="meta today-media__empty">{{ t('media.empty') }}</p>
+  } @else {
+  <app-media-list
+    [busyId]="removingId()"
+    [cloudName]="cloudName"
+    [days]="days()"
+    [showDates]="false"
+    (removed)="remove($event)"
+  />
+  }
+</section>

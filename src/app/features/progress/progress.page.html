@@ -108,5 +108,25 @@
     </section>
     }
   </section>
+
+  <section class="progress__section" aria-labelledby="media-title">
+    <h2 class="progress__section-title progress__media-title" id="media-title">
+      {{ t('media.title') }}
+    </h2>
+    @if (removeFailed()) {
+    <p class="form-error progress__media-error" role="alert">
+      {{ t('media.errors.deleteFailed') }}
+    </p>
+    } @if (mediaDays().length > 0) {
+    <app-media-list
+      [busyId]="removingId()"
+      [cloudName]="cloudName"
+      [days]="mediaDays()"
+      (removed)="removeMedia($event)"
+    />
+    } @else {
+    <p class="progress__hint progress__media-empty">{{ t('media.empty') }}</p>
+    }
+  </section>
   }
 </div>

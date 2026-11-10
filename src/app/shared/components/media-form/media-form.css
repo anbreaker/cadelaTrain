@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.media-form {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 45rem;
+  padding: var(--space-3);
+}
+
+.media-form__label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.media-form__caption {
+  resize: vertical;
+}
+
+.media-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}

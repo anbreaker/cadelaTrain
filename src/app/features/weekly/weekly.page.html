@@ -93,6 +93,22 @@
     }
   </section>
 
+  <section class="weekly__section weekly__media" aria-labelledby="media-title">
+    <h3 class="weekly__heading weekly__media-title" id="media-title">{{ t('media.title') }}</h3>
+    @if (removeFailed()) {
+    <p class="form-error weekly__media-error" role="alert">{{ t('media.errors.deleteFailed') }}</p>
+    } @if (mediaDays().length > 0) {
+    <app-media-list
+      [busyId]="removingId()"
+      [cloudName]="cloudName"
+      [days]="mediaDays()"
+      (removed)="removeMedia($event)"
+    />
+    } @else {
+    <p class="weekly__none weekly__media-empty">{{ t('media.emptyWeek') }}</p>
+    }
+  </section>
+
   }
 
   <section class="weekly__section" aria-labelledby="review-title">

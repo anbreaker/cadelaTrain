@@ -6,11 +6,14 @@ import { provideRouter } from '@angular/router';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { MediaRepository } from '@data/media.repository';
+import { CLOUDINARY_CLOUD_NAME, PhotoUploadService } from '@data/photo-upload.service';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { WeeklyReviewRepository } from '@data/weekly-review.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
 import { Dog } from '@domain/dog';
 import { Household } from '@domain/household';
+import { Media } from '@domain/media';
 import { SocializationLog, TaskLog } from '@domain/task-log';
 import { WeeklyReview } from '@domain/weekly-review';
 import { createFakeSession, FakeSession } from '@shared/testing/fake-session';
@@ -70,6 +73,8 @@ describe('WeeklyPageComponent', () => {
   let social$: Observable<SocializationLog[]>;
   let reviews: { save: ReturnType<typeof vi.fn>; watchWeek: ReturnType<typeof vi.fn> };
   let fixture: ComponentFixture<WeeklyPageComponent>;
+  let media: { watchRange: ReturnType<typeof vi.fn> };
+  let uploads: { removeMedia: ReturnType<typeof vi.fn> };
 
   const render = async (now = '2026-12-20T10:00:00Z'): Promise<HTMLElement> => {
     TestBed.configureTestingModule({
@@ -84,6 +89,9 @@ describe('WeeklyPageComponent', () => {
           useValue: { watchAll: () => logs$, watchSocialization: () => social$ },
         },
         { provide: WeeklyReviewRepository, useValue: reviews },
+        { provide: MediaRepository, useValue: media },
+        { provide: PhotoUploadService, useValue: uploads },
+        { provide: CLOUDINARY_CLOUD_NAME, useValue: 'demo-cloud' },
       ],
     });
     fixture = TestBed.createComponent(WeeklyPageComponent);
@@ -130,6 +138,8 @@ describe('WeeklyPageComponent', () => {
     });
     logs$ = of([]);
     social$ = of([]);
+    media = { watchRange: vi.fn(() => of([])) };
+    uploads = { removeMedia: vi.fn(async () => undefined) };
     reviews = {
       save: vi.fn(async () => undefined),
       watchWeek: vi.fn((_household: string, _dog: string, week: number) =>
@@ -308,5 +318,71 @@ describe('WeeklyPageComponent', () => {
     await submit(element);
 
     expect(text(element, '[role="alert"]')).toContain('common.errors.saveFailed');
+  });
+
+  describe('photos and videos (AC7.5)', () => {
+    const video = (id: string, date: string, addedBy: string): Media => ({
+      addedAt: new Date(`${date}T08:00:00Z`),
+      addedBy,
+      caption: '',
+      date,
+      id,
+      kind: 'video',
+      youtubeId: 'dQw4w9WgXcQ',
+    });
+
+    it("should show the week's media per day, newest day first, delete only on mine", async () => {
+      media.watchRange.mockReturnValue(
+        of([video('a', '2026-12-18', 'alice'), video('b', '2026-12-20', 'bob')])
+      );
+      const element = await render();
+
+      expect(media.watchRange).toHaveBeenLastCalledWith('h1', 'd1', '2026-12-17', '2026-12-23');
+      expect(text(element, '.weekly__media-title')).toContain('media.title');
+      const days = Array.from(element.querySelectorAll('.media-list__day'));
+      expect(days).toHaveLength(2);
+      expect(days[0]?.querySelector('.media-item__delete')).toBeNull();
+      expect(days[1]?.querySelector('.media-item__delete')).not.toBeNull();
+    });
+
+    it('should follow the week the member moves to', async () => {
+      const element = await render();
+      await click(element, '.weekly__previous');
+
+      expect(media.watchRange).toHaveBeenLastCalledWith('h1', 'd1', '2026-12-10', '2026-12-16');
+    });
+
+    it('should say when the week has no media', async () => {
+      const element = await render();
+
+      expect(text(element, '.weekly__media-empty')).toContain('media.emptyWeek');
+    });
+
+    it('should not show media on week 0', async () => {
+      const element = await render('2026-11-04T10:00:00Z');
+
+      expect(element.querySelector('.weekly__media')).toBeNull();
+      expect(media.watchRange).not.toHaveBeenCalled();
+    });
+
+    it('should delete my item through the upload service (AC7.6)', async () => {
+      const mine = video('a', '2026-12-18', 'alice');
+      media.watchRange.mockReturnValue(of([mine]));
+      const element = await render();
+      await click(element, '.media-item__delete');
+
+      expect(uploads.removeMedia).toHaveBeenCalledWith('h1', 'd1', mine);
+    });
+
+    it('should say when a deletion fails', async () => {
+      media.watchRange.mockReturnValue(of([video('a', '2026-12-18', 'alice')]));
+      uploads.removeMedia.mockRejectedValueOnce(new Error('denied'));
+      const element = await render();
+      await click(element, '.media-item__delete');
+      await new Promise((resolve) => setTimeout(resolve));
+      await fixture.whenStable();
+
+      expect(text(element, '.weekly__media-error')).toContain('media.errors.deleteFailed');
+    });
   });
 });
