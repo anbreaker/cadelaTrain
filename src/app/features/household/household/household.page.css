@@ -30,6 +30,7 @@
 }
 
 .household__export,
+.household__share,
 .household__arrival-save {
   align-self: flex-start;
 }
@@ -38,6 +39,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
+}
+
+.household__link {
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .household__feedback {

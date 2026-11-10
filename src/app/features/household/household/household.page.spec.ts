@@ -206,7 +206,7 @@ describe('HouseholdPageComponent', () => {
     );
   });
 
-  it('should store the invitation and send the sign-in link to that email (AC1.3)', async () => {
+  it('should store the invitation for that email (AC1.3)', async () => {
     const fixture = await render();
 
     await invite(fixture, ' Luis@Example.com ');
@@ -217,22 +217,88 @@ describe('HouseholdPageComponent', () => {
       'luis@example.com',
       'ana'
     );
-    expect(session.sendInvitationLink).toHaveBeenCalledWith('luis@example.com');
     expect(element(fixture).querySelector('[role="status"]')?.textContent).toContain(
       'household.invited'
     );
   });
 
-  it('should say the person was already invited and not send the link again (AC1.3)', async () => {
+  it('should say the person was already invited (AC1.3)', async () => {
     households.invite.mockResolvedValueOnce('alreadyInvited');
     const fixture = await render();
 
     await invite(fixture, 'luis@example.com');
 
-    expect(session.sendInvitationLink).not.toHaveBeenCalled();
     expect(element(fixture).querySelector('[role="status"]')?.textContent).toContain(
       'household.alreadyInvited'
     );
+  });
+
+  describe('sharing the app link (AC1.3)', () => {
+    const appUrl = `${document.location.origin}/`;
+    const shareButton = (
+      fixture: ComponentFixture<HouseholdPageComponent>
+    ): HTMLButtonElement | null =>
+      element(fixture).querySelector<HTMLButtonElement>('.household__share');
+    const stubNavigator = (key: 'clipboard' | 'share', value: unknown): void => {
+      Object.defineProperty(navigator, key, { configurable: true, value });
+    };
+
+    afterEach(() => {
+      stubNavigator('share', undefined);
+      stubNavigator('clipboard', undefined);
+    });
+
+    it('should not offer the link before anyone is invited', async () => {
+      const fixture = await render();
+
+      expect(shareButton(fixture)).toBeNull();
+    });
+
+    it('should share the app link with the device share sheet after inviting', async () => {
+      const share = vi.fn(async () => undefined);
+      stubNavigator('share', share);
+      const fixture = await render();
+      await invite(fixture, 'luis@example.com');
+
+      shareButton(fixture)?.click();
+      await fixture.whenStable();
+
+      expect(share).toHaveBeenCalledWith({ text: 'household.shareText', url: appUrl });
+    });
+
+    it('should offer the link again when the person was already invited', async () => {
+      households.invite.mockResolvedValueOnce('alreadyInvited');
+      const fixture = await render();
+
+      await invite(fixture, 'luis@example.com');
+
+      expect(shareButton(fixture)).not.toBeNull();
+    });
+
+    it('should copy the link when the device cannot share', async () => {
+      const writeText = vi.fn(async () => undefined);
+      stubNavigator('clipboard', { writeText });
+      const fixture = await render();
+      await invite(fixture, 'luis@example.com');
+
+      shareButton(fixture)?.click();
+      await fixture.whenStable();
+
+      expect(writeText).toHaveBeenCalledWith(appUrl);
+      expect(element(fixture).querySelector('[role="status"]')?.textContent).toContain(
+        'household.linkCopied'
+      );
+    });
+
+    it('should keep the link visible when it can be neither shared nor copied', async () => {
+      const fixture = await render();
+      await invite(fixture, 'luis@example.com');
+
+      shareButton(fixture)?.click();
+      await fixture.whenStable();
+
+      expect(element(fixture).querySelector('.household__link')?.textContent?.trim()).toBe(appUrl);
+    });
   });
 
   it('should explain when the invitation cannot be sent', async () => {

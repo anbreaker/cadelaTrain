@@ -95,14 +95,11 @@ describe('AuthSessionStore', () => {
     profileLocale = null;
     pendingInvitations = [];
     gateway = {
-      isSignInLink: vi.fn(() => true),
       onUserChanged: vi.fn((listener: (user: AuthUser | null) => void) => {
         emitUser = listener;
         return (): void => undefined;
       }),
-      sendSignInLink: vi.fn(async () => undefined),
       signInWithGoogle: vi.fn(async () => undefined),
-      signInWithLink: vi.fn(async () => undefined),
       signOut: vi.fn(async () => undefined),
       verifyUser: vi.fn(async () => undefined),
     };
@@ -440,46 +437,6 @@ describe('AuthSessionStore', () => {
 
     expect(profiles.ensureProfile).toHaveBeenCalledTimes(1);
     expect(store.status()).toBe('loading');
-  });
-
-  it('should send a sign-in link to the normalized email and remember it on this device', async () => {
-    const store = createStore();
-
-    await store.sendSignInLink('  Ana@Example.com ');
-
-    expect(gateway.sendSignInLink).toHaveBeenCalledWith(
-      'ana@example.com',
-      `${document.location.origin}/login`
-    );
-    expect(localStorage.getItem('dela-sign-in-email')).toBe('ana@example.com');
-  });
-
-  it('should complete an email-link sign-in with the remembered email', async () => {
-    localStorage.setItem('dela-sign-in-email', 'ana@example.com');
-    const store = createStore();
-
-    const result = await store.completeSignInLink('https://dela.app/login?oobCode=1');
-
-    expect(result).toBe('signedIn');
-    expect(gateway.signInWithLink).toHaveBeenCalledWith(
-      'ana@example.com',
-      'https://dela.app/login?oobCode=1'
-    );
-    expect(localStorage.getItem('dela-sign-in-email')).toBeNull();
-  });
-
-  it('should ask for the email when the link opens on another device', async () => {
-    const store = createStore();
-
-    expect(await store.completeSignInLink('https://dela.app/login?oobCode=1')).toBe('emailNeeded');
-    expect(gateway.signInWithLink).not.toHaveBeenCalled();
-
-    await store.completeSignInLink('https://dela.app/login?oobCode=1', ' Ana@Example.com');
-
-    expect(gateway.signInWithLink).toHaveBeenCalledWith(
-      'ana@example.com',
-      'https://dela.app/login?oobCode=1'
-    );
   });
 
   it('should store the language in the profile of a signed-in user', async () => {

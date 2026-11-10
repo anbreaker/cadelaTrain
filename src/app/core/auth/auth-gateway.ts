@@ -7,12 +7,9 @@ import { createFirebaseAuthGateway } from './firebase-auth-gateway';
 
 /** What the session needs from the auth provider; the seam lets the store be tested without Firebase. */
 export interface AuthGateway {
-  isSignInLink(url: string): boolean;
   /** Calls `listener` with the current user and on every change; returns the unsubscribe function. */
   onUserChanged(listener: (user: AuthUser | null) => void): () => void;
-  sendSignInLink(email: string, continueUrl: string): Promise<void>;
   signInWithGoogle(): Promise<void>;
-  signInWithLink(email: string, url: string): Promise<void>;
   signOut(): Promise<void>;
   /** Asks the auth server whether the signed-in account still exists; rejects with its error code. */
   verifyUser(): Promise<void>;
