@@ -50,7 +50,6 @@
     },
     "cues": {
       "drop": "larga",
-      "heel": "junto",
       "no": "fora",
       "praise": "muito bem",
       "release": "joga"
@@ -140,7 +139,7 @@
       "lowerDifficulty": "Se algo não correr bem, baixar a dificuldade.",
       "noFenceWatching": "Vigiar a vedação ou o caminho não é o trabalho dela: que não passe horas de guarda.",
       "restAfterActivity": "Depois da atividade, descanso: sair, treinar, comer e dormir.",
-      "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieta, joga, deixa, fora, muito bem.",
+      "sameWords": "As mesmas palavras para todos: {{name}}, anda, senta, deita, quieta, joga, deixa, fora, junto, muito bem.",
       "shortSessions": "Sessões de 3 a 5 minutos, várias por dia.",
       "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda».",
       "sniffing": "Deixa-a usar o faro: esconde uns prémios na relva e deixa-a procurá-los."
@@ -295,7 +294,7 @@
         "name": "Deita"
       },
       "leash": {
-        "cue": "muito bem",
+        "cue": "junto",
         "description": "Caminha ao teu lado com a trela solta.",
         "howTo": {
           "levelUp": "4 em cada 5 passeios curtos com a trela solta: alarga os troços, depois no quintal com mais cheiros e depois pelo caminho da quinta.",
@@ -305,6 +304,7 @@
           "step2": "Caminha uns passos; sempre que for junto à tua perna com a trela solta, diz «muito bem» e dá-lhe um prémio junto à perna.",
           "step3": "Se a trela esticar, para sem te mexeres; assim que afrouxar, diz «muito bem» e continua a andar.",
           "step4": "Muda de direção muitas vezes e premeia-a quando te seguir.",
+          "step5": "Quando já caminhar ao teu lado quase sempre, diz «junto» mesmo quando chegar à tua perna e premeia-a.",
           "troubleshoot": "Se puxa o tempo todo, o sítio entusiasma-a demais: volta a um lugar mais calmo e premeia mais vezes, a cada um ou dois passos."
         },
         "name": "Trela"
@@ -777,7 +777,6 @@
   "rules": {
     "cues": {
       "drop": "Para largar o que tem na boca",
-      "heel": "Para andar ao teu lado",
       "hint": "Usem todos exatamente estas palavras: se cada um disser uma coisa, {{name}} não sabe o que lhe pedem.",
       "no": "Para interromper algo",
       "praise": "Para elogiar",

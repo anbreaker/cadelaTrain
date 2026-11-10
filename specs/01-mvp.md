@@ -102,6 +102,6 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 
 > Everyone who trains the puppy can look up the same words and rules at any time.
 
-- **AC8.1 Shared words and principles.** A "Rules" screen (`/rules`) lists, read-only, the spoken cue word of every skill in the active language (`catalog.skills.<key>.cue`), the praise and "no" words (`catalog.cues.*`) and the training principles (`seed/principles.json`).
+- **AC8.1 Shared words and principles.** A "Rules" screen (`/rules`) lists, read-only, the spoken cue word of every skill in the active language (`catalog.skills.<key>.cue`), the drop, praise, release and "no" words (`catalog.cues.*`; walking at your side is the leash cue «junto»), with no word used for two cues in any language, and the training principles (`seed/principles.json`).
 - **AC8.2 Family rules (planned).** Members write and edit the household's own rules (who feeds her, where she sleeps, other agreements); stored per household and protected by the rules like other household data.
 - **AC8.3 AI help (planned).** From `api/` only, Claude drafts family rules from a few answers; the household reviews and saves them. Uses the app's server key (`ANTHROPIC_API_KEY`), never a user's credentials in the client.

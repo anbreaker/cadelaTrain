@@ -50,7 +50,6 @@
     },
     "cues": {
       "drop": "drop it",
-      "heel": "heel",
       "no": "off",
       "praise": "good",
       "release": "joga"
@@ -140,7 +139,7 @@
       "lowerDifficulty": "If something isn't working, make it easier.",
       "noFenceWatching": "Watching the fence or the road isn't her job: don't let her spend hours on guard.",
       "restAfterActivity": "After activity comes rest: go out, train, eat, sleep.",
-      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, joga, leave it, off, good.",
+      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, joga, leave it, off, heel, good.",
       "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
       "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
       "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
@@ -295,7 +294,7 @@
         "name": "Down"
       },
       "leash": {
-        "cue": "good",
+        "cue": "heel",
         "description": "Walks next to you on a loose leash.",
         "howTo": {
           "levelUp": "4 out of 5 short walks with a loose leash: walk longer stretches, then in the yard with more smells, then along the farm track.",
@@ -305,6 +304,7 @@
           "step2": "Walk a few steps; every time she is next to your leg with a loose leash, say “good” and give her a treat next to your leg.",
           "step3": "If the leash goes tight, stop and stand still; as soon as it loosens, say “good” and keep walking.",
           "step4": "Change direction often and reward her when she follows you.",
+          "step5": "When she walks at your side most of the time, say “heel” just as she reaches your leg, then reward.",
           "troubleshoot": "If she pulls all the time, the place is too exciting: go back somewhere quieter and reward more often, every one or two steps."
         },
         "name": "Leash"
@@ -777,7 +777,6 @@
   "rules": {
     "cues": {
       "drop": "To let go of what is in her mouth",
-      "heel": "To walk by your side",
       "hint": "Everyone uses exactly these words: if each person says something different, {{name}} can't tell what you're asking.",
       "no": "To stop something",
       "praise": "To praise",

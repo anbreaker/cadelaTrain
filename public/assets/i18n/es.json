@@ -50,7 +50,6 @@
     },
     "cues": {
       "drop": "suelta",
-      "heel": "junto",
       "no": "fuera",
       "praise": "muy bien",
       "release": "joga"
@@ -140,7 +139,7 @@
       "lowerDifficulty": "Si algo no sale, bajar la dificultad.",
       "noFenceWatching": "Vigilar la valla o el camino no es su trabajo: que no pase horas haciendo guardia.",
       "restAfterActivity": "Después de la actividad, descanso: salir, entrenar, comer y dormir.",
-      "sameWords": "Las mismas palabras para todos: {{name}}, ven, sienta, tumba, quieta, joga, deja, fuera, muy bien.",
+      "sameWords": "Las mismas palabras para todos: {{name}}, ven, sienta, tumba, quieta, joga, deja, fuera, junto, muy bien.",
       "shortSessions": "Sesiones de 3 a 5 minutos, varias al día.",
       "smallRewards": "Premios del tamaño de un garbanzo, sacados de su ración. Un premio especial (pollo cocido) solo para «ven».",
       "sniffing": "Deja que use el olfato: esconde unos premios en la hierba y que los busque."
@@ -295,7 +294,7 @@
         "name": "Tumba"
       },
       "leash": {
-        "cue": "muy bien",
+        "cue": "junto",
         "description": "Camina a tu lado con la correa floja.",
         "howTo": {
           "levelUp": "4 de cada 5 paseos cortos con la correa floja: alarga los tramos, luego en el patio con más olores y después por el camino de la finca.",
@@ -305,6 +304,7 @@
           "step2": "Camina unos pasos; cada vez que vaya junto a tu pierna con la correa floja, di «muy bien» y dale un premio junto a tu pierna.",
           "step3": "Si la correa se tensa, detente sin moverte; en cuanto se afloje, di «muy bien» y sigue caminando.",
           "step4": "Cambia de dirección a menudo y prémiala cuando te siga.",
+          "step5": "Cuando ya camine a tu lado casi siempre, di «junto» justo cuando llegue a tu pierna y prémiala.",
           "troubleshoot": "Si tira todo el rato, el sitio la emociona demasiado: vuelve a un lugar más tranquilo y premia más a menudo, cada uno o dos pasos."
         },
         "name": "Correa"
@@ -777,7 +777,6 @@
   "rules": {
     "cues": {
       "drop": "Para soltar lo que tiene en la boca",
-      "heel": "Para caminar a tu lado",
       "hint": "Usad todos exactamente estas palabras: si cada uno dice una cosa, {{name}} no sabe qué se le pide.",
       "no": "Para cortar algo",
       "praise": "Para felicitar",

@@ -107,6 +107,12 @@ export const CARE_ALERTS = careAlertsSeed.items as CareAlert[];
 /** In display order. */
 export const PRINCIPLES = principlesSeed.items as Principle[];
 
+/**
+ * Spoken words not tied to one skill (`catalog.cues.*`), in display order. Walking at your side
+ * is the leash skill's own cue.
+ */
+export const EXTRA_CUES = ['drop', 'praise', 'release', 'no'] as const;
+
 /** In display order. */
 export const ROUTINE_GUIDES = routineGuidesSeed.items as RoutineGuide[];
 
