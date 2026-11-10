@@ -97,6 +97,9 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 - **AC7.5 Viewing.** Media appear per day in the weekly review (H5) and as a timeline in progress (H4). Photos are delivered by Cloudinary in responsive sizes (`f_auto,q_auto`, srcset). Videos load as a facade: the thumbnail first, and the `youtube-nocookie.com` player only after a tap.
 - **AC7.6 Delete.** The author deletes their own item; for a photo, `POST /api/delete-media` also removes the Cloudinary asset.
 - **AC7.7 Privacy.** Only household members read media documents (rules). Photos live in a per-household Cloudinary folder with random public ids; delivery URLs are unguessable but public if shared (authenticated delivery is a roadmap item).
+- **AC7.8 Where.** Today, once the puppy is home, has a "Photos and videos of the day" section (`TodayMediaComponent`) with an "Add" form (`app-media-form`: photo or video, date, caption, skill) and the day's items. The weekly review shows the week's items per day, newest day first, for weeks 1 and later (not week 0); progress shows every item from her birth to today as a timeline. Both are read-only except the author's delete.
+- **AC7.9 Configuration.** The public `NG_APP_CLOUDINARY_CLOUD_NAME` names the Cloudinary cloud for upload and delivery. Without it the form offers only videos and explains that photos are not set up; videos keep working.
+- **AC7.10 Public id check.** After the upload the app accepts the returned `public_id` only when it is exactly `dela/<householdId>/<id>` (the shape the rules accept); otherwise nothing is recorded and the form shows an error. Cloudinary accounts with dynamic folders need the upload preset option "use the asset folder as the public ID prefix".
 
 ## H8. Household rules
 

@@ -8,19 +8,26 @@ import { LOCALE_BY_LANG } from '@core/const/lang.const';
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
+import { MediaRepository } from '@data/media.repository';
+import { CLOUDINARY_CLOUD_NAME, PhotoUploadService } from '@data/photo-upload.service';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { WeeklyReviewRepository } from '@data/weekly-review.repository';
 import { preparationChecklist } from '@domain/catalog';
 import { IsoDate, madridToday } from '@domain/dates';
+import { Media } from '@domain/media';
 import {
   PREPARATION_WEEK,
   REVIEW_NOTES_MAX,
+  ReviewWeek,
+  reviewWeek,
   reviewWeekOf,
   validateWeeklyReviewDraft,
   WeeklyReview,
   WeeklyReviewDraft,
   weeklySummary,
 } from '@domain/weekly-review';
+import { MediaListComponent } from '@shared/components/media-list/media-list';
+import { mediaDayViews } from '@shared/components/media-list/media-list-view';
 import { PreparationListComponent } from '@shared/components/preparation-list/preparation-list';
 import { eventValue } from '@shared/utils/event-value';
 
@@ -34,6 +41,9 @@ type SaveState = 'failed' | 'idle' | 'saved' | 'saving';
 const sameDog = (a: DogKey | null, b: DogKey | null): boolean =>
   a?.dogId === b?.dogId && a?.householdId === b?.householdId;
 
+const sameWeek = (a: null | ReviewWeek, b: null | ReviewWeek): boolean =>
+  a?.start === b?.start && a?.end === b?.end;
+
 /** "9,8" or "9.8" → 9.8; empty → `null`; anything else → `NaN`, which validation rejects. */
 const parseWeight = (text: string): null | number =>
   text.trim() === '' ? null : Number(text.trim().replace(',', '.'));
@@ -41,13 +51,13 @@ const parseWeight = (text: string): null | number =>
 /**
  * The weekly review (H5): one week since the arrival at a time, from the current week back to week
  * 0. What she does well, what is hard and the new socialization come from the logs; weight and
- * notes are written by any member. Week 0, before the arrival, shows the preparation checklist,
- * notes and a link to the plan.
+ * notes are written by any member. Weeks from 1 show their photos and videos per day (AC7.5). Week
+ * 0, before the arrival, shows the preparation checklist, notes and a link to the plan.
  */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PreparationListComponent, RouterLink, TranslocoDirective],
+  imports: [MediaListComponent, PreparationListComponent, RouterLink, TranslocoDirective],
   selector: 'app-weekly-page',
   styleUrl: './weekly.page.css',
   templateUrl: './weekly.page.html',
@@ -57,6 +67,9 @@ export class WeeklyPageComponent {
   private readonly language = inject(LanguageStore);
   private readonly taskLogRepository = inject(TaskLogRepository);
   private readonly reviews = inject(WeeklyReviewRepository);
+  private readonly mediaRepository = inject(MediaRepository);
+  private readonly uploads = inject(PhotoUploadService);
+  protected readonly cloudName = inject(CLOUDINARY_CLOUD_NAME);
   private readonly today = madridToday(inject(NOW)());
 
   private readonly dogKey = computed(
@@ -185,6 +198,39 @@ export class WeeklyPageComponent {
     };
   });
 
+  /** The dates of the shown week; `null` on week 0, which has no media. */
+  private readonly mediaWeek = computed(
+    (): null | ReviewWeek => {
+      const dog = this.dog();
+      const week = this.week();
+      return dog && week !== null && week !== PREPARATION_WEEK
+        ? reviewWeek(dog.arrivalDate, week)
+        : null;
+    },
+    { equal: sameWeek }
+  );
+  private readonly media = toSignal(
+    combineLatest([toObservable(this.dogKey), toObservable(this.mediaWeek)]).pipe(
+      switchMap(([key, week]) =>
+        key && week
+          ? this.mediaRepository
+              .watchRange(key.householdId, key.dogId, week.start, week.end)
+              .pipe(catchError(() => this.readError<Media[]>([])))
+          : of([])
+      )
+    ),
+    { initialValue: [] }
+  );
+  protected readonly mediaDays = computed(() =>
+    mediaDayViews(this.media(), {
+      formatDate: this.formatDate(),
+      members: this.session.household()?.members ?? {},
+      uid: this.session.user()?.uid ?? null,
+    })
+  );
+  protected readonly removeFailed = signal(false);
+  protected readonly removingId = signal<null | string>(null);
+
   protected goToWeek(offset: number): void {
     const week = this.week();
     if (week === null) return;
@@ -227,6 +273,22 @@ export class WeeklyPageComponent {
       this._saveState.set('saved');
     } catch {
       this._saveState.set('failed');
+    }
+  }
+
+  /** The author deletes their own photo or video (AC7.6). */
+  protected async removeMedia(media: Media): Promise<void> {
+    const key = this.dogKey();
+    if (!key || this.removingId()) return;
+    this.removingId.set(media.id);
+    this.removeFailed.set(false);
+    try {
+      await this.uploads.removeMedia(key.householdId, key.dogId, media);
+    } catch (error) {
+      console.warn('Weekly: could not delete the media', error);
+      this.removeFailed.set(true);
+    } finally {
+      this.removingId.set(null);
     }
   }
 
