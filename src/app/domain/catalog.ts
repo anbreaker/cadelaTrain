@@ -27,7 +27,14 @@ export interface ScheduleRow {
   title: string;
 }
 
+/** Age range in weeks of a plan week. */
+export interface WeekAges {
+  from: number;
+  to: number;
+}
+
 export interface PlanWeek {
+  ageWeeks: WeekAges;
   focusSkills: string[];
   keySkills: string[];
   week: number;

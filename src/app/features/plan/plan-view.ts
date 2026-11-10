@@ -1,13 +1,7 @@
-import { PLAN_WEEKS, PlanWeek, planWeek } from '@domain/catalog';
+import { PLAN_WEEKS, planWeek, WeekAges } from '@domain/catalog';
 import { addDays, IsoDate } from '@domain/dates';
 import { DailyGuidance } from '@domain/guidance';
 import { DayContext, SlotView, slotViews } from '@features/today/today-view';
-
-/** Age range of a plan week, as `seed/plan-weeks.json` states it. */
-export interface WeekAges {
-  from: number;
-  to: number;
-}
 
 export interface KeySkillView {
   cueKey: string;
@@ -25,9 +19,6 @@ export interface PlanWeekView {
   readyWhenKey: string;
   week: number;
 }
-
-/** The seed carries the age range of every week next to the fields `PlanWeek` declares. */
-type SeedPlanWeek = PlanWeek & { ageWeeks: WeekAges };
 
 const DAYS_PER_WEEK = 7;
 
@@ -49,7 +40,7 @@ const keySkill = (key: string): KeySkillView => ({
 /** The eight plan weeks with their texts and key skills; `currentWeek` is clamped to the plan. */
 export function planWeekViews(currentWeek: number): PlanWeekView[] {
   const current = planWeek(currentWeek).week;
-  return (PLAN_WEEKS as readonly SeedPlanWeek[]).map(({ ageWeeks, keySkills, week }) => ({
+  return PLAN_WEEKS.map(({ ageWeeks, keySkills, week }) => ({
     ages: { from: ageWeeks.from, to: ageWeeks.to },
     current: week === current,
     howKey: `catalog.planWeeks.week${week}.how`,
