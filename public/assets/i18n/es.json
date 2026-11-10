@@ -139,7 +139,7 @@
       "lowerDifficulty": "Si algo no sale, bajar la dificultad.",
       "noFenceWatching": "Vigilar la valla o el camino no es su trabajo: que no pase horas haciendo guardia.",
       "restAfterActivity": "Después de la actividad, descanso: salir, entrenar, comer y dormir.",
-      "sameWords": "Las mismas palabras para todos: {{name}}, ven, sienta, tumba, quieta, joga, deja, fuera, junto, muy bien.",
+      "sameWords": "Las mismas palabras para todos: {{name}}, ven, sienta, tumba, quieta, joga, deja, fuera, junto, trae, muy bien.",
       "shortSessions": "Sesiones de 3 a 5 minutos, varias al día.",
       "smallRewards": "Premios del tamaño de un garbanzo, sacados de su ración. Un premio especial (pollo cocido) solo para «ven».",
       "sniffing": "Deja que use el olfato: esconde unos premios en la hierba y que los busque."
@@ -219,6 +219,10 @@
         "instructions": "Necesidades y paseo tranquilo por una zona segura de la finca, lejos del taller y de los animales.",
         "title": "Necesidades y exploración de la finca"
       },
+      "fetchPlay": {
+        "instructions": "Lanza un juguete blando muy cerca y di «trae»; cámbialo por un premio con «suelta». 3–5 lanzamientos y termina con calma.",
+        "title": "Juego de traer (cobro)"
+      },
       "greeting": {
         "instructions": "Saludo tranquilo y directa al sitio de las necesidades. «Muy bien» y premio al terminar.",
         "title": "Saludo y necesidades"
@@ -246,6 +250,10 @@
       "session3": {
         "instructions": "Repasa lo que ya sabe y prueba la orden nueva de la semana. Termina con algo que ya sabe.",
         "title": "Sesión 3: repaso y orden nueva"
+      },
+      "sniffGame": {
+        "instructions": "Esconde 3–5 premios de su ración y di «busca». Termina cuando todavía quiere más.",
+        "title": "Juego de olfato (busca)"
       },
       "socialization": {
         "instructions": "Una experiencia nueva, a la distancia a la que esté tranquila. Premia la calma y la curiosidad.",
@@ -353,6 +361,22 @@
           "troubleshoot": "Si hay un accidente, límpialo con un limpiador enzimático sin decir nada y sácala más a menudo; un accidente solo significa que necesitaba salir antes."
         },
         "name": "Necesidades"
+      },
+      "retrieve": {
+        "cue": "trae",
+        "description": "Te trae un juguete y lo cambia por un premio: un juego que encaja con su instinto de perra cobradora.",
+        "howTo": {
+          "levelUp": "Te lo trae 4 de cada 5 veces: lánzalo un poco más lejos, luego en el patio y después en la hierba de la finca.",
+          "mistakes": "Perseguirla para quitarle el juguete, arrancárselo de la boca, sesiones largas y convertir perseguir pelotas sin fin en el centro de su día.",
+          "setup": "Un juguete blando que le guste y premios en el bolsillo. Una habitación o un pasillo tranquilos, cuando tiene ganas de jugar pero no está sobreexcitada.",
+          "step1": "Mueve el juguete por el suelo y lánzalo muy cerca, a uno o dos metros.",
+          "step2": "Cuando lo coja, felicítala con alegría y retrocede unos pasos para que te siga con el juguete.",
+          "step3": "Cuando llegue a ti, enséñale un premio y di «suelta»; en cuanto lo suelte, di «muy bien», dale el premio y recoge el juguete.",
+          "step4": "Cuando te lo traiga siempre, di «trae» justo al lanzarlo.",
+          "step5": "Termina tras 3–5 lanzamientos, cuando todavía quiere más, y acaba con calma con un mordedor.",
+          "troubleshoot": "Si se escapa con el juguete, no la persigas: aléjate de ella, agáchate y llámala con alegría, y la próxima vez usa una distancia más corta o un pasillo."
+        },
+        "name": "Cobro de objetos"
       },
       "search": {
         "cue": "busca",

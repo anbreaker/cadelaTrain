@@ -165,6 +165,39 @@ describe('templateGuidance', () => {
     );
   });
 
+  it('should add a daily fetch game (retrieve) and scent game (search) as 5-minute care tasks', () => {
+    const { tasks } = templateGuidance(input());
+    const byTitle = (id: string): GuidanceTask | undefined =>
+      tasks.find((task) => task.title === `catalog.schedule.${id}.title`);
+
+    expect(byTitle('fetchPlay')).toMatchObject({
+      durationMin: 5,
+      instructions: 'catalog.schedule.fetchPlay.instructions',
+      kind: 'care',
+      skillKey: 'retrieve',
+      slot: 'afternoon',
+    });
+    expect(byTitle('sniffGame')).toMatchObject({
+      durationMin: 5,
+      guideKey: 'search',
+      instructions: 'catalog.schedule.sniffGame.instructions',
+      kind: 'care',
+      slot: 'morning',
+    });
+  });
+
+  it('should never schedule retrieve as a training session of its own, in any week', () => {
+    for (const planWeek of [1, 2, 3, 4, 5, 6, 7, 8]) {
+      const training = tasksOf(
+        'training',
+        templateGuidance(input({ dog: { ...dela, planWeek } })).tasks
+      );
+
+      expect(training).toHaveLength(3);
+      expect(training.map((task) => task.skillKey)).not.toContain('retrieve');
+    }
+  });
+
   it('should describe itself as template guidance for the date, locale, week and age', () => {
     const guidance = templateGuidance(input());
 

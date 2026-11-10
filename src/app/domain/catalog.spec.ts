@@ -58,6 +58,33 @@ describe('bundled catalogs', () => {
     ).toEqual([2, 3]);
   });
 
+  it('should teach retrieve (trae) as the last skill, outside the plan weeks', () => {
+    const steps = SKILLS.find((skill) => skill.key === 'retrieve')?.howTo.steps ?? [];
+
+    expect(SKILLS.map((skill) => skill.key).at(-1)).toBe('retrieve');
+    expect(steps.length).toBeGreaterThanOrEqual(4);
+    expect(steps.length).toBeLessThanOrEqual(5);
+    for (const week of PLAN_WEEKS) {
+      expect(week.focusSkills).not.toContain('retrieve');
+      expect(week.keySkills).not.toContain('retrieve');
+    }
+  });
+
+  it('should use «trae», «traz» and "fetch" as the retrieve cue', () => {
+    const cues = Object.fromEntries(
+      ['es', 'pt', 'en'].map((lang) => [
+        lang,
+        (
+          JSON.parse(
+            readFileSync(resolve(process.cwd(), `public/assets/i18n/${lang}.json`), 'utf8')
+          ) as { catalog: { skills: Record<string, { cue: string }> } }
+        ).catalog.skills['retrieve']?.cue,
+      ])
+    );
+
+    expect(cues).toEqual({ en: 'fetch', es: 'trae', pt: 'traz' });
+  });
+
   it('should translate every word-only cue', () => {
     expect(EXTRA_CUES).toEqual(['drop', 'praise', 'release', 'no']);
     for (const cue of EXTRA_CUES) expect(has(`catalog.cues.${cue}`)).toBe(true);
@@ -135,6 +162,25 @@ describe('bundled catalogs', () => {
       visit: 'handling',
     });
     for (const row of SCHEDULE) if (row.guideKey) expect(guideHowTo(row.guideKey)).not.toBeNull();
+  });
+
+  it('should schedule the daily fetch and scent games as 5-minute care rows', () => {
+    const row = (id: string) => SCHEDULE.find((item) => item.id === id);
+
+    expect(row('fetchPlay')).toMatchObject({
+      durationMin: 5,
+      isTask: true,
+      kind: 'care',
+      skillKey: 'retrieve',
+      slot: 'afternoon',
+    });
+    expect(row('sniffGame')).toMatchObject({
+      durationMin: 5,
+      guideKey: 'search',
+      isTask: true,
+      kind: 'care',
+      slot: 'morning',
+    });
   });
 
   it('should resolve a guide key to a skill guide first, then to a routine guide', () => {
