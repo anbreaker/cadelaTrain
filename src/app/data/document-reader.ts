@@ -59,6 +59,13 @@ export class DocumentReader {
     return isAbsent(this.data[field]) ? null : this.integer(field, min, max);
   }
 
+  /** A finite number within `min`…`max`; `null` when the field is null or missing. */
+  nullableNumber(field: string, min: number, max: number): null | number {
+    const isInRange = (value: unknown): value is number =>
+      typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
+    return isAbsent(this.data[field]) ? null : this.read(field, isInRange);
+  }
+
   /** `null` when the field is null or missing. */
   nullableOneOf<T extends string>(field: string, values: readonly T[]): null | T {
     return isAbsent(this.data[field]) ? null : this.oneOf(field, values);

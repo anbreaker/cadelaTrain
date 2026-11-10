@@ -1,5 +1,11 @@
 import { SocializationLog, TaskLog } from './task-log';
-import { reviewWeek, reviewWeekOf, weeklySummary, WeeklySummaryInput } from './weekly-review';
+import {
+  reviewWeek,
+  reviewWeekOf,
+  validateWeeklyReviewDraft,
+  weeklySummary,
+  WeeklySummaryInput,
+} from './weekly-review';
 
 const ARRIVAL = '2026-12-05';
 
@@ -158,5 +164,20 @@ describe('weeklySummary', () => {
 
     expect(summary.planWeek).toBe(2);
     expect(summary.ageWeeks).toBe(9);
+  });
+});
+
+describe('validateWeeklyReviewDraft (AC5.3)', () => {
+  it('should accept free notes and an optional weight in kg', () => {
+    expect(validateWeeklyReviewDraft({ notes: 'Buena semana', weightKg: 9.4 })).toEqual([]);
+    expect(validateWeeklyReviewDraft({ notes: '', weightKg: null })).toEqual([]);
+  });
+
+  it('should reject notes over 2000 characters and a weight outside 0.5–100 kg', () => {
+    expect(validateWeeklyReviewDraft({ notes: 'a'.repeat(2001), weightKg: 0.4 })).toEqual([
+      'notesTooLong',
+      'weightOutOfRange',
+    ]);
+    expect(validateWeeklyReviewDraft({ notes: '', weightKg: 100.5 })).toEqual(['weightOutOfRange']);
   });
 });

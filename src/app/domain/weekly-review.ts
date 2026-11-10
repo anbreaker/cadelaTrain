@@ -3,6 +3,7 @@ import { addDays, ageInWeeks, daysUntil, IsoDate, madridToday } from './dates';
 import { planWeekFor } from './plan-week';
 import { MASTERED_RATE, skillRate } from './progress';
 import { Reaction, SocializationLog, TaskLog } from './task-log';
+import { collectErrors, ValidationRule } from './validation';
 
 const DAYS_PER_WEEK = 7;
 /** Below this rate, with a full evaluation window, a skill is struggling (AC5.2). */
@@ -106,3 +107,39 @@ export function weeklySummary(input: WeeklySummaryInput): WeeklySummary {
     week,
   };
 }
+
+export const REVIEW_NOTES_MAX = 2000;
+export const WEIGHT_MIN_KG = 0.5;
+export const WEIGHT_MAX_KG = 100;
+
+/** A stored weekly review: what members write; the rest of the review is computed (AC5.3). */
+export interface WeeklyReview {
+  notes: string;
+  updatedAt: Date;
+  /** uid of the last editor. */
+  updatedBy: string;
+  weekNumber: number;
+  /** `null` when nobody weighed her that week. */
+  weightKg: null | number;
+}
+
+/** What a member edits in a weekly review. */
+export interface WeeklyReviewDraft {
+  notes: string;
+  weightKg: null | number;
+}
+
+export type WeeklyReviewError = 'notesTooLong' | 'weightOutOfRange';
+
+const WEEKLY_REVIEW_RULES: readonly ValidationRule<WeeklyReviewDraft, WeeklyReviewError>[] = [
+  { code: 'notesTooLong', fails: ({ notes }) => notes.trim().length > REVIEW_NOTES_MAX },
+  {
+    code: 'weightOutOfRange',
+    fails: ({ weightKg }) =>
+      weightKg !== null &&
+      !(Number.isFinite(weightKg) && weightKg >= WEIGHT_MIN_KG && weightKg <= WEIGHT_MAX_KG),
+  },
+];
+
+export const validateWeeklyReviewDraft = (draft: WeeklyReviewDraft): WeeklyReviewError[] =>
+  collectErrors(draft, WEEKLY_REVIEW_RULES);
