@@ -4,9 +4,11 @@ import { resolve } from 'node:path';
 import principlesSeed from '../../../seed/principles.json';
 import {
   CARE_ALERTS,
+  guideHowTo,
   PLAN_WEEKS,
   planWeek,
   PREPARATION_ITEMS,
+  ROUTINE_GUIDES,
   SCHEDULE,
   skillHowTo,
   SKILLS,
@@ -81,6 +83,47 @@ describe('bundled catalogs', () => {
       ])
         expect(has(key ?? 'missing')).toBe(true);
     }
+  });
+
+  it('should give every routine guide translated text with at least three steps', () => {
+    expect(ROUTINE_GUIDES.map((guide) => guide.key)).toEqual([
+      'socialization',
+      'handling',
+      'brushing',
+      'kennel',
+    ]);
+    for (const routine of ROUTINE_GUIDES) {
+      const guide = guideHowTo(routine.key);
+      expect(guide?.stepKeys.length ?? 0).toBeGreaterThanOrEqual(3);
+      for (const key of [
+        guide?.setupKey,
+        ...(guide?.stepKeys ?? []),
+        guide?.levelUpKey,
+        guide?.troubleshootKey,
+        guide?.mistakesKey,
+      ])
+        expect(has(key ?? 'missing')).toBe(true);
+    }
+  });
+
+  it('should link the routine schedule rows to an existing guide', () => {
+    const guides = Object.fromEntries(SCHEDULE.map((row) => [row.id, row.guideKey]));
+
+    expect(guides).toMatchObject({
+      bedtime: 'kennel',
+      calmTime: 'brushing',
+      farmWalk: 'potty',
+      greeting: 'potty',
+      socialization: 'socialization',
+      visit: 'handling',
+    });
+    for (const row of SCHEDULE) if (row.guideKey) expect(guideHowTo(row.guideKey)).not.toBeNull();
+  });
+
+  it('should resolve a guide key to a skill guide first, then to a routine guide', () => {
+    expect(guideHowTo('potty')).toEqual(skillHowTo('potty'));
+    expect(guideHowTo('kennel')?.setupKey).toBe('catalog.routines.kennel.howTo.setup');
+    expect(guideHowTo('unknown')).toBeNull();
   });
 
   it('should name the translation keys of a skill guide in step order', () => {

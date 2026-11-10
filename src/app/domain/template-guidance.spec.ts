@@ -122,6 +122,17 @@ describe('templateGuidance', () => {
     expect(gently[0].socializationItemKey).toBe('noiseAngleGrinder');
   });
 
+  it('should carry the guide of each routine row, including the socialization of the day', () => {
+    const { tasks } = templateGuidance(input());
+    const guideOf = (title: string): string | undefined =>
+      tasks.find((task) => task.title.startsWith(title))?.guideKey;
+
+    expect(guideOf('catalog.schedule.bedtime')).toBe('kennel');
+    expect(guideOf('catalog.schedule.greeting')).toBe('potty');
+    expect(guideOf('guidance.template.socializationTitle')).toBe('socialization');
+    expect(guideOf('catalog.schedule.lunch')).toBeUndefined();
+  });
+
   it('should add the active care alerts as care tasks with their message only', () => {
     // Rural, sleeps outdoors, December, first week home.
     const care = templateGuidance(input({ date: '2026-12-12' })).tasks.filter((task) =>

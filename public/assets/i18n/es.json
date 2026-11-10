@@ -145,6 +145,56 @@
       "smallRewards": "Premios del tamaño de un garbanzo, sacados de su ración. Un premio especial (pollo cocido) solo para «ven».",
       "sniffing": "Deja que use el olfato: esconde unos premios en la hierba y que los busque."
     },
+    "routines": {
+      "brushing": {
+        "howTo": {
+          "levelUp": "Sigue tranquila 4 de cada 5 veces: cepilla un poco más y añade el pecho, las patas y la cola.",
+          "mistakes": "Cepillar a contrapelo, tirar de los nudos y cepillar mucho rato cuando está excitada.",
+          "setup": "Un cepillo suave y unos premios. Un momento tranquilo por la noche, antes de dormir.",
+          "step1": "Deja que olfatee el cepillo y dale un premio.",
+          "step2": "Da una pasada corta por el lomo, di «muy bien» y dale un premio.",
+          "step3": "Añade pasadas de una en una por el lomo y los costados, en el sentido del pelo.",
+          "step4": "Para al cabo de uno o dos minutos, mientras está tranquila, y termina con un juego suave.",
+          "troubleshoot": "Si muerde el cepillo o se retuerce, dale un mordedor para que lo sujete, vuelve a una sola pasada y premia más a menudo."
+        }
+      },
+      "handling": {
+        "howTo": {
+          "levelUp": "Sigue relajada 4 de cada 5 veces: sujeta un poco más o acerca una toalla o un cepillo que primero pueda ver y olfatear.",
+          "mistakes": "Sujetarla a la fuerza mientras forcejea, tocarla solo cuando hay que hacerle algo y sesiones largas.",
+          "setup": "Un momento tranquilo, mejor después de una siesta o un paseo. Premios pequeños a mano y una superficie blanda donde pueda sentarse o tumbarse.",
+          "step1": "Tócale una pata un segundo, di «muy bien» y dale un premio. Haz lo mismo con una oreja.",
+          "step2": "Poco a poco, sujeta la pata un poco más, separa con suavidad los dedos y mira dentro de la oreja.",
+          "step3": "Premia cada contacto, aunque sea corto, y para antes de que intente apartarse.",
+          "step4": "Practica lo que hará el veterinario: levántale los labios para ver los dientes y tócale la barriga y la cola.",
+          "troubleshoot": "Si se aparta o te muerde la mano, has ido demasiado rápido: vuelve a un contacto más corto que acepte y premia más a menudo."
+        }
+      },
+      "kennel": {
+        "howTo": {
+          "levelUp": "Entra y se acomoda 4 de cada 5 noches: mantén la rutina corta y a la misma hora todas las noches.",
+          "mistakes": "Usar la caseta como castigo, despedidas largas, cambiar la rutina cada noche y ponerte a jugar con ella cuando llora.",
+          "setup": "Caseta elevada, protegida del viento y la lluvia, con cama seca, su manta y un mordedor. Practica de día antes de usarla por la noche.",
+          "step1": "De día, lanza premios dentro de la caseta y deja que entre y salga libremente; di «muy bien» cuando entre.",
+          "step2": "Dale alguna comida o un mordedor dentro, para que la caseta signifique cosas buenas.",
+          "step3": "A la hora de dormir, sigue la misma rutina tranquila cada noche: necesidades, un rato de calma y a la caseta con su manta.",
+          "step4": "Despídete con calma y vete, sin despedidas largas.",
+          "troubleshoot": "Si llora, comprueba con calma que no necesita hacer sus necesidades y que está seca y abrigada, y vuelve a irte sin jugar; las noches de frío sigue el aviso de frío."
+        }
+      },
+      "socialization": {
+        "howTo": {
+          "levelUp": "Sigue relajada y curiosa 4 de cada 5 veces: acércate un poco, o que sea un poco más ruidoso o más largo, un cambio cada vez.",
+          "mistakes": "Obligarla a enfrentarse a lo que le da miedo, demasiadas novedades en un mismo día y no ver las señales de miedo.",
+          "setup": "Elige una experiencia nueva de la lista. Ten premios sabrosos preparados y busca una distancia a la que esté relajada: cuerpo suelto, cola moviéndose, curiosa.",
+          "step1": "Deja que mire la novedad desde esa distancia; cada vez que la mire con calma, di «muy bien» y dale un premio.",
+          "step2": "Deja que sea ella quien decida acercarse; nunca la lleves en brazos ni tires de ella hacia la novedad.",
+          "step3": "Si olfatea o explora por su cuenta, felicítala en voz baja y sigue premiando.",
+          "step4": "Termina a los pocos minutos, mientras sigue relajada, y vete a un sitio tranquilo.",
+          "troubleshoot": "Si se queda paralizada, mete la cola, se esconde o no acepta premios, está demasiado cerca: aléjate con calma hasta que se relaje y la próxima vez empieza desde más lejos."
+        }
+      }
+    },
     "schedule": {
       "afternoonRest": {
         "instructions": "Siesta larga. Necesidades al despertar.",

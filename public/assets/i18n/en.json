@@ -145,6 +145,56 @@
       "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
       "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
     },
+    "routines": {
+      "brushing": {
+        "howTo": {
+          "levelUp": "She stays calm 4 times out of 5: brush a little longer and add her chest, legs and tail.",
+          "mistakes": "Brushing against the coat, pulling on knots, and brushing for a long time when she is excited.",
+          "setup": "A soft brush and a few treats. A quiet moment in the evening, before bed.",
+          "step1": "Let her sniff the brush and give her a treat.",
+          "step2": "Make one short stroke along her back, say “good” and give a treat.",
+          "step3": "Add strokes one at a time along her back and sides, in the direction of the coat.",
+          "step4": "Stop after a minute or two, while she is calm, and finish with a gentle game.",
+          "troubleshoot": "If she bites the brush or wriggles, give her a chew toy to hold, go back to one stroke and reward more often."
+        }
+      },
+      "handling": {
+        "howTo": {
+          "levelUp": "She stays relaxed 4 times out of 5: hold a little longer, or bring a towel or a brush she can see and sniff first.",
+          "mistakes": "Holding her down while she struggles, handling her only when something has to be done, and long sessions.",
+          "setup": "A calm moment, ideally after a nap or a walk. Small treats at hand and a soft surface where she can sit or lie down.",
+          "step1": "Touch a paw for one second, say “good” and give a treat. Do the same with an ear.",
+          "step2": "Little by little, hold the paw a bit longer, gently spread the toes and look inside the ear.",
+          "step3": "Reward every touch, even the short ones, and stop before she tries to pull away.",
+          "step4": "Practice what the vet will do: lift her lips to see her teeth, touch her belly and her tail.",
+          "troubleshoot": "If she pulls away or mouths your hand, you went too fast: go back to a shorter touch she accepts and reward more often."
+        }
+      },
+      "kennel": {
+        "howTo": {
+          "levelUp": "She goes in and settles 4 nights out of 5: keep the routine short and at the same time every night.",
+          "mistakes": "Using the kennel as a punishment, long goodbyes, changing the routine every night, and playing with her when she cries.",
+          "setup": "A raised kennel sheltered from wind and rain, with dry bedding, her blanket and a chew toy. Practice during the day before using it at night.",
+          "step1": "During the day, toss treats into the kennel and let her go in and out freely; say “good” when she goes in.",
+          "step2": "Give her a meal or a chew toy inside, so the kennel means good things.",
+          "step3": "At bedtime, follow the same calm routine every night: potty, a short quiet moment, then to the kennel with her blanket.",
+          "step4": "Say goodnight calmly and leave, without a long goodbye.",
+          "troubleshoot": "If she cries, check calmly that she does not need to go potty and that she is warm and dry, then leave again without playing; on cold nights follow the cold alert."
+        }
+      },
+      "socialization": {
+        "howTo": {
+          "levelUp": "She stays relaxed and curious 4 times out of 5: get a little closer, or make it a little louder or longer, one change at a time.",
+          "mistakes": "Forcing her to face what scares her, too many new things in one day, and missing the signs of fear.",
+          "setup": "Pick one new experience from the checklist. Have tasty treats ready and choose a distance at which she stays relaxed: loose body, wagging tail, curious.",
+          "step1": "Let her watch the new thing from that distance; every time she looks at it calmly, say “good” and give a treat.",
+          "step2": "Let her choose to get closer; never carry or pull her toward it.",
+          "step3": "If she sniffs or explores on her own, praise her quietly and keep the treats coming.",
+          "step4": "Stop after a few minutes, while she is still relaxed, and go somewhere calm.",
+          "troubleshoot": "If she freezes, tucks her tail, hides or will not take treats, she is too close: move away calmly until she relaxes, and next time start farther away."
+        }
+      }
+    },
     "schedule": {
       "afternoonRest": {
         "instructions": "Long nap. Potty break when she wakes up.",

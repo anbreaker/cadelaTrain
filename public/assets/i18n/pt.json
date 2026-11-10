@@ -145,6 +145,56 @@
       "smallRewards": "Prémios do tamanho de um grão-de-bico, tirados da ração. Um prémio especial (frango cozido) só para «anda».",
       "sniffing": "Deixa-a usar o faro: esconde uns prémios na relva e deixa-a procurá-los."
     },
+    "routines": {
+      "brushing": {
+        "howTo": {
+          "levelUp": "Continua calma 4 em cada 5 vezes: escova um pouco mais e junta o peito, as patas e a cauda.",
+          "mistakes": "Escovar contra o pelo, puxar os nós e escovar muito tempo quando está excitada.",
+          "setup": "Uma escova macia e uns prémios. Um momento calmo à noite, antes de dormir.",
+          "step1": "Deixa-a cheirar a escova e dá-lhe um prémio.",
+          "step2": "Dá uma passagem curta pelo dorso, diz «muito bem» e dá-lhe um prémio.",
+          "step3": "Junta passagens uma a uma pelo dorso e pelos lados, no sentido do pelo.",
+          "step4": "Para ao fim de um ou dois minutos, enquanto está calma, e acaba com uma brincadeira suave.",
+          "troubleshoot": "Se morde a escova ou se contorce, dá-lhe um mordedor para segurar, volta a uma só passagem e premeia mais vezes."
+        }
+      },
+      "handling": {
+        "howTo": {
+          "levelUp": "Continua relaxada 4 em cada 5 vezes: segura um pouco mais ou aproxima uma toalha ou uma escova que primeiro possa ver e cheirar.",
+          "mistakes": "Segurá-la à força enquanto se debate, mexer-lhe só quando é preciso fazer-lhe alguma coisa e sessões longas.",
+          "setup": "Um momento calmo, de preferência depois de uma sesta ou de um passeio. Prémios pequenos à mão e uma superfície macia onde se possa sentar ou deitar.",
+          "step1": "Toca-lhe numa pata durante um segundo, diz «muito bem» e dá-lhe um prémio. Faz o mesmo com uma orelha.",
+          "step2": "Aos poucos, segura a pata um pouco mais, afasta com suavidade os dedos e espreita dentro da orelha.",
+          "step3": "Premeia cada toque, mesmo os curtos, e para antes de ela tentar afastar-se.",
+          "step4": "Pratica o que o veterinário vai fazer: levanta-lhe os lábios para ver os dentes e toca-lhe na barriga e na cauda.",
+          "troubleshoot": "Se se afasta ou te morde a mão, foste depressa demais: volta a um toque mais curto que aceite e premeia mais vezes."
+        }
+      },
+      "kennel": {
+        "howTo": {
+          "levelUp": "Entra e acomoda-se 4 em cada 5 noites: mantém a rotina curta e à mesma hora todas as noites.",
+          "mistakes": "Usar a casota como castigo, despedidas longas, mudar a rotina todas as noites e pôr-te a brincar com ela quando chora.",
+          "setup": "Casota elevada, protegida do vento e da chuva, com cama seca, a manta dela e um mordedor. Pratica de dia antes de a usar à noite.",
+          "step1": "De dia, atira prémios para dentro da casota e deixa-a entrar e sair à vontade; diz «muito bem» quando entrar.",
+          "step2": "Dá-lhe alguma refeição ou um mordedor lá dentro, para que a casota signifique coisas boas.",
+          "step3": "À hora de dormir, segue a mesma rotina calma todas as noites: necessidades, um momento de calma e para a casota com a manta.",
+          "step4": "Despede-te com calma e sai, sem despedidas longas.",
+          "troubleshoot": "Se chorar, verifica com calma que não precisa de fazer as necessidades e que está seca e quente, e volta a sair sem brincar; nas noites frias segue o aviso de frio."
+        }
+      },
+      "socialization": {
+        "howTo": {
+          "levelUp": "Continua relaxada e curiosa 4 em cada 5 vezes: aproxima-te um pouco, ou que seja um pouco mais ruidoso ou mais longo, uma mudança de cada vez.",
+          "mistakes": "Obrigá-la a enfrentar o que lhe mete medo, demasiadas novidades no mesmo dia e não reparar nos sinais de medo.",
+          "setup": "Escolhe uma experiência nova da lista. Tem prémios saborosos preparados e procura uma distância a que ela esteja relaxada: corpo solto, cauda a abanar, curiosa.",
+          "step1": "Deixa-a olhar para a novidade a essa distância; sempre que olhar com calma, diz «muito bem» e dá-lhe um prémio.",
+          "step2": "Deixa que seja ela a decidir aproximar-se; nunca a leves ao colo nem a puxes para a novidade.",
+          "step3": "Se cheirar ou explorar por conta própria, elogia-a em voz baixa e continua a premiar.",
+          "step4": "Termina ao fim de poucos minutos, enquanto ainda está relaxada, e vai para um sítio calmo.",
+          "troubleshoot": "Se fica paralisada, mete a cauda entre as pernas, se esconde ou não aceita prémios, está demasiado perto: afasta-te com calma até relaxar e da próxima vez começa mais longe."
+        }
+      }
+    },
     "schedule": {
       "afternoonRest": {
         "instructions": "Sesta longa. Necessidades ao acordar.",
