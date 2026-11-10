@@ -1,0 +1,21 @@
+<div class="media-list">
+  @for (day of days(); track day.date) {
+  <section class="media-list__day">
+    @if (showDates()) {
+    <h3 class="media-list__date">{{ day.label }}</h3>
+    }
+    <ul class="media-list__items">
+      @for (item of day.items; track item.media.id) {
+      <li class="media-list__item">
+        <app-media-item
+          [busy]="busyId() === item.media.id"
+          [cloudName]="cloudName()"
+          [item]="item"
+          (removed)="removed.emit($event)"
+        />
+      </li>
+      }
+    </ul>
+  </section>
+  }
+</div>
