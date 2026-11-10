@@ -5,15 +5,12 @@
   "auth": {
     "emailPlaceholder": "name@example.com",
     "errors": {
-      "emailInvalid": "Enter a valid email.",
       "googleFailed": "We couldn't sign you in with Google. Please try again.",
-      "linkInvalid": "This link has expired or was already used. Request a new one.",
       "notAllowed": "This account doesn't have access to Dela. Sign in with the family's email.",
       "sessionFailed": "We couldn't load your account. Please sign in again."
     },
     "google": "Continue with Google",
     "lead": "Short, positive daily guidance and a shared log for the whole family.",
-    "signingIn": "Signing in…",
     "tagline": "Train your puppy, a little every day"
   },
   "catalog": {

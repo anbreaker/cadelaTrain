@@ -5,15 +5,12 @@
   "auth": {
     "emailPlaceholder": "nombre@ejemplo.com",
     "errors": {
-      "emailInvalid": "Escribe un email válido.",
       "googleFailed": "No se ha podido entrar con Google. Inténtalo de nuevo.",
-      "linkInvalid": "El enlace ha caducado o ya se ha usado. Pide uno nuevo.",
       "notAllowed": "Esta cuenta no tiene acceso a Dela. Entra con el email de la familia.",
       "sessionFailed": "No hemos podido cargar tu cuenta. Vuelve a entrar."
     },
     "google": "Continuar con Google",
     "lead": "Pautas cortas en positivo y un registro compartido para toda la familia.",
-    "signingIn": "Entrando…",
     "tagline": "Educad a vuestro cachorro, cada día un poco"
   },
   "catalog": {

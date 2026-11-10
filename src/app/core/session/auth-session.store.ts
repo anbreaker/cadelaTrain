@@ -16,7 +16,6 @@ import { DOCUMENT } from '@angular/common';
 import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { AUTH_GATEWAY } from '@core/auth/auth-gateway';
-import { forgetSignInEmail, readSignInEmail, rememberSignInEmail } from '@core/auth/sign-in-email';
 import { LanguageStore } from '@core/store/language.store';
 import { AccessRepository } from '@data/access.repository';
 import { DogRepository } from '@data/dog.repository';
@@ -25,7 +24,6 @@ import { HouseholdRepository } from '@data/household.repository';
 import { AuthUser, UserProfile } from '@data/user-profile.converter';
 import { UserProfileRepository } from '@data/user-profile.repository';
 import { Dog } from '@domain/dog';
-import { normalizeEmail } from '@domain/email';
 import { Household, Locale } from '@domain/household';
 
 export type SessionStatus =
@@ -33,16 +31,12 @@ export type SessionStatus =
 
 export type SessionError = 'notAllowed' | 'sessionFailed';
 
-export type SignInLinkResult = 'emailNeeded' | 'signedIn';
-
 /** What depends on the household: its dog, or the invitations of a user who has none yet. */
 interface HouseholdDetail {
   dog: Dog | null;
   householdId: null | string;
   invitations: Invitation[];
 }
-
-const SIGN_IN_PATH = '/login';
 
 /**
  * Right after creating a household or joining one, the membership query emits the local write
@@ -164,32 +158,6 @@ export class AuthSessionStore {
     if (user) this.applyUser(user);
   }
 
-  async sendSignInLink(email: string): Promise<void> {
-    const normalized = normalizeEmail(email);
-    this._error.set(null);
-    await this.gateway.sendSignInLink(normalized, this.signInUrl());
-    rememberSignInEmail(normalized);
-  }
-
-  /** Link sent to another person (invitation): nothing is remembered on this device. */
-  async sendInvitationLink(email: string): Promise<void> {
-    await this.gateway.sendSignInLink(normalizeEmail(email), this.signInUrl());
-  }
-
-  isSignInLink(url: string): boolean {
-    return this.gateway.isSignInLink(url);
-  }
-
-  async completeSignInLink(url: string, typedEmail?: string): Promise<SignInLinkResult> {
-    const email = typedEmail ? normalizeEmail(typedEmail) : readSignInEmail();
-    if (!email) return 'emailNeeded';
-
-    this._error.set(null);
-    await this.gateway.signInWithLink(email, url);
-    forgetSignInEmail();
-    return 'signedIn';
-  }
-
   async signInWithGoogle(): Promise<void> {
     this._error.set(null);
     await this.gateway.signInWithGoogle();
@@ -296,9 +264,5 @@ export class AuthSessionStore {
     this._error.set(reason);
     this._user.set(null);
     void this.gateway.signOut();
-  }
-
-  private signInUrl(): string {
-    return `${this.document.location.origin}${SIGN_IN_PATH}`;
   }
 }

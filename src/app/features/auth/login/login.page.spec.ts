@@ -39,9 +39,7 @@ describe('LoginPageComponent', () => {
     expect(element(fixture).querySelector('form')).toBeNull();
     expect(element(fixture).querySelector('input')).toBeNull();
     expect(element(fixture).querySelectorAll('button')).toHaveLength(1);
-    expect(element(fixture).querySelector('.login__google')?.textContent).toContain(
-      'auth.google'
-    );
+    expect(element(fixture).querySelector('.login__google')?.textContent).toContain('auth.google');
   });
 
   it('should sign in with Google (AC1.1)', async () => {
@@ -72,14 +70,6 @@ describe('LoginPageComponent', () => {
     await clickGoogle(fixture);
 
     expect(element(fixture).querySelector('[role="alert"]')).toBeNull();
-  });
-
-  it('should not try to complete an email sign-in link', async () => {
-    session.isSignInLink.mockReturnValue(true);
-
-    await render();
-
-    expect(session.completeSignInLink).not.toHaveBeenCalled();
   });
 
   it('should show why the previous session was closed', async () => {

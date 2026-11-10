@@ -1,6 +1,6 @@
 import { computed, Signal, signal, WritableSignal } from '@angular/core';
 
-import { SessionError, SessionStatus, SignInLinkResult } from '@core/session/auth-session.store';
+import { SessionError, SessionStatus } from '@core/session/auth-session.store';
 import { Invitation } from '@data/household.converter';
 import { AuthUser, UserProfile } from '@data/user-profile.converter';
 import { Dog } from '@domain/dog';
@@ -12,17 +12,13 @@ type Spy = ReturnType<typeof vi.fn>;
 
 /** Writable stand-in for `AuthSessionStore`: tests set the signals and spy on the intents. */
 export interface FakeSession {
-  completeSignInLink: Spy;
   dog: Signal<Dog | null>;
   error: Signal<null | SessionError>;
   household: Signal<Household | null>;
   invitations: Signal<Invitation[]>;
   isOwner: Signal<boolean>;
-  isSignInLink: Spy;
   profile: Signal<null | UserProfile>;
   retry: Spy;
-  sendInvitationLink: Spy;
-  sendSignInLink: Spy;
   set: {
     dog: WritableSignal<Dog | null>;
     error: WritableSignal<null | SessionError>;
@@ -49,17 +45,13 @@ export function createFakeSession(): FakeSession {
   const isOwner = signal(true);
 
   return {
-    completeSignInLink: vi.fn(async (): Promise<SignInLinkResult> => 'signedIn'),
     dog: dog.asReadonly(),
     error: error.asReadonly(),
     household: household.asReadonly(),
     invitations: invitations.asReadonly(),
     isOwner: isOwner.asReadonly(),
-    isSignInLink: vi.fn(() => false),
     profile: profile.asReadonly(),
     retry: vi.fn(),
-    sendInvitationLink: vi.fn(async () => undefined),
-    sendSignInLink: vi.fn(async () => undefined),
     set: { dog, error, household, invitations, isOwner, profile, status },
     setLocale: vi.fn(async () => undefined),
     signInWithGoogle: vi.fn(async () => undefined),

@@ -190,8 +190,6 @@ export class HouseholdPageComponent {
     this._pending.set(true);
     try {
       const result = await this.households.invite(household.id, household.name, email, profile.uid);
-      // A repeated invitation already has its link; sending again would only spam the inbox.
-      if (result === 'invited') await this.session.sendInvitationLink(email);
       this._feedback.set({ email, key: FEEDBACK_KEY[result] });
       this._email.set('');
       this._submitted.set(false);
