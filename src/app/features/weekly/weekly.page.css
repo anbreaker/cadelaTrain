@@ -1,0 +1,62 @@
+.weekly {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.weekly__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.weekly__nav {
+  align-items: center;
+  display: flex;
+  gap: var(--space-2);
+  justify-content: space-between;
+}
+
+.weekly__week {
+  text-align: center;
+}
+
+.weekly__dates,
+.weekly__meta,
+.weekly__none,
+.weekly__edited {
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+}
+
+.weekly__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.weekly__objective {
+  font-weight: 600;
+}
+
+.weekly__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: 1.25rem;
+}
+
+.weekly__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.weekly__save {
+  align-self: flex-start;
+}
+
+.weekly__feedback {
+  color: var(--color-text-secondary);
+  min-height: 1.40625rem;
+}

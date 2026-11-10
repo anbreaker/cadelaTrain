@@ -1,0 +1,11 @@
+<ul class="preparation-list" *transloco="let t">
+  @for (item of items(); track item.labelKey) {
+  <li class="preparation-list__item">
+    {{ t(item.labelKey) }} @if (item.optional) {
+    <span class="preparation-list__optional">{{ t('today.optional') }}</span>
+    } @if (item.hintKey; as hintKey) {
+    <p class="preparation-list__hint">{{ t(hintKey) }}</p>
+    }
+  </li>
+  }
+</ul>

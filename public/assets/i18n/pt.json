@@ -701,7 +701,8 @@
     "plan": "Plano",
     "progress": "Progresso",
     "rules": "Regras",
-    "today": "Hoje"
+    "today": "Hoje",
+    "weekly": "Revisão"
   },
   "onboarding": {
     "step": "Passo {{current}} de {{total}}"
@@ -843,5 +844,33 @@
     "previewTitle": "Assim será o primeiro dia",
     "title": "Hoje com {{name}}",
     "weekAdvanced": "A {{name}} passa para a semana {{week}}!"
+  },
+  "weekly": {
+    "age": "{{weeks}} semanas de idade",
+    "arrivesOn": "{{name}} chega a {{date}}",
+    "doesWell": "Faz bem",
+    "editedBy": "Última edição: {{name}}, {{date}}",
+    "errors": {
+      "notesTooLong": "Máximo 2000 caracteres.",
+      "weightOutOfRange": "Escreve um peso entre 0,5 e 100 kg."
+    },
+    "navLabel": "Semanas",
+    "newSocialization": "Socialização nova",
+    "next": "Seguinte",
+    "none": "Nada esta semana.",
+    "notes": "Notas da semana",
+    "pageTitle": "A semana de {{name}}",
+    "planLink": "Ver o plano semana a semana",
+    "planWeek": "Semana {{week}} do plano",
+    "preparationTitle": "Semana 0: antes da chegada",
+    "previous": "Anterior",
+    "readFailed": "Não foi possível ler os registos. Verifica a ligação.",
+    "reviewTitle": "Peso e notas",
+    "save": "Guardar",
+    "saved": "Revisão guardada.",
+    "saving": "A guardar…",
+    "struggles": "Custa-lhe",
+    "title": "Semana {{week}}",
+    "weight": "Peso (kg)"
   }
 }
