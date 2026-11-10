@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import principlesSeed from '../../../seed/principles.json';
 import {
   CARE_ALERTS,
+  EXTRA_CUES,
   guideHowTo,
   PLAN_WEEKS,
   planWeek,
@@ -58,8 +59,24 @@ describe('bundled catalogs', () => {
   });
 
   it('should translate every word-only cue', () => {
-    for (const cue of ['drop', 'heel', 'no', 'praise', 'release'])
-      expect(has(`catalog.cues.${cue}`)).toBe(true);
+    expect(EXTRA_CUES).toEqual(['drop', 'praise', 'release', 'no']);
+    for (const cue of EXTRA_CUES) expect(has(`catalog.cues.${cue}`)).toBe(true);
+  });
+
+  it('should never use the same spoken word for two cues in any language', () => {
+    for (const lang of ['es', 'pt', 'en']) {
+      const catalog = (
+        JSON.parse(
+          readFileSync(resolve(process.cwd(), `public/assets/i18n/${lang}.json`), 'utf8')
+        ) as { catalog: { cues: Record<string, string>; skills: Record<string, { cue: string }> } }
+      ).catalog;
+      const words = [
+        ...SKILLS.map(({ key }) => catalog.skills[key].cue),
+        ...EXTRA_CUES.map((key) => catalog.cues[key]),
+      ];
+
+      expect({ lang, words: new Set(words).size }).toEqual({ lang, words: words.length });
+    }
   });
 
   it('should translate every skill, socialization item and care alert', () => {

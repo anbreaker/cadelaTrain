@@ -2,15 +2,12 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
-import { PRINCIPLES, SKILLS } from '@domain/catalog';
+import { EXTRA_CUES, PRINCIPLES, SKILLS } from '@domain/catalog';
 
 interface CueRow {
   cueKey: string;
   labelKey: string;
 }
-
-/** Spoken words that are not tied to one skill (`catalog.cues.*`). */
-const EXTRA_CUES = ['heel', 'drop', 'praise', 'release', 'no'] as const;
 
 /**
  * The household's shared rules, read-only: the spoken word for each cue in the active language and

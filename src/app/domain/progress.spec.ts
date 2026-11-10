@@ -143,9 +143,9 @@ const social = (
 
 describe('socializationStatus (AC4.4)', () => {
   const items = [
-    { category: 'people', key: 'peopleMen', order: 1 },
-    { category: 'noises', key: 'noiseGrinder', order: 2 },
-    { category: 'animals', key: 'animalHens', order: 3 },
+    { category: 'people', key: 'peopleMen', label: 'Men', order: 1 },
+    { category: 'noises', key: 'noiseGrinder', label: 'Grinder', order: 2 },
+    { category: 'animals', key: 'animalHens', label: 'Hens', order: 3 },
   ];
 
   it('should keep the last reaction and who did it, and mark an item done once calm or curious', () => {

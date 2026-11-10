@@ -95,6 +95,17 @@ export class TaskLogRepository {
     return watchQuery(query(logs, orderBy('doneAt', 'desc')));
   }
 
+  /**
+   * Completions from a guidance date on, newest date first: the evaluation window of the week
+   * advance. A range and an order on the same field use the automatic single-field index.
+   */
+  watchSince(householdId: string, dogId: string, since: IsoDate): Observable<TaskLog[]> {
+    const logs = this.logs(householdId, dogId).withConverter(taskLogConverter);
+    return watchQuery(
+      query(logs, where('guidanceDate', '>=', since), orderBy('guidanceDate', 'desc'))
+    );
+  }
+
   /** The socialization checklist entries, newest first (AC4.4). */
   watchSocialization(householdId: string, dogId: string): Observable<SocializationLog[]> {
     const logs = this.socialization(householdId, dogId).withConverter(socializationLogConverter);
