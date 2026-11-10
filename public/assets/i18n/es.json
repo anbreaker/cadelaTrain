@@ -461,7 +461,7 @@
     "vetEmergency": "Urgencia veterinaria"
   },
   "household": {
-    "alreadyInvited": "Ya habías invitado a {{email}}.",
+    "alreadyInvited": "Ya habías invitado a {{email}}. Pásale este enlace y que entre con Google con ese email.",
     "arrival": {
       "save": "Guardar fecha",
       "saved": "Fecha de llegada guardada.",
@@ -473,16 +473,17 @@
     "creating": "Creando…",
     "errors": {
       "emailInvalid": "Escribe un email válido.",
-      "inviteFailed": "No se ha podido enviar la invitación. Inténtalo de nuevo.",
+      "inviteFailed": "No se ha podido guardar la invitación. Inténtalo de nuevo.",
       "localeUnsupported": "Elige un idioma.",
       "nameRequired": "Ponle un nombre al hogar.",
       "nameTooLong": "Máximo 60 caracteres."
     },
-    "invite": "Enviar invitación",
+    "invite": "Invitar",
     "inviteEmail": "Email",
     "inviteTitle": "Invitar a quien entrena",
-    "invited": "Invitación enviada a {{email}}.",
-    "inviting": "Enviando…",
+    "invited": "Invitación guardada para {{email}}. Pásale este enlace y que entre con Google con ese email.",
+    "inviting": "Invitando…",
+    "linkCopied": "Enlace copiado.",
     "localeLegend": "Idioma de las pautas",
     "members": "Miembros",
     "nameLabel": "Nombre del hogar",
@@ -493,10 +494,12 @@
       "hint": "Descarga todos los registros y notas en un fichero para la revisión semanal del entrenamiento.",
       "title": "Notas de {{name}}"
     },
+    "share": "Compartir enlace",
+    "shareText": "Te he invitado a {{name}} en Dela. Entra con Google con el email al que te invité.",
     "status": {
       "member": "Miembro",
       "owner": "Propietario",
-      "pending": "Invitación enviada"
+      "pending": "Invitación pendiente"
     },
     "title": "Hogar",
     "you": "(tú)"

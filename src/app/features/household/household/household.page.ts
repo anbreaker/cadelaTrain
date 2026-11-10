@@ -2,7 +2,7 @@ import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
 import { NOW } from '@core/time/now';
@@ -45,6 +45,7 @@ export class HouseholdPageComponent {
   private readonly taskLogs = inject(TaskLogRepository);
   private readonly document = inject(DOCUMENT);
   private readonly now = inject(NOW);
+  private readonly transloco = inject(TranslocoService);
 
   private readonly dogs = inject(DogRepository);
 
@@ -57,6 +58,7 @@ export class HouseholdPageComponent {
   private readonly _exporting = signal(false);
   private readonly _failed = signal(false);
   private readonly _feedback = signal<InviteFeedback | null>(null);
+  private readonly _linkCopied = signal(false);
   private readonly _pending = signal(false);
   private readonly _submitted = signal(false);
 
@@ -94,6 +96,9 @@ export class HouseholdPageComponent {
   protected readonly email = this._email.asReadonly();
   protected readonly pending = this._pending.asReadonly();
   protected readonly feedback = this._feedback.asReadonly();
+  protected readonly linkCopied = this._linkCopied.asReadonly();
+  /** The invitee opens the app and signs in with Google using the invited email. */
+  protected readonly appUrl = `${this.document.location.origin}/`;
   protected readonly failed = this._failed.asReadonly();
   protected readonly emailInvalid = computed(
     () => this._submitted() && !isValidEmail(normalizeEmail(this._email()))
@@ -145,6 +150,29 @@ export class HouseholdPageComponent {
   }
 
   /** Downloads every log and note of the dog as one Markdown file, read with the member's own access. */
+  /**
+   * Hands the app link to the invitee: the device share sheet (WhatsApp, mail…) when there is one,
+   * else the clipboard. A cancelled or blocked share changes nothing; the link stays on screen.
+   */
+  protected async shareLink(): Promise<void> {
+    const navigator = this.document.defaultView?.navigator;
+    this._linkCopied.set(false);
+    try {
+      if (navigator?.share) {
+        const text = this.transloco.translate('household.shareText', {
+          name: this.household()?.name ?? '',
+        });
+        await navigator.share({ text, url: this.appUrl });
+        return;
+      }
+      if (!navigator?.clipboard) return;
+      await navigator.clipboard.writeText(this.appUrl);
+      this._linkCopied.set(true);
+    } catch {
+      // Cancelled by the user or denied by the browser.
+    }
+  }
+
   protected async exportNotes(): Promise<void> {
     const household = this.session.household();
     const dog = this.dog();
@@ -182,6 +210,7 @@ export class HouseholdPageComponent {
     this._submitted.set(true);
     this._feedback.set(null);
     this._failed.set(false);
+    this._linkCopied.set(false);
     const household = this.household();
     const profile = this.session.profile();
     if (this.emailInvalid() || this._pending() || !household || !profile) return;
