@@ -7,6 +7,8 @@ import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { DogRepository } from '@data/dog.repository';
 import { GuidanceRepository } from '@data/guidance.repository';
+import { MediaRepository } from '@data/media.repository';
+import { CLOUDINARY_CLOUD_NAME, PhotoUploadService } from '@data/photo-upload.service';
 import { TaskLogRepository } from '@data/task-log.repository';
 import { PREPARATION_ITEMS } from '@domain/catalog';
 import { Dog } from '@domain/dog';
@@ -101,6 +103,9 @@ describe('TodayPageComponent', () => {
         { provide: GuidanceRepository, useValue: { watchDay: watchGuidance } },
         { provide: TaskLogRepository, useValue: logs },
         { provide: DogRepository, useValue: dogs },
+        { provide: MediaRepository, useValue: { watchRange: () => of([]) } },
+        { provide: PhotoUploadService, useValue: {} },
+        { provide: CLOUDINARY_CLOUD_NAME, useValue: 'demo-cloud' },
       ],
     });
     fixture = TestBed.createComponent(TodayPageComponent);
@@ -179,6 +184,17 @@ describe('TodayPageComponent', () => {
     expect(element.querySelectorAll('.today__preview app-task-card').length).toBeGreaterThan(0);
     expect(element.querySelector('.task-card__mark')).toBeNull();
     expect(element.querySelector('.task-card__edit')).toBeNull();
+  });
+
+  it('should show the photos and videos of the day once she is home, not before (AC7.5)', async () => {
+    const before = await render('2026-11-04T10:00:00Z');
+    expect(before.querySelector('app-today-media')).toBeNull();
+
+    TestBed.resetTestingModule();
+    const after = await render('2026-12-20T10:00:00Z');
+    expect(after.querySelector('app-today-media .today-media__title')?.textContent).toContain(
+      'media.todayTitle'
+    );
   });
 
   it('should show the day on the arrival date, with the arrival note', async () => {
