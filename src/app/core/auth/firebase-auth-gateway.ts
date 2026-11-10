@@ -4,6 +4,7 @@ import type { AuthGateway } from './auth-gateway';
 
 import {
   Auth,
+  getIdToken,
   GoogleAuthProvider,
   onAuthStateChanged,
   reload,
@@ -18,6 +19,8 @@ const toAuthUser = (user: User | null): AuthUser | null =>
 
 export function createFirebaseAuthGateway(auth: Auth): AuthGateway {
   return {
+    idToken: async (): Promise<null | string> =>
+      auth.currentUser ? getIdToken(auth.currentUser) : null,
     onUserChanged: (listener) => onAuthStateChanged(auth, (user) => listener(toAuthUser(user))),
     signInWithGoogle: async (): Promise<void> => {
       await signInWithPopup(auth, new GoogleAuthProvider());

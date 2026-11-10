@@ -93,3 +93,51 @@ const MEDIA_RULES: readonly ValidationRule<MediaDraft, MediaError>[] = [
 
 export const validateMediaDraft = (draft: MediaDraft): MediaError[] =>
   collectErrors(draft, MEDIA_RULES);
+
+/** What the photo checks need from a chosen `File`. */
+export interface PhotoFile {
+  size: number;
+  type: string;
+}
+
+export type PhotoFileError = 'photoMissing' | 'photoNotImage' | 'photoTooLarge';
+
+const PHOTO_FILE_RULES: readonly ValidationRule<PhotoFile, PhotoFileError>[] = [
+  { code: 'photoNotImage', fails: ({ type }) => !type.startsWith('image/') },
+  { code: 'photoTooLarge', fails: ({ size }) => size > PHOTO_MAX_BYTES },
+];
+
+/** A photo must be an image of at most `PHOTO_MAX_BYTES` (AC7.2); `null` means none was chosen. */
+export const validatePhotoFile = (file: null | PhotoFile): PhotoFileError[] =>
+  file ? collectErrors(file, PHOTO_FILE_RULES) : ['photoMissing'];
+
+const PUBLIC_ID_NAME = /^[A-Za-z0-9_-]{1,100}$/;
+
+/**
+ * Whether a Cloudinary public id is exactly `dela/<householdId>/<id>`, the only shape the rules
+ * accept: an account with dynamic folders returns a bare id unless its preset prefixes the folder.
+ */
+export function isHouseholdPublicId(publicId: string, householdId: string): boolean {
+  const prefix = `dela/${householdId}/`;
+  return publicId.startsWith(prefix) && PUBLIC_ID_NAME.test(publicId.slice(prefix.length));
+}
+
+/** The media of one Madrid date. */
+export interface MediaDay {
+  date: IsoDate;
+  items: Media[];
+}
+
+/** Newest date first; within a day, newest added first. */
+const byDateThenAddedDesc = (a: Media, b: Media): number =>
+  b.date.localeCompare(a.date) || b.addedAt.getTime() - a.addedAt.getTime();
+
+/** Groups media per date, newest day first and newest added first within a day (AC7.5). */
+export function mediaByDay(media: readonly Media[]): MediaDay[] {
+  return [...media].sort(byDateThenAddedDesc).reduce<MediaDay[]>((days, item) => {
+    const last = days.at(-1);
+    if (last?.date === item.date) last.items.push(item);
+    else days.push({ date: item.date, items: [item] });
+    return days;
+  }, []);
+}

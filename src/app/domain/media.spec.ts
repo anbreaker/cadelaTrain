@@ -1,8 +1,12 @@
 import {
   CAPTION_MAX,
+  isHouseholdPublicId,
+  Media,
+  mediaByDay,
   MediaDraft,
   PHOTO_MAX_BYTES,
   validateMediaDraft,
+  validatePhotoFile,
   youtubeIdFrom,
 } from './media';
 
@@ -97,5 +101,72 @@ describe('media limits', () => {
   it('should cap photos at 10 MB and captions at 280 characters (AC7.2, AC7.4)', () => {
     expect(PHOTO_MAX_BYTES).toBe(10 * 1024 * 1024);
     expect(CAPTION_MAX).toBe(280);
+  });
+});
+
+describe('validatePhotoFile (AC7.2)', () => {
+  it('should accept an image up to the size limit', () => {
+    expect(validatePhotoFile({ size: PHOTO_MAX_BYTES, type: 'image/jpeg' })).toEqual([]);
+  });
+
+  it('should ask for a photo when none is chosen', () => {
+    expect(validatePhotoFile(null)).toEqual(['photoMissing']);
+  });
+
+  it('should refuse a file that is not an image', () => {
+    expect(validatePhotoFile({ size: 10, type: 'video/mp4' })).toEqual(['photoNotImage']);
+  });
+
+  it('should refuse an image above the size limit', () => {
+    expect(validatePhotoFile({ size: PHOTO_MAX_BYTES + 1, type: 'image/png' })).toEqual([
+      'photoTooLarge',
+    ]);
+  });
+});
+
+describe('isHouseholdPublicId (AC7.7)', () => {
+  it('should accept exactly dela/<householdId>/<id>', () => {
+    expect(isHouseholdPublicId('dela/h1/abc_DEF-123', 'h1')).toBe(true);
+  });
+
+  it.each([
+    'abc123',
+    'dela/h2/abc123',
+    'dela/h1/sub/abc123',
+    'dela/h1/',
+    'dela/h1/abc.jpg',
+    `dela/h1/${'a'.repeat(101)}`,
+    'other/dela/h1/abc123',
+  ])('should refuse %s', (publicId) => {
+    expect(isHouseholdPublicId(publicId, 'h1')).toBe(false);
+  });
+});
+
+describe('mediaByDay (AC7.5)', () => {
+  const item = (id: string, date: string, addedAt: string): Media => ({
+    addedAt: new Date(addedAt),
+    addedBy: 'alice',
+    caption: '',
+    date,
+    id,
+    kind: 'video',
+    youtubeId: ID,
+  });
+
+  it('should group by date, newest day first and newest added first within a day', () => {
+    const days = mediaByDay([
+      item('a', '2026-12-10', '2026-12-10T08:00:00Z'),
+      item('b', '2026-12-12', '2026-12-12T08:00:00Z'),
+      item('c', '2026-12-10', '2026-12-10T09:00:00Z'),
+    ]);
+
+    expect(days.map(({ date, items }) => [date, items.map(({ id }) => id)])).toEqual([
+      ['2026-12-12', ['b']],
+      ['2026-12-10', ['c', 'a']],
+    ]);
+  });
+
+  it('should return no days for no media', () => {
+    expect(mediaByDay([])).toEqual([]);
   });
 });

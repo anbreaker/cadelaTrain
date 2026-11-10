@@ -95,6 +95,7 @@ describe('AuthSessionStore', () => {
     profileLocale = null;
     pendingInvitations = [];
     gateway = {
+      idToken: vi.fn(async () => 'token'),
       onUserChanged: vi.fn((listener: (user: AuthUser | null) => void) => {
         emitUser = listener;
         return (): void => undefined;
