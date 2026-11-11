@@ -1,7 +1,9 @@
 import { Observable, of, throwError } from 'rxjs';
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthSessionStore } from '@core/session/auth-session.store';
+import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { MediaRepository } from '@data/media.repository';
 import {
@@ -78,7 +80,11 @@ describe('TodayMediaComponent', () => {
     addVideo: ReturnType<typeof vi.fn>;
     watchRange: ReturnType<typeof vi.fn>;
   };
-  let uploads: { removeMedia: ReturnType<typeof vi.fn>; uploadPhoto: ReturnType<typeof vi.fn> };
+  let uploads: {
+    discardUpload: ReturnType<typeof vi.fn>;
+    removeMedia: ReturnType<typeof vi.fn>;
+    uploadPhoto: ReturnType<typeof vi.fn>;
+  };
   let cloudName: string;
   let fixture: ComponentFixture<TodayMediaComponent>;
 
@@ -87,6 +93,7 @@ describe('TodayMediaComponent', () => {
       imports: [TodayMediaComponent, translocoTesting()],
       providers: [
         { provide: AuthSessionStore, useValue: session },
+        { provide: LanguageStore, useValue: { currentLang: signal('es') } },
         { provide: NOW, useValue: () => new Date('2026-12-20T10:00:00Z') },
         { provide: MediaRepository, useValue: repository },
         { provide: PhotoUploadService, useValue: uploads },
@@ -146,8 +153,10 @@ describe('TodayMediaComponent', () => {
       watchRange: vi.fn(() => media$),
     };
     uploads = {
+      discardUpload: vi.fn(async () => undefined),
       removeMedia: vi.fn(async () => undefined),
       uploadPhoto: vi.fn(async () => ({
+        deleteToken: 'tok-1',
         height: 900,
         publicId: 'dela/h1/alice/new1',
         width: 1200,
@@ -197,6 +206,7 @@ describe('TodayMediaComponent', () => {
     await settle();
 
     expect(uploads.uploadPhoto).toHaveBeenCalledWith('h1', 'alice', file);
+    expect(uploads.discardUpload).not.toHaveBeenCalled();
     expect(repository.addPhoto).toHaveBeenCalledWith(
       'h1',
       'd1',
@@ -236,6 +246,29 @@ describe('TodayMediaComponent', () => {
       'alice'
     );
     expect(uploads.uploadPhoto).not.toHaveBeenCalled();
+  });
+
+  it('should say an item saved for another day is in that week review, not on Today', async () => {
+    await render();
+    await click('.today-media__add');
+    await chooseVideo();
+    await type('.media-form__video', `https://youtu.be/${ID}`);
+    const date = element().querySelector('.media-form__date') as HTMLInputElement;
+    date.value = '2026-12-18';
+    date.dispatchEvent(new Event('change'));
+    await fixture.whenStable();
+    await click('.media-form__save');
+    await settle();
+
+    expect(repository.addVideo).toHaveBeenCalledWith(
+      'h1',
+      'd1',
+      expect.objectContaining({ date: '2026-12-18' }),
+      'alice'
+    );
+    expect(element().querySelector('.today-media__saved')?.textContent?.trim()).toBe(
+      'media.savedFor'
+    );
   });
 
   it('should store nothing on a validation error (AC7.3)', async () => {
@@ -281,6 +314,7 @@ describe('TodayMediaComponent', () => {
     expect(element().querySelector('.today-media__error')?.textContent).toContain(
       'media.errors.saveFailed'
     );
+    expect(uploads.discardUpload).toHaveBeenCalledWith('tok-1');
   });
 
   it('should offer only videos when no cloud name is configured', async () => {

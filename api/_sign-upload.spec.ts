@@ -68,6 +68,25 @@ describe('sign-upload', () => {
     );
   });
 
+  it('should also sign the delete token when the client asks for it', async () => {
+    const response = await handle(
+      post({ deleteToken: true, householdId: 'h1' }, tokenFor('uid-1'))
+    );
+    const body = (await response.json()) as { signature: string };
+
+    expect(body.signature).toBe(
+      sign(
+        {
+          folder: 'dela/h1/uid-1',
+          return_delete_token: 'true',
+          timestamp: 1_700_000_000,
+          upload_preset: 'dela',
+        },
+        'secret-xyz'
+      )
+    );
+  });
+
   it('should put each member in a folder named by the uid of their own token', async () => {
     const response = await handle(post({ householdId: 'h1' }, tokenFor('uid-2')));
     const body = (await response.json()) as { folder: string; signature: string };
