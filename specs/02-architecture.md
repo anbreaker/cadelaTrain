@@ -85,6 +85,8 @@ Handler algorithm:
 
 Result: in winter the 05:00 UTC job generates; in summer the 04:00 UTC job generates and the 05:00 one finds it done. On Hobby, the ±59 min precision means guidance lands between 06:00 and 06:59 Madrid; Pro gives minute precision. AC2.4 (the client-side template, later on-demand generation) covers any gap.
 
+In the client, screens read the Madrid date once when they open. `core/time/reload-on-new-day.ts` reloads the document when the app returns to the foreground, or stays open past midnight, on a later Madrid day, so a phone that kept the app open overnight never shows yesterday.
+
 Phase 2 (Portugal, `Europe/Lisbon`, one hour behind): store `timezone` per household and run the cron hourly (Pro), generating for households whose local hour is 6.
 
 ## Endpoints
