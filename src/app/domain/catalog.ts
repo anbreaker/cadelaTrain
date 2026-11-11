@@ -46,7 +46,7 @@ export interface Skill {
   key: string;
 }
 
-/** A trainer guide for a routine that is not a skill (socialization, handling, brushing, kennel). */
+/** A trainer guide for a routine that is not a skill (socialization, handling, brushing, kennel, cats, alone). */
 export interface RoutineGuide {
   /** Canonical English guide; the UI text lives in `catalog.routines.<key>.howTo`. */
   howTo: { steps: readonly string[] };

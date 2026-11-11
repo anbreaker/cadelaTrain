@@ -33,7 +33,7 @@
       "week": 4,
       "ageWeeks": { "from": 11, "to": 12 },
       "objective": "Leash and soft bite",
-      "how": "Leash indoors; say 'ouch' and stop the game",
+      "how": "Leash indoors; soft 'ouch' and pause the game",
       "readyWhen": "Walks a few metres on the leash",
       "keySkills": ["leash"],
       "focusSkills": ["leash", "softBite", "come", "sit"]

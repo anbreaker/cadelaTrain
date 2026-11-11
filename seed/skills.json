@@ -6,7 +6,7 @@
       "key": "name",
       "description": "Turns the head and looks at you on hearing her name.",
       "howTo": {
-        "setup": "A quiet room and about 10 pea-sized treats from her daily ration. Train before a meal, when she is keen.",
+        "setup": "A quiet room and about 10 chickpea-sized treats from her daily ration. Train before a meal, when she is keen.",
         "steps": [
           "When she is not looking at you, say her name once in a happy voice.",
           "The instant she turns her head, say “good” and give the treat within a second.",
@@ -92,13 +92,13 @@
         "setup": "Play on the floor with a rope or a soft chew toy at hand. Short games, when she is calm, not when she is overtired.",
         "steps": [
           "Play gently with her using your hands and the toy.",
-          "If her teeth press hard on your skin, say “ouch” in a soft, high voice and stop the game for a few seconds, hands still.",
+          "If her teeth press hard on your skin, say a soft, low “ouch” (no shrieking) and keep your hands still for a few seconds; if the sound excites her, do it in silence.",
           "When she calms down, offer her the toy and keep playing; say “good” if she bites the toy.",
           "If she bites hard again, end the game calmly and leave her a chew toy."
         ],
         "levelUp": "She softens her mouth at once 4 times out of 5: play a little longer and have the rest of the family follow the same rule.",
         "troubleshoot": "If she gets more excited, she is tired or overstimulated: give her a chew toy and let her rest; sleepy puppies bite more.",
-        "mistakes": "Pulling your hand away fast (it invites chasing), shouting, tapping her muzzle, and only some people following the rule."
+        "mistakes": "Pulling your hand away fast (it invites chasing), shrieking or shouting, tapping her muzzle, and only some people following the rule."
       }
     },
     {
