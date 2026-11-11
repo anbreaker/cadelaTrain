@@ -16,10 +16,13 @@ import {
 import { provideTransloco } from '@jsverse/transloco';
 
 import { DEFAULT_LANG, SUPPORTED_LANGS } from '@core/const/lang.const';
+import { DOCUMENT_RELOADER } from '@core/pwa/app-update.store';
 import { provideAppServiceWorker } from '@core/pwa/service-worker';
 import { withChunkLoadRecovery } from '@core/router/chunk-load-recovery';
 import { I18nLoaderService } from '@core/services/i18n-loader.service';
 import { provideSessionRedirect } from '@core/session/session-routes';
+import { NOW } from '@core/time/now';
+import { reloadOnNewDay } from '@core/time/reload-on-new-day';
 import { prefetchTranslations } from '@core/utils/prefetch-translations';
 import {
   skipSamePageTransitions,
@@ -46,6 +49,9 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAppInitializer(prefetchTranslations),
     provideAppInitializer(() => startTransitionsOnlyWhenVisible(inject(DOCUMENT))),
+    provideAppInitializer(() => {
+      reloadOnNewDay(inject(DOCUMENT), inject(NOW), inject(DOCUMENT_RELOADER));
+    }),
     provideRouter(
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),

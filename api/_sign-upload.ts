@@ -40,8 +40,9 @@ const MEMBERSHIP_ERRORS = {
 } as const;
 
 /**
- * `POST { householdId }`: a short-lived signature for one photo upload into the caller's own folder
- * `dela/<householdId>/<uid>`.
+ * `POST { householdId, deleteToken? }`: a short-lived signature for one photo upload into the
+ * caller's own folder `dela/<householdId>/<uid>`. With `deleteToken: true` it also signs
+ * `return_delete_token=true`, so the client can discard the photo if its record then fails.
  * Only members get it: the household document is read with the caller's token and the rules let
  * only members read it.
  */
@@ -67,7 +68,8 @@ export const handleSignUpload = async (
     return json(401, { error: 'unauthorized' });
   }
 
-  const householdId = (await readJsonObject(request))?.['householdId'];
+  const body = await readJsonObject(request);
+  const householdId = body?.['householdId'];
 
   if (!isValidId(householdId)) {
     return json(400, { error: 'bad-request' });
@@ -86,12 +88,15 @@ export const handleSignUpload = async (
 
   const folder = uploaderFolder(householdId, caller.uid);
   const timestamp = Math.floor(now() / 1000);
+  // Signed only when asked: a cached older client does not send `return_delete_token`.
+  const deleteToken: Record<string, string> =
+    body?.['deleteToken'] === true ? { return_delete_token: 'true' } : {};
 
   return json(200, {
     apiKey,
     cloudName,
     folder,
-    signature: sign({ folder, timestamp, upload_preset: UPLOAD_PRESET }, apiSecret),
+    signature: sign({ folder, timestamp, upload_preset: UPLOAD_PRESET, ...deleteToken }, apiSecret),
     timestamp,
     uploadPreset: UPLOAD_PRESET,
   });

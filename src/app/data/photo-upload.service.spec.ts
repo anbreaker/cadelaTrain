@@ -88,7 +88,12 @@ describe('PhotoUploadService', () => {
     fetchFn = vi.fn(async (url: string) =>
       url === '/api/sign-upload'
         ? jsonResponse(200, SIGNATURE)
-        : jsonResponse(200, { height: 600, public_id: 'dela/h1/alice/abc123', width: 800 })
+        : jsonResponse(200, {
+            delete_token: 'tok-1',
+            height: 600,
+            public_id: 'dela/h1/alice/abc123',
+            width: 800,
+          })
     );
   });
 
@@ -97,6 +102,7 @@ describe('PhotoUploadService', () => {
       const file = photoFile();
 
       await expect(service().uploadPhoto('h1', 'alice', file)).resolves.toEqual({
+        deleteToken: 'tok-1',
         height: 600,
         publicId: 'dela/h1/alice/abc123',
         width: 800,
@@ -110,7 +116,7 @@ describe('PhotoUploadService', () => {
         Authorization: 'Bearer id-token',
         'Content-Type': 'application/json',
       });
-      expect(JSON.parse(signInit.body as string)).toEqual({ householdId: 'h1' });
+      expect(JSON.parse(signInit.body as string)).toEqual({ deleteToken: true, householdId: 'h1' });
 
       const [uploadUrl, uploadInit] = fetchFn.mock.calls[1] as [string, RequestInit];
       expect(uploadUrl).toBe('https://api.cloudinary.com/v1_1/demo-cloud/image/upload');
@@ -123,6 +129,22 @@ describe('PhotoUploadService', () => {
       expect(form.get('signature')).toBe('sig-1');
       expect(form.get('folder')).toBe('dela/h1/alice');
       expect(form.get('upload_preset')).toBe('dela');
+      expect(form.get('return_delete_token')).toBe('true');
+    });
+
+    it('should return no delete token when Cloudinary sends none', async () => {
+      fetchFn.mockImplementation(async (url: string) =>
+        url === '/api/sign-upload'
+          ? jsonResponse(200, SIGNATURE)
+          : jsonResponse(200, { height: 600, public_id: 'dela/h1/alice/abc123', width: 800 })
+      );
+
+      await expect(service().uploadPhoto('h1', 'alice', photoFile())).resolves.toEqual({
+        deleteToken: null,
+        height: 600,
+        publicId: 'dela/h1/alice/abc123',
+        width: 800,
+      });
     });
 
     it.each([
@@ -220,6 +242,32 @@ describe('PhotoUploadService', () => {
       fetchFn.mockResolvedValueOnce(jsonResponse(403, { error: 'forbidden' }));
 
       expect(await rejection(service().deleteMedia('h1', 'd1', 'm1'))).toBe('deleteFailed');
+    });
+  });
+
+  describe('discardUpload', () => {
+    it('should delete a just uploaded photo on Cloudinary with its delete token', async () => {
+      fetchFn.mockResolvedValueOnce(jsonResponse(200, { result: 'ok' }));
+
+      await service().discardUpload('tok-1');
+
+      const [url, init] = fetchFn.mock.calls[0] as [string, RequestInit];
+      expect(url).toBe('https://api.cloudinary.com/v1_1/demo-cloud/delete_by_token');
+      expect(init.method).toBe('POST');
+      expect((init.body as FormData).get('token')).toBe('tok-1');
+      expect(idToken).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing without a delete token', async () => {
+      await service().discardUpload(null);
+
+      expect(fetchFn).not.toHaveBeenCalled();
+    });
+
+    it('should not fail when the deletion fails', async () => {
+      fetchFn.mockRejectedValueOnce(new Error('offline'));
+
+      await expect(service().discardUpload('tok-1')).resolves.toBeUndefined();
     });
   });
 
