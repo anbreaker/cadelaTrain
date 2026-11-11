@@ -68,14 +68,19 @@ export class TodayMediaComponent {
   private readonly savers: Readonly<Record<MediaKind, Saver>> = {
     photo: async ({ dogId, householdId }, { draft, photo }, uid) => {
       if (!photo) throw new PhotoUploadError('photoMissing');
-      const uploaded = await this.uploads.uploadPhoto(householdId, uid, photo);
+      const { deleteToken, ...uploaded } = await this.uploads.uploadPhoto(householdId, uid, photo);
       const { caption, date, skillKey } = draft;
-      return this.repository.addPhoto(
-        householdId,
-        dogId,
-        { caption, date, skillKey, ...uploaded },
-        uid
-      );
+      try {
+        return await this.repository.addPhoto(
+          householdId,
+          dogId,
+          { caption, date, skillKey, ...uploaded },
+          uid
+        );
+      } catch (error) {
+        await this.uploads.discardUpload(deleteToken);
+        throw error;
+      }
     },
     video: ({ dogId, householdId }, { draft }, uid) =>
       this.repository.addVideo(householdId, dogId, draft, uid),

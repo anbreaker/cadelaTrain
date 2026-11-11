@@ -44,6 +44,11 @@ export interface UploadedPhoto {
   width: number;
 }
 
+/** An upload plus its short-lived delete token (null when Cloudinary sent none). */
+export interface PhotoUpload extends UploadedPhoto {
+  deleteToken: null | string;
+}
+
 /** `POST /api/sign-upload` response: the signed parameters of one upload. */
 interface UploadSignature {
   apiKey: string;
@@ -106,7 +111,7 @@ export class PhotoUploadService {
    * Uploads an image of at most 10 MB to the signed-in member's folder `dela/<householdId>/<uid>/`
    * and returns what Cloudinary stored.
    */
-  async uploadPhoto(householdId: string, uid: string, file: File): Promise<UploadedPhoto> {
+  async uploadPhoto(householdId: string, uid: string, file: File): Promise<PhotoUpload> {
     if (!this.cloudName) throw new PhotoUploadError('notConfigured');
     const [fileError] = validatePhotoFile(file);
     if (fileError) throw new PhotoUploadError(fileError);
@@ -126,7 +131,22 @@ export class PhotoUploadService {
     const publicId = body['public_id'];
     if (typeof publicId !== 'string' || !isOwnPublicId(publicId, householdId, uid))
       throw new PhotoUploadError('unexpectedPublicId');
-    return { height: body['height'], publicId, width: body['width'] };
+    const deleteToken = typeof body['delete_token'] === 'string' ? body['delete_token'] : null;
+    return { deleteToken, height: body['height'], publicId, width: body['width'] };
+  }
+
+  /**
+   * Best effort: deletes a photo just uploaded whose record then failed, with the delete token
+   * Cloudinary returned (valid for 10 minutes). A failure only leaves the asset orphaned.
+   */
+  async discardUpload(deleteToken: null | string): Promise<void> {
+    if (!deleteToken) return;
+    const form = new FormData();
+    form.append('token', deleteToken);
+    await this.fetch(`https://api.cloudinary.com/v1_1/${this.cloudName}/delete_by_token`, {
+      body: form,
+      method: 'POST',
+    }).catch((error: unknown) => console.warn('Photo upload: could not discard the photo', error));
   }
 
   /** Asks `api/` to delete a photo: its Cloudinary asset and its document (author only). */
@@ -140,7 +160,11 @@ export class PhotoUploadService {
   }
 
   private async signature(householdId: string): Promise<UploadSignature> {
-    const response = await this.post('/api/sign-upload', { householdId }, 'signFailed');
+    const response = await this.post(
+      '/api/sign-upload',
+      { deleteToken: true, householdId },
+      'signFailed'
+    );
     const body = await readJson(response, 'signFailed');
     if (!isSignature(body)) throw new PhotoUploadError('signFailed');
     return body;
@@ -154,6 +178,7 @@ export class PhotoUploadService {
     form.append('signature', signature.signature);
     form.append('folder', signature.folder);
     form.append('upload_preset', signature.uploadPreset);
+    form.append('return_delete_token', 'true');
     return form;
   }
 
