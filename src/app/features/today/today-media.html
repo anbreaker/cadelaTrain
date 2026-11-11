@@ -21,7 +21,9 @@
   } @if (readFailed()) {
   <p class="form-error today-media__error" role="alert">{{ t('media.errors.readFailed') }}</p>
   }
-  <p class="today-media__saved" role="status">@if (saved()) { {{ t('media.saved') }} }</p>
+  <p class="today-media__saved" role="status">
+    @if (savedMessage(); as message) { {{ t(message.key, message.params) }} }
+  </p>
 
   @if (isEmpty()) {
   <p class="meta today-media__empty">{{ t('media.empty') }}</p>

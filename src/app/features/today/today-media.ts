@@ -3,7 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { LOCALE_BY_LANG } from '@core/const/lang.const';
 import { AuthSessionStore } from '@core/session/auth-session.store';
+import { LanguageStore } from '@core/store/language.store';
 import { NOW } from '@core/time/now';
 import { MediaRepository } from '@data/media.repository';
 import {
@@ -11,7 +13,7 @@ import {
   PhotoUploadError,
   PhotoUploadService,
 } from '@data/photo-upload.service';
-import { madridToday } from '@domain/dates';
+import { IsoDate, madridToday } from '@domain/dates';
 import { Media, MediaKind } from '@domain/media';
 import { MediaFormComponent, MediaSubmission } from '@shared/components/media-form/media-form';
 import { MediaListComponent } from '@shared/components/media-list/media-list';
@@ -45,6 +47,7 @@ type Saver = (key: DayKey, submission: MediaSubmission, uid: string) => Promise<
   templateUrl: './today-media.html',
 })
 export class TodayMediaComponent {
+  private readonly language = inject(LanguageStore);
   private readonly session = inject(AuthSessionStore);
   private readonly repository = inject(MediaRepository);
   private readonly uploads = inject(PhotoUploadService);
@@ -91,12 +94,29 @@ export class TodayMediaComponent {
   protected readonly formOpen = signal(false);
   protected readonly readFailed = signal(false);
   protected readonly removingId = signal<null | string>(null);
-  protected readonly saved = signal(false);
+  /** Date of the last item saved; one dated another day lives in that week's review, not here. */
+  private readonly savedDate = signal<IsoDate | null>(null);
+  protected readonly savedMessage = computed(() => {
+    const date = this.savedDate();
+    if (!date) return null;
+    return date === this.today
+      ? { key: 'media.saved', params: {} }
+      : { key: 'media.savedFor', params: { date: this.formatDate()(date) } };
+  });
   protected readonly saving = signal(false);
+
+  private readonly formatDate = computed(() => {
+    const format = new Intl.DateTimeFormat(LOCALE_BY_LANG[this.language.currentLang()], {
+      day: 'numeric',
+      month: 'short',
+      timeZone: 'UTC',
+    });
+    return (date: IsoDate): string => format.format(new Date(`${date}T00:00:00Z`));
+  });
 
   protected openForm(): void {
     this.errorKey.set(null);
-    this.saved.set(false);
+    this.savedDate.set(null);
     this.formOpen.set(true);
   }
 
@@ -114,7 +134,7 @@ export class TodayMediaComponent {
     try {
       await this.savers[submission.draft.kind](key, submission, uid);
       this.formOpen.set(false);
-      this.saved.set(true);
+      this.savedDate.set(submission.draft.date);
     } catch (error) {
       console.warn('Today: could not add the media', error);
       this.errorKey.set(saveErrorKey(error));
