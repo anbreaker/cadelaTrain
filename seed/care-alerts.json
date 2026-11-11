@@ -22,7 +22,7 @@
       "months": [12, 1, 2],
       "appliesTo": { "sleepsOutdoors": true },
       "severity": "info",
-      "message": "Raised kennel, dry straw, sheltered from the wind."
+      "message": "Raised bed, dry straw and no draughts, in the barn or the kennel."
     },
     {
       "key": "pineProcessionary",

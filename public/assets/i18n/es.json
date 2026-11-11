@@ -16,7 +16,7 @@
   "catalog": {
     "careAlerts": {
       "cold": {
-        "message": "Caseta elevada, paja seca y protegida del viento.",
+        "message": "Cama elevada, paja seca y sin corrientes, en la nave o en la caseta.",
         "title": "Frío"
       },
       "firstWeekVet": {
@@ -71,7 +71,7 @@
         "readyWhen": "Viene corriendo a 3 m"
       },
       "week4": {
-        "how": "Correa en casa; «ay» y parar el juego",
+        "how": "Correa en casa; «ay» suave y pausa en el juego",
         "objective": "Correa y mordida suave",
         "readyWhen": "Camina unos metros con correa"
       },
@@ -114,7 +114,7 @@
         "label": "Normas de la familia: la misma palabra para cada orden, quién le da de comer y dónde duerme"
       },
       "kennel": {
-        "label": "Caseta elevada del suelo, protegida del viento y la lluvia, con cama seca"
+        "label": "Un parque en la nave con cama elevada y sin corrientes; la caseta de fuera, para más adelante"
       },
       "litterBlanket": {
         "label": "Una manta con el olor de su camada (pídela al criador)"
@@ -145,6 +145,18 @@
       "sniffing": "Deja que use el olfato: esconde unos premios en la hierba y que los busque."
     },
     "routines": {
+      "alone": {
+        "howTo": {
+          "levelUp": "Se queda tranquila 4 de cada 5 veces: añade un poco más de tiempo y después sal un momento de la nave y vuelve.",
+          "mistakes": "Dejarla sola horas desde el primer día, hacer una fiesta al irte o al volver y volver siempre mientras llora.",
+          "setup": "Un momento tranquilo después de un paseo y de hacer sus necesidades, cuando tiene sueño. Su parque con un mordedor o un juguete con comida.",
+          "step1": "Dale el mordedor en el parque y sal de su vista unos segundos; después vuelve con calma.",
+          "step2": "Vuelve cuando todavía está tranquila, antes de que llore, y salúdala en voz baja, sin fiesta.",
+          "step3": "Añade un poco de tiempo cada día: 10 segundos, 30 segundos, un minuto, unos minutos.",
+          "step4": "Vete y vuelve con calma, sin despedidas largas, para que las idas y venidas sean aburridas.",
+          "troubleshoot": "Si llora en cuanto te vas, ha sido demasiado tiempo demasiado pronto: vuelve a unos segundos y ve subiendo otra vez; comprueba antes que no necesita hacer sus necesidades."
+        }
+      },
       "brushing": {
         "howTo": {
           "levelUp": "Sigue tranquila 4 de cada 5 veces: cepilla un poco más y añade el pecho, las patas y la cola.",
@@ -155,6 +167,19 @@
           "step3": "Añade pasadas de una en una por el lomo y los costados, en el sentido del pelo.",
           "step4": "Para al cabo de uno o dos minutos, mientras está tranquila, y termina con un juego suave.",
           "troubleshoot": "Si muerde el cepillo o se retuerce, dale un mordedor para que lo sujete, vuelve a una sola pasada y premia más a menudo."
+        }
+      },
+      "cats": {
+        "howTo": {
+          "levelUp": "Se queda tranquila 4 de cada 5 veces: acércate un poco más, después usa una correa larga y luego ratos cortos sueltos en la nave, vigilados.",
+          "mistakes": "Dejar que lo persiga «para jugar», acercarle un gato a la cara, regañarla y dejarlos solos juntos demasiado pronto.",
+          "setup": "Los gatos sueltos, con sitios altos y salidas a los que ella no llegue; su comida y su arena fuera de su alcance. Dela en su parque o con correa, con premios a mano.",
+          "step1": "Deja que se vean y se huelan a través del parque; cada vez que mire a un gato con calma, di «muy bien» y dale un premio.",
+          "step2": "Si ladra, gime o se lanza, está demasiado excitada: llévala un poco más lejos y prémiala cuando se calme.",
+          "step3": "Cuando ya los mire con calma, sácala con correa para encuentros cortos; el gato decide si se acerca.",
+          "step4": "Practica «deja» con un gato a la vista y prémiala cuando te mire a ti.",
+          "step5": "Termina a los pocos minutos, antes de que se excite; todavía no los dejes sueltos juntos sin vigilar.",
+          "troubleshoot": "Si persigue a un gato, vuelve con calma a la correa y a más distancia; si un gato bufa o se esconde, dale espacio y haz el siguiente encuentro más corto."
         }
       },
       "handling": {
@@ -171,13 +196,14 @@
       },
       "kennel": {
         "howTo": {
-          "levelUp": "Entra y se acomoda 4 de cada 5 noches: mantén la rutina corta y a la misma hora todas las noches.",
-          "mistakes": "Usar la caseta como castigo, despedidas largas, cambiar la rutina cada noche y ponerte a jugar con ella cuando llora.",
-          "setup": "Caseta elevada, protegida del viento y la lluvia, con cama seca, su manta y un mordedor. Practica de día antes de usarla por la noche.",
-          "step1": "De día, lanza premios dentro de la caseta y deja que entre y salga libremente; di «muy bien» cuando entre.",
-          "step2": "Dale alguna comida o un mordedor dentro, para que la caseta signifique cosas buenas.",
-          "step3": "A la hora de dormir, sigue la misma rutina tranquila cada noche: necesidades, un rato de calma y a la caseta con su manta.",
-          "step4": "Despídete con calma y vete, sin despedidas largas.",
+          "levelUp": "Se acomoda 4 de cada 5 noches: mantén la rutina corta y a la misma hora todas las noches.",
+          "mistakes": "Usar el parque o la caseta como castigo, despedidas largas, cambiar la rutina cada noche y pasarla fuera sola en las semanas más frías.",
+          "setup": "Las primeras semanas: un parque en la nave, sin corrientes, con una cama elevada, lecho seco, la manta de la camada y un mordedor. La caseta de fuera llega más tarde, poco a poco.",
+          "step1": "De día, lanza premios dentro del parque y deja que entre y salga libremente; di «muy bien» cuando entre.",
+          "step2": "Dale alguna comida o un mordedor dentro, para que el parque signifique cosas buenas.",
+          "step3": "A la hora de dormir, sigue la misma rutina tranquila cada noche: necesidades, un rato de calma y al parque con su manta.",
+          "step4": "Las 2 o 3 primeras noches, quédate cerca hasta que se calme; hasta las 12 semanas, sácala una vez a media noche.",
+          "step5": "Más adelante, pasa a la caseta poco a poco: primero siestas de día y después noches, cuando sea mayor y el tiempo sea suave.",
           "troubleshoot": "Si llora, comprueba con calma que no necesita hacer sus necesidades y que está seca y abrigada, y vuelve a irte sin jugar; las noches de frío sigue el aviso de frío."
         }
       },
@@ -195,13 +221,21 @@
       }
     },
     "schedule": {
+      "afternoonPotty": {
+        "instructions": "Cuando se despierte de la siesta, o a esta hora como tarde, llévala al sitio de siempre y vuelta a descansar.",
+        "title": "Necesidades a media tarde"
+      },
       "afternoonRest": {
         "instructions": "Siesta larga. Necesidades al despertar.",
         "title": "Descanso"
       },
+      "aloneTime": {
+        "instructions": "Unos segundos o minutos sola en el parque con un mordedor; vuelve antes de que llore.",
+        "title": "Un rato sola"
+      },
       "bedtime": {
-        "instructions": "A la caseta con su manta y un mordedor. Rutina siempre igual y despedida tranquila.",
-        "title": "A dormir en la caseta"
+        "instructions": "Al parque de la nave con su manta y un mordedor. Rutina siempre igual y despedida tranquila. Hasta las 12 semanas, una salida a media noche.",
+        "title": "A dormir en la nave"
       },
       "breakfast": {
         "instructions": "«Sienta» antes de bajar el comedero. Si no se sienta, esperad sin repetir la orden.",
@@ -210,6 +244,10 @@
       "calmTime": {
         "instructions": "Juego suave, cepillado corto y necesidades antes de dormir.",
         "title": "Juego tranquilo, cepillado y necesidades"
+      },
+      "catsTime": {
+        "instructions": "Dela en el parque o con correa y los gatos sueltos; prémiala cuando los mire con calma.",
+        "title": "Rato tranquilo con los gatos"
       },
       "dinner": {
         "instructions": "Última comida del día.",
@@ -234,6 +272,10 @@
       "lunch": {
         "instructions": "Ración de mediodía. Apartad unos granos de pienso para los premios de la sesión.",
         "title": "Comida"
+      },
+      "middayPotty": {
+        "instructions": "Sácala al sitio de siempre entre 5 y 15 minutos después de comer.",
+        "title": "Necesidades después de comer"
       },
       "morningRest": {
         "instructions": "Sitio tranquilo con su mordedor. Dejadla dormir.",
@@ -260,7 +302,7 @@
         "title": "Socialización del día"
       },
       "tugPlay": {
-        "instructions": "Juego con la cuerda. Si los dientes tocan la piel: «ay», paras el juego unos segundos y vuelves a empezar.",
+        "instructions": "Juego con la cuerda, 5 minutos. Si aprieta los dientes: «ay» suave, manos quietas unos segundos y vuelta al juguete.",
         "title": "Juego con cuerda (mordida suave)"
       },
       "visit": {
@@ -414,10 +456,10 @@
         "description": "Controla la fuerza de la mordida durante el juego.",
         "howTo": {
           "levelUp": "Suaviza la boca enseguida 4 de cada 5 veces: juega un poco más y que el resto de la familia siga la misma regla.",
-          "mistakes": "Retirar la mano de golpe (la invita a perseguirla), gritar, darle en el hocico y que solo algunas personas sigan la regla.",
+          "mistakes": "Retirar la mano de golpe (la invita a perseguirla), chillar o gritar, darle en el hocico y que solo algunas personas sigan la regla.",
           "setup": "Juega en el suelo con una cuerda o un mordedor blando a mano. Juegos cortos, cuando está tranquila, no cuando está agotada.",
           "step1": "Juega con suavidad con ella usando las manos y el juguete.",
-          "step2": "Si aprieta fuerte los dientes sobre tu piel, di «ay» con voz suave y aguda y para el juego unos segundos, con las manos quietas.",
+          "step2": "Si aprieta fuerte los dientes sobre tu piel, di «ay» suave y en voz baja (sin chillar) y deja las manos quietas unos segundos; si el sonido la excita, hazlo en silencio.",
           "step3": "Cuando se calme, ofrécele el juguete y sigue jugando; di «muy bien» si muerde el juguete.",
           "step4": "Si vuelve a morder fuerte, termina el juego con calma y déjale un mordedor.",
           "troubleshoot": "Si se excita más, está cansada o sobreestimulada: dale un mordedor y deja que descanse; los cachorros con sueño muerden más."
@@ -509,6 +551,10 @@
         "noiseChainsaw": {
           "howTo": "Lejos y poco tiempo; premia la calma.",
           "label": "Motosierra"
+        },
+        "noiseGunshots": {
+          "howTo": "Grabación a volumen muy bajo durante la comida; súbelo poco a poco en días distintos. En temporada de caza oirá disparos de verdad cerca de la finca.",
+          "label": "Disparos de caza (grabación)"
         },
         "noiseHammer": {
           "howTo": "Golpes sueltos a distancia; premio tras cada golpe.",

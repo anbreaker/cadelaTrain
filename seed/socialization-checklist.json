@@ -26,6 +26,12 @@
       "label": "Thunder or fireworks (recording, low volume)"
     },
     {
+      "key": "noiseGunshots",
+      "category": "noises",
+      "order": 9,
+      "label": "Gunshots of the hunting season (recording, low volume)"
+    },
+    {
       "key": "animalPoultryLivestock",
       "category": "animals",
       "order": 1,

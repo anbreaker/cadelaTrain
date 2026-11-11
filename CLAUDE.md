@@ -18,7 +18,7 @@ Built with AI coding agents using ODD ([gentle-ai](https://github.com/Gentleman-
 | Fact | Consequence for the product |
 |------|-----------------------------|
 | Rural home in Extremadura, near the Alentejo border: farm, barn, workshop (angle grinder, welder), maybe hens or livestock | `environment: rural`; noise and livestock socialization; seasonal field risks |
-| Dela sleeps outdoors in a kennel or shelter | `sleepsOutdoors: true`; cold-season alerts (December–February) |
+| Dela sleeps in a pen inside the unheated barn at first (two cats live there), later in the fenced outdoor kennel | `sleepsOutdoors: true`; cold-season alerts (December–February); bedtime, cats and time-alone guides |
 | Two trainers (Jéssica and the owner) | Every log stores **who** did it (`doneBy`) and **when** (`doneAt`) |
 | Timezone `Europe/Madrid` | Daily guidance is generated at 06:00 Madrid time; DST handled in code |
 

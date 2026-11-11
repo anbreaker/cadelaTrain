@@ -16,7 +16,7 @@
   "catalog": {
     "careAlerts": {
       "cold": {
-        "message": "Raised kennel, dry straw and shelter from the wind.",
+        "message": "Raised bed, dry straw and no draughts, in the barn or the kennel.",
         "title": "Cold"
       },
       "firstWeekVet": {
@@ -71,7 +71,7 @@
         "readyWhen": "Runs to you from 10 ft"
       },
       "week4": {
-        "how": "Leash indoors; \"ouch\" and stop the game",
+        "how": "Leash indoors; soft “ouch” and pause the game",
         "objective": "Leash and soft bite",
         "readyWhen": "Walks a few yards on leash"
       },
@@ -114,7 +114,7 @@
         "label": "Family rules: the same word for each cue, who feeds her and where she sleeps"
       },
       "kennel": {
-        "label": "A kennel raised off the ground, sheltered from wind and rain, with dry bedding"
+        "label": "A pen in the barn with a raised bed, out of draughts; the outdoor kennel for later"
       },
       "litterBlanket": {
         "label": "A blanket with the smell of her litter (ask the breeder)"
@@ -141,10 +141,22 @@
       "restAfterActivity": "After activity comes rest: go out, train, eat, sleep.",
       "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, joga, leave it, off, heel, fetch, good.",
       "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
-      "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
+      "smallRewards": "Chickpea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
       "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
     },
     "routines": {
+      "alone": {
+        "howTo": {
+          "levelUp": "She stays calm 4 times out of 5: add a little more time, then leave the barn for a moment and come back.",
+          "mistakes": "Leaving her alone for hours from the first day, making a fuss when you leave or come back, and always coming back while she is crying.",
+          "setup": "A calm moment after a walk and a potty break, when she is sleepy. Her pen with a chew toy or a food toy.",
+          "step1": "Give her the chew toy in the pen and walk out of sight for a few seconds, then come back calmly.",
+          "step2": "Come back while she is still calm, before she cries, and greet her quietly, without a party.",
+          "step3": "Add a little time each day: 10 seconds, 30 seconds, a minute, a few minutes.",
+          "step4": "Leave and come back calmly, with no long goodbyes, so comings and goings are boring.",
+          "troubleshoot": "If she cries as soon as you leave, it was too long too soon: go back to a few seconds and build up again; check first that she does not need to go potty."
+        }
+      },
       "brushing": {
         "howTo": {
           "levelUp": "She stays calm 4 times out of 5: brush a little longer and add her chest, legs and tail.",
@@ -155,6 +167,19 @@
           "step3": "Add strokes one at a time along her back and sides, in the direction of the coat.",
           "step4": "Stop after a minute or two, while she is calm, and finish with a gentle game.",
           "troubleshoot": "If she bites the brush or wriggles, give her a chew toy to hold, go back to one stroke and reward more often."
+        }
+      },
+      "cats": {
+        "howTo": {
+          "levelUp": "She stays calm 4 times out of 5: get a little closer, then use a long line, then short supervised moments loose in the barn.",
+          "mistakes": "Letting her chase “to play”, holding a cat close to her face, scolding her, and leaving them alone together too soon.",
+          "setup": "The cats loose, with high places and exits she cannot reach; their food and litter out of her reach. Dela in her pen or on a leash, with treats at hand.",
+          "step1": "Let them see and smell each other through the pen; every time she looks at a cat calmly, say “good” and give a treat.",
+          "step2": "If she barks, whines or lunges, she is too excited: take her a little farther away and reward her when she calms down.",
+          "step3": "Once she watches them calmly, take her out on a leash for short meetings; the cat decides whether to come closer.",
+          "step4": "Practice “leave it” with a cat in sight and reward her for looking back at you.",
+          "step5": "Stop after a few minutes, before she gets excited; do not leave them loose together unsupervised yet.",
+          "troubleshoot": "If she chases a cat, calmly go back to the leash and more distance; if a cat hisses or hides, give it space and make the next meeting shorter."
         }
       },
       "handling": {
@@ -171,13 +196,14 @@
       },
       "kennel": {
         "howTo": {
-          "levelUp": "She goes in and settles 4 nights out of 5: keep the routine short and at the same time every night.",
-          "mistakes": "Using the kennel as a punishment, long goodbyes, changing the routine every night, and playing with her when she cries.",
-          "setup": "A raised kennel sheltered from wind and rain, with dry bedding, her blanket and a chew toy. Practice during the day before using it at night.",
-          "step1": "During the day, toss treats into the kennel and let her go in and out freely; say “good” when she goes in.",
-          "step2": "Give her a meal or a chew toy inside, so the kennel means good things.",
-          "step3": "At bedtime, follow the same calm routine every night: potty, a short quiet moment, then to the kennel with her blanket.",
-          "step4": "Say goodnight calmly and leave, without a long goodbye.",
+          "levelUp": "She settles 4 nights out of 5: keep the routine short and at the same time every night.",
+          "mistakes": "Using the pen or the kennel as a punishment, long goodbyes, changing the routine every night, and moving her outside alone in the coldest weeks.",
+          "setup": "First weeks: a pen in the barn, out of draughts, with a raised bed, dry bedding, her litter blanket and a chew toy. The outdoor kennel comes later, step by step.",
+          "step1": "During the day, toss treats into the pen and let her go in and out freely; say “good” when she goes in.",
+          "step2": "Give her a meal or a chew toy inside, so the pen means good things.",
+          "step3": "At bedtime, follow the same calm routine every night: potty, a short quiet moment, then to the pen with her blanket.",
+          "step4": "The first 2 or 3 nights, stay nearby until she settles; until 12 weeks, take her out once in the middle of the night.",
+          "step5": "Later, move to the kennel little by little: daytime naps first, then nights, when she is older and the weather is mild.",
           "troubleshoot": "If she cries, check calmly that she does not need to go potty and that she is warm and dry, then leave again without playing; on cold nights follow the cold alert."
         }
       },
@@ -195,13 +221,21 @@
       }
     },
     "schedule": {
+      "afternoonPotty": {
+        "instructions": "When she wakes from her nap, or at this time at the latest, take her to the usual spot and back to rest.",
+        "title": "Mid-afternoon potty"
+      },
       "afternoonRest": {
         "instructions": "Long nap. Potty break when she wakes up.",
         "title": "Rest"
       },
+      "aloneTime": {
+        "instructions": "A few seconds or minutes alone in the pen with a chew toy; come back before she cries.",
+        "title": "Short time alone"
+      },
       "bedtime": {
-        "instructions": "Into the kennel with her blanket and a chew toy. Same routine every night and a calm goodbye.",
-        "title": "Bedtime in the kennel"
+        "instructions": "To the pen in the barn with her blanket and a chew toy. Same routine and a calm goodbye. Until 12 weeks, one potty outing in the middle of the night.",
+        "title": "Bedtime in the barn"
       },
       "breakfast": {
         "instructions": "\"Sit\" before the bowl goes down. If she doesn't sit, wait without repeating the cue.",
@@ -210,6 +244,10 @@
       "calmTime": {
         "instructions": "Gentle play, a short brushing and a potty break before sleep.",
         "title": "Quiet play, brushing and potty"
+      },
+      "catsTime": {
+        "instructions": "Dela in the pen or on a leash and the cats loose; reward her for looking at them calmly.",
+        "title": "Calm time with the cats"
       },
       "dinner": {
         "instructions": "Last meal of the day.",
@@ -234,6 +272,10 @@
       "lunch": {
         "instructions": "Midday meal. Set aside some kibble for the session treats.",
         "title": "Lunch"
+      },
+      "middayPotty": {
+        "instructions": "Take her out to the usual spot 5 to 15 minutes after eating.",
+        "title": "Potty after lunch"
       },
       "morningRest": {
         "instructions": "A quiet spot with her chew toy. Let her sleep.",
@@ -260,7 +302,7 @@
         "title": "Today's socialization"
       },
       "tugPlay": {
-        "instructions": "Tug play. If her teeth touch skin: \"ouch\", pause the game for a few seconds, then start again.",
+        "instructions": "Tug play, 5 minutes. If her teeth press: a soft “ouch”, hands still for a few seconds, then back to the toy.",
         "title": "Tug play (soft bite)"
       },
       "visit": {
@@ -338,7 +380,7 @@
         "howTo": {
           "levelUp": "She turns at once 4 times out of 5: practice in the yard, then with a family member walking past, then from a little farther away.",
           "mistakes": "Repeating her name over and over, rewarding late, and calling her only to end something fun.",
-          "setup": "A quiet room and about 10 pea-sized treats from her daily ration. Train before a meal, when she is keen.",
+          "setup": "A quiet room and about 10 chickpea-sized treats from her daily ration. Train before a meal, when she is keen.",
           "step1": "When she is not looking at you, say her name once in a happy voice.",
           "step2": "The instant she turns her head, say “good” and give the treat within a second.",
           "step3": "Wait until she looks away, then repeat. No more than 5 times per session.",
@@ -414,10 +456,10 @@
         "description": "Controls the strength of her bite during play.",
         "howTo": {
           "levelUp": "She softens her mouth at once 4 times out of 5: play a little longer and have the rest of the family follow the same rule.",
-          "mistakes": "Pulling your hand away fast (it invites chasing), shouting, tapping her muzzle, and only some people following the rule.",
+          "mistakes": "Pulling your hand away fast (it invites chasing), shrieking or shouting, tapping her muzzle, and only some people following the rule.",
           "setup": "Play on the floor with a rope or a soft chew toy at hand. Short games, when she is calm, not when she is overtired.",
           "step1": "Play gently with her using your hands and the toy.",
-          "step2": "If her teeth press hard on your skin, say “ouch” in a soft, high voice and stop the game for a few seconds, hands still.",
+          "step2": "If her teeth press hard on your skin, say a soft, low “ouch” (no shrieking) and keep your hands still for a few seconds; if the sound excites her, do it in silence.",
           "step3": "When she calms down, offer her the toy and keep playing; say “good” if she bites the toy.",
           "step4": "If she bites hard again, end the game calmly and leave her a chew toy.",
           "troubleshoot": "If she gets more excited, she is tired or overstimulated: give her a chew toy and let her rest; sleepy puppies bite more."
@@ -509,6 +551,10 @@
         "noiseChainsaw": {
           "howTo": "Far away and briefly; reward calm.",
           "label": "Chainsaw"
+        },
+        "noiseGunshots": {
+          "howTo": "Recording at very low volume during a meal; turn it up little by little on different days. Hunting season brings real shots near the farm.",
+          "label": "Gunshots (recording)"
         },
         "noiseHammer": {
           "howTo": "Single blows at a distance; a treat after each one.",

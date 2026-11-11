@@ -180,7 +180,7 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 | `daily-schedule.json` | Daily template for 2–4 months | `id`, `time`, `until?`, `slot`, `kind`, `guideKey?` (card guide: a skill key or a routine guide key), `skillKey?`, `isTask`, `durationMin`, `title`; rows with `isTask: false` are rest blocks shown in the timeline, never tasks; `care` rows linked to a skill or guide (tug play with `softBite`, the fetch game with `retrieve`, the scent game with the `search` guide) are short daily games, never training sessions |
 | `socialization-checklist.json` | 35 items in 5 categories | `key`, `category`, `order`, `label`; i18n `label`, `howTo` |
 | `care-alerts.json` | Seasonal and field risks | `key`, `months`, `arrivalWeek?`, `appliesTo { sleepsOutdoors?, environment? }`, `severity` (`info` \| `vet` \| `urgent`), `message` |
-| `routine-guides.json` | 4 routine guides (socialization, handling, brushing, kennel) | `key`, `howTo` (same shape as a skill guide); i18n `catalog.routines.<key>.howTo.*` |
+| `routine-guides.json` | 6 routine guides (socialization, handling, brushing, kennel: the barn pen first and the kennel later, cats, alone: time alone) | `key`, `howTo` (same shape as a skill guide); i18n `catalog.routines.<key>.howTo.*` |
 | `principles.json` | Training principles | `key`, `text` |
 | `preparation-checklist.json` | 11 things to have ready before the arrival (AC2.5) | `key`, `order`, `label`, `optional?`, `hint?`; i18n `label`, `hint` |
 

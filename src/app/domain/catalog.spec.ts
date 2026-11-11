@@ -135,6 +135,8 @@ describe('bundled catalogs', () => {
       'handling',
       'brushing',
       'kennel',
+      'cats',
+      'alone',
     ]);
     for (const routine of ROUTINE_GUIDES) {
       const guide = guideHowTo(routine.key);
@@ -154,8 +156,11 @@ describe('bundled catalogs', () => {
     const guides = Object.fromEntries(SCHEDULE.map((row) => [row.id, row.guideKey]));
 
     expect(guides).toMatchObject({
+      afternoonPotty: 'potty',
+      aloneTime: 'alone',
       bedtime: 'kennel',
       calmTime: 'brushing',
+      catsTime: 'cats',
       farmWalk: 'potty',
       greeting: 'potty',
       socialization: 'socialization',
@@ -181,6 +186,29 @@ describe('bundled catalogs', () => {
       kind: 'care',
       slot: 'morning',
     });
+  });
+
+  it('should take her out at most every 3 hours while she is awake (2-month-old bladder)', () => {
+    const minutes = (time: string): number => {
+      const [hours, mins] = time.split(':').map(Number);
+      return (hours ?? 0) * 60 + (mins ?? 0);
+    };
+    // Potty rows plus the rows that also take her out: the midday visit, the walk and the last outing.
+    const alsoOutside = ['visit', 'leashWalk', 'calmTime'];
+    const outings = SCHEDULE.filter((row) => row.kind === 'potty' || alsoOutside.includes(row.id))
+      .map((row) => minutes(row.time))
+      .sort((a, b) => a - b);
+
+    for (let index = 1; index < outings.length; index++)
+      expect((outings[index] ?? 0) - (outings[index - 1] ?? 0)).toBeLessThanOrEqual(180);
+  });
+
+  it('should keep tug play within the 5-minute session limit', () => {
+    expect(SCHEDULE.find((row) => row.id === 'tugPlay')?.durationMin).toBe(5);
+  });
+
+  it('should desensitize to gunshots of the hunting season', () => {
+    expect(SOCIALIZATION_ITEMS.map((item) => item.key)).toContain('noiseGunshots');
   });
 
   it('should resolve a guide key to a skill guide first, then to a routine guide', () => {
