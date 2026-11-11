@@ -54,8 +54,18 @@
       "title": "Scent game (find it)"
     },
     {
-      "id": "morningRest",
+      "id": "aloneTime",
       "time": "08:30",
+      "slot": "morning",
+      "kind": "care",
+      "guideKey": "alone",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Short time alone in the pen"
+    },
+    {
+      "id": "morningRest",
+      "time": "08:40",
       "until": "13:30",
       "slot": "morning",
       "kind": "care",
@@ -65,7 +75,7 @@
     },
     {
       "id": "visit",
-      "time": "11:00",
+      "time": "11:10",
       "slot": "midday",
       "kind": "care",
       "guideKey": "handling",
@@ -81,6 +91,16 @@
       "isTask": true,
       "durationMin": null,
       "title": "Lunch"
+    },
+    {
+      "id": "middayPotty",
+      "time": "14:10",
+      "slot": "midday",
+      "kind": "potty",
+      "guideKey": "potty",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Potty after lunch"
     },
     {
       "id": "session2",
@@ -99,7 +119,7 @@
       "kind": "care",
       "skillKey": "softBite",
       "isTask": true,
-      "durationMin": 10,
+      "durationMin": 5,
       "title": "Tug play (soft bite)"
     },
     {
@@ -111,6 +131,26 @@
       "isTask": false,
       "durationMin": null,
       "title": "Rest"
+    },
+    {
+      "id": "afternoonPotty",
+      "time": "16:30",
+      "slot": "afternoon",
+      "kind": "potty",
+      "guideKey": "potty",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Mid-afternoon potty"
+    },
+    {
+      "id": "catsTime",
+      "time": "18:15",
+      "slot": "afternoon",
+      "kind": "care",
+      "guideKey": "cats",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Calm time with the cats"
     },
     {
       "id": "leashWalk",
@@ -178,7 +218,7 @@
       "guideKey": "kennel",
       "isTask": true,
       "durationMin": null,
-      "title": "Bedtime in the kennel"
+      "title": "Bedtime in the barn pen"
     }
   ],
   "slotRanges": {

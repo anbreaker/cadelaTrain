@@ -50,16 +50,48 @@
     {
       "key": "kennel",
       "howTo": {
-        "setup": "A raised kennel sheltered from wind and rain, with dry bedding, her blanket and a chew toy. Practice during the day before using it at night.",
+        "setup": "First weeks: a pen in the barn, out of draughts, with a raised bed, dry bedding, her litter blanket and a chew toy. The outdoor kennel comes later, step by step.",
         "steps": [
-          "During the day, toss treats into the kennel and let her go in and out freely; say “good” when she goes in.",
-          "Give her a meal or a chew toy inside, so the kennel means good things.",
-          "At bedtime, follow the same calm routine every night: potty, a short quiet moment, then to the kennel with her blanket.",
-          "Say goodnight calmly and leave, without a long goodbye."
+          "During the day, toss treats into the pen and let her go in and out freely; say “good” when she goes in.",
+          "Give her a meal or a chew toy inside, so the pen means good things.",
+          "At bedtime, follow the same calm routine every night: potty, a short quiet moment, then to the pen with her blanket.",
+          "The first 2 or 3 nights, stay nearby until she settles; until 12 weeks, take her out once in the middle of the night.",
+          "Later, move to the kennel little by little: daytime naps first, then nights, when she is older and the weather is mild."
         ],
-        "levelUp": "She goes in and settles 4 nights out of 5: keep the routine short and at the same time every night.",
+        "levelUp": "She settles 4 nights out of 5: keep the routine short and at the same time every night.",
         "troubleshoot": "If she cries, check calmly that she does not need to go potty and that she is warm and dry, then leave again without playing; on cold nights follow the cold alert.",
-        "mistakes": "Using the kennel as a punishment, long goodbyes, changing the routine every night, and playing with her when she cries."
+        "mistakes": "Using the pen or the kennel as a punishment, long goodbyes, changing the routine every night, and moving her outside alone in the coldest weeks."
+      }
+    },
+    {
+      "key": "cats",
+      "howTo": {
+        "setup": "The cats loose, with high places and exits she cannot reach; their food and litter out of her reach. Dela in her pen or on a leash, with treats at hand.",
+        "steps": [
+          "Let them see and smell each other through the pen; every time she looks at a cat calmly, say “good” and give a treat.",
+          "If she barks, whines or lunges, she is too excited: take her a little farther away and reward her when she calms down.",
+          "Once she watches them calmly, take her out on a leash for short meetings; the cat decides whether to come closer.",
+          "Practice “leave it” with a cat in sight and reward her for looking back at you.",
+          "Stop after a few minutes, before she gets excited; do not leave them loose together unsupervised yet."
+        ],
+        "levelUp": "She stays calm 4 times out of 5: get a little closer, then use a long line, then short supervised moments loose in the barn.",
+        "troubleshoot": "If she chases a cat, calmly go back to the leash and more distance; if a cat hisses or hides, give it space and make the next meeting shorter.",
+        "mistakes": "Letting her chase “to play”, holding a cat close to her face, scolding her, and leaving them alone together too soon."
+      }
+    },
+    {
+      "key": "alone",
+      "howTo": {
+        "setup": "A calm moment after a walk and a potty break, when she is sleepy. Her pen with a chew toy or a food toy.",
+        "steps": [
+          "Give her the chew toy in the pen and walk out of sight for a few seconds, then come back calmly.",
+          "Come back while she is still calm, before she cries, and greet her quietly, without a party.",
+          "Add a little time each day: 10 seconds, 30 seconds, a minute, a few minutes.",
+          "Leave and come back calmly, with no long goodbyes, so comings and goings are boring."
+        ],
+        "levelUp": "She stays calm 4 times out of 5: add a little more time, then leave the barn for a moment and come back.",
+        "troubleshoot": "If she cries as soon as you leave, it was too long too soon: go back to a few seconds and build up again; check first that she does not need to go potty.",
+        "mistakes": "Leaving her alone for hours from the first day, making a fuss when you leave or come back, and always coming back while she is crying."
       }
     }
   ]

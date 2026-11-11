@@ -18,7 +18,7 @@ A family opens the app in the morning and knows exactly what to do with their pu
 
 ## First case: Dela
 
-Labrador, arrives December 2026 at 8 weeks, rural Extremadura near the Alentejo border, sleeps outdoors, two trainers. The MVP must be usable **before she arrives**.
+Labrador, arrives December 2026 at 8 weeks, rural Extremadura near the Alentejo border, sleeps in a pen in the unheated barn (with two cats) and later in the outdoor kennel, two trainers. The MVP must be usable **before she arrives**.
 
 ## Product principles
 

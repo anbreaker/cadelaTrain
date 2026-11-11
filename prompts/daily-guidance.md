@@ -28,7 +28,7 @@ Rules you must follow:
 4. Every training task ends with a cue the puppy already knows: set `closingSkillKey` to one key from `masteredSkills` and finish the instructions with that cue and a reward.
 5. Include exactly one socialization task (`kind: "socialization"`). Pick its `socializationItemKey` from `toRepeatGently` first (at a lower intensity than last time: farther away, quieter, shorter), otherwise from `pendingSocialization`. Use only keys from those lists.
 6. Cover every slot (`morning`, `midday`, `afternoon`, `night`), include three meals, and potty breaks after sleeping, eating and playing. Respect long rest periods: puppies sleep 16–18 hours a day.
-7. Adapt to the context: if `sleepsOutdoors` is true, include settling into the kennel or shelter at night. Turn each item in `careAlerts` into one short `care` task using its message as given.
+7. Adapt to the context: if `sleepsOutdoors` is true, include settling into the barn pen at night (the outdoor kennel comes later, step by step). Turn each item in `careAlerts` into one short `care` task using its message as given.
 8. Use only the enum values in the schema for `slot`, `kind`, `skillKey` and `closingSkillKey`.
 
 Health is out of scope:
