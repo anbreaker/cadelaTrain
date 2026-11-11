@@ -34,7 +34,7 @@ Mapping from the original proposal: `household_members` → `households.memberId
 | `GuidanceSource` | `ai`, `template` |
 | `GuidanceStatus` | `ready`, `fallback` (template used after an AI failure; `fallbackReason` set) |
 | `FallbackReason` | `apiError`, `timeout`, `refusal`, `invalidOutput`, `noApiKey` |
-| `SkillKey` | `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty` |
+| `SkillKey` | `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty`, `retrieve` |
 | `SocializationCategory` | `people`, `noises`, `animals`, `places`, `handling` |
 
 ## Documents
@@ -175,9 +175,9 @@ Static JSON imported by the app (`domain/catalog.ts`) and by `api/`. Each file d
 
 | File | Content | Item fields |
 |------|---------|-------------|
-| `skills.json` | 10 skills | `key`, `description`, `howTo` (trainer guide: `setup`, `steps[]`, `levelUp`, `troubleshoot`, `mistakes`); i18n `name`, `cue`, `description`, `howTo.{setup, step1..stepN, levelUp, troubleshoot, mistakes}` |
+| `skills.json` | 11 skills | `key`, `description`, `howTo` (trainer guide: `setup`, `steps[]`, `levelUp`, `troubleshoot`, `mistakes`); i18n `name`, `cue`, `description`, `howTo.{setup, step1..stepN, levelUp, troubleshoot, mistakes}` |
 | `plan-weeks.json` | 8 weeks | `week`, `ageWeeks`, `objective`, `how`, `readyWhen`, `keySkills`, `focusSkills` |
-| `daily-schedule.json` | Daily template for 2–4 months | `id`, `time`, `until?`, `slot`, `kind`, `guideKey?` (card guide: a skill key or a routine guide key), `skillKey?`, `isTask`, `durationMin`, `title`; rows with `isTask: false` are rest blocks shown in the timeline, never tasks |
+| `daily-schedule.json` | Daily template for 2–4 months | `id`, `time`, `until?`, `slot`, `kind`, `guideKey?` (card guide: a skill key or a routine guide key), `skillKey?`, `isTask`, `durationMin`, `title`; rows with `isTask: false` are rest blocks shown in the timeline, never tasks; `care` rows linked to a skill or guide (tug play with `softBite`, the fetch game with `retrieve`, the scent game with the `search` guide) are short daily games, never training sessions |
 | `socialization-checklist.json` | 35 items in 5 categories | `key`, `category`, `order`, `label`; i18n `label`, `howTo` |
 | `care-alerts.json` | Seasonal and field risks | `key`, `months`, `arrivalWeek?`, `appliesTo { sleepsOutdoors?, environment? }`, `severity` (`info` \| `vet` \| `urgent`), `message` |
 | `routine-guides.json` | 4 routine guides (socialization, handling, brushing, kennel) | `key`, `howTo` (same shape as a skill guide); i18n `catalog.routines.<key>.howTo.*` |

@@ -139,7 +139,7 @@
       "lowerDifficulty": "If something isn't working, make it easier.",
       "noFenceWatching": "Watching the fence or the road isn't her job: don't let her spend hours on guard.",
       "restAfterActivity": "After activity comes rest: go out, train, eat, sleep.",
-      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, joga, leave it, off, heel, good.",
+      "sameWords": "Everyone uses the same words: {{name}}, come, sit, down, stay, joga, leave it, off, heel, fetch, good.",
       "shortSessions": "Sessions of 3 to 5 minutes, several times a day.",
       "smallRewards": "Pea-sized treats taken from her daily food. A special treat (boiled chicken) only for \"come\".",
       "sniffing": "Let her use her nose: hide a few treats in the grass and let her find them."
@@ -219,6 +219,10 @@
         "instructions": "Potty break and a calm walk in a safe part of the farm, away from the workshop and the animals.",
         "title": "Potty and farm exploring"
       },
+      "fetchPlay": {
+        "instructions": "Toss a soft toy very close and say \"fetch\"; trade it for a treat with \"drop it\". 3–5 throws, then end calmly.",
+        "title": "Fetch game (retrieve)"
+      },
       "greeting": {
         "instructions": "Calm greeting and straight to the potty spot. \"Good\" and a treat when she's done.",
         "title": "Greeting and potty"
@@ -246,6 +250,10 @@
       "session3": {
         "instructions": "Review what she knows and try this week's new cue. End with something she already knows.",
         "title": "Session 3: review and new cue"
+      },
+      "sniffGame": {
+        "instructions": "Hide 3–5 treats from her ration and say \"find it\". Stop while she still wants more.",
+        "title": "Scent game (find it)"
       },
       "socialization": {
         "instructions": "One new experience, at a distance where she stays calm. Reward calm and curiosity.",
@@ -353,6 +361,22 @@
           "troubleshoot": "If there is an accident, clean it with an enzymatic cleaner without saying anything and take her out more often; an accident only means she needed to go out sooner."
         },
         "name": "Potty"
+      },
+      "retrieve": {
+        "cue": "fetch",
+        "description": "Brings a toy back to you and trades it for a treat: a game that suits her retriever nature.",
+        "howTo": {
+          "levelUp": "She brings it back 4 times out of 5: toss it a little farther, then in the yard, then in the grass of the farm.",
+          "mistakes": "Chasing her to take the toy, pulling it out of her mouth, long sessions, and making endless ball chasing the center of her day.",
+          "setup": "A soft toy she likes and treats in your pocket. A quiet room or corridor, when she is playful but not overexcited.",
+          "step1": "Wiggle the toy on the floor and toss it very close, one or two yards away.",
+          "step2": "When she picks it up, praise her happily and take a few steps back so she follows you with the toy.",
+          "step3": "When she reaches you, show her a treat and say “drop it”; as she lets go, say “good”, give the treat and pick up the toy.",
+          "step4": "Once she brings it back every time, say “fetch” just as you toss it.",
+          "step5": "Stop after 3–5 throws, while she still wants more, and end calmly with a chew toy.",
+          "troubleshoot": "If she runs off with the toy, do not chase her: move away from her, crouch down and call her happily, and use a shorter distance or a corridor next time."
+        },
+        "name": "Retrieve"
       },
       "search": {
         "cue": "find it",

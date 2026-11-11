@@ -58,7 +58,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 
 > I see success rate per skill over time and the socialization checklist.
 
-- **AC4.1** Skills: `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty` (labels `catalog.skills.<key>.name`).
+- **AC4.1** Skills: `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty`, `retrieve` (labels `catalog.skills.<key>.name`).
 - **AC4.2** For each skill: current rate (successes / attempts over the evaluation window defined in `specs/04-guidance-engine.md`), a daily trend chart and the number of sessions. Skills without data show an empty state.
 - **AC4.3** A skill at ≥ 80 % over the evaluation window is marked as mastered.
 - **AC4.4** Socialization checklist grouped by category (`people`, `noises`, `animals`, `places`, `handling`); each item shows done/pending, last reaction and who did it. Items whose last reaction is `fear` are highlighted to repeat at lower intensity.
