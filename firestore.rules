@@ -64,7 +64,7 @@ service cloud.firestore {
     // ---------- enums ----------
 
     function skillKeys() {
-      return ['name', 'search', 'sit', 'come', 'leash', 'softBite', 'down', 'leaveIt', 'stay', 'potty'];
+      return ['name', 'search', 'sit', 'come', 'leash', 'softBite', 'down', 'leaveIt', 'stay', 'potty', 'retrieve'];
     }
 
     function locales() {

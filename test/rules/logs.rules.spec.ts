@@ -111,6 +111,31 @@ describe('taskLogs rules', () => {
     );
   });
 
+  it('should let a member log a retrieve training session', async () => {
+    await assertSucceeds(
+      setDoc(
+        doc(dbAs(env, MEMBER), NEW_LOG_PATH),
+        trainingLog(MEMBER.uid, { skillKey: 'retrieve' })
+      )
+    );
+  });
+
+  it('should let a member log the fetch game, a care task linked to retrieve', async () => {
+    const log = trainingLog(MEMBER.uid, { kind: 'care', skillKey: 'retrieve' });
+    delete log['attempts'];
+    delete log['successCount'];
+
+    await assertSucceeds(setDoc(doc(dbAs(env, MEMBER), NEW_LOG_PATH), log));
+  });
+
+  it('should deny a care log with an unknown skillKey', async () => {
+    const log = trainingLog(MEMBER.uid, { kind: 'care', skillKey: 'fetchAll' });
+    delete log['attempts'];
+    delete log['successCount'];
+
+    await assertFails(setDoc(doc(dbAs(env, MEMBER), NEW_LOG_PATH), log));
+  });
+
   it('should deny a training log with an unknown skillKey', async () => {
     await assertFails(
       setDoc(doc(dbAs(env, MEMBER), NEW_LOG_PATH), trainingLog(MEMBER.uid, { skillKey: 'attack' }))

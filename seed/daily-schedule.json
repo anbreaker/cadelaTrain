@@ -44,6 +44,16 @@
       "title": "Potty and farm exploration"
     },
     {
+      "id": "sniffGame",
+      "time": "08:20",
+      "slot": "morning",
+      "kind": "care",
+      "guideKey": "search",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Scent game (find it)"
+    },
+    {
       "id": "morningRest",
       "time": "08:30",
       "until": "13:30",
@@ -130,6 +140,16 @@
       "isTask": true,
       "durationMin": 10,
       "title": "Socialization of the day"
+    },
+    {
+      "id": "fetchPlay",
+      "time": "19:15",
+      "slot": "afternoon",
+      "kind": "care",
+      "skillKey": "retrieve",
+      "isTask": true,
+      "durationMin": 5,
+      "title": "Fetch game (retrieve)"
     },
     {
       "id": "dinner",
