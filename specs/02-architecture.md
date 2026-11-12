@@ -1,8 +1,24 @@
 # 02 — Architecture
 
-Same foundations as framedBySanti (Angular 22 + Vite + Transloco on Vercel, Firebase), plus a scheduled AI engine in Vercel Functions.
+Same foundations as framedBySanti (Angular 22 + Vite + Transloco on Vercel, Firebase), plus small Vercel Functions for media.
+
+**Status (2026-11-12).** The app is private to one household and the daily guidance is built on the client from the bundled catalogs (`domain/template-guidance.ts`, AC2.4). The scheduled AI engine (cron, `firebase-admin`, Claude) is **planned, not built**: it is kept below as the design for a later phase (`05-roadmap.md`). Sections marked *Planned* describe it.
 
 ## Overview
+
+Current:
+
+```mermaid
+flowchart LR
+  PWA[Angular PWA] -- Firebase Auth --> AUTH[(Firebase Auth)]
+  PWA -- Firestore SDK + rules --> FS[(Firestore europe-southwest1)]
+  PWA -- ID token --> MEDIA[api/sign-upload, api/delete-media]
+  MEDIA -- Firestore REST with the caller's token --> FS
+  MEDIA -- signed requests --> CLD[Cloudinary]
+  PWA -- signed upload --> CLD
+```
+
+*Planned* (AI engine):
 
 ```mermaid
 flowchart LR
@@ -23,10 +39,11 @@ flowchart LR
 | Region | Firestore `europe-southwest1` (Madrid) | Users in ES/PT, EU data residency |
 | Auth | Google only | Private app for the family's Google accounts; invitations share the app link instead of emailing a sign-in link |
 | Data access (client) | Firebase modular SDK, only in `src/app/data/` | Realtime `onSnapshot` for today's tasks; repositories hide the SDK from features |
-| Data access (server) | `firebase-admin` with a service account (`FIREBASE_SERVICE_ACCOUNT` env, JSON) | Cron runs without a user token; admin writes guidance (clients cannot) |
+| Data access (server) | Today: Firestore REST with the caller's own ID token (no service account). *Planned* engine: `firebase-admin` with a service account (`FIREBASE_SERVICE_ACCOUNT` env, JSON) | The media endpoints act for the caller, so the rules still apply; a cron would run without a user token and write guidance that clients cannot |
 | Server code | Vercel Functions in `api/`, pattern `_name.ts` (pure, injected deps, tested) + `name.ts` (thin wrapper) | Same as framedBySanti |
-| AI | `@anthropic-ai/sdk`, model from `CLAUDE_MODEL` (default `claude-opus-5-5`), structured outputs | Key stays server-side; see `04-guidance-engine.md` |
-| Schedule | Vercel Cron, two daily entries | Works on Hobby (once per day per job, ±59 min precision) |
+| Daily guidance | Client-side template from the bundled catalogs (`domain/template-guidance.ts`) | Works offline, costs nothing, enough for one household |
+| AI (*planned*) | `@anthropic-ai/sdk`, model from `CLAUDE_MODEL` (default `claude-opus-5-5`), structured outputs | Key stays server-side; see `04-guidance-engine.md` |
+| Schedule (*planned*) | Vercel Cron, two daily entries | Works on Hobby (once per day per job, ±59 min precision) |
 | Types | Hand-written domain types + converters that validate | No codegen for Firestore; rules enforce shapes |
 | i18n | Transloco with `es` (Castilian Spanish, default), `pt` (European Portuguese) and `en` (US English); `Intl` locales `es-ES`, `pt-PT` and `en-US` for dates, numbers and plural rules | Spain and Portugal from day one, US English from H1; a browser in English starts in `en`, anything unsupported in `es` |
 | Theme | Dark by default, always: never derived from `prefers-color-scheme`. A per-device switch (`ThemeStore`, `localStorage` key `dela-theme`) turns light on; an inline script in `index.html` applies a stored `light` before the first paint, and critical inline styles paint the background before the stylesheet arrives | Product decision (outdoor use at dawn and night); no white flash on a dark app |
@@ -67,6 +84,8 @@ flowchart LR
 
 ## Daily guidance scheduling (UTC and DST)
 
+Today every screen computes the Madrid date on the client (`madridToday`), so DST needs no server code. The cron below is *planned*.
+
 Vercel Cron schedules are UTC. 06:00 in Madrid is 05:00 UTC in winter (CET) and 04:00 UTC in summer (CEST).
 
 ```json
@@ -93,23 +112,23 @@ Phase 2 (Portugal, `Europe/Lisbon`, one hour behind): store `timezone` per house
 
 | Path | Auth | Purpose |
 |------|------|---------|
-| `GET /api/cron-daily-guidance` | `CRON_SECRET` | Batch generation for all eligible dogs |
+| `GET /api/cron-daily-guidance` (*planned*) | `CRON_SECRET` | Batch generation for all eligible dogs |
 | `POST /api/sign-upload` `{ householdId, deleteToken? }` | Firebase ID token + membership check: reads `households/{hid}` through Firestore REST with the caller's own token (no `firebase-admin`, no service account; the rules refuse non-members and forged tokens) | Short-lived Cloudinary signature for one photo upload into the caller's own folder `dela/<householdId>/<uid>` (uid from the token), images only, ≤ 10 MB; with `deleteToken: true` it also signs `return_delete_token=true` (only when asked, so a cached older client still uploads), so the client can discard a photo whose record fails (`delete_by_token`, 10 minutes) |
 | `POST /api/delete-media` `{ householdId, dogId, mediaId }` | Firebase ID token + author check (reads the media document with the caller's token, `addedBy == uid`) and owner check (the `publicId` must be exactly `dela/<householdId>/<uid>/<id>`, otherwise 403 without calling Cloudinary) | Destroys the Cloudinary asset (signed `image/destroy`), then deletes the media document with the caller's token; a failed destroy keeps the document |
-| `POST /api/daily-guidance` `{ dogId }` | Firebase ID token (`verifyIdToken`) + membership check | On-demand generation for today (idempotent) |
+| `POST /api/daily-guidance` `{ dogId }` (*planned*) | Firebase ID token (`verifyIdToken`) + membership check | On-demand generation for today (idempotent) |
 
-Both return `Cache-Control: no-store` and never return the AI raw output.
+Every endpoint returns `Cache-Control: no-store`; the planned engine never returns the AI raw output.
 
 ## Environment variables
 
 | Name | Where | Notes |
 |------|-------|-------|
 | `NG_APP_FIREBASE_*` | Client (public config) | apiKey, authDomain, projectId, appId |
-| `FIREBASE_SERVICE_ACCOUNT` | Server only | Service account JSON (AI engine only; not used by the media endpoints) |
+| `FIREBASE_SERVICE_ACCOUNT` | Server only (*planned*) | Service account JSON (AI engine only; not used by the media endpoints) |
 | `FIREBASE_PROJECT_ID` | Server only | Firestore REST calls of `api/sign-upload` and `api/delete-media` |
-| `ANTHROPIC_API_KEY` | Server only | Never prefixed with `NG_APP_` |
-| `CLAUDE_MODEL` | Server only | Default `claude-opus-5-5` |
-| `CRON_SECRET` | Server only | Vercel sends it as Bearer on cron calls |
+| `ANTHROPIC_API_KEY` | Server only (*planned*) | Never prefixed with `NG_APP_` |
+| `CLAUDE_MODEL` | Server only (*planned*) | Default `claude-opus-5-5` |
+| `CRON_SECRET` | Server only (*planned*) | Vercel sends it as Bearer on cron calls |
 | `NG_APP_CLOUDINARY_CLOUD_NAME` | Client (public) | Builds delivery URLs |
 | `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Server only | Sign uploads, delete assets |
 
@@ -118,13 +137,13 @@ Both return `Cache-Control: no-store` and never return the AI raw output.
 | Level | Tool | What |
 |-------|------|------|
 | Domain | Vitest | All pure rules, table-driven; DST cases; validator rejects unsafe output |
-| API handlers | Vitest with injected fakes (clock, Firestore port, Claude port) | Idempotency, fallback, auth rejection |
+| API handlers | Vitest with injected fakes (fetch, clock) | Membership and author checks, signatures, auth rejection; the planned engine adds Firestore and Claude ports |
 | Security rules | `@firebase/rules-unit-testing` + Firestore emulator (`npm run test:rules`, `test/rules/`, project `demo-dela`) | Household isolation, invitation join, author-only edits |
 | Components | Vitest + JSDOM | Presentational components, stores |
 
 ## Deployment
 
-- Vercel project: `buildCommand: npm run build` (so Vercel also runs the service worker smoke check), `outputDirectory: dist`, SPA rewrite `/((?!api/|assets/).*) → /index.html` (as framedBySanti), crons above.
-- Firestore rules and indexes deployed with `firebase deploy --only firestore` from `firestore.rules` and `firestore.indexes.json`.
+- Vercel project: `buildCommand: npm run build` (so Vercel also runs the service worker smoke check), `outputDirectory: dist`, SPA rewrite `/((?!api/|assets/).*) → /index.html` (as framedBySanti); no crons yet (planned above). After merging a release into `main`, wait for the Production deployment before pointing `develop` at the same commit, or Vercel may build it only as Preview.
+- Firestore rules are published by hand in the Firebase console from `firestore.rules` of `main` whenever a release changes them (`firebase deploy --only firestore` also works); indexes come from `firestore.indexes.json`.
 - Catalogs ship inside the bundles (app and functions); a unit test checks that every catalog key has its `en`, `es` and `pt` Transloco entries.
-- The engine resolves catalog and health texts for the household locale by importing `public/assets/i18n/{es,pt}.json` in `api/`.
+- The planned engine would resolve catalog and health texts for the household locale by importing `public/assets/i18n/{es,pt}.json` in `api/`.

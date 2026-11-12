@@ -33,6 +33,8 @@ Mapping from the original proposal: `household_members` → `households.memberId
 | `Reaction` | `calm`, `curious`, `fear` |
 | `GuidanceSource` | `ai`, `template` |
 | `GuidanceStatus` | `ready`, `fallback` (template used after an AI failure; `fallbackReason` set) |
+
+`dailyGuidance` documents are written only by the planned engine (`04-guidance-engine.md`); today none exist and Today shows the client-side template.
 | `FallbackReason` | `apiError`, `timeout`, `refusal`, `invalidOutput`, `noApiKey` |
 | `SkillKey` | `name`, `search`, `sit`, `come`, `leash`, `softBite`, `down`, `leaveIt`, `stay`, `potty`, `retrieve` |
 | `SocializationCategory` | `people`, `noises`, `animals`, `places`, `handling` |
