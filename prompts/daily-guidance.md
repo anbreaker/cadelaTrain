@@ -1,5 +1,7 @@
 # Prompt — daily guidance
 
+> **Planned, not in use.** No code sends this prompt yet; the daily guidance is the client-side template (`specs/04-guidance-engine.md`, status note). Keep it in sync with the catalogs so the AI phase can start from it.
+
 System prompt sent by `api/_generate-daily-guidance.ts`. Keep this text stable (it is the cached prefix); everything that changes per day goes in the user message as JSON. Spec: `specs/04-guidance-engine.md`.
 
 ## System prompt

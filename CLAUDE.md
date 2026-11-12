@@ -20,7 +20,7 @@ Built with AI coding agents using ODD ([gentle-ai](https://github.com/Gentleman-
 | Rural home in Extremadura, near the Alentejo border: farm, barn, workshop (angle grinder, welder), maybe hens or livestock | `environment: rural`; noise and livestock socialization; seasonal field risks |
 | Dela sleeps in a pen inside the unheated barn at first (two cats live there), later in the fenced outdoor kennel | `sleepsOutdoors: true`; cold-season alerts (December–February); bedtime, cats and time-alone guides |
 | Two trainers (Jéssica and the owner) | Every log stores **who** did it (`doneBy`) and **when** (`doneAt`) |
-| Timezone `Europe/Madrid` | Daily guidance is generated at 06:00 Madrid time; DST handled in code |
+| Timezone `Europe/Madrid` | The day is the Madrid date (`madridToday`) on the client; the planned AI engine would generate guidance at 06:00 Madrid |
 
 ## Stack (mirrors framedBySanti)
 
@@ -35,10 +35,11 @@ Built with AI coding agents using ODD ([gentle-ai](https://github.com/Gentleman-
 | Tests | Vitest 4 + JSDOM; rules with `@firebase/rules-unit-testing` on the Firestore emulator (`firebase-tools`) |
 | Quality | ESLint 10 + `angular-eslint` + perfectionist/simple-import-sort; Prettier 3 with CSS order, attribute order and JSON key plugins |
 | Backend | Firebase: Auth (Google only), Firestore (region `europe-southwest1`), security rules |
-| Server code | Vercel Functions in `api/` |
-| Scheduling | Vercel Cron (UTC) → `api/cron-daily-guidance.ts` |
+| Daily guidance | Client-side template from the bundled catalogs (`domain/template-guidance.ts`); the AI engine is planned (`specs/04-guidance-engine.md`) |
+| Server code | Vercel Functions in `api/`: `sign-upload` and `delete-media` (Firestore REST with the caller's token) |
+| Scheduling (planned) | Vercel Cron (UTC) → `api/cron-daily-guidance.ts` |
 | Media | Photos on Cloudinary (signed upload from `api/`); videos as unlisted YouTube links (only the id is stored) |
-| AI | Claude API via `@anthropic-ai/sdk`, **only** from `api/`. Model read from `CLAUDE_MODEL` (default `claude-opus-5-5`). The key (`ANTHROPIC_API_KEY`) never reaches the client |
+| AI (planned) | Claude API via `@anthropic-ai/sdk`, **only** from `api/`. Model read from `CLAUDE_MODEL` (default `claude-opus-5-5`). The key (`ANTHROPIC_API_KEY`) never reaches the client |
 | Hosting | Vercel (`vercel.json` SPA rewrite excluding `api/` and `assets/`) |
 
 ## Architecture
@@ -111,9 +112,9 @@ The real project is `dela-train` (Firebase console); local development runs on t
 | `specs/01-mvp.md` | Stories H1–H6 with acceptance criteria |
 | `specs/02-architecture.md` | Architecture, auth, cron and timezone, deployment |
 | `specs/03-data-model.md` | Firestore collections, fields, rules, indexes, bundled catalogs |
-| `specs/04-guidance-engine.md` | Daily guidance engine: inputs, rules, output schema, fallback, safety |
+| `specs/04-guidance-engine.md` | Daily guidance engine (planned): inputs, rules, output schema, fallback, safety |
 | `specs/05-roadmap.md` | Phases after the MVP |
 | `firestore.rules` | Security rules (household isolation, shape validation) |
 | `seed/` | Bundled catalogs: 8-week plan, daily schedule, socialization checklist, skills, care alerts, principles |
 | `public/assets/i18n/` | UI and catalog text: `es.json`, `pt.json`, `en.json` |
-| `prompts/daily-guidance.md` | Prompt of the AI engine |
+| `prompts/daily-guidance.md` | Prompt of the planned AI engine |

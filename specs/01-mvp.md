@@ -7,7 +7,7 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 | H1 | Household and puppy | — | Yes |
 | H2 | Today's guidance | H1, H6 (template path) | Yes |
 | H3 | Log a task | H2 | Yes |
-| H6 | Automatic guidance | H1 | Yes (template); AI can follow |
+| H6 | Automatic guidance | H1 | Template path done on the client (AC2.4); AC6.1–AC6.7 planned |
 | H7 | Photos and videos | H1 | Yes |
 | H4 | Progress | H3 | First weeks |
 | H5 | Weekly review | H3 | First weeks |
@@ -76,6 +76,8 @@ Each story lists acceptance criteria (AC). UI copy is never written here: it is 
 ## H6. Automatic guidance
 
 > Every morning at 06:00 Madrid time, guidance is generated for each puppy.
+
+**Status (2026-11-12):** planned. Every day already has guidance from the client-side template (AC2.4); AC6.1–AC6.7 describe the AI path for a later phase.
 
 - **AC6.1** Vercel Cron calls `api/cron-daily-guidance` at 04:00 and 05:00 UTC. The handler acts only when the Madrid local hour is ≥ 06 and guidance for that Madrid date does not exist yet. This covers CET (UTC+1) and CEST (UTC+2) without code changes on DST days.
 - **AC6.2** Generation is idempotent: document id is the Madrid date (`YYYY-MM-DD`); re-runs never duplicate.

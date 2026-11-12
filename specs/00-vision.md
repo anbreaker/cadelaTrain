@@ -26,7 +26,7 @@ Labrador, arrives December 2026 at 8 weeks, rural Extremadura near the Alentejo 
 2. **Never a vet substitute.** Health topics only produce the fixed phrases `health.consultVet` or `health.vetEmergency`.
 3. **Short and doable.** Sessions of 3–5 minutes, 4–5 per day for 2–4 month puppies.
 4. **One shared vocabulary.** Same cue words for everyone in the household: the dog's name, come, sit, down, stay, the release word «joga» (the same in every language, ends a stay), leave it, heel (the leash cue), fetch (retrieve; «trae»), drop it, no, good; no word is used for two cues (spoken words per locale in `catalog.skills.*.cue` and `catalog.cues.*`).
-5. **Deterministic core, AI on top.** Plan progression and safety are enforced by code; the AI personalizes wording and selection. If the AI fails, the template plan still works.
+5. **Deterministic core, AI on top.** Plan progression and safety are enforced by code; the AI personalizes wording and selection. If the AI fails, the template plan still works. Today only the deterministic core runs (the client-side template); the AI layer is planned.
 6. **Private by design.** Household data never leaks to another household.
 
 ## Success for the MVP
