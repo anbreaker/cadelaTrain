@@ -1,5 +1,7 @@
 # 04 — Daily guidance engine
 
+> **Status (2026-11-12): planned, not built.** Today the guidance of every day is the client-side template (`domain/template-guidance.ts`, AC2.4) built from the bundled catalogs, and `planWeekFor` advances the plan week when Today opens. Nothing writes `dailyGuidance` yet. This document is the design for the AI phase (`05-roadmap.md`); the domain rules it names (plan week, evaluation window, safety) already live in `src/app/domain/`.
+
 `api/_generate-daily-guidance.ts` (pure, injected ports) behind two wrappers: `api/cron-daily-guidance.ts` and `api/daily-guidance.ts`. Code decides **what is allowed**; Claude decides **how to phrase and pick** within those limits; a validator checks the result; the template is the safety net.
 
 ## Flow
